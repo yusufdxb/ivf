@@ -165,7 +165,7 @@ def render_html(
     ]
 
     why = "".join(
-        f"<div><code>{_e(c)}</code> &mdash; {_e(describe(c))}</div>" for c in codes
+        f"<div><code>{_e(c)}</code> - {_e(describe(c))}</div>" for c in codes
     ) or "<div>No reason codes: every declared control held and every criterion was met.</div>"
     parts.append(
         f'<div class="verdict" style="background:{bg};color:{fg}">'
@@ -229,7 +229,7 @@ def render_html(
         tol = outcome.get("tolerance")
         tol_text = (
             f"{tol['value']:g} {tol['unit']} ({tol['kind']}, {tol['aggregation']}, "
-            f"n&ge;{tol['min_samples']})" if tol else "&mdash;"
+            f"n&ge;{tol['min_samples']})" if tol else "-"
         )
         oracle_rows.append([
             f'<span class="mono">{_e(outcome["name"])}</span>',
@@ -257,9 +257,9 @@ def render_html(
         stat_rows.append([
             f'<span class="mono">{_e(outcome["name"])}</span>',
             (f"{metrics['mean_difference']:+.4g}"
-             if metrics.get("mean_difference") is not None else "&mdash;"),
+             if metrics.get("mean_difference") is not None else "-"),
             f"[{metrics.get('ci_low'):+.4g}, {metrics.get('ci_high'):+.4g}]",
-            f"{metrics.get('cohens_dz'):+.3g}" if metrics.get("cohens_dz") is not None else "&mdash;",
+            f"{metrics.get('cohens_dz'):+.3g}" if metrics.get("cohens_dz") is not None else "-",
             f"&plusmn;{metrics.get('equivalence_margin'):g}",
             _e(metrics.get("n_pairs")),
         ])

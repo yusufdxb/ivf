@@ -81,7 +81,7 @@ uv run ivf calibrate --seeds 11 23 47 --output docs/detectability-matrix.md
 ```
 
 The campaign asserts your declaration against measured behaviour, in both directions. If
-you declare a fault detectable and it is not, the matrix fails — and the correct response
+you declare a fault detectable and it is not, the matrix fails, and the correct response
 is usually to fix the *declaration* and record the measured severity, not to loosen a
 tolerance until the fault shows up. That is what happened with `shifted_action_timing`,
 whose real detection threshold is now recorded as a measured number.

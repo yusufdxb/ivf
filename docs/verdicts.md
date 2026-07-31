@@ -32,7 +32,7 @@ INVALID_EXPERIMENT  >  FAIL  >  UNSUPPORTED  >  INCONCLUSIVE  >  PASS
 
 `FAIL` outranks `UNSUPPORTED` deliberately: if one oracle could not run because a feature
 is missing but another genuinely failed on real evidence, the real failure is the
-actionable result. A run whose oracles all `skipped` is `INCONCLUSIVE`, never `PASS` —
+actionable result. A run whose oracles all `skipped` is `INCONCLUSIVE`, never `PASS`,
 a run in which nothing was checked provides no reassurance.
 
 ## Reason codes
@@ -87,7 +87,7 @@ Distinct from oracle statuses, and the third one is the point:
 
 `unverifiable` is what stops absence of evidence from reading as evidence of a match. The
 cross-backend example in this repository reports the solver-settings control as
-`unverifiable` because the released bundles record no solver configuration at all — a real
+`unverifiable` because the released bundles record no solver configuration at all, a real
 gap in the evidence, surfaced rather than assumed away.
 
 ## What a FAIL tells you

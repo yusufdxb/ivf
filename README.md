@@ -1,4 +1,4 @@
-# IVF — Isaac Validation Framework
+# IVF: Isaac Validation Framework
 
 You are about to upgrade Isaac Lab, switch a physics backend, change an environment
 config, or accept a PR that touches the simulation path. Your tests still pass. Your

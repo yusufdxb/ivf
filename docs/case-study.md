@@ -1,6 +1,6 @@
 # Case study: a silent reset defect, end to end
 
-This is the whole loop — fail, localize, fix, pass — on evidence shipped in this
+This is the whole loop (fail, localize, fix, pass) on evidence shipped in this
 repository, followed by the same tooling applied to real cross-backend data where the
 honest answer is more complicated.
 
@@ -58,7 +58,7 @@ metric off by a factor of two, and it was this disagreement that exposed it.)
 **The downstream decision did not change.** Termination timing and episode survival both
 passed: on this workload the defect moves the trajectory without moving the outcome. IVF
 reports that rather than collapsing everything into one number, and it changes what you do
-with the finding — this is a correctness bug, not an outage.
+with the finding: this is a correctness bug, not an outage.
 
 ## 2. Localize
 
@@ -82,7 +82,7 @@ alternative it cannot rule out: the action-stream digest is identical, which the
 `action_replay` oracle confirms independently, and that leaves the initial state.
 
 The report renders the error window around step 1 as an inline SVG with the tolerance
-marked, so the shape — a jump, not a ramp — is visible at a glance.
+marked, so the shape (a jump, not a ramp) is visible at a glance.
 
 ## 3. Fix
 
@@ -126,7 +126,7 @@ evidence about the subjects under test.
 
 That is the correct behaviour and it is worth internalizing: a verdict difference across
 two different contracts is not evidence about the code. For a real regression gate, run the
-*same* manifest twice and compare those, which is exactly what `ivf reproduce` does — on
+*same* manifest twice and compare those, which is exactly what `ivf reproduce` does; on
 the shipped bundles it reports `No material differences.`
 
 ---
@@ -149,7 +149,7 @@ dishonest move.
 **`INCONCLUSIVE` on the equivalence question.** Four paired environments cannot support an
 equivalence claim, so the statistical oracle returns `IVF-SAMPLE-INSUFFICIENT` rather than
 a confident-looking interval. Before the method floor was added, this same oracle produced
-a CI of `[+0.582, +0.582]` with Cohen's dz of 5.9e6 — an interval that collapsed to a point
+a CI of `[+0.582, +0.582]` with Cohen's dz of 5.9e6: an interval that collapsed to a point
 because four nearly-identical differences have no spread. Arithmetic that looks certain is
 not evidence.
 
@@ -162,7 +162,7 @@ all, so IVF cannot say *what* differs:
 > solver-parameter explanation for any divergence below is a hypothesis rather than a
 > finding."*
 
-That is a real gap in the released evidence — found by the pre-existing parity work's own
+That is a real gap in the released evidence, found by the pre-existing parity work's own
 adversarial audit, and now surfaced automatically on every run that touches those bundles
 instead of living in a report nobody rereads.
 

@@ -94,7 +94,7 @@ ignoring a control you asked for would be the worst possible failure.
 
 `allow_different` is a claim about interpretation, not a way to silence a check. Declaring
 `solver_specific_parameters` as allowed to differ means "if these subjects diverge, a
-solver difference is an admissible explanation" — and if neither subject records its
+solver difference is an admissible explanation", and if neither subject records its
 solver settings, IVF still reports that it cannot tell you *what* differs.
 
 A violated control produces `INVALID_EXPERIMENT`. The physics timestep is checked
@@ -160,11 +160,11 @@ for reductions over environments.
 
 ### Choosing `kind`
 
-* `exact` — bitwise identity is a real contract here (replayed actions, a same-seed rerun)
-* `numerical` — a floating-point budget derived from precision, not from the workload
-* `statistical` — an equivalence margin subject to sampling uncertainty
-* `event` — a discrete timing budget, in `steps`
-* `engineering` — a judgement about what this workload can absorb. Not a physical claim,
+* `exact`, bitwise identity is a real contract here (replayed actions, a same-seed rerun)
+* `numerical`, a floating-point budget derived from precision, not from the workload
+* `statistical`, an equivalence margin subject to sampling uncertainty
+* `event`, a discrete timing budget, in `steps`
+* `engineering`, a judgement about what this workload can absorb. Not a physical claim,
   and never presented as one
 
 ### Writing a rationale that survives review

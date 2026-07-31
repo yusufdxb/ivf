@@ -13,7 +13,7 @@ surfaces:
 **Generation** mutates the parameters of a run *before* it is integrated, so the resulting
 trajectory is entirely self-consistent. This emulates a real simulator defect: nothing
 about the recorded data looks corrupt, it is simply wrong. The synthetic reference system
-is built so that injected defects are **silent in the recorded provenance** — the asset
+is built so that injected defects are **silent in the recorded provenance**, the asset
 declaration, the initial-state digest and the commanded action stream are identical on
 both sides. A fixture whose defects announce themselves in metadata would calibrate the
 validity layer instead of the oracles.
@@ -23,7 +23,7 @@ serialization or plumbing defect.
 
 | Fault | Category | Surface | Expected | Responsible layer |
 |---|---|---|---|---|
-| `none` (negative control) | control | — | not detected | — |
+| `none` (negative control) | control |, | not detected |, |
 | `ignored_reset_velocity` | reset | generation | detected | trajectory equivalence |
 | `wrong_env_origin` | frame | trace | detected | trajectory equivalence |
 | `incorrect_clone_count` | cloning | trace | detected | experiment validity |
@@ -39,7 +39,7 @@ serialization or plumbing defect.
 | `silent_nan` | numerical | trace | detected | invariant |
 | `truncated_rollout` | protocol | trace | detected | experiment validity |
 | `corrupted_metadata` | metadata | trace | detected | experiment validity |
-| `unsupported_feature_misreported` | capability | trace | **not detected** | — |
+| `unsupported_feature_misreported` | capability | trace | **not detected** |, |
 
 ## Measured detectability
 
@@ -100,19 +100,19 @@ to hide the miss.
 
 Other declared limits:
 
-* `ignored_reset_velocity` — undetectable when the declared initial velocity is zero
-* `dropped_action` — undetectable in a passive scenario; there is no action to drop
-* `quaternion_ordering` — undetectable for a pure-identity trajectory, which is invariant
+* `ignored_reset_velocity`, undetectable when the declared initial velocity is zero
+* `dropped_action`, undetectable in a passive scenario; there is no action to drop
+* `quaternion_ordering`, undetectable for a pure-identity trajectory, which is invariant
   under the component swap
-* `stale_sensor_state` — undetectable on a signal genuinely constant over the window
-* `altered_friction` — at small deltas over short horizons this is below the noise of any
+* `stale_sensor_state`, undetectable on a signal genuinely constant over the window
+* `altered_friction`, at small deltas over short horizons this is below the noise of any
   defensible tolerance
 
 ### 5. Classification, as opposed to detection
 
 Detection and first-step localization are strong. **Classification is much weaker**, and
 the divergence record says so per finding: every classification carries a `confidence`
-(`low`/`medium`/`high` — never a fabricated probability), the `classification_basis` it
+(`low`/`medium`/`high`, never a fabricated probability), the `classification_basis` it
 keyed on, and its `limitations`.
 
 Known confusions:

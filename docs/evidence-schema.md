@@ -138,7 +138,7 @@ covering every file except itself and the seal. `SEAL.json` records the schema v
 the run id, the file count, and the SHA-256 of the checksum file.
 
 On finalization every file is made read-only. Verification checks the seal, then every
-recorded digest, then looks for files that appeared afterwards — a tampered bundle usually
+recorded digest, then looks for files that appeared afterwards, a tampered bundle usually
 gains or loses a file rather than editing one in place.
 
 ```bash
