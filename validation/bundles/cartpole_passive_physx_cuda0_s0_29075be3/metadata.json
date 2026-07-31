@@ -1,0 +1,82 @@
+{
+  "action_stream_sha256": "91d6039a01f57163ec02db197e5481ffc170187e262006fa833b26f0cc064633",
+  "asset_hashes": {},
+  "backend": "physx",
+  "capture_hook": "post_step_post_update",
+  "container_digest": "",
+  "determinism_settings": {},
+  "device": "cuda:0",
+  "engine_versions": {
+    "kit": "unknown"
+  },
+  "git_sha": "",
+  "hardware": {
+    "cpu": "x86_64",
+    "gpu_class": "sm_120"
+  },
+  "horizon": 480,
+  "joint_names": [
+    "slider_to_cart",
+    "cart_to_pole"
+  ],
+  "library_versions": {
+    "cuda": "12.8",
+    "isaaclab": "10.2.0",
+    "isaaclab_contrib": "0.4.6",
+    "numpy": "2.4.4",
+    "python": "3.12.13",
+    "torch": "2.11.0+cu128"
+  },
+  "measured_physics_dt": 0.008333333333333333,
+  "num_envs": 4,
+  "physics_dt": 0.008333333333333333,
+  "precision_flags": {
+    "deterministic_algorithms": false,
+    "tf32_cudnn": true,
+    "tf32_matmul": false
+  },
+  "quantities": {
+    "applied_torque": [
+      480,
+      4,
+      2
+    ],
+    "joint_pos": [
+      480,
+      4,
+      2
+    ],
+    "joint_vel": [
+      480,
+      4,
+      2
+    ],
+    "root_link_ang_vel_w": [
+      480,
+      4,
+      3
+    ],
+    "root_link_lin_vel_w": [
+      480,
+      4,
+      3
+    ],
+    "root_link_pos_w": [
+      480,
+      4,
+      3
+    ],
+    "root_link_quat_w": [
+      480,
+      4,
+      4
+    ]
+  },
+  "resolved_config": {
+    "scenario": "{\"actuation\": {\"kind\": \"passive\"}, \"capture_contacts\": false, \"horizon\": 480, \"name\": \"cartpole_passive\", \"num_envs\": 4, \"physics_dt\": 0.008333333333333333, \"quaternion_quantities\": [\"root_link_quat_w\"], \"required_quantities\": [\"root_link_pos_w\", \"root_link_quat_w\", \"root_link_lin_vel_w\", \"root_link_ang_vel_w\", \"joint_pos\", \"joint_vel\"], \"scales\": {\"applied_torque\": 10.0, \"joint_pos\": 3.14, \"joint_vel\": 10.0, \"root_link_ang_vel_w\": 1.0, \"root_link_lin_vel_w\": 1.0, \"root_link_pos_w\": 1.0}, \"seeds\": [0], \"velocity_caps\": {\"joint_vel\": 200.0, \"root_link_ang_vel_w\": 100.0, \"root_link_lin_vel_w\": 100.0}}"
+  },
+  "scenario_name": "cartpole_passive",
+  "schema_version": "1.1",
+  "seed": 0,
+  "wall_time_s": 0.5912799000000177
+}

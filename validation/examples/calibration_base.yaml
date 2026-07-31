@@ -1,0 +1,151 @@
+schema_version: ivf.validation/v1
+name: calibration-base
+description: >
+  The base experiment for `ivf calibrate`. Baseline and candidate are identical, so a
+  clean run must PASS; the calibration harness then injects one fault class at a time
+  into the candidate and measures whether IVF flags it, which layer flagged it, and
+  where it localized the first violation.
+
+  The workload is driven at amplitude 2.5 rather than passive so that action-surface
+  faults (a dropped action, an action applied one step late) have something to act on.
+  The amplitude is not arbitrary: a one-step action delay produces an error proportional
+  to the command's slope, and it was measured to cross the 2e-3 rad budget near amplitude
+  1.68. Below that the fault is genuinely invisible to this workload, which the taxonomy
+  records as a limitation rather than hiding by tuning the tolerance.
+
+  The workload also captures a quaternion signal so the convention-surface fault has a
+  4-vector to permute. The oracle set deliberately covers every captured signal: a fault
+  injected into a signal nobody checks would produce a detectability number that means
+  nothing.
+
+subjects:
+  baseline:
+    kind: synthetic
+    label: clean
+    system: damped_pendulum
+    drive_amplitude: 2.5
+  candidate:
+    kind: synthetic
+    label: subject under test
+    system: damped_pendulum
+    drive_amplitude: 2.5
+
+workload:
+  task: damped_pendulum.v1
+  num_envs: 8
+  steps: 400
+  warmup_steps: 0
+  seeds: [11]
+
+controls:
+  require_same:
+    - asset_identity
+    - action_sequence
+    - initial_state_distribution
+    - observation_definition
+    - control_frequency
+    - num_envs
+    - horizon
+    - task_variant
+    - solver_specific_parameters
+
+oracles:
+  - type: invariant
+    name: finite_state
+    check: finite_state
+
+  - type: trajectory_equivalence
+    name: pole_angle_agreement
+    signal: pole_angle
+    metric: absolute
+    tolerance:
+      value: 2.0e-3
+      unit: rad
+      scope: per-step absolute angle error, reduced over environments
+      rationale: >
+        Matches the operational budget used by the reset-defect case study, so a fault
+        that is detectable here is detectable in the example a user actually runs.
+      aggregation: second_largest
+      min_samples: 800
+      kind: engineering
+
+  - type: trajectory_equivalence
+    name: pole_ang_vel_agreement
+    signal: pole_ang_vel
+    metric: absolute
+    tolerance:
+      value: 2.0e-2
+      unit: rad/s
+      scope: per-step absolute angular-velocity error, reduced over environments
+      rationale: >
+        Ten times the angle budget, because velocity is the derivative of the gated
+        quantity and at a 200 Hz control rate a 2 mrad angle budget corresponds to about
+        0.4 rad/s of instantaneous velocity disagreement. A tighter budget would make
+        this oracle fire on differences the angle oracle deliberately tolerates.
+      aggregation: second_largest
+      min_samples: 800
+      kind: engineering
+
+  - type: trajectory_equivalence
+    name: abs_pole_angle_agreement
+    signal: abs_pole_angle
+    metric: absolute
+    tolerance:
+      value: 2.0e-3
+      unit: rad
+      scope: per-step absolute error of the rectified angle, reduced over environments
+      rationale: >
+        Same budget as the signed angle: the rectified signal is what the event and
+        decision oracles key on, so it must not be gated more loosely than the quantity
+        it derives from.
+      aggregation: second_largest
+      min_samples: 800
+      kind: engineering
+
+  - type: trajectory_equivalence
+    name: pole_orientation_agreement
+    signal: pole_quat
+    metric: geodesic
+    tolerance:
+      value: 2.0e-3
+      unit: rad
+      scope: per-step geodesic angle between orientations, reduced over environments
+      rationale: >
+        The same budget as the joint angle, because for a rotation built from a single
+        joint angle the geodesic angle between two orientations equals the difference in
+        that joint angle. Setting it any looser would make the orientation oracle
+        quietly weaker than the joint-space one that it is supposed to corroborate.
+      aggregation: second_largest
+      min_samples: 800
+      kind: engineering
+
+  - type: statistical_equivalence
+    name: mean_angle_equivalence
+    signal: pole_angle
+    summary: mean
+    tolerance:
+      value: 5.0e-3
+      unit: rad
+      scope: mean over the horizon of |angle| per environment, paired across subjects
+      rationale: >
+        Wide enough that identical subjects pass without relying on exact bitwise
+        equality, narrow enough that every dynamics-surface fault in the taxonomy clears
+        it. The minimum meaningful effect keeps a large environment count from turning a
+        sub-milliradian difference into a failure.
+      aggregation: mean
+      min_samples: 8
+      kind: statistical
+      minimum_meaningful_effect: 1.0e-3
+
+  - type: metamorphic
+    name: action_replay
+    relation: action_replay_consumption
+
+  - type: metamorphic
+    name: observation_shape_stability
+    relation: observation_definition_stability
+
+verdict_policy:
+  invalid_experiment_on_control_violation: true
+  inconclusive_on_insufficient_samples: true
+  unsupported_is_failure: false

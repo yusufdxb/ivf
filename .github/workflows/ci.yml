@@ -1,0 +1,74 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  cpu:
+    name: cpu (python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install
+        run: uv sync --python ${{ matrix.python }}
+      - name: Lint
+        run: uv run ruff check .
+      - name: Test
+        run: uv run pytest -q
+      - name: Doctor must report the offline capability
+        run: uv run ivf doctor --require offline
+
+  workflow:
+    name: end-to-end workflow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+
+      # The negative control for the whole validator: if this fails, every failure
+      # IVF reports elsewhere is suspect.
+      - name: Clean run passes
+        run: uv run ivf validate validation/examples/synthetic_fixed.yaml
+
+      # The injected defect must be caught, and must exit 1 specifically.
+      - name: Injected defect fails with the expected exit code
+        run: |
+          set +e
+          uv run ivf validate validation/examples/synthetic_fault.yaml
+          code=$?
+          set -e
+          test "$code" -eq 1 || { echo "expected exit 1 (FAIL), got $code"; exit 1; }
+
+      - name: Shipped evidence still verifies
+        run: |
+          for bundle in validation/evidence/*/; do
+            uv run ivf reproduce "$bundle" --verify-only
+          done
+
+      - name: Fault detectability matrix matches the taxonomy
+        run: uv run ivf calibrate --seeds 11 23 47
+
+  package:
+    name: build and clean-install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Build
+        run: uv build
+      - name: Install the wheel into a clean environment and smoke-test it
+        run: |
+          uv venv /tmp/clean
+          uv pip install --python /tmp/clean/bin/python dist/*.whl
+          /tmp/clean/bin/ivf --version
+          /tmp/clean/bin/ivf doctor --require offline

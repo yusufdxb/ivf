@@ -1,0 +1,65 @@
+{
+  "action_stream_sha256": "91d6039a01f57163ec02db197e5481ffc170187e262006fa833b26f0cc064633",
+  "asset_hashes": {},
+  "backend": "newton:mjwarp",
+  "capture_hook": "post_step_post_update",
+  "container_digest": "",
+  "determinism_settings": {},
+  "device": "cuda:0",
+  "engine_versions": {
+    "newton": "1.4.0.dev0",
+    "warp": "1.15.0.dev20260626"
+  },
+  "git_sha": "",
+  "hardware": {
+    "cpu": "x86_64",
+    "gpu_class": "sm_120"
+  },
+  "horizon": 120,
+  "joint_names": [],
+  "library_versions": {
+    "cuda": "12.8",
+    "isaaclab": "10.2.0",
+    "isaaclab_contrib": "0.4.6",
+    "numpy": "2.4.4",
+    "python": "3.12.13",
+    "torch": "2.11.0+cu128"
+  },
+  "measured_physics_dt": 0.008333333333333333,
+  "num_envs": 4,
+  "physics_dt": 0.008333333333333333,
+  "precision_flags": {
+    "deterministic_algorithms": false,
+    "tf32_cudnn": true,
+    "tf32_matmul": false
+  },
+  "quantities": {
+    "root_link_ang_vel_w": [
+      120,
+      4,
+      3
+    ],
+    "root_link_lin_vel_w": [
+      120,
+      4,
+      3
+    ],
+    "root_link_pos_w": [
+      120,
+      4,
+      3
+    ],
+    "root_link_quat_w": [
+      120,
+      4,
+      4
+    ]
+  },
+  "resolved_config": {
+    "scenario": "{\"actuation\": {\"kind\": \"passive\"}, \"capture_contacts\": false, \"horizon\": 120, \"name\": \"capture_calibration\", \"num_envs\": 4, \"physics_dt\": 0.008333333333333333, \"quaternion_quantities\": [\"root_link_quat_w\"], \"required_quantities\": [\"root_link_pos_w\", \"root_link_quat_w\", \"root_link_lin_vel_w\", \"root_link_ang_vel_w\"], \"scales\": {\"root_link_ang_vel_w\": 1.0, \"root_link_lin_vel_w\": 1.0, \"root_link_pos_w\": 1.0}, \"seeds\": [0], \"velocity_caps\": {\"root_link_ang_vel_w\": 100.0, \"root_link_lin_vel_w\": 100.0}}"
+  },
+  "scenario_name": "capture_calibration",
+  "schema_version": "1.1",
+  "seed": 0,
+  "wall_time_s": 0.032279721000008976
+}

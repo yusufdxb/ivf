@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ivf"
+version = "0.1.0"
+description = "Isaac Validation Framework: an auditable acceptance layer for Isaac Lab changes."
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+authors = [{name = "Yusuf Guenena"}]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+keywords = ["isaac-lab", "simulation", "validation", "regression", "physics"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+ivf = "ivf.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yusufdxb/ivf"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ivf", "ivf.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "unit: isolated logic, no simulator, no filesystem-heavy work",
+    "integration: drives the CLI or a full validate run end-to-end",
+    "gpu: requires a CUDA device",
+    "isaaclab: requires an importable Isaac Lab installation",
+    "physx: requires the PhysX backend",
+    "newton: requires the Newton backend",
+    "slow: takes more than a couple of seconds",
+    "fault_injection: exercises the fault taxonomy / detectability matrix",
+    "reproduction: verifies evidence-bundle checksums and reproduction",
+]
+filterwarnings = ["error::DeprecationWarning:ivf.*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
