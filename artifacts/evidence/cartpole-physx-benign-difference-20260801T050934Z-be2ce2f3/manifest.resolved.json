@@ -1,0 +1,157 @@
+{
+  "controls": {
+    "allow_different": [],
+    "require_same": [
+      "asset_identity",
+      "initial_state_distribution",
+      "observation_definition",
+      "control_frequency",
+      "num_envs",
+      "horizon",
+      "task_variant",
+      "solver_specific_parameters"
+    ],
+    "unsupported_or_unverifiable": []
+  },
+  "description": "Benign-difference case. The candidate is a real capture whose cart-actuator damping is 0.2% higher, which produces a real, measurable numerical difference in every trajectory. The difference is inside the declared engineering contract, so the correct answer is PASS with the difference reported rather than a failure. This is the case that distinguishes a validation framework from a difference detector: a tool that fails here is useless, because every real change produces some difference.\n",
+  "name": "cartpole-physx-benign-difference",
+  "oracles": [
+    {
+      "check": "finite_state",
+      "name": "finite_state",
+      "type": "invariant"
+    },
+    {
+      "check": "unit_quaternion",
+      "name": "unit_quaternion",
+      "signals": [
+        "root_link_quat_w"
+      ],
+      "tolerance": {
+        "aggregation": "max",
+        "kind": "numerical",
+        "min_samples": 1,
+        "rationale": "Root quaternions are captured as float32 and promoted. 1e-5 is about 84 float32 ULP at unit magnitude. It is an explicit numerical guard: a breach indicates materially non-unit captured data, not a claim about backend accuracy.",
+        "scope": "deviation of |q| from 1, per element, per capture independently",
+        "unit": "dimensionless",
+        "value": 1e-05
+      },
+      "type": "invariant"
+    },
+    {
+      "metric": "absolute",
+      "name": "pole_angle_agreement",
+      "signal": "pole_angle",
+      "tolerance": {
+        "aggregation": "second_largest",
+        "kind": "engineering",
+        "min_samples": 1600,
+        "rationale": "The baseline pole crosses 1.0 rad at a measured median rate of 3.456 rad/s. At 120 Hz, the local one-period angular displacement is 3.456 rad/s / 120 Hz = 0.0288 rad. This engineering budget corresponds to one control period near that crossing. It does not guarantee that a sub-budget difference cannot change the sampled crossing index; the event oracle checks timing directly.",
+        "scope": "per-step absolute pole-angle error, reduced over environments",
+        "unit": "rad",
+        "value": 0.0288
+      },
+      "type": "trajectory_equivalence"
+    },
+    {
+      "metric": "absolute",
+      "name": "pole_velocity_agreement",
+      "signal": "pole_velocity",
+      "tolerance": {
+        "aggregation": "second_largest",
+        "kind": "engineering",
+        "min_samples": 1600,
+        "rationale": "Capture index 0 is the first post-reset step. The baseline median threshold index is 37, so median elapsed time is 38 / 120 = 0.3166667 s. Requiring a sustained pole-rate difference to accumulate no more than the 0.0288 rad angle budget over that measured median time gives 0.0288 rad / 0.3166667 s = 0.0909474 rad/s.\nThis oracle exists because of what it observes, not only what it gates: a reset that drops velocity leaves position identical at step 0 and only diverges through integration, so a position-only manifest sees a smooth growing error and classifies it as drift. Watching the velocity is what makes the step-0 signature visible and the divergence classifiable.",
+        "scope": "per-step absolute pole angular-rate error, reduced over environments",
+        "unit": "rad/s",
+        "value": 0.09094736842105262
+      },
+      "type": "trajectory_equivalence"
+    },
+    {
+      "condition": "above",
+      "event": "termination",
+      "name": "termination_timing",
+      "signal": "abs_pole_angle",
+      "threshold": 1.0,
+      "tolerance": {
+        "aggregation": "max",
+        "kind": "event",
+        "min_samples": 8,
+        "rationale": "One control step is the finest resolution this workload has. A one-step timing difference is observable but explicitly permitted as a sampling allowance; two or more steps fails the declared event contract.",
+        "scope": "absolute difference in the first step at which |pole angle| exceeds 1.0 rad",
+        "unit": "steps",
+        "value": 1.0
+      },
+      "type": "event_equivalence"
+    },
+    {
+      "condition": "above",
+      "decision": "episode_survives_400_steps",
+      "name": "episode_survival",
+      "polarity": "survived",
+      "signal": "abs_pole_angle",
+      "threshold": 1.0,
+      "tolerance": {
+        "aggregation": "all",
+        "kind": "engineering",
+        "min_samples": 8,
+        "rationale": "This is the decision a consumer actually reads off this workload, so any disagreement is operationally meaningful. With 16 paired environments the finest resolvable rate below 1.0 is 0.9375, so a weaker threshold would be a statement about the sample size rather than about the workload.",
+        "scope": "fraction of environments whose survive/terminate outcome agrees",
+        "unit": "fraction",
+        "value": 1.0
+      },
+      "type": "decision_equivalence"
+    },
+    {
+      "name": "mean_pole_angle_equivalence",
+      "signal": "pole_angle",
+      "summary": "mean",
+      "tolerance": {
+        "aggregation": "mean",
+        "kind": "statistical",
+        "min_samples": 16,
+        "minimum_meaningful_effect": 0.001,
+        "rationale": "Half the one-control-step angle budget above: 0.5 * 0.0288 = 0.0144 rad. The horizon-mean margin is deliberately tighter than the pointwise allowance so a persistent shift is held to a stronger criterion than a transient difference.",
+        "scope": "horizon-mean pole angle per environment, paired across captures",
+        "unit": "rad",
+        "value": 0.0144
+      },
+      "type": "statistical_equivalence"
+    },
+    {
+      "name": "observation_shape_stability",
+      "relation": "observation_definition_stability",
+      "type": "metamorphic"
+    }
+  ],
+  "schema_version": "ivf.validation/v1",
+  "subjects": {
+    "baseline": {
+      "kind": "parity_bundle",
+      "label": "PhysX reference capture",
+      "path": "artifacts/cartpole-physx-baseline",
+      "role": "baseline"
+    },
+    "candidate": {
+      "kind": "parity_bundle",
+      "label": "PhysX capture with cart damping raised 0.2%",
+      "path": "artifacts/cartpole-physx-benign",
+      "role": "candidate"
+    }
+  },
+  "verdict_policy": {
+    "inconclusive_on_insufficient_samples": true,
+    "invalid_experiment_on_control_violation": true,
+    "unsupported_is_failure": false
+  },
+  "workload": {
+    "num_envs": 16,
+    "seeds": [
+      0
+    ],
+    "steps": 400,
+    "task": "cartpole_passive",
+    "warmup_steps": 0
+  }
+}

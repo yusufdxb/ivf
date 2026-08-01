@@ -1,0 +1,38 @@
+{
+  "action_stream_sha256": "91d6039a01f57163ec02db197e5481ffc170187e262006fa833b26f0cc064633",
+  "asset_identity": "weak:cartpole_passive:joints=2",
+  "backend": "physx",
+  "bundle_path": "validation/bundles/cartpole_passive_physx_cuda0_s0_29075be3",
+  "bundle_schema_version": "1.1",
+  "capture_hook": "post_step_post_update",
+  "control_frequency_hz": 120.0,
+  "device": "cuda:0",
+  "engine_versions": {
+    "kit": "unknown"
+  },
+  "git_sha": "",
+  "hardware": {
+    "cpu": "x86_64",
+    "gpu_class": "sm_120"
+  },
+  "initial_state_digest": "79bb7c8b8e444e443329be4bf18fcd0794c2e51c9e72a34ce1a003e5b19aae4a",
+  "joint_names": [
+    "slider_to_cart",
+    "cart_to_pole"
+  ],
+  "library_versions": {
+    "cuda": "12.8",
+    "isaaclab": "10.2.0",
+    "isaaclab_contrib": "0.4.6",
+    "numpy": "2.4.4",
+    "python": "3.12.13",
+    "torch": "2.11.0+cu128"
+  },
+  "measured_physics_dt": 0.008333333333333333,
+  "physics_dt": 0.008333333333333333,
+  "quantity_hashes": {},
+  "seed": 0,
+  "solver_settings": {},
+  "source": "parity_bundle",
+  "task_variant": "cartpole_passive"
+}

@@ -1,0 +1,173 @@
+{
+  "command": [
+    "ivf",
+    "--results-root",
+    "validation/evidence",
+    "validate",
+    "validation/examples/synthetic_fixed.yaml"
+  ],
+  "created_utc": "2026-08-01T05:09:34.937193+00:00",
+  "cwd": "$REPOSITORY_ROOT",
+  "doctor": {
+    "capabilities": {
+      "isaaclab": false,
+      "offline": true,
+      "synthetic": true
+    },
+    "checks": [
+      {
+        "detail": "",
+        "name": "python",
+        "status": "ok",
+        "value": "3.12.13 ($REPOSITORY_ROOT/.venv/bin/python3)"
+      },
+      {
+        "detail": "$REPOSITORY_ROOT",
+        "name": "ivf",
+        "status": "ok",
+        "value": "0.1.0rc1 @ a8a2d3b"
+      },
+      {
+        "detail": "",
+        "name": "platform",
+        "status": "ok",
+        "value": "Linux 6.8.0-136-generic x86_64"
+      },
+      {
+        "detail": "",
+        "name": "package:numpy",
+        "status": "ok",
+        "value": "2.5.1"
+      },
+      {
+        "detail": "",
+        "name": "package:yaml",
+        "status": "ok",
+        "value": "6.0.3"
+      },
+      {
+        "detail": "",
+        "name": "oracles",
+        "status": "ok",
+        "value": "decision_equivalence, event_equivalence, exact_equivalence, invariant, metamorphic, required_features, statistical_equivalence, trajectory_envelope, trajectory_equivalence, ulp_equivalence"
+      },
+      {
+        "detail": "not importable; offline and synthetic paths are unaffected",
+        "name": "isaaclab",
+        "status": "absent",
+        "value": ""
+      },
+      {
+        "detail": "ModuleNotFoundError: No module named 'isaacsim'",
+        "name": "isaacsim",
+        "status": "absent",
+        "value": ""
+      },
+      {
+        "detail": "parity bundles are still readable without it: IVF parses the bundle format directly",
+        "name": "isaaclab_contrib",
+        "status": "absent",
+        "value": ""
+      },
+      {
+        "detail": "no physics backend importable; live execution is unavailable",
+        "name": "backends",
+        "status": "absent",
+        "value": ""
+      },
+      {
+        "detail": "",
+        "name": "torch",
+        "status": "absent",
+        "value": ""
+      },
+      {
+        "detail": "driver 570.211.01",
+        "name": "gpu",
+        "status": "ok",
+        "value": "NVIDIA Blackwell consumer GPU"
+      },
+      {
+        "detail": "",
+        "name": "cuda_env",
+        "status": "absent",
+        "value": "{}"
+      },
+      {
+        "detail": "CUBLAS_WORKSPACE_CONFIG is unset; GPU reductions may not be bitwise reproducible. This does not affect the offline or synthetic paths.",
+        "name": "determinism",
+        "status": "warn",
+        "value": "{\"CUBLAS_WORKSPACE_CONFIG\": \"<unset>\", \"PYTHONHASHSEED\": \"<unset>\"}"
+      },
+      {
+        "detail": "writable",
+        "name": "artifact_dir",
+        "status": "ok",
+        "value": "$REPOSITORY_ROOT/ivf-results"
+      },
+      {
+        "detail": "validation/examples/calibration_base.yaml\nvalidation/examples/cartpole_benign_difference.yaml\nvalidation/examples/cartpole_corrected.yaml\nvalidation/examples/cartpole_cross_backend.yaml\nvalidation/examples/cartpole_physx_vs_newton_v1.yaml\nvalidation/examples/cartpole_reset_defect.yaml\nvalidation/examples/synthetic_fault.yaml\nvalidation/examples/synthetic_fixed.yaml",
+        "name": "example_suites",
+        "status": "ok",
+        "value": "8 manifest(s)"
+      }
+    ],
+    "compatibility_matrix": [
+      {
+        "evidence": "CPU test suite in this repository",
+        "isaac_lab": "any (not imported)",
+        "path": "offline / synthetic",
+        "status": "supported"
+      },
+      {
+        "evidence": "reads bundle schema 1.1 and 1.2; verified against six live PhysX/Newton bundles generated 2026-07-12",
+        "isaac_lab": "2.x / 4.5.x-era contrib tree",
+        "path": "parity_bundle ingest",
+        "status": "supported"
+      },
+      {
+        "evidence": "same bundle schema; the reader does not import Isaac Lab",
+        "isaac_lab": "3.0 (develop)",
+        "path": "parity_bundle ingest",
+        "status": "supported"
+      },
+      {
+        "evidence": "generate bundles with isaaclab_contrib.parity and ingest them instead",
+        "isaac_lab": "any",
+        "path": "live execution (subjects.kind = isaaclab)",
+        "status": "not implemented"
+      },
+      {
+        "evidence": "real PhysX and Newton trajectory_bundle/v1 captures and marked tests",
+        "isaac_lab": "10.2.0 / Isaac Sim 6.0.0.1",
+        "path": "repository parity-capture adapter (cartpole_passive only)",
+        "status": "supported for the recorded runtime"
+      }
+    ],
+    "examples": [
+      "validation/examples/calibration_base.yaml",
+      "validation/examples/cartpole_benign_difference.yaml",
+      "validation/examples/cartpole_corrected.yaml",
+      "validation/examples/cartpole_cross_backend.yaml",
+      "validation/examples/cartpole_physx_vs_newton_v1.yaml",
+      "validation/examples/cartpole_reset_defect.yaml",
+      "validation/examples/synthetic_fault.yaml",
+      "validation/examples/synthetic_fixed.yaml"
+    ]
+  },
+  "environment_variables": {},
+  "evidence_schema_version": "ivf.evidence/v1",
+  "host": {
+    "hostname": "redacted",
+    "platform": "Linux 6.8.0-136-generic x86_64",
+    "user": "redacted"
+  },
+  "ivf_version": "0.1.0rc1",
+  "manifest_digest_sha256": "c64ac8259296963ff6ecb2786bd7a9bba376004cd74094cb38da4fe72d4bdaac",
+  "manifest_schema_version": "ivf.validation/v1",
+  "manifest_source_path": "validation/examples/synthetic_fixed.yaml",
+  "python": {
+    "executable": "python",
+    "version": "3.12.13"
+  }
+}

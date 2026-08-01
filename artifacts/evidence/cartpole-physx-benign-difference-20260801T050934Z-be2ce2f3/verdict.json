@@ -1,0 +1,23 @@
+{
+  "alpha": 0.05,
+  "counts": {
+    "fail": 0,
+    "inconclusive": 0,
+    "pass": 8,
+    "skipped": 0,
+    "unsupported": 0
+  },
+  "created_utc": "2026-08-01T05:09:34.991606+00:00",
+  "description": "Benign-difference case. The candidate is a real capture whose cart-actuator damping is 0.2% higher, which produces a real, measurable numerical difference in every trajectory. The difference is inside the declared engineering contract, so the correct answer is PASS with the difference reported rather than a failure. This is the case that distinguishes a validation framework from a difference detector: a tool that fails here is useless, because every real change produces some difference.\n",
+  "error": null,
+  "evidence_schema_version": "ivf.evidence/v1",
+  "exit_code": 0,
+  "experiment": "cartpole-physx-benign-difference",
+  "ivf_version": "0.1.0rc1",
+  "manifest_digest_sha256": "be2ce2f3a21a27481b2f7c60b708b46ed52a318932aa102e847042f68e18d981",
+  "reason_codes": [],
+  "run_id": "cartpole-physx-benign-difference-20260801T050934Z-be2ce2f3",
+  "seed": 0,
+  "verdict": "PASS",
+  "wall_time_s": 0.025
+}

@@ -1,0 +1,27 @@
+{
+  "asset_identity": "damped_pendulum.v1",
+  "control_frequency_hz": 200.0,
+  "effective_parameters": {
+    "applied_drive_amplitude": 0.0,
+    "damping": 0.02,
+    "drive_step_offset": 0,
+    "gravity": 9.81,
+    "length": 0.5,
+    "reset_velocity_applied": true
+  },
+  "initial_state_digest": "c71c3648d9a601d217fbdd9e5fe66c4e9f6792d93abc0ba0b99b75fcc466725a",
+  "physics_dt": 0.005,
+  "seed": [
+    11,
+    23,
+    47
+  ],
+  "seed_pooling": "3 seeds concatenated along the environment axis (8 envs each)",
+  "solver_settings": {
+    "integrator": "semi_implicit_euler",
+    "substeps": 1
+  },
+  "system": "damped_pendulum",
+  "task_variant": "damped_pendulum.v1",
+  "termination_angle": 1.2
+}

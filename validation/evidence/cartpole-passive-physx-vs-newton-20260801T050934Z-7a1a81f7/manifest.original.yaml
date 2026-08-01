@@ -1,0 +1,157 @@
+schema_version: ivf.validation/v1
+name: cartpole-passive-physx-vs-newton
+description: >
+  A real cross-backend comparison on real data: the passive cart-pole scenario captured
+  on PhysX and on Newton/MJWarp, generated 2026-07-12 on an NVIDIA (Blackwell) consumer
+  GPU by isaaclab_contrib.parity and vendored into this repository as a fixture. No GPU
+  and no Isaac Lab are needed to run it: IVF reads the trajectory bundles with numpy.
+
+  This manifest is written to demonstrate the honest outcome rather than a flattering
+  one. Two backends integrating the same passive articulation are not expected to agree
+  to a tight tolerance over 480 steps, and the interesting question is not "do they
+  match" but "does IVF say something defensible about how they differ, and does it
+  refuse to overclaim where the evidence does not support a claim".
+
+  Note in particular the solver-settings control below. These bundles record no solver
+  configuration at all, so IVF reports that control as unverifiable rather than
+  matched. That is a real gap in the released evidence, not a formality.
+
+subjects:
+  baseline:
+    kind: parity_bundle
+    label: PhysX
+    path: validation/bundles/cartpole_passive_physx_cuda0_s0_29075be3
+  candidate:
+    kind: parity_bundle
+    label: Newton / MJWarp
+    path: validation/bundles/cartpole_passive_newton-mjwarp_cuda0_s0_30d7a160
+
+workload:
+  task: cartpole_passive
+  num_envs: 4
+  steps: 480
+  warmup_steps: 0
+  seeds: [0]
+
+controls:
+  require_same:
+    - observation_definition
+    - control_frequency
+    - num_envs
+    - horizon
+    - task_variant
+    - seeds
+  allow_different:
+    - solver_specific_parameters
+  unsupported_or_unverifiable:
+    - asset_binary_identity
+    - initial_state_realization
+    - frame_convention
+    - quaternion_convention
+    - reset_semantics
+    - environment_ordering
+    - action_timing
+    - backend_internal_state
+
+oracles:
+  # Tier 0: holds regardless of which backend is "right", and is the only defense
+  # against a defect that affects both backends identically.
+  - type: invariant
+    name: finite_state
+    check: finite_state
+
+  - type: invariant
+    name: unit_quaternion
+    check: unit_quaternion
+    signals: [root_link_quat_w]
+    tolerance:
+      value: 1.0e-5
+      unit: dimensionless
+      scope: deviation of |q| from 1, per element, per backend independently
+      rationale: >
+        Both backends emit float32-derived quaternions promoted to float64. The 1e-5
+        guard is about 84 float32 ULP at unit magnitude. It is a conservative numerical
+        check for materially non-unit captured data, not a backend accuracy estimate.
+      aggregation: max
+      min_samples: 1
+      kind: numerical
+
+  # Tier 1: an operational agreement question, with a budget chosen from the workload
+  # rather than from what happens to pass.
+  - type: trajectory_equivalence
+    name: root_position_agreement
+    signal: root_link_pos_w
+    metric: absolute
+    tolerance:
+      value: 1.0e-2
+      unit: m
+      scope: per-step Euclidean world-position error of the fixed root, reduced over environments
+      rationale: >
+        The cart-pole articulation root is fixed in both captures. A 1 cm world-position
+        budget is an explicit structural engineering allowance with homogeneous length
+        units. It does not make a claim about dynamic cart or pole agreement.
+      aggregation: second_largest
+      min_samples: 1920
+      kind: engineering
+
+  - type: trajectory_equivalence
+    name: root_orientation_agreement
+    signal: root_link_quat_w
+    metric: geodesic
+    tolerance:
+      value: 1.0e-3
+      unit: rad
+      scope: per-step geodesic angle between root orientations, reduced over environments
+      rationale: >
+        The cart-pole base is a fixed articulation root and should not rotate in either
+        backend. 1 mrad is therefore a tight budget on purpose: it tests that the two
+        backends agree the root is stationary, which is a shared structural claim rather
+        than a dynamics comparison.
+      aggregation: second_largest
+      min_samples: 1920
+      kind: engineering
+
+  # Tier 2: an equivalence question that survives a divergence horizon, with an
+  # explicit statement of what "no difference" would mean operationally.
+  - type: statistical_equivalence
+    name: root_position_rms_equivalence
+    signal: root_link_pos_w
+    summary: rms
+    tolerance:
+      value: 5.0e-2
+      unit: m
+      scope: per-environment RMS fixed-root world position over the horizon, paired across backends
+      rationale: >
+        A 5 cm RMS margin is an explicit legacy structural allowance. The minimum sample
+        count is 20 paired environments, which these four-environment bundles do not
+        meet, so IVF returns INCONCLUSIVE rather than inferring equivalence from the
+        undersized sample. This oracle does not measure energy or articulation dynamics.
+      aggregation: mean
+      min_samples: 20
+      kind: statistical
+      minimum_meaningful_effect: 1.0e-2
+
+  - type: metamorphic
+    name: observation_shape_stability
+    relation: observation_definition_stability
+
+  - type: metamorphic
+    name: quaternion_double_cover
+    relation: quaternion_double_cover
+    signal: root_link_quat_w
+    tolerance:
+      value: 1.0e-9
+      unit: rad
+      scope: geodesic angle between q and -q under the metric this build uses
+      rationale: >
+        A metric that distinguishes q from -q silently doubles every orientation error it
+        reports. This relation is checked on real recorded quaternions rather than on a
+        synthetic fixture so it exercises the same data path as the oracle above.
+      aggregation: max
+      min_samples: 1
+      kind: numerical
+
+verdict_policy:
+  invalid_experiment_on_control_violation: true
+  inconclusive_on_insufficient_samples: true
+  unsupported_is_failure: false

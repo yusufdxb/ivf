@@ -1,0 +1,268 @@
+[
+  {
+    "divergence": null,
+    "limitations": "An invariant holding says the run is well-formed, not that it is right.",
+    "metrics": {
+      "check": "finite_state",
+      "elements_inspected": 179200,
+      "signals": [
+        "abs_pole_angle",
+        "joint_pos",
+        "joint_vel",
+        "pole_angle",
+        "pole_velocity",
+        "root_link_pos_w",
+        "root_link_quat_w"
+      ]
+    },
+    "name": "finite_state",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "invariant 'finite_state' held over 179200 elements across 7 signal(s)",
+    "tolerance": null,
+    "type": "invariant"
+  },
+  {
+    "divergence": null,
+    "limitations": "An invariant holding says the run is well-formed, not that it is right.",
+    "metrics": {
+      "check": "unit_quaternion",
+      "elements_inspected": 51200,
+      "signals": [
+        "root_link_quat_w"
+      ]
+    },
+    "name": "unit_quaternion",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "invariant 'unit_quaternion' held over 51200 elements across 1 signal(s)",
+    "tolerance": {
+      "aggregation": "max",
+      "kind": "numerical",
+      "min_samples": 1,
+      "rationale": "Root quaternions are captured as float32 and promoted. 1e-5 is about 84 float32 ULP at unit magnitude. It is an explicit numerical guard: a breach indicates materially non-unit captured data, not a claim about backend accuracy.",
+      "scope": "deviation of |q| from 1, per element, per capture independently",
+      "unit": "dimensionless",
+      "value": 1e-05
+    },
+    "type": "invariant"
+  },
+  {
+    "divergence": null,
+    "limitations": "Agreement within a tolerance is not evidence that either subject is correct.",
+    "metrics": {
+      "aggregation": "second_largest",
+      "median_aggregated_error": 0.00039136409759521484,
+      "metric": "absolute",
+      "n_samples": 6400,
+      "num_envs": 16,
+      "steps": 400,
+      "worst_aggregated_error": 0.0014503002166748047,
+      "worst_step": 388
+    },
+    "name": "pole_angle_agreement",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "pole_angle: worst second_largest absolute error 1.450e-03 rad <= 2.880e-02 rad",
+    "tolerance": {
+      "aggregation": "second_largest",
+      "kind": "engineering",
+      "min_samples": 1600,
+      "rationale": "The baseline pole crosses 1.0 rad at a measured median rate of 3.456 rad/s. At 120 Hz, the local one-period angular displacement is 3.456 rad/s / 120 Hz = 0.0288 rad. This engineering budget corresponds to one control period near that crossing. It does not guarantee that a sub-budget difference cannot change the sampled crossing index; the event oracle checks timing directly.",
+      "scope": "per-step absolute pole-angle error, reduced over environments",
+      "unit": "rad",
+      "value": 0.0288
+    },
+    "type": "trajectory_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "Agreement within a tolerance is not evidence that either subject is correct.",
+    "metrics": {
+      "aggregation": "second_largest",
+      "median_aggregated_error": 0.0013210177421569824,
+      "metric": "absolute",
+      "n_samples": 6400,
+      "num_envs": 16,
+      "steps": 400,
+      "worst_aggregated_error": 0.004198670387268066,
+      "worst_step": 341
+    },
+    "name": "pole_velocity_agreement",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "pole_velocity: worst second_largest absolute error 4.199e-03 rad/s <= 9.095e-02 rad/s",
+    "tolerance": {
+      "aggregation": "second_largest",
+      "kind": "engineering",
+      "min_samples": 1600,
+      "rationale": "Capture index 0 is the first post-reset step. The baseline median threshold index is 37, so median elapsed time is 38 / 120 = 0.3166667 s. Requiring a sustained pole-rate difference to accumulate no more than the 0.0288 rad angle budget over that measured median time gives 0.0288 rad / 0.3166667 s = 0.0909474 rad/s.\nThis oracle exists because of what it observes, not only what it gates: a reset that drops velocity leaves position identical at step 0 and only diverges through integration, so a position-only manifest sees a smooth growing error and classifies it as drift. Watching the velocity is what makes the step-0 signature visible and the divergence classifiable.",
+      "scope": "per-step absolute pole angular-rate error, reduced over environments",
+      "unit": "rad/s",
+      "value": 0.09094736842105262
+    },
+    "type": "trajectory_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "baseline_occurrences": 16,
+      "candidate_occurrences": 16,
+      "envs_with_count_mismatch": [],
+      "event": "termination",
+      "max_allowed_delta_steps": 1.0,
+      "median_timing_delta_steps": 0.0,
+      "n_envs": 16,
+      "worst_timing_delta_steps": 0
+    },
+    "name": "termination_timing",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "event 'termination': same occurrence pattern across 16 environments, worst timing delta 0 steps <= 1",
+    "tolerance": {
+      "aggregation": "max",
+      "kind": "event",
+      "min_samples": 8,
+      "rationale": "One control step is the finest resolution this workload has. A one-step timing difference is observable but explicitly permitted as a sampling allowance; two or more steps fails the declared event contract.",
+      "scope": "absolute difference in the first step at which |pole angle| exceeds 1.0 rad",
+      "unit": "steps",
+      "value": 1.0
+    },
+    "type": "event_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "agreement_rate": 1.0,
+      "baseline_positive_rate": 0.0,
+      "candidate_positive_rate": 0.0,
+      "decision": "episode_survives_400_steps",
+      "disagreeing_envs": [],
+      "minimum_agreement": 1.0,
+      "n_envs": 16
+    },
+    "name": "episode_survival",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "decision 'episode_survives_400_steps': agreement 1.000 >= 1 over 16 envs",
+    "tolerance": {
+      "aggregation": "all",
+      "kind": "engineering",
+      "min_samples": 8,
+      "rationale": "This is the decision a consumer actually reads off this workload, so any disagreement is operationally meaningful. With 16 paired environments the finest resolvable rate below 1.0 is 0.9375, so a weaker threshold would be a statement about the sample size rather than about the workload.",
+      "scope": "fraction of environments whose survive/terminate outcome agrees",
+      "unit": "fraction",
+      "value": 1.0
+    },
+    "type": "decision_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "Equivalence is established only for this summary of this signal at this sample size; it does not generalize to other quantities.",
+    "metrics": {
+      "alpha": 0.05,
+      "bootstrap_seed": 0,
+      "ci_high": 8.148917648944446e-05,
+      "ci_level": 0.95,
+      "ci_low": 7.465273037091588e-05,
+      "cohens_dz": 10.765606671405186,
+      "equivalence_margin": 0.0144,
+      "mean_difference": 7.815624587240166e-05,
+      "minimum_meaningful_effect": 0.001,
+      "n_pairs": 16,
+      "observed_absolute_effect": 7.815624587240166e-05,
+      "sd_difference": 7.2598087834654545e-06,
+      "summary": "mean"
+    },
+    "name": "mean_pole_angle_equivalence",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "pole_angle: mean paired difference +7.816e-05 rad, 95% CI [+7.465e-05, +8.149e-05] lies inside \u00b10.0144 rad",
+    "tolerance": {
+      "aggregation": "mean",
+      "kind": "statistical",
+      "min_samples": 16,
+      "minimum_meaningful_effect": 0.001,
+      "rationale": "Half the one-control-step angle budget above: 0.5 * 0.0288 = 0.0144 rad. The horizon-mean margin is deliberately tighter than the pointwise allowance so a persistent shift is held to a stronger criterion than a transient difference.",
+      "scope": "horizon-mean pole angle per environment, paired across captures",
+      "unit": "rad",
+      "value": 0.0144
+    },
+    "type": "statistical_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "baseline": {
+        "abs_pole_angle": [
+          16,
+          1
+        ],
+        "joint_pos": [
+          16,
+          2
+        ],
+        "joint_vel": [
+          16,
+          2
+        ],
+        "pole_angle": [
+          16,
+          1
+        ],
+        "pole_velocity": [
+          16,
+          1
+        ],
+        "root_link_pos_w": [
+          16,
+          3
+        ],
+        "root_link_quat_w": [
+          16,
+          4
+        ]
+      },
+      "candidate": {
+        "abs_pole_angle": [
+          16,
+          1
+        ],
+        "joint_pos": [
+          16,
+          2
+        ],
+        "joint_vel": [
+          16,
+          2
+        ],
+        "pole_angle": [
+          16,
+          1
+        ],
+        "pole_velocity": [
+          16,
+          1
+        ],
+        "root_link_pos_w": [
+          16,
+          3
+        ],
+        "root_link_quat_w": [
+          16,
+          4
+        ]
+      },
+      "relation": "observation_definition_stability"
+    },
+    "name": "observation_shape_stability",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "both subjects define the same 7 signal(s) with identical shapes",
+    "tolerance": null,
+    "type": "metamorphic"
+  }
+]

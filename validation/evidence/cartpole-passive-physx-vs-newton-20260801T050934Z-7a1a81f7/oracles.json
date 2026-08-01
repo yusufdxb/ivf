@@ -1,0 +1,232 @@
+[
+  {
+    "divergence": null,
+    "limitations": "An invariant holding says the run is well-formed, not that it is right.",
+    "metrics": {
+      "check": "finite_state",
+      "elements_inspected": 72960,
+      "signals": [
+        "applied_torque",
+        "joint_pos",
+        "joint_vel",
+        "root_link_ang_vel_w",
+        "root_link_lin_vel_w",
+        "root_link_pos_w",
+        "root_link_quat_w"
+      ]
+    },
+    "name": "finite_state",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "invariant 'finite_state' held over 72960 elements across 7 signal(s)",
+    "tolerance": null,
+    "type": "invariant"
+  },
+  {
+    "divergence": null,
+    "limitations": "An invariant holding says the run is well-formed, not that it is right.",
+    "metrics": {
+      "check": "unit_quaternion",
+      "elements_inspected": 15360,
+      "signals": [
+        "root_link_quat_w"
+      ]
+    },
+    "name": "unit_quaternion",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "invariant 'unit_quaternion' held over 15360 elements across 1 signal(s)",
+    "tolerance": {
+      "aggregation": "max",
+      "kind": "numerical",
+      "min_samples": 1,
+      "rationale": "Both backends emit float32-derived quaternions promoted to float64. The 1e-5 guard is about 84 float32 ULP at unit magnitude. It is a conservative numerical check for materially non-unit captured data, not a backend accuracy estimate.",
+      "scope": "deviation of |q| from 1, per element, per backend independently",
+      "unit": "dimensionless",
+      "value": 1e-05
+    },
+    "type": "invariant"
+  },
+  {
+    "divergence": null,
+    "limitations": "Agreement within a tolerance is not evidence that either subject is correct.",
+    "metrics": {
+      "aggregation": "second_largest",
+      "median_aggregated_error": 0.0,
+      "metric": "absolute",
+      "n_samples": 1920,
+      "num_envs": 4,
+      "steps": 480,
+      "worst_aggregated_error": 0.0,
+      "worst_step": 0
+    },
+    "name": "root_position_agreement",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "root_link_pos_w: worst second_largest absolute error 0.000e+00 m <= 1.000e-02 m",
+    "tolerance": {
+      "aggregation": "second_largest",
+      "kind": "engineering",
+      "min_samples": 1920,
+      "rationale": "The cart-pole articulation root is fixed in both captures. A 1 cm world-position budget is an explicit structural engineering allowance with homogeneous length units. It does not make a claim about dynamic cart or pole agreement.",
+      "scope": "per-step Euclidean world-position error of the fixed root, reduced over environments",
+      "unit": "m",
+      "value": 0.01
+    },
+    "type": "trajectory_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "Agreement within a tolerance is not evidence that either subject is correct.",
+    "metrics": {
+      "aggregation": "second_largest",
+      "median_aggregated_error": 0.0,
+      "metric": "geodesic",
+      "n_samples": 1920,
+      "num_envs": 4,
+      "steps": 480,
+      "worst_aggregated_error": 0.0,
+      "worst_step": 0
+    },
+    "name": "root_orientation_agreement",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "root_link_quat_w: worst second_largest geodesic error 0.000e+00 rad <= 1.000e-03 rad",
+    "tolerance": {
+      "aggregation": "second_largest",
+      "kind": "engineering",
+      "min_samples": 1920,
+      "rationale": "The cart-pole base is a fixed articulation root and should not rotate in either backend. 1 mrad is therefore a tight budget on purpose: it tests that the two backends agree the root is stationary, which is a shared structural claim rather than a dynamics comparison.",
+      "scope": "per-step geodesic angle between root orientations, reduced over environments",
+      "unit": "rad",
+      "value": 0.001
+    },
+    "type": "trajectory_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "Below 8 paired samples a percentile bootstrap interval describes the observed points rather than the population, and collapses to a point when their spread is small. IVF refuses the claim rather than reporting a confident-looking degenerate interval.",
+    "metrics": {
+      "alpha": 0.05,
+      "bootstrap_seed": 0,
+      "equivalence_margin": 0.05,
+      "mean_difference": 0.0,
+      "minimum_meaningful_effect": 0.01,
+      "n_pairs": 4,
+      "sd_difference": 0.0,
+      "summary": "rms"
+    },
+    "name": "root_position_rms_equivalence",
+    "reason_codes": [
+      "IVF-SAMPLE-INSUFFICIENT"
+    ],
+    "status": "inconclusive",
+    "summary": "root_link_pos_w: 4 paired samples is below the required minimum of 20 (manifest declares 20, method floor is 8)",
+    "tolerance": {
+      "aggregation": "mean",
+      "kind": "statistical",
+      "min_samples": 20,
+      "minimum_meaningful_effect": 0.01,
+      "rationale": "A 5 cm RMS margin is an explicit legacy structural allowance. The minimum sample count is 20 paired environments, which these four-environment bundles do not meet, so IVF returns INCONCLUSIVE rather than inferring equivalence from the undersized sample. This oracle does not measure energy or articulation dynamics.",
+      "scope": "per-environment RMS fixed-root world position over the horizon, paired across backends",
+      "unit": "m",
+      "value": 0.05
+    },
+    "type": "statistical_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "baseline": {
+        "applied_torque": [
+          4,
+          2
+        ],
+        "joint_pos": [
+          4,
+          2
+        ],
+        "joint_vel": [
+          4,
+          2
+        ],
+        "root_link_ang_vel_w": [
+          4,
+          3
+        ],
+        "root_link_lin_vel_w": [
+          4,
+          3
+        ],
+        "root_link_pos_w": [
+          4,
+          3
+        ],
+        "root_link_quat_w": [
+          4,
+          4
+        ]
+      },
+      "candidate": {
+        "applied_torque": [
+          4,
+          2
+        ],
+        "joint_pos": [
+          4,
+          2
+        ],
+        "joint_vel": [
+          4,
+          2
+        ],
+        "root_link_ang_vel_w": [
+          4,
+          3
+        ],
+        "root_link_lin_vel_w": [
+          4,
+          3
+        ],
+        "root_link_pos_w": [
+          4,
+          3
+        ],
+        "root_link_quat_w": [
+          4,
+          4
+        ]
+      },
+      "relation": "observation_definition_stability"
+    },
+    "name": "observation_shape_stability",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "both subjects define the same 7 signal(s) with identical shapes",
+    "tolerance": null,
+    "type": "metamorphic"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "relation": "quaternion_double_cover",
+      "worst_angle": 0.0
+    },
+    "name": "quaternion_double_cover",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "root_link_quat_w: geodesic metric treats q and -q as identical (worst 0.000e+00 rad)",
+    "tolerance": {
+      "aggregation": "max",
+      "kind": "numerical",
+      "min_samples": 1,
+      "rationale": "A metric that distinguishes q from -q silently doubles every orientation error it reports. This relation is checked on real recorded quaternions rather than on a synthetic fixture so it exercises the same data path as the oracle above.",
+      "scope": "geodesic angle between q and -q under the metric this build uses",
+      "unit": "rad",
+      "value": 1e-09
+    },
+    "type": "metamorphic"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "checksums_sha256": "e6655ed33a3720c553b6b38acb2d942669f8ac01a3c8e00b3adcb43be8ef2479",
+  "evidence_schema_version": "ivf.evidence/v1",
+  "n_files": 13,
+  "run_id": "cartpole-passive-physx-vs-newton-20260801T050934Z-7a1a81f7"
+}

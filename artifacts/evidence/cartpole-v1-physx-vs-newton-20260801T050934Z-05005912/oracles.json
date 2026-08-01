@@ -1,0 +1,601 @@
+[
+  {
+    "divergence": null,
+    "limitations": "An invariant holding says the run is well-formed, not that it is right.",
+    "metrics": {
+      "check": "finite_state",
+      "elements_inspected": 179200,
+      "signals": [
+        "abs_pole_angle",
+        "joint_pos",
+        "joint_vel",
+        "pole_angle",
+        "pole_velocity",
+        "root_link_pos_w",
+        "root_link_quat_w"
+      ]
+    },
+    "name": "finite_state",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "invariant 'finite_state' held over 179200 elements across 7 signal(s)",
+    "tolerance": null,
+    "type": "invariant"
+  },
+  {
+    "divergence": null,
+    "limitations": "An invariant holding says the run is well-formed, not that it is right.",
+    "metrics": {
+      "check": "unit_quaternion",
+      "elements_inspected": 51200,
+      "signals": [
+        "root_link_quat_w"
+      ]
+    },
+    "name": "unit_quaternion",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "invariant 'unit_quaternion' held over 51200 elements across 1 signal(s)",
+    "tolerance": {
+      "aggregation": "max",
+      "kind": "numerical",
+      "min_samples": 1,
+      "rationale": "Root quaternions are captured as float32 and promoted. 1e-5 is about 84 float32 ULP at unit magnitude. It is an explicit numerical guard for materially non-unit captured data, not a backend accuracy estimate.",
+      "scope": "deviation of |q| from 1, per element, per backend independently",
+      "unit": "dimensionless",
+      "value": 1e-05
+    },
+    "type": "invariant"
+  },
+  {
+    "divergence": {
+      "action_at_violation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "affected_components": [
+        0
+      ],
+      "affected_env_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "baseline_values": [
+        0.7636353373527527
+      ],
+      "candidate_values": [
+        0.7946290969848633
+      ],
+      "classification": "solver_parameter_difference",
+      "classification_basis": "subjects differ in solver settings: ['solver_settings']",
+      "confidence": "medium",
+      "config_differences": {
+        "solver_settings": {
+          "baseline": {
+            "bounce_threshold_velocity": 0.5,
+            "class_type": "isaaclab_physx.physics.physx_manager:PhysxManager",
+            "enable_ccd": false,
+            "enable_enhanced_determinism": false,
+            "enable_external_forces_every_iteration": false,
+            "enable_scene_query_support": false,
+            "enable_stabilization": false,
+            "friction_correlation_distance": 0.025,
+            "friction_offset_threshold": 0.04,
+            "gpu_collision_stack_size": 67108864,
+            "gpu_found_lost_aggregate_pairs_capacity": 33554432,
+            "gpu_found_lost_pairs_capacity": 2097152,
+            "gpu_heap_capacity": 67108864,
+            "gpu_max_num_partitions": 8,
+            "gpu_max_particle_contacts": 1048576,
+            "gpu_max_rigid_contact_count": 8388608,
+            "gpu_max_rigid_patch_count": 163840,
+            "gpu_max_soft_body_contacts": 1048576,
+            "gpu_temp_buffer_capacity": 16777216,
+            "gpu_total_aggregate_pairs_capacity": 2097152,
+            "manager": "PhysxCfg",
+            "max_position_iteration_count": 255,
+            "max_velocity_iteration_count": 255,
+            "min_position_iteration_count": 1,
+            "min_velocity_iteration_count": 0,
+            "solve_articulation_contact_last": false,
+            "solver_type": 1
+          },
+          "candidate": {
+            "bvh_constructor_gaussian": "cubql",
+            "bvh_constructor_geometry": "cubql",
+            "bvh_constructor_scene": "sah",
+            "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+            "collision_cfg": null,
+            "collision_decimation": 0,
+            "debug_mode": false,
+            "default_shape_cfg": {
+              "gap": 0.01,
+              "margin": 0.0
+            },
+            "manager": "NewtonCfg",
+            "num_substeps": 1,
+            "simplify_meshes": true,
+            "solver_cfg": {
+              "actuator_gears": null,
+              "ccd_iterations": 35,
+              "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+              "cone": "pyramidal",
+              "default_actuator_gear": null,
+              "disable_contacts": false,
+              "impratio": 1.0,
+              "integrator": "euler",
+              "iterations": 100,
+              "ls_iterations": 50,
+              "ls_parallel": false,
+              "nconmax": null,
+              "njmax": 300,
+              "save_to_mjcf": null,
+              "solver": "newton",
+              "solver_type": "mujoco_warp",
+              "tolerance": 1e-06,
+              "update_data_interval": 1,
+              "use_mujoco_contacts": true,
+              "use_mujoco_cpu": false
+            },
+            "use_cuda_graph": true
+          }
+        }
+      },
+      "contact_state": null,
+      "first_event_disagreement_step": null,
+      "first_numerical_difference_step": 0,
+      "first_tolerance_violation_step": 29,
+      "limitations": "A solver-parameter difference is not automatically a defect; backends legitimately expose different solvers.",
+      "oracle": "pole_angle_agreement",
+      "signal": "pole_angle",
+      "window": {
+        "end_step": 38,
+        "env_id": 1,
+        "error": [
+          0.01443558931350708,
+          0.01615685224533081,
+          0.01798224449157715,
+          0.019910037517547607,
+          0.02193814516067505,
+          0.024063944816589355,
+          0.026284217834472656,
+          0.028595447540283203,
+          0.030993759632110596,
+          0.033474862575531006,
+          0.03603416681289673,
+          0.038666725158691406,
+          0.04136765003204346,
+          0.04413151741027832,
+          0.04695332050323486,
+          0.049827635288238525,
+          0.0527493953704834
+        ],
+        "start_step": 21,
+        "threshold": 0.0288
+      }
+    },
+    "limitations": "Exceeding a tolerance says the subjects differ, not which one is wrong.",
+    "metrics": {
+      "aggregation": "second_largest",
+      "median_aggregated_error": 1.3084075450897217,
+      "metric": "absolute",
+      "n_samples": 6400,
+      "num_envs": 16,
+      "steps": 400,
+      "worst_aggregated_error": 3.5333478450775146,
+      "worst_step": 337
+    },
+    "name": "pole_angle_agreement",
+    "reason_codes": [
+      "IVF-ORACLE-NON_EQUIVALENT"
+    ],
+    "status": "fail",
+    "summary": "pole_angle: worst second_largest absolute error 3.533e+00 rad exceeds 2.880e-02 rad; first violation at step 29",
+    "tolerance": {
+      "aggregation": "second_largest",
+      "kind": "engineering",
+      "min_samples": 1600,
+      "rationale": "The PhysX baseline pole crosses 1.0 rad at a measured median rate of 3.456 rad/s. At 120 Hz, the local one-period displacement is 3.456 rad/s / 120 Hz = 0.0288 rad. This is a workload timing allowance, not a physical-correctness bound.",
+      "scope": "per-step absolute pole-angle error, reduced over environments",
+      "unit": "rad",
+      "value": 0.0288
+    },
+    "type": "trajectory_equivalence"
+  },
+  {
+    "divergence": {
+      "action_at_violation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "affected_components": [
+        0
+      ],
+      "affected_env_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "baseline_values": [
+        1.5173548460006714
+      ],
+      "candidate_values": [
+        1.6181522607803345
+      ],
+      "classification": "solver_parameter_difference",
+      "classification_basis": "subjects differ in solver settings: ['solver_settings']",
+      "confidence": "medium",
+      "config_differences": {
+        "solver_settings": {
+          "baseline": {
+            "bounce_threshold_velocity": 0.5,
+            "class_type": "isaaclab_physx.physics.physx_manager:PhysxManager",
+            "enable_ccd": false,
+            "enable_enhanced_determinism": false,
+            "enable_external_forces_every_iteration": false,
+            "enable_scene_query_support": false,
+            "enable_stabilization": false,
+            "friction_correlation_distance": 0.025,
+            "friction_offset_threshold": 0.04,
+            "gpu_collision_stack_size": 67108864,
+            "gpu_found_lost_aggregate_pairs_capacity": 33554432,
+            "gpu_found_lost_pairs_capacity": 2097152,
+            "gpu_heap_capacity": 67108864,
+            "gpu_max_num_partitions": 8,
+            "gpu_max_particle_contacts": 1048576,
+            "gpu_max_rigid_contact_count": 8388608,
+            "gpu_max_rigid_patch_count": 163840,
+            "gpu_max_soft_body_contacts": 1048576,
+            "gpu_temp_buffer_capacity": 16777216,
+            "gpu_total_aggregate_pairs_capacity": 2097152,
+            "manager": "PhysxCfg",
+            "max_position_iteration_count": 255,
+            "max_velocity_iteration_count": 255,
+            "min_position_iteration_count": 1,
+            "min_velocity_iteration_count": 0,
+            "solve_articulation_contact_last": false,
+            "solver_type": 1
+          },
+          "candidate": {
+            "bvh_constructor_gaussian": "cubql",
+            "bvh_constructor_geometry": "cubql",
+            "bvh_constructor_scene": "sah",
+            "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+            "collision_cfg": null,
+            "collision_decimation": 0,
+            "debug_mode": false,
+            "default_shape_cfg": {
+              "gap": 0.01,
+              "margin": 0.0
+            },
+            "manager": "NewtonCfg",
+            "num_substeps": 1,
+            "simplify_meshes": true,
+            "solver_cfg": {
+              "actuator_gears": null,
+              "ccd_iterations": 35,
+              "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+              "cone": "pyramidal",
+              "default_actuator_gear": null,
+              "disable_contacts": false,
+              "impratio": 1.0,
+              "integrator": "euler",
+              "iterations": 100,
+              "ls_iterations": 50,
+              "ls_parallel": false,
+              "nconmax": null,
+              "njmax": 300,
+              "save_to_mjcf": null,
+              "solver": "newton",
+              "solver_type": "mujoco_warp",
+              "tolerance": 1e-06,
+              "update_data_interval": 1,
+              "use_mujoco_contacts": true,
+              "use_mujoco_cpu": false
+            },
+            "use_cuda_graph": true
+          }
+        }
+      },
+      "contact_state": null,
+      "first_event_disagreement_step": null,
+      "first_numerical_difference_step": 0,
+      "first_tolerance_violation_step": 13,
+      "limitations": "A solver-parameter difference is not automatically a defect; backends legitimately expose different solvers.",
+      "oracle": "pole_velocity_agreement",
+      "signal": "pole_velocity",
+      "window": {
+        "end_step": 22,
+        "env_id": 12,
+        "error": [
+          0.0244789719581604,
+          0.03185319900512695,
+          0.039978742599487305,
+          0.04878830909729004,
+          0.05821573734283447,
+          0.06819522380828857,
+          0.07866215705871582,
+          0.08955121040344238,
+          0.10079741477966309,
+          0.11233580112457275,
+          0.12410080432891846,
+          0.13602721691131592,
+          0.1480487585067749,
+          0.16010022163391113,
+          0.17211592197418213,
+          0.18403100967407227,
+          0.19578170776367188
+        ],
+        "start_step": 5,
+        "threshold": 0.09094736842105262
+      }
+    },
+    "limitations": "Exceeding a tolerance says the subjects differ, not which one is wrong.",
+    "metrics": {
+      "aggregation": "second_largest",
+      "median_aggregated_error": 2.930303384549916,
+      "metric": "absolute",
+      "n_samples": 6400,
+      "num_envs": 16,
+      "steps": 400,
+      "worst_aggregated_error": 12.99448847770691,
+      "worst_step": 390
+    },
+    "name": "pole_velocity_agreement",
+    "reason_codes": [
+      "IVF-ORACLE-NON_EQUIVALENT"
+    ],
+    "status": "fail",
+    "summary": "pole_velocity: worst second_largest absolute error 1.299e+01 rad/s exceeds 9.095e-02 rad/s; first violation at step 13",
+    "tolerance": {
+      "aggregation": "second_largest",
+      "kind": "engineering",
+      "min_samples": 1600,
+      "rationale": "The median PhysX threshold index 37 is 38 elapsed post-reset periods, or 0.3166667 s at 120 Hz. The pole-only budget is 0.0288 rad / 0.3166667 s = 0.0909474 rad/s. It never mixes cart m/s with pole rad/s.",
+      "scope": "per-step absolute pole angular-rate error, reduced over environments",
+      "unit": "rad/s",
+      "value": 0.09094736842105262
+    },
+    "type": "trajectory_equivalence"
+  },
+  {
+    "divergence": {
+      "action_at_violation": null,
+      "affected_components": [],
+      "affected_env_ids": [
+        0
+      ],
+      "baseline_values": [],
+      "candidate_values": [],
+      "classification": "task_level_regression",
+      "classification_basis": "event 'termination' timing differs by 2 steps",
+      "confidence": "medium",
+      "config_differences": {},
+      "contact_state": null,
+      "first_event_disagreement_step": 35,
+      "first_numerical_difference_step": null,
+      "first_tolerance_violation_step": null,
+      "limitations": "Timing deltas grow naturally with horizon in chaotic regimes; this oracle is informative only over horizons where the baseline timing is stable.",
+      "oracle": "termination_timing",
+      "signal": "abs_pole_angle",
+      "window": {}
+    },
+    "limitations": "",
+    "metrics": {
+      "baseline_occurrences": 16,
+      "candidate_occurrences": 16,
+      "envs_with_count_mismatch": [],
+      "event": "termination",
+      "max_allowed_delta_steps": 1.0,
+      "median_timing_delta_steps": 2.0,
+      "n_envs": 16,
+      "worst_timing_delta_steps": 2
+    },
+    "name": "termination_timing",
+    "reason_codes": [
+      "IVF-ORACLE-EVENT-TIMING-DELTA"
+    ],
+    "status": "fail",
+    "summary": "event 'termination': worst timing delta 2 steps exceeds the declared 1 steps",
+    "tolerance": {
+      "aggregation": "max",
+      "kind": "event",
+      "min_samples": 8,
+      "rationale": "A one-step difference is observable but explicitly permitted as the declared 120 Hz sampling allowance. Two or more steps fails the event contract.",
+      "scope": "absolute difference in first sample where |pole angle| exceeds 1.0 rad",
+      "unit": "steps",
+      "value": 1.0
+    },
+    "type": "event_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "agreement_rate": 1.0,
+      "baseline_positive_rate": 0.0,
+      "candidate_positive_rate": 0.0,
+      "decision": "episode_survives_400_steps",
+      "disagreeing_envs": [],
+      "minimum_agreement": 1.0,
+      "n_envs": 16
+    },
+    "name": "episode_survival",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "decision 'episode_survives_400_steps': agreement 1.000 >= 1 over 16 envs",
+    "tolerance": {
+      "aggregation": "all",
+      "kind": "engineering",
+      "min_samples": 8,
+      "rationale": "Any paired semantic decision disagreement is material for this declared workload. This is exact sample agreement, not a population probability.",
+      "scope": "fraction of paired environments with the same survive or terminate decision",
+      "unit": "fraction",
+      "value": 1.0
+    },
+    "type": "decision_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "Establishes a difference of this size, not which subject is correct.",
+    "metrics": {
+      "alpha": 0.05,
+      "bootstrap_seed": 0,
+      "ci_high": -0.18477210548124273,
+      "ci_level": 0.95,
+      "ci_low": -0.1876794410103466,
+      "cohens_dz": -60.03680856690218,
+      "equivalence_margin": 0.0144,
+      "mean_difference": -0.18621337090153245,
+      "minimum_meaningful_effect": 0.001,
+      "n_pairs": 16,
+      "observed_absolute_effect": 0.18621337090153245,
+      "sd_difference": 0.00310165339141945,
+      "summary": "mean"
+    },
+    "name": "mean_pole_angle_equivalence",
+    "reason_codes": [
+      "IVF-ORACLE-NON_EQUIVALENT"
+    ],
+    "status": "fail",
+    "summary": "pole_angle: mean paired difference -1.862e-01 rad, 95% CI [-1.877e-01, -1.848e-01] lies entirely outside \u00b10.0144 rad (Cohen's dz -60.04)",
+    "tolerance": {
+      "aggregation": "mean",
+      "kind": "statistical",
+      "min_samples": 16,
+      "minimum_meaningful_effect": 0.001,
+      "rationale": "Half the pointwise timing allowance: 0.5 * 0.0288 = 0.0144 rad. A persistent mean shift is held to a tighter margin than a transient pointwise difference.",
+      "scope": "horizon-mean pole angle per environment, paired across backends",
+      "unit": "rad",
+      "value": 0.0144
+    },
+    "type": "statistical_equivalence"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "baseline": {
+        "abs_pole_angle": [
+          16,
+          1
+        ],
+        "joint_pos": [
+          16,
+          2
+        ],
+        "joint_vel": [
+          16,
+          2
+        ],
+        "pole_angle": [
+          16,
+          1
+        ],
+        "pole_velocity": [
+          16,
+          1
+        ],
+        "root_link_pos_w": [
+          16,
+          3
+        ],
+        "root_link_quat_w": [
+          16,
+          4
+        ]
+      },
+      "candidate": {
+        "abs_pole_angle": [
+          16,
+          1
+        ],
+        "joint_pos": [
+          16,
+          2
+        ],
+        "joint_vel": [
+          16,
+          2
+        ],
+        "pole_angle": [
+          16,
+          1
+        ],
+        "pole_velocity": [
+          16,
+          1
+        ],
+        "root_link_pos_w": [
+          16,
+          3
+        ],
+        "root_link_quat_w": [
+          16,
+          4
+        ]
+      },
+      "relation": "observation_definition_stability"
+    },
+    "name": "observation_shape_stability",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "both subjects define the same 7 signal(s) with identical shapes",
+    "tolerance": null,
+    "type": "metamorphic"
+  },
+  {
+    "divergence": null,
+    "limitations": "",
+    "metrics": {
+      "baseline_digest": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16",
+      "candidate_digest": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16",
+      "relation": "action_replay_consumption"
+    },
+    "name": "action_replay",
+    "reason_codes": [],
+    "status": "pass",
+    "summary": "both subjects consumed the same action stream (f627ca4c2c322f15\u2026)",
+    "tolerance": null,
+    "type": "metamorphic"
+  }
+]

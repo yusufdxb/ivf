@@ -1,0 +1,161 @@
+schema_version: ivf.validation/v1
+name: synthetic-reset-velocity-fixed
+description: >
+  The corrected half of the fault case study: byte-for-byte the same manifest as
+  synthetic_fault.yaml with the injected defect removed from the candidate. Every
+  acceptance criterion and every tolerance is unchanged, which is what makes the pair a
+  fair before/after: the only thing that moved is the subject under test.
+
+  This is also the negative control for the whole validator. If it does not PASS, the
+  tolerances are too tight and every failure this tool reports is suspect.
+
+subjects:
+  baseline:
+    kind: synthetic
+    label: reference integrator
+    system: damped_pendulum
+    initial_velocity: 0.4
+  candidate:
+    kind: synthetic
+    label: integrator with the reset path fixed
+    system: damped_pendulum
+    initial_velocity: 0.4
+
+workload:
+  task: damped_pendulum.v1
+  num_envs: 8
+  steps: 400
+  warmup_steps: 0
+  seeds: [11, 23, 47]
+
+controls:
+  require_same:
+    - asset_identity
+    - action_sequence
+    - initial_state_distribution
+    - observation_definition
+    - control_frequency
+    - num_envs
+    - horizon
+    - task_variant
+    - solver_specific_parameters
+
+oracles:
+  - type: invariant
+    name: finite_state
+    check: finite_state
+
+  - type: invariant
+    name: unit_quaternion
+    check: unit_quaternion
+    signals: [pole_quat]
+    tolerance:
+      value: 1.0e-9
+      unit: dimensionless
+      scope: deviation of |q| from 1, per element
+      rationale: >
+        The quaternion is constructed analytically in float64. The 1e-9 guard is about
+        4.5 million float64 ULP at unit magnitude, so it is deliberately conservative;
+        a breach indicates materially non-unit synthetic output.
+      aggregation: max
+      min_samples: 1
+      kind: numerical
+
+  - type: trajectory_equivalence
+    name: pole_angle_agreement
+    signal: pole_angle
+    metric: absolute
+    tolerance:
+      value: 2.0e-3
+      unit: rad
+      scope: per-step absolute angle error, reduced over environments
+      rationale: >
+        Two milliradians is the predeclared illustrative pointwise engineering budget for
+        this synthetic fixture. It is not derived from the 1.2 rad termination event:
+        nominal trajectories do not reach that threshold, so the event and decision
+        oracles are negative controls rather than active gates in this case.
+      aggregation: second_largest
+      min_samples: 800
+      kind: engineering
+
+  - type: trajectory_equivalence
+    name: pole_orientation_agreement
+    signal: pole_quat
+    metric: geodesic
+    tolerance:
+      value: 2.0e-3
+      unit: rad
+      scope: per-step geodesic angle between orientations, reduced over environments
+      rationale: >
+        The same budget as the joint angle, because for a rotation built from a single
+        joint angle the geodesic angle between two orientations equals the difference in
+        that joint angle. Setting it any looser would make the orientation oracle
+        quietly weaker than the joint-space one that it is supposed to corroborate.
+      aggregation: second_largest
+      min_samples: 800
+      kind: engineering
+
+  - type: event_equivalence
+    name: termination_timing
+    event: termination
+    signal: abs_pole_angle
+    condition: above
+    threshold: 1.2
+    tolerance:
+      value: 1
+      unit: steps
+      scope: absolute difference in the first step at which |angle| exceeds 1.2 rad
+      rationale: >
+        One control step is the finest resolution the workload has. A one-step timing
+        difference is observable but explicitly permitted; two or more fails the event
+        contract. Neither subject crosses the threshold in the nominal fixture.
+      aggregation: max
+      min_samples: 8
+      kind: event
+
+  - type: decision_equivalence
+    name: episode_survival
+    decision: episode_success
+    signal: abs_pole_angle
+    condition: above
+    threshold: 1.2
+    polarity: survived
+    tolerance:
+      value: 1.0
+      unit: fraction
+      scope: fraction of environments whose survive/terminate outcome agrees
+      rationale: >
+        This is the decision a user actually consumes from this workload, so any
+        disagreement at all is operationally meaningful. With 24 paired environments the
+        finest resolvable rate below 1.0 would be 0.958, so a weaker threshold would be
+        a statement about the sample size rather than about the workload.
+      aggregation: all
+      min_samples: 8
+      kind: engineering
+
+  - type: statistical_equivalence
+    name: mean_angle_equivalence
+    signal: pole_angle
+    summary: mean
+    tolerance:
+      value: 5.0e-3
+      unit: rad
+      scope: mean over the horizon of |angle| per environment, paired across subjects
+      rationale: >
+        The equivalence margin is set at the amplitude below which the time-averaged pole
+        angle does not change the workload's termination statistics. It is intentionally
+        wider than the per-step budget because a time average absorbs transient
+        disagreement that the per-step oracle is there to catch.
+      aggregation: mean
+      min_samples: 8
+      kind: statistical
+      minimum_meaningful_effect: 1.0e-3
+
+  - type: metamorphic
+    name: action_replay
+    relation: action_replay_consumption
+
+verdict_policy:
+  invalid_experiment_on_control_violation: true
+  inconclusive_on_insufficient_samples: true
+  unsupported_is_failure: false

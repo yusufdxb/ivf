@@ -1,0 +1,153 @@
+{
+  "action_applied": "before_physics_step",
+  "action_timing": {
+    "action_applied": "before_physics_step",
+    "capture_hook": "post_step_post_update",
+    "control_dt": 0.008333333333333333,
+    "decimation": 1
+  },
+  "asset_identity": "c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817",
+  "backend": "newton",
+  "bundle_path": "artifacts/cartpole-newton-baseline",
+  "capture_hook": "post_step_post_update",
+  "capture_schema": "trajectory_bundle/v1",
+  "captured_steps": 400,
+  "checksums": {
+    "metadata.json": "e2d3c8cf1dfb5c2cf23f527548f01f903822b953fe625bcdeb5c4925caf5a7e0",
+    "trajectories.npz": "9fdf00428934ef2e34712c0ac3a9d71afdf278ceceae3d722abdc423ac772172"
+  },
+  "control_dt": 0.008333333333333333,
+  "control_frequency_hz": 120.0,
+  "declared_features": [
+    "articulation",
+    "revolute_joint",
+    "prismatic_joint"
+  ],
+  "declared_steps": 400,
+  "env_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "environment_ordering": {
+    "env_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "env_order": "InteractiveScene clone index, ascending"
+  },
+  "frame_convention": "world_z_up_right_handed",
+  "hardware": {
+    "cuda_device_count": 1,
+    "driver": "570.211.01",
+    "gpu": "NVIDIA Blackwell consumer GPU",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35"
+  },
+  "initial_state_digest": "e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641",
+  "library_versions": {
+    "cuda": "12.8",
+    "isaaclab": "10.2.0",
+    "isaaclab_newton": "1.7.0",
+    "isaaclab_physx": "2.8.1",
+    "isaacsim": "6.0.0.1",
+    "kit": "110.1.1+production.305458.6312fa25.gl",
+    "newton": "1.4.0.dev0",
+    "numpy": "2.4.4",
+    "python": "3.12.13",
+    "torch": "2.11.0+cu128",
+    "warp-lang": "1.15.0.dev20260626"
+  },
+  "physics_dt": 0.008333333333333333,
+  "quaternion_convention": {
+    "hemisphere": "unconstrained",
+    "layout": "wxyz",
+    "scalar_first": true
+  },
+  "quaternion_layout": "wxyz",
+  "reset_semantics": "writes_pose_and_velocity",
+  "run_status": "completed",
+  "seed": 0,
+  "solver_settings": {
+    "bvh_constructor_gaussian": "cubql",
+    "bvh_constructor_geometry": "cubql",
+    "bvh_constructor_scene": "sah",
+    "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+    "collision_cfg": null,
+    "collision_decimation": 0,
+    "debug_mode": false,
+    "default_shape_cfg": {
+      "gap": 0.01,
+      "margin": 0.0
+    },
+    "manager": "NewtonCfg",
+    "num_substeps": 1,
+    "simplify_meshes": true,
+    "solver_cfg": {
+      "actuator_gears": null,
+      "ccd_iterations": 35,
+      "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+      "cone": "pyramidal",
+      "default_actuator_gear": null,
+      "disable_contacts": false,
+      "impratio": 1.0,
+      "integrator": "euler",
+      "iterations": 100,
+      "ls_iterations": 50,
+      "ls_parallel": false,
+      "nconmax": null,
+      "njmax": 300,
+      "save_to_mjcf": null,
+      "solver": "newton",
+      "solver_type": "mujoco_warp",
+      "tolerance": 1e-06,
+      "update_data_interval": 1,
+      "use_mujoco_contacts": true,
+      "use_mujoco_cpu": false
+    },
+    "use_cuda_graph": true
+  },
+  "source": "trajectory_bundle/v1",
+  "task_variant": "cartpole_passive",
+  "termination": {
+    "condition": "abs_pole_angle > 1.0",
+    "declared": true,
+    "on_termination": "no_auto_reset (the rollout continues so trajectories stay aligned)",
+    "signal": "abs_pole_angle"
+  },
+  "units": {
+    "abs_pole_angle": "rad",
+    "joint_pos": "rad and m (revolute and prismatic joints in one array)",
+    "joint_vel": "rad/s and m/s",
+    "pole_angle": "rad",
+    "pole_velocity": "rad/s",
+    "root_link_pos_w": "m",
+    "root_link_quat_w": "dimensionless"
+  }
+}

@@ -1,0 +1,330 @@
+{
+  "checks": [
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "asset binary identity is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "backend internal state is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "initial state realization is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": "c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817",
+      "candidate_value": "c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817",
+      "check_id": "V-01",
+      "detail": "both 'c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817'",
+      "name": "asset identity matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641",
+      "candidate_value": "e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641",
+      "check_id": "V-03",
+      "detail": "both 'e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641'",
+      "name": "initial-state distribution matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 120.0,
+      "candidate_value": 120.0,
+      "check_id": "V-05",
+      "detail": "both 120.0",
+      "name": "control frequency matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 0,
+      "candidate_value": 0,
+      "check_id": "V-06",
+      "detail": "both 0",
+      "name": "seed matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "cartpole_passive",
+      "candidate_value": "cartpole_passive",
+      "check_id": "V-09",
+      "detail": "both 'cartpole_passive'",
+      "name": "task variant matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "world_z_up_right_handed",
+      "candidate_value": "world_z_up_right_handed",
+      "check_id": "V-14",
+      "detail": "both 'world_z_up_right_handed'",
+      "name": "frame convention matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": {
+        "hemisphere": "unconstrained",
+        "layout": "wxyz",
+        "scalar_first": true
+      },
+      "candidate_value": {
+        "hemisphere": "unconstrained",
+        "layout": "wxyz",
+        "scalar_first": true
+      },
+      "check_id": "V-15",
+      "detail": "both {'layout': 'wxyz', 'scalar_first': True, 'hemisphere': 'unconstrained'}",
+      "name": "quaternion convention matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "writes_pose_and_velocity",
+      "candidate_value": "writes_pose_and_velocity",
+      "check_id": "V-16",
+      "detail": "both 'writes_pose_and_velocity'",
+      "name": "reset semantics matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": {
+        "env_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "env_order": "InteractiveScene clone index, ascending"
+      },
+      "candidate_value": {
+        "env_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "env_order": "InteractiveScene clone index, ascending"
+      },
+      "check_id": "V-17",
+      "detail": "both {'env_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 'env_order': 'InteractiveScene clone index, ascending'}",
+      "name": "environment ordering matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": {
+        "action_applied": "before_physics_step",
+        "capture_hook": "post_step_post_update",
+        "control_dt": 0.008333333333333333,
+        "decimation": 1
+      },
+      "candidate_value": {
+        "action_applied": "before_physics_step",
+        "capture_hook": "post_step_post_update",
+        "control_dt": 0.008333333333333333,
+        "decimation": 1
+      },
+      "check_id": "V-18",
+      "detail": "both {'action_applied': 'before_physics_step', 'capture_hook': 'post_step_post_update', 'control_dt': 0.008333333333333333, 'decimation': 1}",
+      "name": "action timing matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-02",
+      "detail": "digest f627ca4c2c322f15\u2026",
+      "name": "action sequence matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-04",
+      "detail": "7 signal(s)",
+      "name": "observation definition matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 16,
+      "candidate_value": 16,
+      "check_id": "V-07",
+      "detail": "baseline 16 vs candidate 16",
+      "name": "environment count matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 400,
+      "candidate_value": 400,
+      "check_id": "V-08",
+      "detail": "baseline 400 vs candidate 400",
+      "name": "captured horizon matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": {
+        "bounce_threshold_velocity": 0.5,
+        "class_type": "isaaclab_physx.physics.physx_manager:PhysxManager",
+        "enable_ccd": false,
+        "enable_enhanced_determinism": false,
+        "enable_external_forces_every_iteration": false,
+        "enable_scene_query_support": false,
+        "enable_stabilization": false,
+        "friction_correlation_distance": 0.025,
+        "friction_offset_threshold": 0.04,
+        "gpu_collision_stack_size": 67108864,
+        "gpu_found_lost_aggregate_pairs_capacity": 33554432,
+        "gpu_found_lost_pairs_capacity": 2097152,
+        "gpu_heap_capacity": 67108864,
+        "gpu_max_num_partitions": 8,
+        "gpu_max_particle_contacts": 1048576,
+        "gpu_max_rigid_contact_count": 8388608,
+        "gpu_max_rigid_patch_count": 163840,
+        "gpu_max_soft_body_contacts": 1048576,
+        "gpu_temp_buffer_capacity": 16777216,
+        "gpu_total_aggregate_pairs_capacity": 2097152,
+        "manager": "PhysxCfg",
+        "max_position_iteration_count": 255,
+        "max_velocity_iteration_count": 255,
+        "min_position_iteration_count": 1,
+        "min_velocity_iteration_count": 0,
+        "solve_articulation_contact_last": false,
+        "solver_type": 1
+      },
+      "candidate_value": {
+        "bvh_constructor_gaussian": "cubql",
+        "bvh_constructor_geometry": "cubql",
+        "bvh_constructor_scene": "sah",
+        "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+        "collision_cfg": null,
+        "collision_decimation": 0,
+        "debug_mode": false,
+        "default_shape_cfg": {
+          "gap": 0.01,
+          "margin": 0.0
+        },
+        "manager": "NewtonCfg",
+        "num_substeps": 1,
+        "simplify_meshes": true,
+        "solver_cfg": {
+          "actuator_gears": null,
+          "ccd_iterations": 35,
+          "class_type": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+          "cone": "pyramidal",
+          "default_actuator_gear": null,
+          "disable_contacts": false,
+          "impratio": 1.0,
+          "integrator": "euler",
+          "iterations": 100,
+          "ls_iterations": 50,
+          "ls_parallel": false,
+          "nconmax": null,
+          "njmax": 300,
+          "save_to_mjcf": null,
+          "solver": "newton",
+          "solver_type": "mujoco_warp",
+          "tolerance": 1e-06,
+          "update_data_interval": 1,
+          "use_mujoco_contacts": true,
+          "use_mujoco_cpu": false
+        },
+        "use_cuda_graph": true
+      },
+      "check_id": "V-10",
+      "detail": "the manifest declares solver parameters may differ; any resulting divergence is reported as a solver-parameter difference rather than a defect",
+      "name": "solver settings differ (declared allowed)",
+      "reason_code": null,
+      "status": "not_applicable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "400 steps captured",
+      "name": "baseline run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "400 steps captured",
+      "name": "candidate run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-12",
+      "detail": "0 steps discarded",
+      "name": "warm-up is declared",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-13",
+      "detail": "both 0.008333333333333333",
+      "name": "physics timestep matches",
+      "reason_code": null,
+      "status": "pass"
+    }
+  ],
+  "n_checks": 22,
+  "n_failed": 0,
+  "n_unverifiable": 3,
+  "valid": true
+}
