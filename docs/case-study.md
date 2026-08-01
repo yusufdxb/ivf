@@ -1,176 +1,129 @@
-# Case study: a silent reset defect, end to end
+# Case study: reset semantics and cross-backend acceptance
 
-This is the whole loop (fail, localize, fix, pass) on evidence shipped in this
-repository, followed by the same tooling applied to real cross-backend data where the
-honest answer is more complicated.
+This repository ships two deliberately different reset demonstrations and one real
+cross-backend result. Their provenance matters as much as their verdicts.
 
-Every number below is copied from `validation/evidence/`. Reproduce it:
+## CPU synthetic fixture
 
-```bash
-uv run ivf reproduce validation/evidence/synthetic-reset-velocity-defect-20260731T150031Z-3cdc747d
-```
-
-## The defect
-
-The candidate's reset writes joint position and drops joint velocity. This is a real Isaac
-Lab defect class, and it is nasty because it is **invisible in provenance**: the asset
-declaration, the initial-state declaration, the timestep and the commanded action stream
-are byte-identical between the two subjects. Nothing structural is wrong. The robot simply
-starts from a state nobody asked for.
-
-A conventional test suite does not see it. The environment builds, steps, terminates and
-resets. The trajectory is smooth and physically plausible. It is just the wrong trajectory.
-
-## 1. Fail
-
-```console
-$ ivf validate validation/examples/synthetic_fault.yaml
-FAIL  synthetic-reset-velocity-defect
-  IVF-ORACLE-NON_EQUIVALENT
-  [        pass] finite_state
-  [        pass] unit_quaternion
-  [        fail] pole_angle_agreement: worst second_largest absolute error 9.207e-02 rad
-                 exceeds 2.000e-03 rad; first violation at step 1
-  [        fail] pole_orientation_agreement: worst second_largest geodesic error 9.207e-02 rad
-                 exceeds 2.000e-03 rad; first violation at step 1
-  [        pass] termination_timing: worst timing delta 0 steps <= 1
-  [        pass] episode_survival: agreement 1.000 >= 1 over 24 envs
-  [        fail] mean_angle_equivalence: mean paired difference -9.559e-03 rad,
-                 95% CI [-9.792e-03, -9.326e-03] outside ±0.005 rad (Cohen's dz -16.04)
-  [        pass] action_replay: both subjects consumed the same action stream
-$ echo $?
-1
-```
-
-Three things worth noticing.
-
-**The experiment was valid.** All thirteen validity checks passed, so the failure is a
-statement about the subjects and not about the setup. Had the two runs used different
-assets or timesteps, this would have been `INVALID_EXPERIMENT` and the numbers would have
-decided nothing.
-
-**Two independent oracles agree on the magnitude.** The joint-space error and the
-orientation geodesic angle both report 9.207e-02 rad. They are computed by different code
-paths on different signals, and their agreement is a consistency check on the tooling
-itself, not just on the subjects. (This is not decoration: an early build had the geodesic
-metric off by a factor of two, and it was this disagreement that exposed it.)
-
-**The downstream decision did not change.** Termination timing and episode survival both
-passed: on this workload the defect moves the trajectory without moving the outcome. IVF
-reports that rather than collapsing everything into one number, and it changes what you do
-with the finding: this is a correctness bug, not an outage.
-
-## 2. Localize
-
-From `divergence.jsonl`:
-
-| | |
-|---|---|
-| first numerical difference | step **0** |
-| first tolerance violation | step **1** |
-| affected environments | all **24** |
-| affected components | `[0]` |
-| classification | **`reset_mismatch`** |
-| confidence | `medium` |
-| basis | *"tolerance exceeded at step 1, before dynamics could accumulate"* |
-| limitations | *"Cannot separate an initial-state difference from a first-step actuation difference; both manifest at step 0. Check the action stream digest and the initial-state digest to disambiguate."* |
-
-That is an actionable finding rather than a bisect. The difference exists before dynamics
-could produce it, in every environment simultaneously, so it is a start-state problem and
-not an accumulation problem. And the record tells you how to discriminate the one
-alternative it cannot rule out: the action-stream digest is identical, which the
-`action_replay` oracle confirms independently, and that leaves the initial state.
-
-The report renders the error window around step 1 as an inline SVG with the tolerance
-marked, so the shape (a jump, not a ramp) is visible at a glance.
-
-## 3. Fix
-
-`validation/examples/synthetic_fixed.yaml` is the same manifest with the injected defect
-removed from the candidate. Every oracle, every tolerance, every seed is unchanged. That is
-what makes the pair a fair before/after: the only thing that moved is the subject.
-
-## 4. Pass
-
-```console
-$ ivf validate validation/examples/synthetic_fixed.yaml
-PASS  synthetic-reset-velocity-fixed
-  [        pass] pole_angle_agreement: worst second_largest absolute error 0.000e+00 rad <= 2.000e-03 rad
-  [        pass] pole_orientation_agreement: worst second_largest geodesic error 0.000e+00 rad <= 2.000e-03 rad
-  [        pass] mean_angle_equivalence: mean paired difference +0.000e+00 rad,
-                 95% CI [+0.000e+00, +0.000e+00] inside ±0.005 rad
-  ... 8 passed, 0 failed
-$ echo $?
-0
-```
-
-This run is also the **negative control for the entire validator**. If it ever fails, the
-tolerances are too tight and every failure IVF reports elsewhere is suspect.
-
-## 5. Confirm the fix in CI
+`validation/examples/synthetic_fault.yaml` uses an explicit generation-level
+`ignored_reset_velocity` fixture. The generated metadata records the fixture. No captured
+array is edited after generation, and the verdict code does not consume the fixture label.
 
 ```bash
-uv run ivf compare validation/evidence/<fixed-run> validation/evidence/<defect-run>
+uv run ivf validate validation/examples/synthetic_fault.yaml
+uv run ivf validate validation/examples/synthetic_fixed.yaml
 ```
 
-Because these are two *different* manifests, `ivf compare` refuses to treat them as
-comparable and says so before printing anything:
+The perturbed manifest returns `FAIL`. Its first numerical difference is at step 0, its
+pointwise angle and orientation criteria fail, and its horizon-mean equivalence criterion
+fails. The 1.2 rad event is never reached by either subject, so termination timing and the
+survive or terminate decision are negative controls in this fixture. They are not evidence
+that the perturbation is operationally benign outside this workload.
 
+The fixed manifest returns `PASS` with the same workload, seeds, oracles and tolerances.
+It is the offline negative control for the validator.
+
+## Real PhysX reset perturbation
+
+`validation/examples/cartpole_reset_defect.yaml` compares two real Isaac Lab PhysX
+captures. The candidate capture enables a test-only simulator perturbation:
+
+```yaml
+defect:
+  drop_reset_velocity: true
 ```
-NOT COMPARABLE
-  - different experiments: 'synthetic-reset-velocity-fixed' vs 'synthetic-reset-velocity-defect'
 
-The differences below are reported for information only; they are not
-evidence about the subjects under test.
-```
+The adapter requests a pole joint velocity of `0.5 rad/s` and, only with that switch,
+writes an explicit zero joint-velocity vector before stepping PhysX. The baseline writes
+the requested value. Both bundles record requested and applied reset state, the switch,
+software and hardware metadata, trajectories and checksums.
 
-That is the correct behaviour and it is worth internalizing: a verdict difference across
-two different contracts is not evidence about the code. For a real regression gate, run the
-*same* manifest twice and compare those, which is exactly what `ivf reproduce` does; on
-the shipped bundles it reports `No material differences.`
-
----
-
-## The same tooling on real cross-backend data
+This is an **explicit simulator-level test perturbation modeled after a previously
+observed reset-semantics failure**. It is not a restored historical implementation and it
+is not an upstream Isaac Lab product defect. Upstream commit
+`9aaa389f24231fadcca9f871af3eccb79e738b20` fixed a related parity-harness failure in which
+a configured rigid-body root velocity of `1.0 m/s` was not written after reset. The IVF
+case uses joint angular velocity and deliberately writes zero, so it is modeled after that
+failure rather than literally reproducing it.
 
 ```bash
-uv run ivf validate validation/examples/cartpole_cross_backend.yaml
+uv run ivf validate validation/examples/cartpole_reset_defect.yaml
 ```
 
-PhysX versus Newton/MJWarp on a passive cart-pole, 480 steps, 4 environments, from bundles
-captured on a GPU workstation on 2026-07-12 and vendored under `validation/bundles/`. One
-run, three different honest answers.
+The captured result returns `FAIL`:
 
-**`FAIL` on pointwise agreement.** Worst second-largest joint-position error **3.395**
-against a 1e-2 budget, first violation at step 17. Two integrators of a passive
-articulation genuinely diverge, and widening the tolerance until it passed would be the
-dishonest move.
+| Observation | Verified result |
+|---|---:|
+| first pole angular-rate tolerance violation | step 0 |
+| first pole-angle tolerance violation | step 6 |
+| affected environments | all 16 |
+| worst pole-angle error | 0.5537 rad |
+| worst pole angular-rate error | 1.471 rad/s |
+| worst termination timing delta | 9 steps |
+| paired survive or terminate agreement | 1.0 |
+| reason codes | `IVF-ORACLE-NON_EQUIVALENT`, `IVF-ORACLE-EVENT-TIMING-DELTA` |
 
-**`INCONCLUSIVE` on the equivalence question.** Four paired environments cannot support an
-equivalence claim, so the statistical oracle returns `IVF-SAMPLE-INSUFFICIENT` rather than
-a confident-looking interval. Before the method floor was added, this same oracle produced
-a CI of `[+0.582, +0.582]` with Cohen's dz of 5.9e6: an interval that collapsed to a point
-because four nearly-identical differences have no spread. Arithmetic that looks certain is
-not evidence.
+The step-0 rate signature is the direct reset consequence. Angle error then accumulates
+through integration, and threshold crossings move by 6 to 9 samples. The final
+survive-or-terminate decision remains equal on this 400-step workload, which does not
+erase the trajectory and event failures.
 
-**`unverifiable` on the solver control.** The manifest declares that solver parameters may
-legitimately differ between backends. But these bundles record no solver configuration at
-all, so IVF cannot say *what* differs:
+The switch defaults to false, accepts only a YAML boolean and is absent from nominal and
+corrected manifests. `tests/test_capture_spec.py` enforces that guard. Full provenance is
+in `docs/engineering/reset-defect-provenance.md`.
 
-> *"the manifest declares solver parameters may differ, but at least one subject records no
-> solver configuration at all. IVF therefore cannot report what differs, so a
-> solver-parameter explanation for any divergence below is a hypothesis rather than a
-> finding."*
+## Corrected and benign PhysX controls
 
-That is a real gap in the released evidence, found by the pre-existing parity work's own
-adversarial audit, and now surfaced automatically on every run that touches those bundles
-instead of living in a report nobody rereads.
+```bash
+uv run ivf validate validation/examples/cartpole_corrected.yaml
+uv run ivf validate validation/examples/cartpole_benign_difference.yaml
+```
 
-**What this run does not say.** It does not say Newton is wrong. It does not say PhysX is
-right. It does not say a policy trained on one will fail on the other. It says these two
-backends disagree on this workload by this much, starting at this step, and that the
-available evidence cannot attribute the disagreement to a solver difference because nobody
-recorded the solvers.
+The corrected capture returns `PASS` with zero differences. The benign capture also
+returns `PASS`: its worst pole-angle difference is `0.001450 rad`, its worst pole-rate
+difference is `0.004199 rad/s`, event timing is unchanged, and its horizon-mean shift is
+about `7.82e-05 rad`. These are results against declared budgets, not claims of physical
+correctness.
 
-That is the whole product: a defensible answer, with its limits attached, that someone else
-can check.
+## Real PhysX versus Newton v1 result
+
+The release workflow also captured the same passive cart-pole through real PhysX and
+Newton/MJWarp execution and loaded both through strict `trajectory_bundle/v1` validation:
+
+```bash
+uv run ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
+```
+
+The experiment is valid for the controls the bundle contract can establish. It verifies
+normalized task configuration, requested initial-state distribution, task identity,
+the explicit zero-effort action stream, observation schema, timestep, control frequency, seed and environment
+ordering, reset and action timing semantics, horizon and completion. Solver settings are
+recorded and explicitly allowed to differ.
+
+Three controls are explicitly unverifiable: binary asset identity, realized backend
+initial state, and backend-internal state. They are not treated as matches.
+
+The result returns `FAIL`:
+
+| Observation | Verified result |
+|---|---:|
+| worst second-largest pole-angle error | 3.533347845 rad |
+| first pole-angle violation | step 29 |
+| worst second-largest pole-rate error | 12.99448848 rad/s |
+| first pole-rate violation | step 13 |
+| worst and median threshold timing delta | 2 steps |
+| first event disagreement | step 35 |
+| paired survive or terminate agreement | 1.0 |
+| mean paired pole-angle difference | -0.18621337 rad |
+| 95% confidence interval | [-0.18767944, -0.18477211] rad |
+| Cohen's dz | -60.0368 |
+| reason codes | `IVF-ORACLE-NON_EQUIVALENT`, `IVF-ORACLE-EVENT-TIMING-DELTA` |
+
+This says the two recorded backends exceeded this workload's declared acceptance
+criteria. It does not identify either backend as correct, prove cross-hardware
+determinism, establish general PhysX/Newton equivalence, predict learned-policy transfer,
+or predict sim-to-real behavior.
+
+The older `validation/examples/cartpole_cross_backend.yaml` remains an offline legacy
+bundle example. It returns `INCONCLUSIVE` because its pre-v1 evidence cannot verify enough
+controls for a stronger cross-backend claim.

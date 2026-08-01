@@ -44,10 +44,11 @@ subjects:
 |---|---|---|
 | `synthetic` | `system`, plus that system's parameters; optional `fault`, `fault_params` | nothing |
 | `parity_bundle` | `path` to an `isaaclab_contrib.parity` trajectory bundle | nothing (numpy only) |
-| `isaaclab` | backend/preset | Isaac Lab; **not implemented in this build**, returns `UNSUPPORTED` |
+| `isaaclab` | backend/preset | reserved in core; returns `UNSUPPORTED` |
 
-To run a live workload today, generate a trajectory bundle with
-`isaaclab_contrib.parity` and point a `parity_bundle` subject at it.
+To run a live workload, generate a trajectory bundle with `isaaclab_contrib.parity` or
+the repository's narrow `parity-capture` cart-pole adapter, then point a
+`parity_bundle` subject at it. IVF core remains offline and does not import Isaac Lab.
 
 ## `workload`
 
@@ -85,17 +86,29 @@ controls:
     - task_variant
   allow_different:
     - solver_specific_parameters
+  unsupported_or_unverifiable:
+    - asset_binary_identity
+    - initial_state_realization
+    - backend_internal_state
 ```
 
 Known controls: `asset_identity`, `action_sequence`, `initial_state_distribution`,
 `observation_definition`, `control_frequency`, `seeds`, `num_envs`, `horizon`,
-`task_variant`, `solver_specific_parameters`. An unknown name is rejected: silently
-ignoring a control you asked for would be the worst possible failure.
+`task_variant`, `solver_specific_parameters`, `frame_convention`,
+`quaternion_convention`, `reset_semantics`, `environment_ordering`, `action_timing`,
+`asset_binary_identity`, `initial_state_realization`, and `backend_internal_state`. An
+unknown name is rejected: silently ignoring a control you asked for would be the worst
+possible failure.
 
 `allow_different` is a claim about interpretation, not a way to silence a check. Declaring
 `solver_specific_parameters` as allowed to differ means "if these subjects diverge, a
 solver difference is an admissible explanation", and if neither subject records its
 solver settings, IVF still reports that it cannot tell you *what* differs.
+
+`unsupported_or_unverifiable` names a scientifically relevant property that the current
+bundle contract cannot establish. It is shown in the validity report and is not counted
+as a match. The three backend-internal controls in the example are accepted only in this
+partition, so a manifest cannot accidentally require them and have the request ignored.
 
 A violated control produces `INVALID_EXPERIMENT`. The physics timestep is checked
 unconditionally, whether you declared it or not, because step-by-step comparison of runs
@@ -131,10 +144,9 @@ tolerance:
   unit: rad
   scope: per-step absolute angle error, reduced over environments
   rationale: >
-    2 mrad is roughly the angular resolution below which the downstream termination
-    decision in this workload is unaffected: the termination threshold is 1.2 rad and the
-    trajectory crosses it at about 3 rad/s, so 2 mrad corresponds to under one control
-    step of timing shift.
+    Two milliradians is the predeclared engineering budget for this illustrative
+    synthetic fixture. Its nominal trajectories do not cross the 1.2 rad event threshold,
+    so this value is not presented as a termination-derived physical budget.
   aggregation: second_largest
   min_samples: 800
   kind: engineering
@@ -154,9 +166,9 @@ tolerance:
 ### Choosing `aggregation`
 
 `mean` dilutes a single diverging environment by the environment count. `max` gates on the
-single worst bifurcation tail, which in a chaotic regime is noise. `second_largest` keeps
-single-environment sensitivity while trimming one tail event, and is the default choice
-for reductions over environments.
+single worst bifurcation tail, which in a chaotic regime can be noise. `second_largest`
+trims one tail event, so at least two environments must exceed the threshold. It is the
+default choice for reductions over environments when that tradeoff is intended.
 
 ### Choosing `kind`
 
@@ -169,10 +181,12 @@ for reductions over environments.
 
 ### Writing a rationale that survives review
 
-Derive the number from something outside the experiment. Good rationales look like:
+Derive measured quantities explicitly when a value claims measured provenance. When a
+threshold is engineering judgement, label it that way without inventing a physical story.
+Good rationales look like:
 
-* *the downstream decision threshold is X and the signal crosses it at Y, so a budget of
-  X/Y corresponds to under one control step*
+* *the measured rate is X rad/s and the control frequency is Y Hz, so one sampled period
+  corresponds to X/Y rad*
 * *this is N float32 ULP at the characteristic magnitude of this signal, which rounding
   alone cannot reach*
 * *10% of the pole length, the level at which a consumer would notice a different swing*

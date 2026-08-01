@@ -5,13 +5,13 @@ Five minutes, on any machine. No GPU, no Isaac Lab, no Isaac Sim.
 ## Install
 
 ```bash
-git clone <this repo> && cd ivf
+git clone https://github.com/yusufdxb/ivf.git && cd ivf
 uv sync
 ```
 
 `uv sync` installs from the committed lockfile, so you get the exact dependency versions
-this repository was tested against. Without `uv`, `pip install -e ".[dev]"` works too but
-resolves dependencies fresh.
+this repository was tested against. Without `uv`, `python -m pip install ".[dev]"` works
+but resolves dependencies fresh and is not the locked reproduction path.
 
 ## 1. Ask what this machine can do
 
@@ -36,10 +36,10 @@ uv run ivf doctor --require synthetic     # exits nonzero and names the failing 
 uv run ivf validate validation/examples/synthetic_fault.yaml
 ```
 
-The candidate carries a silently injected defect: a reset that writes position but drops
-velocity. Nothing in its recorded provenance reveals it. IVF exits `1`, names the failing
-criteria, and localizes the first divergence to step 1 across all 24 environments,
-classifying it as `reset_mismatch`.
+The candidate carries an explicit generation-level reset perturbation. Evidence metadata
+records the fixture label for auditability, but the verdict logic does not consume it.
+IVF exits `1`, names the failing criteria, and localizes the divergence as
+`reset_mismatch` from the trajectories.
 
 ## 3. Run the same experiment with the defect removed
 
@@ -95,20 +95,20 @@ Nothing in IVF depends on an inherited `PYTHONPATH`.
 
 ## Real cross-backend data
 
-`validation/bundles/` contains six genuine PhysX and Newton/MJWarp trajectory bundles
-captured on a GPU workstation on 2026-07-12, and `artifacts/` contains four
-`trajectory_bundle/v1` captures produced by a live Isaac Lab run together with their
-sealed verdicts. Nothing about reading any of them needs a simulator:
+`validation/bundles/` contains six legacy PhysX and Newton/MJWarp trajectory bundles
+captured on a GPU workstation on 2026-07-12. `artifacts/` contains real
+`trajectory_bundle/v1` captures from PhysX and Newton together with sealed IVF evidence.
+Nothing about reading any of them needs a simulator:
 
 ```bash
-uv run ivf validate validation/examples/cartpole_cross_backend.yaml
+uv run ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
 ```
 
-This one is worth reading closely. It ends in `FAIL` on the pointwise joint-position
-oracle, returns `INCONCLUSIVE` on the statistical oracle because four environments cannot
-support an equivalence claim, and reports the solver-settings control as **unverifiable**
-because the released bundles record no solver configuration at all. Three different
-honest answers in one run.
+The experiment is valid under its declared controls and ends in `FAIL`: pole angle and
+pole angular rate exceed their predeclared budgets, termination is two steps earlier on
+Newton, and the 400-step survive/terminate decision remains identical. Solver settings
+are recorded and explicitly allowed to differ. Binary asset identity, realized backend
+state, and backend-internal state remain unverifiable and are listed as such.
 
 ## Next
 

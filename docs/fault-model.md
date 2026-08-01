@@ -11,19 +11,18 @@ a validator whose weaknesses you will discover in production.
 surfaces:
 
 **Generation** mutates the parameters of a run *before* it is integrated, so the resulting
-trajectory is entirely self-consistent. This emulates a real simulator defect: nothing
-about the recorded data looks corrupt, it is simply wrong. The synthetic reference system
-is built so that injected defects are **silent in the recorded provenance**, the asset
-declaration, the initial-state digest and the commanded action stream are identical on
-both sides. A fixture whose defects announce themselves in metadata would calibrate the
-validity layer instead of the oracles.
+trajectory is entirely self-consistent. This models simulator-level fault shapes without
+claiming a simulator discovered them. Evidence metadata records the injected fixture as
+ground truth for auditability. The validity and oracle logic does not consume that label;
+selected controlled declarations and the commanded action stream remain identical, so
+the trajectory oracle still has to establish the consequence.
 
 **Trace** mutates recorded arrays or metadata after the fact, emulating a recorder,
 serialization or plumbing defect.
 
 | Fault | Category | Surface | Expected | Responsible layer |
 |---|---|---|---|---|
-| `none` (negative control) | control |, | not detected |, |
+| `none` (negative control) | control | generation | not detected | none |
 | `ignored_reset_velocity` | reset | generation | detected | trajectory equivalence |
 | `wrong_env_origin` | frame | trace | detected | trajectory equivalence |
 | `incorrect_clone_count` | cloning | trace | detected | experiment validity |
@@ -39,7 +38,7 @@ serialization or plumbing defect.
 | `silent_nan` | numerical | trace | detected | invariant |
 | `truncated_rollout` | protocol | trace | detected | experiment validity |
 | `corrupted_metadata` | metadata | trace | detected | experiment validity |
-| `unsupported_feature_misreported` | capability | trace | **not detected** |, |
+| `unsupported_feature_misreported` | capability | trace | **not detected** | none |
 
 ## Measured detectability
 
@@ -146,10 +145,11 @@ read as implying it.
 The synthetic reference system is a damped driven pendulum integrated with semi-implicit
 Euler. It is not a physics claim and not a model of anything. It is a fixture chosen
 because it is the smallest system exhibiting every property the oracles need: a continuous
-trajectory, a discrete event, a downstream decision, and an orientation signal. Its values
-are reproducible on any machine, which is the whole point.
+trajectory, a discrete event, a downstream decision, and an orientation signal. It was
+reproduced on the RC software and CPU environment. IVF makes no bit-identity claim across
+arbitrary platforms or dependency versions.
 
 Detectability measured on it transfers to a real workload only insofar as the real
-workload has comparable signal magnitudes and tolerances. That is why the calibration
-manifest reuses the same 2e-3 rad budget as the user-facing case study: a fault detectable
-in calibration is detectable in the example a user actually runs.
+workload has comparable signal magnitudes and tolerances. Reusing the 2 mrad illustrative
+budget makes the synthetic examples internally comparable; it does not prove detection
+on an unexecuted real workload.

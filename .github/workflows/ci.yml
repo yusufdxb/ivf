@@ -51,9 +51,26 @@ jobs:
 
       - name: Shipped evidence still verifies
         run: |
-          for bundle in validation/evidence/*/; do
+          for bundle in validation/evidence/*/ artifacts/evidence/*/; do
             uv run ivf reproduce "$bundle" --verify-only
           done
+
+      - name: Strict v1 captures validate offline with expected verdicts
+        run: |
+          set +e
+          uv run ivf validate validation/examples/cartpole_corrected.yaml
+          corrected=$?
+          uv run ivf validate validation/examples/cartpole_benign_difference.yaml
+          benign=$?
+          uv run ivf validate validation/examples/cartpole_reset_defect.yaml
+          reset=$?
+          uv run ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
+          cross=$?
+          set -e
+          test "$corrected" -eq 0
+          test "$benign" -eq 0
+          test "$reset" -eq 1
+          test "$cross" -eq 1
 
       - name: Fault detectability matrix matches the taxonomy
         run: uv run ivf calibrate --seeds 11 23 47

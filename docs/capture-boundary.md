@@ -50,7 +50,7 @@ comparison rather than making it fail loudly.
 | `run_status`, `declared_steps`, `captured_steps` | Makes truncation self-declaring; `completed` with fewer captured than declared steps is refused |
 | `task.id`, `task.config_digest_sha256` | Two captures of different experiments must not be compared as one |
 | `backend.id`, `backend.solver_settings` | The released pre-v1 bundles recorded no solver settings, which made three of six families un-comparable. v1 makes the field structural |
-| `software` | An Isaac Lab or backend version change is a plausible explanation for a divergence, and it cannot be reconstructed later |
+| `software`, `hardware` | Runtime or hardware changes are plausible explanations for divergence and cannot be reconstructed later |
 | `seed.value`, `seed.env_ids`, `seed.env_order` | Environment ordering is what makes a paired comparison meaningful, so it is declared rather than assumed |
 | `timing.physics_dt`, `control_dt`, `action_applied`, `capture_hook` | Step-by-step comparison of runs at different control rates is meaningless, not merely loose; and a consumer must never have to guess whether a sample is pre- or post-step |
 | `frames.convention` | A frame difference and a bug look identical in the data |
@@ -88,11 +88,15 @@ a broken capture produces zero oracle outcomes.
 
 ```bash
 parity-capture validation/capture/cartpole_physx.yaml --output artifacts/cartpole-physx-baseline
+parity-capture validation/capture/cartpole_newton.yaml --output artifacts/cartpole-newton-baseline
 ```
 
 See [the capture adapter](../adapters/parity_capture/README.md). The writer is
 `ivf.bundle.finalize_v1`, which is the only supported way to seal a bundle: it checksums
-the payload and stamps the marker in the required order.
+the payload and stamps the marker in the required order. These commands must run inside
+the recorded Isaac Lab environment. The RC workflow executed both PhysX and
+Newton/MJWarp; this is support for the one declared cart-pole path, not a general backend
+plugin interface.
 
 ## Reading one
 

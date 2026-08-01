@@ -18,10 +18,11 @@ Imports succeeding is not compatibility.
 
 | Isaac Lab | IVF path | Status | Evidence |
 |---|---|---|---|
-| any, not imported | `offline` and `synthetic` | **supported** | the CPU test suite in this repository, 149 tests |
+| any, not imported | `offline` and `synthetic` | **supported** | the RC CPU suite recorded in `docs/reproduction/ivf-v0.1.0-rc1.md` |
 | 2.x / 4.5.x-era contrib tree | `parity_bundle` ingest | **supported** | reads bundle schema 1.1 and 1.2; verified against six live PhysX and Newton/MJWarp bundles generated 2026-07-12 and vendored under `validation/bundles/` |
 | 3.0 (develop) | `parity_bundle` ingest | **supported** | the same bundle schema; the reader does not import Isaac Lab, so no API surface is exposed |
 | any | live execution (`subjects.kind: isaaclab`) | **not implemented** | returns `UNSUPPORTED` with a message pointing at the bundle workflow |
+| Isaac Lab 10.2.0 / Isaac Sim 6.0.0.1 | repository `parity-capture` adapter, `cartpole_passive` only | **supported for the recorded runtime** | real PhysX and Newton/MJWarp v1 captures plus simulator-marked tests |
 
 ### Why the boundary is drawn here
 
@@ -30,10 +31,10 @@ Reading it needs numpy and `json` and nothing else. That is the whole reason IVF
 a laptop, and it is why the compatibility surface is a *file format* rather than a Python
 API: a file format does not break when Isaac Lab 3.0 renames a class.
 
-Live execution is the part that would couple IVF to Isaac Lab's API, and it is
-deliberately not implemented rather than half-implemented. The supported workflow is:
-generate bundles with `isaaclab_contrib.parity` inside whatever Isaac Lab environment you
-have, then run IVF against them anywhere.
+IVF core does not execute `subjects.kind: isaaclab`. The repository's separate,
+simulator-dependent `parity-capture` adapter implements one narrow cart-pole path and
+writes the same file boundary. The general workflow remains: generate bundles inside the
+Isaac Lab environment, then run IVF core against them anywhere.
 
 ### The 2.x / 3.0 migration question
 
@@ -53,7 +54,7 @@ tree and does not import it, so:
 |---|---|
 | `offline`, `synthetic` | any CPU. No GPU, no CUDA, no driver |
 | `parity_bundle` ingest | any CPU |
-| bundle **generation** | an NVIDIA GPU with the Isaac Sim stack. Not performed by IVF |
+| bundle **generation** | an NVIDIA GPU with the Isaac Sim stack. Performed only by capture producers, including the separate repository adapter, not IVF core |
 
 The bundles vendored here were captured on an NVIDIA (Blackwell) consumer GPU.
 `ivf doctor` records hardware in every evidence bundle; set `IVF_HARDWARE_LABEL` to
@@ -65,9 +66,9 @@ replace the exact device model with a coarser label before sharing evidence.
 present, the deterministic-algorithm flags. It warns when `CUBLAS_WORKSPACE_CONFIG` is
 unset, because GPU reductions may not then be bitwise reproducible.
 
-This warning does not apply to the offline or synthetic paths, which are deterministic in
-numpy on the CPU: the same seed produces bit-identical trajectories, and `ivf reproduce`
-on the shipped examples returns "No material differences".
+This warning does not apply to the offline path. Synthetic reruns were reproduced on the
+recorded RC software and platform. No claim of bit-identical output across operating
+systems, numpy versions, CPU architectures, GPUs, or simulator hardware is made.
 
 ## Evidence schema
 
@@ -77,8 +78,8 @@ it with the IVF version that wrote it.
 
 ## What is deliberately unsupported
 
-* Windows and macOS: untested. Nothing in the code is POSIX-specific except the read-only
-  sealing (`chmod`), which degrades rather than fails.
+* Windows and macOS: untested. Local read-only sealing uses `chmod`; Git does not preserve
+  it. SHA-256 verification is the portable integrity mechanism.
 * Python 3.9 and earlier: the codebase uses `X | Y` type syntax under
   `from __future__ import annotations`, and 3.10 is the floor.
 * Databases, servers, dashboards. Evidence is files.

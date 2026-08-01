@@ -8,7 +8,7 @@ env -u PYTHONPATH uv run pytest -q      # a leaked ROS PYTHONPATH breaks collect
 uv run ruff check .
 ```
 
-The whole CPU suite runs in about three seconds. There is no reason to skip it.
+Run the whole CPU suite before release. The exact duration depends on the host.
 
 ## Test markers
 
@@ -54,9 +54,10 @@ hypothetical: it is how the geodesic angle's factor-of-two error was found.
 **Randomized tests print and persist their seed** so a failure is reproducible.
 
 **Generated artifacts are not committed** unless they are an intentional fixture. The
-current intentional fixtures are `validation/bundles/` (real PhysX/Newton captures) and
-`validation/evidence/` (three sealed bundles the docs cite). Regenerating the latter
-changes run ids, so update the docs that name them in the same commit.
+current intentional fixtures are `validation/bundles/` (legacy PhysX/Newton captures),
+the strict v1 captures under `artifacts/cartpole-*`, and sealed bundles under both
+`validation/evidence/` and `artifacts/evidence/`. Regenerating evidence changes run ids,
+so update any documentation that names them in the same commit.
 
 ## Adding a reason code
 

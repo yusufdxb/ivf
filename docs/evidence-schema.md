@@ -37,7 +37,7 @@ obvious at a glance when two runs came from the same declared experiment.
   "run_id": "synthetic-reset-velocity-defect-20260731T150031Z-3cdc747d",
   "experiment": "synthetic-reset-velocity-defect",
   "manifest_digest_sha256": "3cdc747d...",
-  "ivf_version": "0.1.0",
+  "ivf_version": "0.1.0rc1",
   "evidence_schema_version": "ivf.evidence/v1",
   "created_utc": "2026-07-31T15:00:31.7+00:00",
   "wall_time_s": 0.41,
@@ -71,6 +71,11 @@ where each check is `check_id`, `name`, `status` (`pass` | `fail` | `unverifiabl
 | V-11 | each run is complete |
 | V-12 | warm-up is declared |
 | V-13 | physics timestep matches (always checked) |
+
+Strict v1 comparisons add declared checks for frame convention, quaternion convention,
+reset semantics, environment ordering and action timing. Controls that the current bundle
+cannot prove are placed in `unsupported_or_unverifiable`; they are never silently counted
+as matches.
 
 ## `oracles.json`
 
@@ -112,10 +117,12 @@ One JSON object per line, per failing oracle:
 
 ## `provenance.json`
 
-IVF version and evidence schema, the manifest digest and source path, creation time, the
-exact command and working directory, Python version and executable, hostname, user,
-platform, the environment variables that affect execution, and the full `ivf doctor`
-report as it was at run time.
+IVF version and evidence schema, the manifest digest and portable source path, creation
+time, the exact command, Python version, platform, the names of environment variables that
+affect execution, and the `ivf doctor` report as it was at run time. Public evidence does
+not record a username, hostname, absolute checkout path, Python executable path or raw
+`PYTHONPATH` value. Hardware labels may be supplied explicitly so a release artifact can
+record a useful class without disclosing a private machine identifier.
 
 ## `signals/*.npz`
 
@@ -137,9 +144,10 @@ dt, seed, solver settings, backend, device, library versions, hashes.
 covering every file except itself and the seal. `SEAL.json` records the schema version,
 the run id, the file count, and the SHA-256 of the checksum file.
 
-On finalization every file is made read-only. Verification checks the seal, then every
-recorded digest, then looks for files that appeared afterwards, a tampered bundle usually
-gains or loses a file rather than editing one in place.
+Finalization attempts to make every local file read-only. That is a best-effort accidental
+edit guard, not a portable security boundary: Git and archive formats need not preserve
+mode bits. Verification checks the seal, then every recorded digest, then looks for files
+that appeared afterwards. Portable integrity comes from the hashes.
 
 ```bash
 uv run ivf reproduce <bundle> --verify-only
@@ -147,7 +155,8 @@ uv run ivf reproduce <bundle> --verify-only
 
 ## Guarantees
 
-* **Immutable after finalization.** Finalizing twice is refused.
+* **Tamper-evident after finalization.** Finalizing twice is refused, and any content or
+  file-set change is detected by verification. Filesystem read-only modes are local only.
 * **Self-describing.** Nothing requires IVF to interpret.
 * **Version-checked.** A major-version mismatch is refused with a clear message rather
   than half-parsed. There is no silent migration.

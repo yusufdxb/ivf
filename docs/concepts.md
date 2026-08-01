@@ -63,7 +63,7 @@ consequences:
 * `mean` dilutes a single diverging environment by the environment count. With 16
   environments, one broken robot is a 16× smaller signal.
 * `max` gates on the single worst bifurcation tail, which in a chaotic regime is noise.
-* `second_largest` keeps single-environment sensitivity while trimming one tail event.
+* `second_largest` trims one tail event, so at least two environments must exceed.
 
 The pre-existing parity work settled on `second_largest` for environment reductions after
 exactly this argument. IVF does not pick for you; it makes you pick, and records it.
@@ -105,8 +105,9 @@ it catches faults nobody thought of.
 ## Why evidence is sealed
 
 A verdict you cannot re-derive is an opinion. An evidence bundle is JSON, YAML, plain text
-and `.npz`, readable with numpy and nothing else, checksummed per file, sealed, and made
-read-only. Six months later on a different machine, `ivf reproduce --verify-only` will
+and `.npz`, readable with numpy and nothing else, checksummed per file and sealed. Local
+files are also made read-only as a best-effort guard, but portable integrity comes from
+the hashes. Six months later on a different machine, `ivf reproduce --verify-only` will
 tell you whether what you are reading is what was produced.
 
 ## What IVF deliberately does not decide

@@ -4,7 +4,7 @@ You are about to upgrade Isaac Lab, switch a physics backend, change an environm
 config, or accept a PR that touches the simulation path. Your tests still pass. Your
 robot still walks in the viewport.
 
-**Does your policy still behave the same way, and what evidence would you show someone
+**Does your declared workload still behave within its acceptance contract, and what evidence would you show someone
 who asked?**
 
 IVF answers that question. It runs a declared comparison, applies acceptance criteria
@@ -43,8 +43,8 @@ $ echo $?
 1
 ```
 
-The evidence bundle records that the first divergence appeared **at step 1**, in **all
-24 environments**, and classifies it as `reset_mismatch` with the basis stated:
+The evidence bundle records the first tolerance violation and affected environments, and
+classifies the divergence as `reset_mismatch` with the basis stated:
 *"the difference is present from step 0 and already 100% of its eventual magnitude, so
 it did not accumulate"*. That is enough to send someone to the reset path instead of to
 a bisect.
@@ -58,7 +58,7 @@ IVF says so rather than rolling everything into one number.
 ## Five minutes
 
 ```bash
-git clone <this repo> && cd ivf
+git clone https://github.com/yusufdxb/ivf.git && cd ivf
 uv sync
 uv run ivf doctor
 uv run ivf validate validation/examples/synthetic_fault.yaml     # exits 1: the defect
@@ -67,12 +67,13 @@ uv run ivf report ivf-results/<run-id>
 ```
 
 No GPU. No Isaac Lab. No Isaac Sim. The synthetic reference workload runs in numpy in
-about a second, and it is a real end-to-end run of the same code path a live experiment
-uses, not a mock.
+about a second. It shares manifest validation, oracles, typed verdicts, evidence sealing,
+and reporting with ingested simulator captures; only signal generation differs.
 
-Already have evidence? The repository ships three finalized bundles under
-`validation/evidence/`, including a real PhysX-vs-Newton cart-pole comparison captured
-on a GPU workstation. Open any `report.html`, or:
+Already have evidence? The repository ships finalized bundles under
+`validation/evidence/` and `artifacts/evidence/`, including a real v1
+PhysX-versus-Newton cart-pole comparison captured on a GPU workstation. Open any
+`report.html`, or:
 
 ```bash
 uv run ivf reproduce validation/evidence/<run-id> --verify-only    # checksums
@@ -81,7 +82,7 @@ uv run ivf compare validation/evidence/<a> validation/evidence/<b>
 
 ---
 
-## The five commands
+## The six commands
 
 | Command | What it does | Needs a GPU? |
 |---|---|---|
@@ -90,6 +91,7 @@ uv run ivf compare validation/evidence/<a> validation/evidence/<b>
 | `ivf report <run>` | shows or re-renders the static HTML report | no |
 | `ivf compare <a> <b>` | diffs two evidence bundles: verdicts, criteria, versions, hardware | no |
 | `ivf reproduce <run>` | verifies checksums and re-runs when the runtime allows | no, to verify |
+| `ivf calibrate` | measures the declared synthetic fault-detectability matrix | no |
 
 Exit codes are typed so CI can branch on the *kind* of outcome:
 `0` pass · `1` fail · `2` inconclusive · `3` unsupported · `4` invalid experiment ·
@@ -125,8 +127,9 @@ Current result: **17/17 fault classes behave exactly as declared, 0 false positi
 See [`docs/detectability-matrix.md`](docs/detectability-matrix.md).
 
 **Evidence is sealed.** Every bundle carries per-file SHA-256 digests sealed by a
-`SEAL.json`, and its files are made read-only. Editing, adding or removing a file after
-the fact is detected by `ivf reproduce --verify-only`.
+`SEAL.json`. Finalization also makes local files read-only as a best-effort guard, but
+Git does not preserve that property in a clean clone. Portable integrity comes from the
+hashes: editing, adding or removing a file is detected by `ivf reproduce --verify-only`.
 
 ---
 
@@ -161,15 +164,18 @@ in [`docs/fault-model.md`](docs/fault-model.md).
 | [Case study](docs/case-study.md) | fail → localize → fix → pass, end to end |
 | [Contributing](CONTRIBUTING.md) | tests, markers, review expectations |
 | [Current-state audit](docs/engineering/current-state-audit.md) | how this repository came to exist |
+| [Claims and evidence](docs/engineering/claims-and-evidence.md) | public claims, proof boundary and commands |
+| [Tolerance provenance](docs/engineering/tolerance-provenance.md) | machine-derived acceptance budgets |
 
 ## Relationship to `isaaclab_contrib.parity`
 
 IVF is the acceptance layer. The capture side and the cross-backend statistical core
-live upstream in `isaaclab_contrib.parity`, which owns scenario execution, trajectory
-bundles, model-discrepancy floors and A/A tolerance calibration. IVF reads those
-trajectory bundles with numpy and never imports Isaac Lab, which is why the offline half
-of this tool works anywhere. Nothing here duplicates the comparison mathematics that
-lives upstream.
+live upstream in `isaaclab_contrib.parity`, which owns its scenario execution,
+trajectory bundles, model-discrepancy floors and A/A tolerance calibration. This
+repository also contains one narrow `parity-capture` adapter for the v1 cart-pole release
+case. IVF core reads both kinds of trajectory bundle with numpy and never imports Isaac
+Lab, which is why the offline half works without the simulator. Nothing here duplicates
+the upstream floor or kappa mathematics.
 
 ## License
 
