@@ -22,6 +22,16 @@ dev = [
     "ruff>=0.6",
 ]
 
+# Also declared as a dependency group so that a plain `uv sync` installs the test tools.
+# Without this, `uv sync` followed by `uv run pytest` silently resolves pytest from
+# outside the project environment, where `ivf` is not importable, and the documented
+# quickstart fails on a fresh clone.
+[dependency-groups]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.6",
+]
+
 [project.scripts]
 ivf = "ivf.cli:main"
 
