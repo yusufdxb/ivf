@@ -7,5 +7,6 @@ __pycache__/
 dist/
 build/
 
-# Evidence written by ad-hoc runs. The intentional fixtures live in validation/evidence/.
+# Evidence written by ad-hoc runs. The intentional fixtures live in validation/evidence/
+# and artifacts/ (real Isaac Lab captures plus their sealed verdicts).
 ivf-results/

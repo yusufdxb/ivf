@@ -1,0 +1,217 @@
+{
+  "backend": "physx",
+  "capture_contract": {
+    "arrays": {
+      "abs_pole_angle": {
+        "dtype": "float32",
+        "frame": "joint",
+        "semantics": "captured at post_step_post_update, joint order ['slider_to_cart', 'cart_to_pole']",
+        "shape": [
+          400,
+          16,
+          1
+        ],
+        "unit": "rad"
+      },
+      "joint_pos": {
+        "dtype": "float32",
+        "frame": "joint",
+        "semantics": "captured at post_step_post_update, joint order ['slider_to_cart', 'cart_to_pole']",
+        "shape": [
+          400,
+          16,
+          2
+        ],
+        "unit": "rad and m (revolute and prismatic joints in one array)"
+      },
+      "joint_vel": {
+        "dtype": "float32",
+        "frame": "joint",
+        "semantics": "captured at post_step_post_update, joint order ['slider_to_cart', 'cart_to_pole']",
+        "shape": [
+          400,
+          16,
+          2
+        ],
+        "unit": "rad/s and m/s"
+      },
+      "pole_angle": {
+        "dtype": "float32",
+        "frame": "joint",
+        "semantics": "captured at post_step_post_update, joint order ['slider_to_cart', 'cart_to_pole']",
+        "shape": [
+          400,
+          16,
+          1
+        ],
+        "unit": "rad"
+      },
+      "root_link_pos_w": {
+        "dtype": "float32",
+        "frame": "world",
+        "semantics": "captured at post_step_post_update, joint order ['slider_to_cart', 'cart_to_pole']",
+        "shape": [
+          400,
+          16,
+          3
+        ],
+        "unit": "m"
+      },
+      "root_link_quat_w": {
+        "dtype": "float32",
+        "frame": "world",
+        "semantics": "captured at post_step_post_update, joint order ['slider_to_cart', 'cart_to_pole']",
+        "shape": [
+          400,
+          16,
+          4
+        ],
+        "unit": "dimensionless"
+      }
+    },
+    "backend": {
+      "features": [
+        "articulation",
+        "revolute_joint",
+        "prismatic_joint"
+      ],
+      "id": "physx",
+      "solver_settings": {
+        "bounce_threshold_velocity": 0.5,
+        "class_type": "isaaclab_physx.physics.physx_manager:PhysxManager",
+        "enable_ccd": false,
+        "enable_enhanced_determinism": false,
+        "enable_external_forces_every_iteration": false,
+        "enable_scene_query_support": false,
+        "enable_stabilization": false,
+        "friction_correlation_distance": 0.025,
+        "friction_offset_threshold": 0.04,
+        "gpu_collision_stack_size": 67108864,
+        "gpu_found_lost_aggregate_pairs_capacity": 33554432,
+        "gpu_found_lost_pairs_capacity": 2097152,
+        "gpu_heap_capacity": 67108864,
+        "gpu_max_num_partitions": 8,
+        "gpu_max_particle_contacts": 1048576,
+        "gpu_max_rigid_contact_count": 8388608,
+        "gpu_max_rigid_patch_count": 163840,
+        "gpu_max_soft_body_contacts": 1048576,
+        "gpu_temp_buffer_capacity": 16777216,
+        "gpu_total_aggregate_pairs_capacity": 2097152,
+        "manager": "PhysxCfg",
+        "max_position_iteration_count": 255,
+        "max_velocity_iteration_count": 255,
+        "min_position_iteration_count": 1,
+        "min_velocity_iteration_count": 0,
+        "solve_articulation_contact_last": false,
+        "solver_type": 1
+      }
+    },
+    "captured_steps": 400,
+    "declared_steps": 400,
+    "defect_injected": {
+      "damping_scale": 1.002,
+      "drop_reset_velocity": false
+    },
+    "frames": {
+      "angle_unit": "rad",
+      "convention": "world_z_up_right_handed",
+      "length_unit": "m",
+      "note": "root arrays are world-frame and include the per-environment origin"
+    },
+    "quaternion": {
+      "hemisphere": "unconstrained",
+      "layout": "wxyz",
+      "normalized": true,
+      "scalar_first": true
+    },
+    "reset": {
+      "applied_before_step": 0,
+      "initial_state_digest": "e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641",
+      "randomized_fields": [
+        "cart_to_pole initial position (uniform, seeded)"
+      ],
+      "semantics": "writes_pose_and_velocity"
+    },
+    "run_status": "completed",
+    "schema": "trajectory_bundle/v1",
+    "seed": {
+      "env_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "env_order": "InteractiveScene clone index, ascending",
+      "value": 0
+    },
+    "software": {
+      "cuda": "12.8",
+      "gpu": "NVIDIA (Blackwell) consumer GPU",
+      "isaaclab": "10.2.0",
+      "isaaclab_newton": "1.7.0",
+      "isaaclab_physx": "2.8.1",
+      "isaacsim": "6.0.0.1",
+      "numpy": "2.4.4",
+      "python": "3.12.13",
+      "torch": "2.11.0+cu128"
+    },
+    "task": {
+      "config_digest_sha256": "d4d773108a2ee8db0fcacb6ea89686243104bc2065b09d5bb7a0e0a0c07a328c",
+      "id": "cartpole_passive",
+      "joint_names": [
+        "slider_to_cart",
+        "cart_to_pole"
+      ],
+      "variant": "stock CARTPOLE_CFG, pinned actuator gains, passive"
+    },
+    "termination": {
+      "condition": "abs_pole_angle > 1.0",
+      "declared": true,
+      "on_termination": "no_auto_reset (the rollout continues so trajectories stay aligned)",
+      "signal": "abs_pole_angle"
+    },
+    "timing": {
+      "action_applied": "before_physics_step",
+      "capture_hook": "post_step_post_update",
+      "control_dt": 0.008333333333333333,
+      "decimation": 1,
+      "physics_dt": 0.008333333333333333
+    }
+  },
+  "capture_spec": {
+    "backend": "physx",
+    "defect": {
+      "damping_scale": 1.002,
+      "drop_reset_velocity": false
+    },
+    "device": "cuda:0",
+    "initial_pole_angle": 0.4,
+    "initial_pole_angle_spread": 0.05,
+    "initial_pole_velocity": 0.5,
+    "name": "cartpole-physx-benign-damping",
+    "num_envs": 16,
+    "schema": "parity.capture/v1",
+    "seed": 0,
+    "steps": 400,
+    "task": "cartpole_passive",
+    "termination_angle": 1.0
+  },
+  "device": "cuda:0",
+  "horizon": 400,
+  "num_envs": 16,
+  "physics_dt": 0.008333333333333333,
+  "scenario_name": "cartpole_passive",
+  "seed": 0
+}

@@ -33,6 +33,7 @@ from typing import Any
 import numpy as np
 
 from . import __version__
+from .bundle import BundleContractError
 from .evidence import EVIDENCE_SCHEMA_VERSION, EvidenceBundle
 from .manifest import Manifest
 from .oracles import OracleContext, OracleOutcome, get_oracle
@@ -285,6 +286,11 @@ def validate(
         validity = check_experiment(manifest, baseline, candidate)
         outcomes = _run_oracles(manifest, baseline, candidate, alpha=alpha, seed=seed)
         verdict, codes = decide(manifest, validity, outcomes)
+    except BundleContractError as exc:
+        # A capture that violates the boundary is uninterpretable, not broken
+        # infrastructure, and it must never reach an oracle. INVALID_EXPERIMENT is the
+        # honest verdict: we cannot judge the subject, and we know exactly why.
+        verdict, codes, error = Verdict.INVALID_EXPERIMENT, [exc.reason_code], str(exc)
     except RuntimeUnavailable as exc:
         verdict, codes, error = Verdict.UNSUPPORTED, ["IVF-RUNTIME-UNAVAILABLE"], str(exc)
     except SignalSourceError as exc:

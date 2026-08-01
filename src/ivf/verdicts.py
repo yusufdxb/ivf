@@ -100,6 +100,25 @@ REASON_CODES: dict[str, str] = {
     "IVF-PROTOCOL-STALE-ARTIFACT": "An input artifact predates the sources it claims to describe.",
     "IVF-PROTOCOL-TOLERANCE-RATIONALE-MISSING":
         "A tolerance was declared without a rationale.",
+    # -- capture boundary (trajectory_bundle/v1; refused before any oracle runs) --------
+    "IVF-BUNDLE-INCOMPLETE":
+        "The capture has no completion marker, so it was interrupted and may be truncated.",
+    "IVF-BUNDLE-CHECKSUM-MISMATCH": "A capture payload does not match its recorded digest.",
+    "IVF-BUNDLE-CHECKSUM-MISSING": "The capture records no checksums, so it cannot be verified.",
+    "IVF-BUNDLE-QUATERNION-AMBIGUOUS":
+        "The quaternion convention is undeclared or self-contradictory.",
+    "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT":
+        "A captured array does not match the shape the capture contract declares.",
+    "IVF-BUNDLE-ARRAY-DTYPE-INCONSISTENT":
+        "A captured array does not match the dtype the capture contract declares.",
+    "IVF-BUNDLE-PARTIAL-UNDECLARED":
+        "Fewer steps were captured than declared, but the run claims to have completed.",
+    "IVF-BUNDLE-CONTRACT-INCOMPLETE": "The capture contract is missing a required declaration.",
+    "IVF-BUNDLE-CONTRACT-MISSING": "The directory carries no capture contract.",
+    "IVF-BUNDLE-SCHEMA-UNSUPPORTED": "The capture schema is not supported by this IVF build.",
+    "IVF-BUNDLE-FRAME-UNDECLARED": "The coordinate-frame convention is undeclared or unknown.",
+    "IVF-BUNDLE-RESET-UNDECLARED": "Reset semantics are undeclared or unknown.",
+    "IVF-BUNDLE-TERMINATION-UNDECLARED": "Termination semantics are undeclared.",
     # -- oracles -----------------------------------------------------------------------
     "IVF-ORACLE-INVARIANT-VIOLATION":
         "A per-run invariant was violated (non-finite state, norm drift, cap breach).",

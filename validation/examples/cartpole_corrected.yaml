@@ -1,0 +1,165 @@
+schema_version: ivf.validation/v1
+name: cartpole-physx-corrected
+description: >
+  Corrected case. The candidate is a fresh capture from the same simulator with the
+  defect removed, judged by a byte-identical set of oracles and tolerances. This is the
+  negative control for the whole comparison: if it does not PASS, the tolerances are too
+  tight and the defective case's failure proves nothing.
+
+subjects:
+  baseline:
+    kind: parity_bundle
+    label: PhysX reference capture
+    path: artifacts/cartpole-physx-baseline
+  candidate:
+    kind: parity_bundle
+    label: PhysX capture with the reset path corrected
+    path: artifacts/cartpole-physx-corrected
+
+workload:
+  task: cartpole_passive
+  num_envs: 16
+  steps: 400
+  warmup_steps: 0
+  seeds: [0]
+
+controls:
+  require_same:
+    - asset_identity
+    - initial_state_distribution
+    - observation_definition
+    - control_frequency
+    - num_envs
+    - horizon
+    - task_variant
+    - solver_specific_parameters
+
+oracles:
+  - type: invariant
+    name: finite_state
+    check: finite_state
+
+  - type: invariant
+    name: unit_quaternion
+    check: unit_quaternion
+    signals: [root_link_quat_w]
+    tolerance:
+      value: 1.0e-5
+      unit: dimensionless
+      scope: deviation of |q| from 1, per element, per capture independently
+      rationale: >
+        Root quaternions are captured as float32 and promoted. 1e-5 is several thousand
+        float32 ULP at unit magnitude and cannot be reached by rounding alone, so a
+        breach indicates an unnormalized write rather than accumulation.
+      aggregation: max
+      min_samples: 1
+      kind: numerical
+
+  - type: trajectory_equivalence
+    name: pole_angle_agreement
+    signal: pole_angle
+    metric: absolute
+    tolerance:
+      value: 2.88e-2
+      unit: rad
+      scope: per-step absolute pole-angle error, reduced over environments
+      rationale: >
+        Derived from this workload, not chosen to pass. The pole crosses the 1.0 rad
+        termination threshold at a measured median rate of 3.456 rad/s, and the control
+        rate is 120 Hz, so 3.456/120 = 0.0288 rad is the largest angle difference that
+        cannot move the termination decision by a full control step. A difference below
+        this budget is invisible to the consumer of this workload; a difference above it
+        can move a termination across a step boundary, which the event oracle then
+        checks directly.
+      aggregation: second_largest
+      min_samples: 1600
+      kind: engineering
+
+  - type: trajectory_equivalence
+    name: pole_velocity_agreement
+    signal: joint_vel
+    metric: absolute
+    tolerance:
+      value: 8.64e-2
+      unit: rad/s (and m/s for the prismatic slider)
+      scope: per-step Euclidean joint-velocity error, reduced over environments
+      rationale: >
+        Derived from the angle budget and the horizon that matters. The baseline reaches
+        termination in a measured median of 37 steps, that is 0.31 s at 120 Hz, so a
+        sustained velocity difference dv contributes roughly dv * 0.31 s of angle error
+        before the decision is taken. Requiring that contribution to stay inside the
+        0.0288 rad one-step angle budget gives dv < 0.0288 / 0.333 = 0.0864 rad/s.
+
+        This oracle exists because of what it observes, not only what it gates: a reset
+        that drops velocity leaves position identical at step 0 and only diverges through
+        integration, so a position-only manifest sees a smooth growing error and
+        classifies it as drift. Watching the velocity is what makes the step-0 signature
+        visible and the divergence classifiable.
+      aggregation: second_largest
+      min_samples: 1600
+      kind: engineering
+
+  - type: event_equivalence
+    name: termination_timing
+    event: termination
+    signal: abs_pole_angle
+    condition: above
+    threshold: 1.0
+    tolerance:
+      value: 1
+      unit: steps
+      scope: absolute difference in the first step at which |pole angle| exceeds 1.0 rad
+      rationale: >
+        One control step is the finest resolution this workload has. A termination that
+        moves by a single step is indistinguishable from sampling phase; two or more is
+        a behavioural change a downstream consumer would observe.
+      aggregation: max
+      min_samples: 8
+      kind: event
+
+  - type: decision_equivalence
+    name: episode_survival
+    decision: episode_survives_400_steps
+    signal: abs_pole_angle
+    condition: above
+    threshold: 1.0
+    polarity: survived
+    tolerance:
+      value: 1.0
+      unit: fraction
+      scope: fraction of environments whose survive/terminate outcome agrees
+      rationale: >
+        This is the decision a consumer actually reads off this workload, so any
+        disagreement is operationally meaningful. With 16 paired environments the finest
+        resolvable rate below 1.0 is 0.9375, so a weaker threshold would be a statement
+        about the sample size rather than about the workload.
+      aggregation: all
+      min_samples: 8
+      kind: engineering
+
+  - type: statistical_equivalence
+    name: mean_pole_angle_equivalence
+    signal: pole_angle
+    summary: mean
+    tolerance:
+      value: 1.44e-2
+      unit: rad
+      scope: horizon-mean pole angle per environment, paired across captures
+      rationale: >
+        Half the one-control-step budget above. A time-averaged shift of half a step of
+        angle cannot move the termination statistics of this workload, and averaging
+        over the horizon absorbs the transient disagreement that the per-step oracle
+        exists to catch, so the margin is deliberately looser than the pointwise one.
+      aggregation: mean
+      min_samples: 16
+      kind: statistical
+      minimum_meaningful_effect: 1.0e-3
+
+  - type: metamorphic
+    name: observation_shape_stability
+    relation: observation_definition_stability
+
+verdict_policy:
+  invalid_experiment_on_control_violation: true
+  inconclusive_on_insufficient_samples: true
+  unsupported_is_failure: false

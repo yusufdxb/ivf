@@ -360,11 +360,67 @@ def _initial_state_digest(metadata: dict[str, Any], scenario_cfg: Any) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
 
 
+def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> SignalSet:
+    """Read a ``trajectory_bundle/v1`` capture, refusing anything that violates the contract.
+
+    Everything the v1 contract declares is mapped onto the metadata the validity layer
+    consumes, so a strict capture makes controls *verifiable* rather than merely
+    plausible: the quaternion layout, the frame convention, the reset semantics and the
+    environment ordering all arrive as declarations instead of assumptions.
+    """
+    from .bundle import load_v1  # local import: keeps the legacy path free of the strict reader
+
+    bundle = load_v1(path)
+    contract = bundle.contract
+    signals = {name: arr if arr.ndim == 3 else arr[:, :, None] for name, arr in bundle.arrays.items()}
+    metadata = {
+        "source": "trajectory_bundle/v1",
+        "bundle_path": str(bundle.root),
+        "capture_schema": "trajectory_bundle/v1",
+        "run_status": contract.run_status,
+        "declared_steps": contract.declared_steps,
+        "captured_steps": contract.captured_steps,
+        "task_variant": str(contract.task.get("id", "")),
+        "asset_identity": str(contract.task.get("config_digest_sha256", "")),
+        "backend": str(contract.backend.get("id", "")),
+        "solver_settings": contract.backend.get("solver_settings", {}) or {},
+        "declared_features": list(contract.backend.get("features", []) or []),
+        "physics_dt": float(contract.timing["physics_dt"]),
+        "control_frequency_hz": 1.0 / float(contract.timing["control_dt"]),
+        "control_dt": float(contract.timing["control_dt"]),
+        "action_applied": contract.timing.get("action_applied"),
+        "capture_hook": contract.timing.get("capture_hook"),
+        "seed": contract.seed.get("value"),
+        "env_ids": list(contract.seed.get("env_ids", [])),
+        "initial_state_digest": str(contract.reset.get("initial_state_digest", "")),
+        "reset_semantics": str(contract.reset.get("semantics", "")),
+        "termination": contract.termination,
+        "frame_convention": str(contract.frames.get("convention", "")),
+        "quaternion_layout": str(contract.quaternion.get("layout", "")),
+        "library_versions": dict(contract.software),
+        "units": {n: a.unit for n, a in contract.arrays.items()},
+        "checksums": bundle.checksums,
+    }
+    return SignalSet(
+        role=role, signals=signals, metadata=metadata, actions=bundle.actions,
+        complete=(contract.run_status == "completed" and not contract.is_partial),
+    )
+
+
 def _load_parity_bundle_subject(subject: Subject) -> SignalSet:
-    """Resolve a ``parity_bundle`` subject."""
+    """Resolve a ``parity_bundle`` subject, strict when the capture declares v1.
+
+    Routing on the capture contract rather than on a manifest flag is deliberate: a
+    producer that has upgraded to the strict boundary should not need every consumer's
+    manifest edited before the strictness takes effect.
+    """
+    from .bundle import is_v1
+
     path = subject.params.get("path")
     if not path:
         raise SignalSourceError(f"subjects.{subject.role}.path: required for kind 'parity_bundle'")
+    if Path(path).is_dir() and is_v1(path):
+        return load_trajectory_bundle_v1(path, role=subject.role)
     return load_parity_bundle(path, role=subject.role)
 
 

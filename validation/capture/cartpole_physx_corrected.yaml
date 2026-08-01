@@ -1,0 +1,12 @@
+schema_version: parity.capture/v1
+name: cartpole-physx-corrected
+task: cartpole_passive
+backend: physx
+device: cuda:0
+num_envs: 16
+steps: 400
+seed: 0
+initial_pole_angle: 0.4
+initial_pole_angle_spread: 0.05
+initial_pole_velocity: 0.5
+termination_angle: 1.0

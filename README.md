@@ -155,6 +155,7 @@ in [`docs/fault-model.md`](docs/fault-model.md).
 | [Adding an oracle](docs/oracles.md) | the extension point |
 | [Reading a verdict](docs/verdicts.md) | verdicts, reason codes, what to do next |
 | [Compatibility](docs/compatibility.md) | which Isaac Lab versions, and on what evidence |
+| [Capture boundary](docs/capture-boundary.md) | `trajectory_bundle/v1`, and what it refuses |
 | [Evidence schema](docs/evidence-schema.md) | every file in a bundle |
 | [Fault model and limits](docs/fault-model.md) | what IVF does not see |
 | [Case study](docs/case-study.md) | fail → localize → fix → pass, end to end |
