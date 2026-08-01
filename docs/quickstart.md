@@ -27,7 +27,7 @@ correctly report `none`. That is not an error; two thirds of IVF works without i
 To make a CI job fail early when a capability is missing:
 
 ```bash
-uv run ivf doctor --require synthetic     # exits nonzero and names the failing probe
+uv run ivf doctor --require synthetic     # exits nonzero only if capability is missing
 ```
 
 ## 2. Run an experiment that should fail

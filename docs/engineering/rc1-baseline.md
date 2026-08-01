@@ -6,19 +6,23 @@ Recorded on 2026-07-31 before release-candidate changes.
 
 - Repository: `ivf` checkout
 - Branch: `main`
-- HEAD: `f3e47d5648495d95eb26fbcbbb5cc8cb7b5d0f70`
+- HEAD: `dfef6c620c549991c8a18c007d1bc80b5dc2aadf`
 - Working tree: clean (`git status --short`, `git diff`, and `git diff --cached` produced no output)
-- Required history: `729a8db`, `85fca6e`, and `f3e47d5` are present.
+- Required history: `8a7bb15`, `29afa0a`, and `dfef6c6` are present.
 
 Recent history at the baseline:
 
 ```text
-f3e47d5 Document the hermetic test command for hosts with a global PYTHONPATH
-85fca6e Make a plain uv sync install the test tools
-729a8db Add the trajectory_bundle/v1 capture boundary and a real Isaac Lab capture path
-51bf7ac Remove em dashes from docs and report output
-ead2382 Add IVF: an auditable acceptance layer for Isaac Lab changes
+dfef6c6 Document the hermetic test command for hosts with a global PYTHONPATH
+29afa0a Make a plain uv sync install the test tools
+8a7bb15 Add the trajectory_bundle/v1 capture boundary and a real Isaac Lab capture path
+f84d625 Remove em dashes from docs and report output
+3aea32b Add IVF: an auditable acceptance layer for Isaac Lab changes
 ```
+
+These are the public-history equivalents after obsolete generated evidence and one
+obsolete internal workspace snapshot were removed from every revision. The source
+changes and commit subjects are preserved. Neither removal touches scientific content.
 
 ## Isaac Lab upstream parity repository
 

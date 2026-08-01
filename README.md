@@ -137,6 +137,7 @@ signals, controls, workload, data, and acceptance budgets.
 | [Flagship case study](docs/case-study.md) | understand the real PhysX-versus-Newton result |
 | [Independent RC1 reproduction](docs/reproduction/independent-rc1-reproduction.md) | clean CPU and optional simulator tracks |
 | [RC1 release notes](docs/releases/v0.1.0-rc1.md) | verified scope and limitations |
+| [RC1 scientific equivalence](docs/releases/v0.1.0-rc1-equivalence.json) | machine-readable history-rewrite and content comparison |
 | [Validation contracts](docs/concepts.md) | acceptance model and validity rules |
 | [Manifest reference](docs/manifests.md) | declare inputs, controls, and tolerances |
 | [Verdicts and reason codes](docs/verdicts.md) | interpret typed outcomes |

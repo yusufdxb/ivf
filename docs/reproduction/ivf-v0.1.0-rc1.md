@@ -5,8 +5,8 @@ non-zero expected verdict exits. The implementation and evidence candidate repro
 the clean run was:
 
 ```text
-commit 66fb3c776eb7e4051defc351b60970d42d617814
-tree   51330534560e4b072dd4ac3d056a129d0ae2ee6e
+commit 7badca2900680959a75aef69c54df879df4fdd72
+tree   d405a8f43ce95ee68c31778d6443b50ee6e15439
 branch detached
 ```
 
@@ -15,6 +15,28 @@ cannot contain its own hash. The release handoff records the literal final hash 
 second clean run against that exact checkout. The auditable identity inside this file is
 therefore the reproduced source-and-evidence commit above, plus the final `git rev-parse
 HEAD` output in the release handoff.
+
+## Public-history sanitation and provenance
+
+The public history removes six obsolete evidence directories whose generated provenance
+contained development-workstation paths. It also removes an obsolete internal workspace
+snapshot and an internal release checklist. One exact hardware model in this record is
+replaced by the coarse capture label. These publication-only changes do not affect the
+scientific content.
+
+The seven current evidence bundles retain the short producer reference `a8a2d3b` inside
+their sealed `provenance.json`. It is intentionally not rewritten: it records the private
+development checkout that actually produced the evidence and participates in the seal.
+After the obsolete directories are removed from every revision, that deletion-only
+commit becomes empty. Its original tree is
+`296b5635b32e5e2f7eb19f86c9bf96d8346813da`. Public commit
+`170c027ee5d5cc97c2d670ccd27c1799644ad469` has the same source, tolerance,
+manifest, capture, and legacy-bundle trees; its full tree differs only because the
+obsolete workspace snapshot and internal release checklist are absent.
+
+No raw trajectory, captured signal, oracle output, verdict, report, checksum, or evidence
+seal was changed during publication sanitation. The machine-readable comparison is
+`docs/releases/v0.1.0-rc1-equivalence.json`.
 
 ## Clean environment
 
@@ -36,7 +58,7 @@ HEAD` output in the release handoff.
 The locked setup and build commands were:
 
 ```bash
-git worktree add --detach <new-repository-worktree> 66fb3c776eb7e4051defc351b60970d42d617814
+git worktree add --detach <new-repository-worktree> 7badca2900680959a75aef69c54df879df4fdd72
 env -u PYTHONPATH uv venv .venv-rc1 --python 3.12
 env -u PYTHONPATH UV_PROJECT_ENVIRONMENT=.venv-rc1 uv sync --frozen --no-install-project
 env -u PYTHONPATH uv build

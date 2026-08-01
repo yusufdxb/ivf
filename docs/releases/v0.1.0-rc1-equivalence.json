@@ -1,0 +1,62 @@
+{
+  "schema": "ivf.release_equivalence/v1",
+  "release": "v0.1.0-rc1",
+  "history_rewrite": {
+    "tool": "git-filter-repo",
+    "tool_version": "22826b5a68b6",
+    "strategy": "remove_obsolete_private_artifacts_from_all_revisions",
+    "removed_paths": [
+      "artifacts/evidence/cartpole-physx-benign-difference-20260801T041418Z-afd8f93d/",
+      "artifacts/evidence/cartpole-physx-corrected-20260801T041418Z-ecd6288f/",
+      "artifacts/evidence/cartpole-physx-reset-defect-20260801T041418Z-eb053853/",
+      "validation/evidence/cartpole-passive-physx-vs-newton-20260731T150031Z-3f310fac/",
+      "validation/evidence/synthetic-reset-velocity-defect-20260731T150031Z-3cdc747d/",
+      "validation/evidence/synthetic-reset-velocity-fixed-20260731T150031Z-6202f2d4/",
+      "docs/engineering/current-state-audit.md",
+      "docs/engineering/rc1-release-checklist.md"
+    ],
+    "string_replacements": [
+      "exact GPU model => NVIDIA Blackwell consumer GPU"
+    ],
+    "rewritten_release_base": {
+      "commit": "efe8444acae5f52dfe1f59c8f5689dcba9243f8a",
+      "tree": "375a8240680e67ff9dc65dcefc229d73d499a4c2"
+    },
+    "original_release_tree": "54eb07a56ab216504dfd0482dc77641c978dfe59",
+    "release_tree_equal_before_reconciliation": false,
+    "release_tree_difference": "obsolete workspace snapshot and release checklist removed; exact hardware model coarsened"
+  },
+  "scientific_content": {
+    "source_tree": "aefad723989dfbc8fef6ee4acb45cb9db1352e61",
+    "tolerance_registry_tree": "7e17e5498a2e02acbcc546986647e3b56a2b5485",
+    "example_manifest_tree": "5f8c56d94d0f7ed9f59fa5e99a346bf614e8bfb2",
+    "raw_capture_trajectory_aggregate_sha256": "807319b9395a935960f5f3d2dffd691f9fc683fd22e6f6278033d5b96b6dd1d6",
+    "sealed_signal_array_aggregate_sha256": "c80aa4a1a6ff17afa5d1d1a9e552c329d46f967a608a4f37fef9639016218099",
+    "sealed_oracle_output_aggregate_sha256": "6d269e435a5bf2561c551d4cb2785d3881289b9ac2689a710ea3b6d12a0a55f7",
+    "sealed_verdict_output_aggregate_sha256": "01b7b77ecd3acb2e42b2779f9a15d4ffb12f1e884b088c17821f030d24693148",
+    "source_code_changed": false,
+    "tolerances_changed": false,
+    "manifests_changed": false,
+    "raw_trajectories_changed": false,
+    "oracle_outputs_changed": false,
+    "verdicts_changed": false
+  },
+  "sealed_provenance": {
+    "retained_original_producer_reference": "a8a2d3b",
+    "reason": "immutable producer identity inside seven checksum-sealed evidence bundles",
+    "original_producer_tree": "296b5635b32e5e2f7eb19f86c9bf96d8346813da",
+    "equivalent_public_content_commit": "170c027ee5d5cc97c2d670ccd27c1799644ad469",
+    "public_commit_tree": "7378601cbc86b77e3aa6c61249c19629c23f4dd6",
+    "full_tree_equal": false,
+    "scientific_subtrees_equal": true,
+    "tree_difference": "obsolete workspace snapshot and release checklist removed",
+    "evidence_resealed": false
+  },
+  "intentional_release_tree_differences": [
+    "obsolete internal workspace snapshot removed",
+    "internal release checklist removed",
+    "exact hardware model replaced by coarse label",
+    "public commit references updated to rewritten equivalents",
+    "publication sanitation and scientific equivalence documented"
+  ]
+}
