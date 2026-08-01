@@ -1,129 +1,135 @@
-# Case study: reset semantics and cross-backend acceptance
+# Case study: real PhysX versus Newton/MJWarp acceptance
 
-This repository ships two deliberately different reset demonstrations and one real
-cross-backend result. Their provenance matters as much as their verdicts.
+This case study covers the flagship v0.1.0-rc1 experiment. Both inputs came from real
+simulator execution and entered IVF through strict `trajectory_bundle/v1` loading. The
+result is a typed `FAIL` against a declared contract, not a judgment that either backend
+is physically correct.
 
-## CPU synthetic fixture
+## 1. Decision being evaluated
 
-`validation/examples/synthetic_fault.yaml` uses an explicit generation-level
-`ignored_reset_velocity` fixture. The generated metadata records the fixture. No captured
-array is edited after generation, and the verdict code does not consume the fixture label.
+The decision was whether PhysX and Newton/MJWarp preserved the declared behavior of one
+passive cart-pole workload closely enough to satisfy its trajectory, timing, statistical,
+and semantic acceptance criteria.
 
-```bash
-uv run ivf validate validation/examples/synthetic_fault.yaml
-uv run ivf validate validation/examples/synthetic_fixed.yaml
-```
+The decision was not which backend is more accurate, faster, or more suitable for a
+different task.
 
-The perturbed manifest returns `FAIL`. Its first numerical difference is at step 0, its
-pointwise angle and orientation criteria fail, and its horizon-mean equivalence criterion
-fails. The 1.2 rad event is never reached by either subject, so termination timing and the
-survive or terminate decision are negative controls in this fixture. They are not evidence
-that the perturbation is operationally benign outside this workload.
+## 2. Experiment contract
 
-The fixed manifest returns `PASS` with the same workload, seeds, oracles and tolerances.
-It is the offline negative control for the validator.
+The baseline is the committed PhysX `trajectory_bundle/v1` capture. The candidate is the
+committed Newton/MJWarp `trajectory_bundle/v1` capture. Each contains 16 paired
+environments and 400 control steps at 120 Hz with an explicit zero-effort action tensor.
 
-## Real PhysX reset perturbation
+The contract is declared in
+[`validation/examples/cartpole_physx_vs_newton_v1.yaml`](../validation/examples/cartpole_physx_vs_newton_v1.yaml).
+It requires finite state and unit quaternions, bounded pole-angle and pole-rate errors,
+bounded termination timing, paired survive-or-terminate agreement, mean-angle
+equivalence, and identical replayed actions.
 
-`validation/examples/cartpole_reset_defect.yaml` compares two real Isaac Lab PhysX
-captures. The candidate capture enables a test-only simulator perturbation:
+Before the oracles could decide a verdict, the validity record evaluated 22 checks.
+No validity check failed. Three controls remained explicitly unverifiable.
 
-```yaml
-defect:
-  drop_reset_velocity: true
-```
+## 3. Verified controls
 
-The adapter requests a pole joint velocity of `0.5 rad/s` and, only with that switch,
-writes an explicit zero joint-velocity vector before stepping PhysX. The baseline writes
-the requested value. Both bundles record requested and applied reset state, the switch,
-software and hardware metadata, trajectories and checksums.
+The evidence verified:
 
-This is an **explicit simulator-level test perturbation modeled after a previously
-observed reset-semantics failure**. It is not a restored historical implementation and it
-is not an upstream Isaac Lab product defect. Upstream commit
-`9aaa389f24231fadcca9f871af3eccb79e738b20` fixed a related parity-harness failure in which
-a configured rigid-body root velocity of `1.0 m/s` was not written after reset. The IVF
-case uses joint angular velocity and deliberately writes zero, so it is modeled after that
-failure rather than literally reproducing it.
+- normalized task configuration and task identity;
+- requested initial-state distribution;
+- the exact action sequence and action timing;
+- observation names, definitions, shapes, and units;
+- simulation timestep, control timestep, and 120 Hz control frequency;
+- seed schedule and environment ordering;
+- reset semantics;
+- coordinate-frame and quaternion conventions;
+- environment count, horizon, warm-up, and completion.
 
-```bash
-uv run ivf validate validation/examples/cartpole_reset_defect.yaml
-```
+These checks establish that the recorded comparison met its declared experimental
+contract. They do not establish that either simulator is a physical reference.
 
-The captured result returns `FAIL`:
+## 4. Unverifiable controls
 
-| Observation | Verified result |
-|---|---:|
-| first pole angular-rate tolerance violation | step 0 |
-| first pole-angle tolerance violation | step 6 |
-| affected environments | all 16 |
-| worst pole-angle error | 0.5537 rad |
-| worst pole angular-rate error | 1.471 rad/s |
-| worst termination timing delta | 9 steps |
-| paired survive or terminate agreement | 1.0 |
-| reason codes | `IVF-ORACLE-NON_EQUIVALENT`, `IVF-ORACLE-EVENT-TIMING-DELTA` |
+The bundle contract could not verify:
 
-The step-0 rate signature is the direct reset consequence. Angle error then accumulates
-through integration, and threshold crossings move by 6 to 9 samples. The final
-survive-or-terminate decision remains equal on this 400-step workload, which does not
-erase the trajectory and event failures.
+- binary asset identity;
+- realized backend initial state beyond the recorded requested and applied reset data;
+- backend-internal state not exposed through the bundle.
 
-The switch defaults to false, accepts only a YAML boolean and is absent from nominal and
-corrected manifests. `tests/test_capture_spec.py` enforces that guard. Full provenance is
-in `docs/engineering/reset-defect-provenance.md`.
+The validity record labels all three `unverifiable`. IVF does not treat them as matches.
 
-## Corrected and benign PhysX controls
+## 5. Allowed backend-specific differences
 
-```bash
-uv run ivf validate validation/examples/cartpole_corrected.yaml
-uv run ivf validate validation/examples/cartpole_benign_difference.yaml
-```
+Solver-specific configuration was required to be declared, but was allowed to differ.
+PhysX used its recorded PhysX settings. Newton used
+`NewtonCfg(solver_cfg=MJWarpSolverCfg())`. Package identities, solver parameters, and
+backend metadata are preserved in the captures and evidence.
 
-The corrected capture returns `PASS` with zero differences. The benign capture also
-returns `PASS`: its worst pole-angle difference is `0.001450 rad`, its worst pole-rate
-difference is `0.004199 rad/s`, event timing is unchanged, and its horizon-mean shift is
-about `7.82e-05 rad`. These are results against declared budgets, not claims of physical
-correctness.
+Allowing these settings to differ is necessary for a meaningful cross-backend
+experiment. It is not a claim that the settings are equivalent.
 
-## Real PhysX versus Newton v1 result
+## 6. Numerical results
 
-The release workflow also captured the same passive cart-pole through real PhysX and
-Newton/MJWarp execution and loaded both through strict `trajectory_bundle/v1` validation:
-
-```bash
-uv run ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
-```
-
-The experiment is valid for the controls the bundle contract can establish. It verifies
-normalized task configuration, requested initial-state distribution, task identity,
-the explicit zero-effort action stream, observation schema, timestep, control frequency, seed and environment
-ordering, reset and action timing semantics, horizon and completion. Solver settings are
-recorded and explicitly allowed to differ.
-
-Three controls are explicitly unverifiable: binary asset identity, realized backend
-initial state, and backend-internal state. They are not treated as matches.
-
-The result returns `FAIL`:
-
-| Observation | Verified result |
+| Metric | Verified result |
 |---|---:|
 | worst second-largest pole-angle error | 3.533347845 rad |
-| first pole-angle violation | step 29 |
+| first pole-angle tolerance violation | step 29 |
 | worst second-largest pole-rate error | 12.99448848 rad/s |
-| first pole-rate violation | step 13 |
-| worst and median threshold timing delta | 2 steps |
-| first event disagreement | step 35 |
-| paired survive or terminate agreement | 1.0 |
+| first pole-rate tolerance violation | step 13 |
 | mean paired pole-angle difference | -0.18621337 rad |
 | 95% confidence interval | [-0.18767944, -0.18477211] rad |
 | Cohen's dz | -60.0368 |
-| reason codes | `IVF-ORACLE-NON_EQUIVALENT`, `IVF-ORACLE-EVENT-TIMING-DELTA` |
 
-This says the two recorded backends exceeded this workload's declared acceptance
-criteria. It does not identify either backend as correct, prove cross-hardware
-determinism, establish general PhysX/Newton equivalence, predict learned-policy transfer,
-or predict sim-to-real behavior.
+The pole-angle and pole-rate trajectories exceeded their declared budgets. The paired
+mean-angle confidence interval was also entirely outside the declared equivalence
+margin.
 
-The older `validation/examples/cartpole_cross_backend.yaml` remains an offline legacy
-bundle example. It returns `INCONCLUSIVE` because its pre-v1 evidence cannot verify enough
-controls for a stronger cross-backend claim.
+## 7. Event-level results
+
+| Event or decision | Verified result |
+|---|---:|
+| worst termination timing delta | 2 steps |
+| median termination timing delta | 2 steps |
+| first event disagreement | step 35 |
+| paired survive-or-terminate agreement | 1.0 |
+
+Termination timing failed its contract, while the final binary survival decision was
+preserved for all paired environments. IVF reports both facts rather than collapsing
+them into one score.
+
+## 8. Final typed verdict
+
+The final verdict is `FAIL` with reason codes:
+
+- `IVF-ORACLE-NON_EQUIVALENT`
+- `IVF-ORACLE-EVENT-TIMING-DELTA`
+
+The experiment itself was valid. The fail follows from decision-bearing trajectory,
+statistical, and timing criteria, not from an infrastructure error or an invalid
+comparison.
+
+## 9. Evidence and reproduction commands
+
+- [Sealed evidence bundle](../artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912)
+- [Static HTML report](../artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/report.html)
+- [PhysX capture](../artifacts/cartpole-physx-baseline)
+- [Newton/MJWarp capture](../artifacts/cartpole-newton-baseline)
+
+```bash
+uv sync --frozen
+uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --print-verdict
+uv run ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
+```
+
+The final validation command is expected to exit `1` because the recorded scientific
+verdict is `FAIL`. That exit is successful completion of the acceptance workflow.
+
+## 10. Limitations
+
+- Neither backend is thereby proven physically correct.
+- The result covers one passive cart-pole workload and one recorded software and hardware
+  environment.
+- It does not establish universal PhysX/Newton parity or cross-hardware determinism.
+- The three unverifiable controls bound the strength of the comparison.
+- The result does not predict learned-policy transfer or sim-to-real behavior.
+- Statistical intervals describe the recorded paired environments and declared method,
+  not a population-wide property of either backend.

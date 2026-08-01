@@ -11,15 +11,19 @@ adapter is installed into an environment that already has Isaac Lab.
 Into the environment that has Isaac Lab:
 
 ```bash
-<isaaclab-python> -m pip install -e /path/to/ivf -e /path/to/ivf/adapters/parity_capture
+cd /absolute/path/to/ivf
+export ISAACLAB_PYTHON=/absolute/path/to/isaaclab/python
+env -u PYTHONPATH "$ISAACLAB_PYTHON" -m pip install . ./adapters/parity_capture
 ```
 
 ## Use
 
 ```bash
-parity-capture doctor          # check prerequisites without booting Kit
+env -u PYTHONPATH "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
 
-parity-capture validation/capture/cartpole_physx.yaml \
+env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
+  "$ISAACLAB_PYTHON" -m parity_capture.cli \
+  validation/capture/cartpole_physx.yaml \
   --output artifacts/cartpole-physx
 ```
 

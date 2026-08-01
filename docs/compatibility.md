@@ -21,8 +21,8 @@ Imports succeeding is not compatibility.
 | any, not imported | `offline` and `synthetic` | **supported** | the RC CPU suite recorded in `docs/reproduction/ivf-v0.1.0-rc1.md` |
 | 2.x / 4.5.x-era contrib tree | `parity_bundle` ingest | **supported** | reads bundle schema 1.1 and 1.2; verified against six live PhysX and Newton/MJWarp bundles generated 2026-07-12 and vendored under `validation/bundles/` |
 | 3.0 (develop) | `parity_bundle` ingest | **supported** | the same bundle schema; the reader does not import Isaac Lab, so no API surface is exposed |
-| any | live execution (`subjects.kind: isaaclab`) | **not implemented** | returns `UNSUPPORTED` with a message pointing at the bundle workflow |
 | Isaac Lab 10.2.0 / Isaac Sim 6.0.0.1 | repository `parity-capture` adapter, `cartpole_passive` only | **supported for the recorded runtime** | real PhysX and Newton/MJWarp v1 captures plus simulator-marked tests |
+| any | IVF core direct live execution (`subjects.kind: isaaclab`) | **not implemented** | returns `UNSUPPORTED`; use the separate supported capture adapter above |
 
 ### Why the boundary is drawn here
 

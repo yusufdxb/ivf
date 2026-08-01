@@ -6,10 +6,10 @@ Five minutes, on any machine. No GPU, no Isaac Lab, no Isaac Sim.
 
 ```bash
 git clone https://github.com/yusufdxb/ivf.git && cd ivf
-uv sync
+uv sync --frozen
 ```
 
-`uv sync` installs from the committed lockfile, so you get the exact dependency versions
+`uv sync --frozen` installs from the committed lockfile without updating it, so you get the exact dependency versions
 this repository was tested against. Without `uv`, `python -m pip install ".[dev]"` works
 but resolves dependencies fresh and is not the locked reproduction path.
 
@@ -54,7 +54,7 @@ the tolerances are too tight and every failure IVF reports is suspect.
 ## 4. Look at the report
 
 ```bash
-uv run ivf report ivf-results/<run-id>
+uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --print-verdict
 ```
 
 Prints the path to a single self-contained HTML file: verdict, reason codes, validity
@@ -65,17 +65,22 @@ reproduce it.
 ## 5. Compare two runs
 
 ```bash
-uv run ivf compare ivf-results/<baseline> ivf-results/<candidate>
+review_results="$(mktemp -d)"
+uv run ivf --results-root "$review_results" validate validation/examples/synthetic_fixed.yaml
+review_candidate="$(find "$review_results" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+uv run ivf compare validation/evidence/synthetic-reset-velocity-fixed-20260801T050934Z-c64ac825 "$review_candidate"
 ```
 
-Works entirely offline. It diffs verdicts, reason codes, manifests, library versions,
-hardware, validity checks, oracle statuses and metrics, and refuses to compare two
-bundles that are not comparable rather than printing a misleading diff.
+This creates one temporary rerun of the same fixed manifest and compares it with the
+shipped fixed evidence. It works entirely offline. The command diffs verdicts, reason
+codes, manifests, library versions, hardware, validity checks, oracle statuses, and
+metrics. It refuses to compare two bundles that are not comparable rather than printing
+a misleading diff.
 
 ## 6. Verify evidence someone else produced
 
 ```bash
-uv run ivf reproduce validation/evidence/<run-id> --verify-only
+uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
 ```
 
 Recomputes every file digest against the sealed `CHECKSUMS.sha256`. Drop `--verify-only`
@@ -114,4 +119,5 @@ state, and backend-internal state remain unverifiable and are listed as such.
 
 * [Validation contracts](concepts.md) for why it is shaped this way
 * [Writing a manifest](manifests.md) to describe your own comparison
-* [Case study](case-study.md) for the full fail → localize → fix → pass loop
+* [Five-minute review](review-in-five-minutes.md) for the flagship evidence path
+* [Case study](case-study.md) for the real PhysX-versus-Newton acceptance result

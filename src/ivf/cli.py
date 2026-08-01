@@ -235,7 +235,7 @@ def build_parser() -> argparse.ArgumentParser:
     """Build the argument parser."""
     parser = argparse.ArgumentParser(
         prog="ivf",
-        description="Auditable validation and acceptance for Isaac Lab changes.",
+        description="Offline acceptance and evidence for simulator experiments.",
     )
     parser.add_argument("--version", action="version", version=f"ivf {__version__}")
     parser.add_argument(
