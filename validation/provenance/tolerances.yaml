@@ -1,0 +1,376 @@
+schema_version: ivf.tolerance-provenance/v1
+tolerances:
+  - name: synthetic_unit_quaternion_norm
+    value: 1.0e-9
+    unit: dimensionless
+    signal: pole_quat
+    scope: maximum absolute deviation of quaternion norm from one
+    source_measurement: No empirical measurement; explicit numerical guard for the analytic float64 fixture.
+    formula: numerical_guard
+    formula_inputs:
+      numerical_guard: {value: 1.0e-9, unit: dimensionless}
+    derivation: {operation: identity, input: numerical_guard}
+    assumptions: The analytic constructor is expected to normalize every quaternion.
+    aggregation: max
+    minimum_samples: 1
+    confidence_or_uncertainty: This is about 4.5 million binary64 ULP at unit magnitude, not a rounding bound.
+    engineering_interpretation: A breach indicates corrupt or non-normalized synthetic output.
+    limitations: The value is a conservative fixture guard, not a measured sensor or simulator accuracy.
+    applies_to:
+      - validation/examples/synthetic_fault.yaml:unit_quaternion
+      - validation/examples/synthetic_fixed.yaml:unit_quaternion
+
+  - name: synthetic_pointwise_angle_budget
+    value: 2.0e-3
+    unit: rad
+    signal: pole_angle
+    scope: per-step absolute angle difference reduced over environments
+    source_measurement: Original exemplar engineering budget; nominal trajectories do not reach the 1.2 rad event threshold.
+    formula: declared_engineering_budget
+    formula_inputs:
+      declared_engineering_budget: {value: 2.0e-3, unit: rad}
+    derivation: {operation: identity, input: declared_engineering_budget}
+    assumptions: Two milliradians is the predeclared illustrative pointwise sensitivity for this fixture.
+    aggregation: second_largest
+    minimum_samples: 800
+    confidence_or_uncertainty: No population confidence interval; tested only on the deterministic synthetic generator.
+    engineering_interpretation: At least two environments must exceed 2 mrad for this reduction to fail.
+    limitations: Not derived from termination timing; the nominal and reset fixtures never cross 1.2 rad.
+    applies_to:
+      - validation/examples/calibration_base.yaml:pole_angle_agreement
+      - validation/examples/synthetic_fault.yaml:pole_angle_agreement
+      - validation/examples/synthetic_fixed.yaml:pole_angle_agreement
+
+  - name: synthetic_absolute_angle_budget
+    value: 2.0e-3
+    unit: rad
+    signal: abs_pole_angle
+    scope: per-step absolute difference of the rectified pole angle
+    source_measurement: Derived from the signed-angle engineering budget.
+    formula: signed_angle_budget
+    formula_inputs:
+      signed_angle_budget: {value: 2.0e-3, unit: rad}
+    derivation: {operation: identity, input: signed_angle_budget}
+    assumptions: Absolute value is non-expansive, so the derived signal uses the same budget.
+    aggregation: second_largest
+    minimum_samples: 800
+    confidence_or_uncertainty: Exact functional relationship; budget selection retains the signed-angle limitation.
+    engineering_interpretation: The event-driving derived signal is not gated more loosely than its source.
+    limitations: This does not make the event oracle informative when neither subject reaches its threshold.
+    applies_to:
+      - validation/examples/calibration_base.yaml:abs_pole_angle_agreement
+
+  - name: synthetic_orientation_budget
+    value: 2.0e-3
+    unit: rad
+    signal: pole_quat
+    scope: per-step quaternion geodesic difference reduced over environments
+    source_measurement: Derived from the single-axis pole-angle budget.
+    formula: single_axis_angle_budget
+    formula_inputs:
+      single_axis_angle_budget: {value: 2.0e-3, unit: rad}
+    derivation: {operation: identity, input: single_axis_angle_budget}
+    assumptions: The fixture quaternion encodes only the pole's single-axis rotation.
+    aggregation: second_largest
+    minimum_samples: 800
+    confidence_or_uncertainty: Exact for the analytic single-axis construction up to numerical evaluation.
+    engineering_interpretation: Orientation and joint-space gates have equal angular strength.
+    limitations: Does not generalize to multi-axis orientation errors.
+    applies_to:
+      - validation/examples/calibration_base.yaml:pole_orientation_agreement
+      - validation/examples/synthetic_fault.yaml:pole_orientation_agreement
+      - validation/examples/synthetic_fixed.yaml:pole_orientation_agreement
+
+  - name: synthetic_angular_velocity_budget
+    value: 2.0e-2
+    unit: rad/s
+    signal: pole_ang_vel
+    scope: per-step absolute pole angular-rate difference reduced over environments
+    source_measurement: No empirical measurement; a 0.1 s engineering accumulation window is declared explicitly.
+    formula: angle_budget / permitted_accumulation_time
+    formula_inputs:
+      angle_budget: {value: 2.0e-3, unit: rad}
+      permitted_accumulation_time: {value: 1.0e-1, unit: s}
+    derivation: {operation: divide, numerator: angle_budget, denominator: permitted_accumulation_time}
+    assumptions: A sustained rate discrepancy is interpreted over a declared 0.1 s window.
+    aggregation: second_largest
+    minimum_samples: 800
+    confidence_or_uncertainty: The 0.1 s window is engineering judgment, not a measured response time.
+    engineering_interpretation: A sustained 0.02 rad/s difference accumulates 2 mrad over 0.1 s.
+    limitations: It is not the one-control-period equivalent, which would be 0.4 rad/s at 200 Hz.
+    applies_to:
+      - validation/examples/calibration_base.yaml:pole_ang_vel_agreement
+
+  - name: synthetic_event_timing_allowance
+    value: 1
+    unit: steps
+    signal: abs_pole_angle
+    scope: difference between first threshold-crossing sample indices
+    source_measurement: Capture resolution is one control step.
+    formula: one_sample_allowance
+    formula_inputs:
+      one_sample_allowance: {value: 1, unit: steps}
+    derivation: {operation: identity, input: one_sample_allowance}
+    assumptions: A one-step difference is observable but accepted as the declared sampling allowance.
+    aggregation: max
+    minimum_samples: 8
+    confidence_or_uncertainty: Exact discrete allowance; no statistical uncertainty.
+    engineering_interpretation: A two-step or larger timing change fails the event contract.
+    limitations: The oracle is vacuous for runs in which neither subject reaches the threshold.
+    applies_to:
+      - validation/examples/synthetic_fault.yaml:termination_timing
+      - validation/examples/synthetic_fixed.yaml:termination_timing
+
+  - name: synthetic_decision_agreement
+    value: 1.0
+    unit: fraction
+    signal: abs_pole_angle
+    scope: fraction of paired environments with the same survive or terminate decision
+    source_measurement: Exact semantic contract requiring agreement in every environment.
+    formula: exact_agreement
+    formula_inputs:
+      exact_agreement: {value: 1.0, unit: fraction}
+    derivation: {operation: identity, input: exact_agreement}
+    assumptions: Any paired decision disagreement is material.
+    aggregation: all
+    minimum_samples: 8
+    confidence_or_uncertainty: Exact sample agreement, not an estimate of a population rate.
+    engineering_interpretation: One disagreement fails.
+    limitations: Passing is uninformative when all environments remain far from the event threshold.
+    applies_to:
+      - validation/examples/synthetic_fault.yaml:episode_survival
+      - validation/examples/synthetic_fixed.yaml:episode_survival
+
+  - name: synthetic_horizon_mean_margin
+    value: 5.0e-3
+    unit: rad
+    signal: pole_angle
+    scope: paired per-environment horizon-mean pole angle
+    source_measurement: Explicit statistical equivalence margin for the illustrative fixture.
+    formula: 2.5 * pointwise_angle_budget
+    formula_inputs:
+      scale: {value: 2.5, unit: dimensionless}
+      pointwise_angle_budget: {value: 2.0e-3, unit: rad}
+    derivation: {operation: multiply, inputs: [scale, pointwise_angle_budget]}
+    assumptions: The horizon summary is allowed a numerically larger margin than the pointwise gate.
+    aggregation: mean
+    minimum_samples: 8
+    confidence_or_uncertainty: Equivalence CI uses the runner's declared alpha; the margin itself is engineering judgment.
+    engineering_interpretation: Mean differences within 5 mrad are equivalent for this fixture.
+    limitations: No external consumer study establishes this margin; minimum meaningful effect is separately 1 mrad.
+    applies_to:
+      - validation/examples/calibration_base.yaml:mean_angle_equivalence
+      - validation/examples/synthetic_fault.yaml:mean_angle_equivalence
+      - validation/examples/synthetic_fixed.yaml:mean_angle_equivalence
+
+  - name: cartpole_float32_quaternion_norm
+    value: 1.0e-5
+    unit: dimensionless
+    signal: root_link_quat_w
+    scope: maximum absolute deviation of quaternion norm from one
+    source_measurement: Explicit numerical guard for float32-derived captured quaternions.
+    formula: numerical_guard
+    formula_inputs:
+      numerical_guard: {value: 1.0e-5, unit: dimensionless}
+    derivation: {operation: identity, input: numerical_guard}
+    assumptions: Both producers declare normalized wxyz quaternions.
+    aggregation: max
+    minimum_samples: 1
+    confidence_or_uncertainty: About 84 binary32 ULP at unit magnitude; not a backend accuracy estimate.
+    engineering_interpretation: A breach indicates materially non-unit captured orientation data.
+    limitations: Does not validate frame convention or quaternion layout by itself.
+    applies_to:
+      - validation/examples/cartpole_benign_difference.yaml:unit_quaternion
+      - validation/examples/cartpole_corrected.yaml:unit_quaternion
+      - validation/examples/cartpole_cross_backend.yaml:unit_quaternion
+      - validation/examples/cartpole_physx_vs_newton_v1.yaml:unit_quaternion
+      - validation/examples/cartpole_reset_defect.yaml:unit_quaternion
+
+  - name: cartpole_one_period_angle_budget
+    value: 2.88e-2
+    unit: rad
+    signal: pole_angle
+    scope: per-step pole-angle difference reduced over environments
+    source_measurement: artifacts/cartpole-physx-baseline, median threshold-crossing rate 3.4555339813 rad/s rounded to 3.456 rad/s
+    formula: measured_crossing_rate / control_frequency
+    formula_inputs:
+      measured_crossing_rate: {value: 3.456, unit: rad/s}
+      control_frequency: {value: 120, unit: Hz}
+    derivation: {operation: divide, numerator: measured_crossing_rate, denominator: control_frequency}
+    assumptions: Local first-order conversion near the 1.0 rad threshold; one control period is the timing allowance.
+    aggregation: second_largest
+    minimum_samples: 1600
+    confidence_or_uncertainty: Observed rates span 3.3679068 to 3.5105572 rad/s across 16 seeded environments; no cross-hardware confidence claim.
+    engineering_interpretation: The budget corresponds to one control period at the measured median crossing rate.
+    limitations: A sub-budget error can still change a sampled crossing depending on phase; it is not a physical-correctness bound.
+    applies_to:
+      - validation/examples/cartpole_benign_difference.yaml:pole_angle_agreement
+      - validation/examples/cartpole_corrected.yaml:pole_angle_agreement
+      - validation/examples/cartpole_reset_defect.yaml:pole_angle_agreement
+      - validation/examples/cartpole_physx_vs_newton_v1.yaml:pole_angle_agreement
+
+  - name: cartpole_median_horizon_velocity_budget
+    value: 9.094736842105263e-2
+    unit: rad/s
+    signal: pole_velocity
+    scope: per-step pole angular-rate difference reduced over environments
+    source_measurement: artifacts/cartpole-physx-baseline, median first crossing at post-step index 37, which is 38 elapsed control periods
+    formula: one_period_angle_budget / median_elapsed_time
+    formula_inputs:
+      one_period_angle_budget: {value: 2.88e-2, unit: rad}
+      median_elapsed_time: {value: 0.31666666666666665, unit: s}
+    derivation: {operation: divide, numerator: one_period_angle_budget, denominator: median_elapsed_time}
+    assumptions: A sustained pole-rate discrepancy is accumulated over the measured median time to termination.
+    aggregation: second_largest
+    minimum_samples: 1600
+    confidence_or_uncertainty: Crossing indices span 35 to 40, or 36 to 41 elapsed periods; this uses the median, not the longest environment.
+    engineering_interpretation: A sustained 0.0909474 rad/s difference over 0.316667 s accumulates the 0.0288 rad angle budget.
+    limitations: Representative median allowance only; it does not combine prismatic and revolute velocity components.
+    applies_to:
+      - validation/examples/cartpole_benign_difference.yaml:pole_velocity_agreement
+      - validation/examples/cartpole_corrected.yaml:pole_velocity_agreement
+      - validation/examples/cartpole_reset_defect.yaml:pole_velocity_agreement
+      - validation/examples/cartpole_physx_vs_newton_v1.yaml:pole_velocity_agreement
+
+  - name: cartpole_event_timing_allowance
+    value: 1
+    unit: steps
+    signal: abs_pole_angle
+    scope: difference between first 1.0 rad threshold-crossing sample indices
+    source_measurement: Capture resolution is one 120 Hz control step.
+    formula: one_sample_allowance
+    formula_inputs:
+      one_sample_allowance: {value: 1, unit: steps}
+    derivation: {operation: identity, input: one_sample_allowance}
+    assumptions: One observed sample shift is explicitly permitted as a timing allowance.
+    aggregation: max
+    minimum_samples: 8
+    confidence_or_uncertainty: Exact discrete allowance; no statistical uncertainty.
+    engineering_interpretation: Two or more steps fails the semantic event contract.
+    limitations: A one-step difference remains observable and must not be described as indistinguishable.
+    applies_to:
+      - validation/examples/cartpole_benign_difference.yaml:termination_timing
+      - validation/examples/cartpole_corrected.yaml:termination_timing
+      - validation/examples/cartpole_reset_defect.yaml:termination_timing
+      - validation/examples/cartpole_physx_vs_newton_v1.yaml:termination_timing
+
+  - name: cartpole_decision_agreement
+    value: 1.0
+    unit: fraction
+    signal: abs_pole_angle
+    scope: paired agreement of the 400-step survive or terminate decision
+    source_measurement: Exact semantic contract requiring agreement in every environment.
+    formula: exact_agreement
+    formula_inputs:
+      exact_agreement: {value: 1.0, unit: fraction}
+    derivation: {operation: identity, input: exact_agreement}
+    assumptions: Any paired decision disagreement is material.
+    aggregation: all
+    minimum_samples: 8
+    confidence_or_uncertainty: Exact sample agreement, not an estimated population probability.
+    engineering_interpretation: One disagreement fails.
+    limitations: Does not establish policy behavior or physical correctness.
+    applies_to:
+      - validation/examples/cartpole_benign_difference.yaml:episode_survival
+      - validation/examples/cartpole_corrected.yaml:episode_survival
+      - validation/examples/cartpole_reset_defect.yaml:episode_survival
+      - validation/examples/cartpole_physx_vs_newton_v1.yaml:episode_survival
+
+  - name: cartpole_horizon_mean_margin
+    value: 1.44e-2
+    unit: rad
+    signal: pole_angle
+    scope: paired per-environment horizon-mean pole angle
+    source_measurement: Derived from the one-control-period pointwise angle budget.
+    formula: 0.5 * one_period_angle_budget
+    formula_inputs:
+      scale: {value: 0.5, unit: dimensionless}
+      one_period_angle_budget: {value: 2.88e-2, unit: rad}
+    derivation: {operation: multiply, inputs: [scale, one_period_angle_budget]}
+    assumptions: The horizon-mean equivalence margin is intentionally tighter than the pointwise allowance.
+    aggregation: mean
+    minimum_samples: 16
+    confidence_or_uncertainty: Equivalence CI uses the runner's declared alpha; the half-budget factor is engineering judgment.
+    engineering_interpretation: A persistent mean shift is held to half the pointwise timing allowance.
+    limitations: Minimum meaningful effect of 1 mrad is an explicit engineering floor, not measured uncertainty.
+    applies_to:
+      - validation/examples/cartpole_benign_difference.yaml:mean_pole_angle_equivalence
+      - validation/examples/cartpole_corrected.yaml:mean_pole_angle_equivalence
+      - validation/examples/cartpole_reset_defect.yaml:mean_pole_angle_equivalence
+      - validation/examples/cartpole_physx_vs_newton_v1.yaml:mean_pole_angle_equivalence
+
+  - name: legacy_cartpole_root_position_budget
+    value: 1.0e-2
+    unit: m
+    signal: root_link_pos_w
+    scope: per-step Euclidean world-position difference of the fixed articulation root
+    source_measurement: Explicit 1 cm structural-position engineering allowance.
+    formula: declared_engineering_budget
+    formula_inputs:
+      declared_engineering_budget: {value: 1.0e-2, unit: m}
+    derivation: {operation: identity, input: declared_engineering_budget}
+    assumptions: The root is fixed in both backends and all vector components have unit m.
+    aggregation: second_largest
+    minimum_samples: 1920
+    confidence_or_uncertainty: No population confidence claim; legacy four-environment capture.
+    engineering_interpretation: Tests structural root stationarity rather than articulation dynamics.
+    limitations: Does not assess pole or cart trajectory agreement.
+    applies_to:
+      - validation/examples/cartpole_cross_backend.yaml:root_position_agreement
+
+  - name: legacy_cartpole_root_orientation_budget
+    value: 1.0e-3
+    unit: rad
+    signal: root_link_quat_w
+    scope: per-step geodesic angle between fixed-root orientations
+    source_measurement: Explicit 1 mrad structural-orientation engineering allowance.
+    formula: declared_engineering_budget
+    formula_inputs:
+      declared_engineering_budget: {value: 1.0e-3, unit: rad}
+    derivation: {operation: identity, input: declared_engineering_budget}
+    assumptions: The articulation root is fixed in both backends.
+    aggregation: second_largest
+    minimum_samples: 1920
+    confidence_or_uncertainty: No population confidence claim; legacy four-environment capture.
+    engineering_interpretation: Tests shared stationary-root structure.
+    limitations: Does not compare dynamic joint orientation.
+    applies_to:
+      - validation/examples/cartpole_cross_backend.yaml:root_orientation_agreement
+
+  - name: legacy_cartpole_root_position_rms_margin
+    value: 5.0e-2
+    unit: m
+    signal: root_link_pos_w
+    scope: paired per-environment RMS world position of the fixed root
+    source_measurement: Explicit 5 cm legacy equivalence margin.
+    formula: declared_engineering_budget
+    formula_inputs:
+      declared_engineering_budget: {value: 5.0e-2, unit: m}
+    derivation: {operation: identity, input: declared_engineering_budget}
+    assumptions: Every component is a world-frame length and the root is fixed.
+    aggregation: mean
+    minimum_samples: 20
+    confidence_or_uncertainty: Four pairs are below the declared 20-pair floor, so the oracle must be inconclusive.
+    engineering_interpretation: Demonstrates refusal to infer equivalence from an undersized legacy sample.
+    limitations: The 20-pair floor and 1 cm minimum meaningful effect are engineering choices, not calibrated estimates.
+    applies_to:
+      - validation/examples/cartpole_cross_backend.yaml:root_position_rms_equivalence
+
+  - name: quaternion_double_cover_numerical_guard
+    value: 1.0e-9
+    unit: rad
+    signal: root_link_quat_w
+    scope: maximum geodesic distance reported between q and negative q
+    source_measurement: Mathematical double-cover identity with a conservative numerical guard.
+    formula: numerical_guard
+    formula_inputs:
+      numerical_guard: {value: 1.0e-9, unit: rad}
+    derivation: {operation: identity, input: numerical_guard}
+    assumptions: The geodesic metric identifies antipodal unit quaternions.
+    aggregation: max
+    minimum_samples: 1
+    confidence_or_uncertainty: Analytic identity; allowance covers floating-point evaluation only.
+    engineering_interpretation: A breach means the metric mishandles quaternion double cover.
+    limitations: Does not establish that either recorded orientation is physically correct.
+    applies_to:
+      - validation/examples/cartpole_cross_backend.yaml:quaternion_double_cover

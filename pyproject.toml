@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ivf"
-version = "0.1.0"
+version = "0.1.0rc1"
 description = "Isaac Validation Framework: an auditable acceptance layer for Isaac Lab changes."
 readme = "README.md"
 license = {text = "BSD-3-Clause"}

@@ -42,12 +42,11 @@ class Defect:
     """
 
     drop_reset_velocity: bool = False
-    """Reset writes joint position but silently skips joint velocity.
+    """Reset writes joint position together with an explicit zero joint velocity.
 
-    Models the real Isaac Lab defect class. The capture contract still declares
-    ``writes_pose_and_velocity``, because that is what the configuration asked for; the
-    whole point is that the declaration and the behaviour disagree and only an oracle
-    on the trajectory can tell.
+    This explicit simulator-level perturbation is modeled after a reset-semantics
+    failure observed while developing the parity harness. The bundle records the switch
+    for auditability; the verdict logic does not consume that bookkeeping field.
     """
 
     damping_scale: float = 1.0
@@ -62,7 +61,7 @@ class Defect:
         """Human-readable list of the active defects."""
         out = []
         if self.drop_reset_velocity:
-            out.append("drop_reset_velocity: reset skips joint velocity")
+            out.append("drop_reset_velocity: reset writes zero joint velocity")
         if self.damping_scale != 1.0:
             out.append(f"damping_scale: cart damping multiplied by {self.damping_scale}")
         return out
@@ -117,7 +116,7 @@ class CaptureSpec:
         would refuse the comparison and the defect could never be caught by an oracle.
         """
         payload = self.to_jsonable()
-        for key in ("device", "defect", "name"):
+        for key in ("backend", "device", "defect", "name"):
             payload.pop(key, None)
         return payload
 
@@ -165,6 +164,10 @@ def parse_spec(text: str, *, source_path: str | None = None) -> CaptureSpec:
     if steps < 1 or num_envs < 1:
         raise SpecError("steps and num_envs must both be at least 1")
 
+    drop_reset_velocity = defect_raw.get("drop_reset_velocity", False)
+    if not isinstance(drop_reset_velocity, bool):
+        raise SpecError("defect.drop_reset_velocity: expected a YAML boolean")
+
     return CaptureSpec(
         name=str(raw["name"]),
         task=task,
@@ -178,7 +181,7 @@ def parse_spec(text: str, *, source_path: str | None = None) -> CaptureSpec:
         initial_pole_velocity=float(raw.get("initial_pole_velocity", 0.5)),
         termination_angle=float(raw.get("termination_angle", 1.0)),
         defect=Defect(
-            drop_reset_velocity=bool(defect_raw.get("drop_reset_velocity", False)),
+            drop_reset_velocity=drop_reset_velocity,
             damping_scale=float(defect_raw.get("damping_scale", 1.0)),
         ),
         source_path=source_path,

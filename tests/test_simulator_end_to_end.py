@@ -143,7 +143,8 @@ def test_the_capture_is_a_complete_trajectory_bundle_v1(live_captures):
         assert contract.quaternion["layout"] == "wxyz"
         assert contract.software.get("isaaclab"), f"{name}: no Isaac Lab version recorded"
         assert contract.backend["solver_settings"], f"{name}: no solver settings recorded"
-        assert set(contract.arrays) >= {"pole_angle", "joint_vel", "root_link_quat_w"}
+        assert set(contract.arrays) >= {"pole_angle", "pole_velocity", "root_link_quat_w"}
+        assert bundle.actions is not None and bundle.actions.shape == (400, 16, 2)
 
 
 def test_the_completion_marker_is_written_after_the_checksums(live_captures):
@@ -185,12 +186,14 @@ def test_a_corrected_capture_passes_end_to_end(live_captures, results_root):
     assert EvidenceBundle.open(result.bundle_path).verify() == []
 
 
-def test_a_real_reset_defect_is_caught_localized_and_sealed(live_captures, results_root):
+def test_an_explicit_simulator_reset_perturbation_is_caught_localized_and_sealed(
+    live_captures, results_root
+):
     """The full chain, ending in a semantic oracle firing on simulator output.
 
-    The defect is injected in the simulator, not in a recorded array: the reset writes
-    joint position and skips joint velocity. Nothing in the capture contract reveals it,
-    so this is a genuine test of the oracle layer rather than of the validator.
+    The perturbation is applied before simulation, not to a recorded array: reset writes
+    joint position with a zero velocity vector. Metadata records the switch, while the
+    oracle independently establishes the numerical and event-level consequences.
     """
     manifest = _manifest_for("cartpole_reset_defect.yaml",
                              live_captures["baseline"], live_captures["defect"])

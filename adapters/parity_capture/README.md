@@ -41,9 +41,10 @@ Adding a second workload is a deliberate act, not a plugin registration. Every t
 its own declared reset and termination semantics, and a generic loader would let someone
 add a task without declaring them.
 
-`physx` has been executed. `newton` is accepted by the spec and constructs a
-`NewtonManagerCfg`, but no Newton capture has been run, and the compatibility statement
-says exactly that rather than implying both were tested.
+Both `physx` and `newton` have been executed on the stated compatibility runtime. The
+Newton path constructs `NewtonCfg(solver_cfg=MJWarpSolverCfg())`. This proves the narrow
+capture chain for this workload only; it does not imply general Newton support or backend
+equivalence.
 
 ## Test-only defects
 
@@ -52,11 +53,16 @@ catching something a simulator actually produced, rather than a mutated array:
 
 | Field | Effect |
 |---|---|
-| `drop_reset_velocity` | The reset writes joint position and silently skips joint velocity. The contract still declares `writes_pose_and_velocity`, because that is what the configuration asked for. Only a trajectory oracle can tell |
+| `drop_reset_velocity` | Writes zero joint velocity instead of the requested value before simulation. The bundle records requested and applied values plus the active switch; IVF oracles independently establish the trajectory and event consequences |
 | `damping_scale` | Multiplies cart-actuator damping. Near 1 it is the benign-difference knob: a real configuration change producing a real, small numerical difference |
 
 Any active defect prints a loud banner to stderr before the capture starts. A defective
 bundle nobody can tell is defective is a trap.
+
+The reset case is an explicit simulator-level test perturbation modeled after a
+reset-semantics failure observed while developing the parity harness and fixed in
+upstream commit `9aaa389`. It is not a literal reproduction of that historical case and
+is not described as an Isaac Lab product defect.
 
 ## Provenance redaction
 

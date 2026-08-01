@@ -338,7 +338,8 @@ def render_html(
          ["wall time", f'{_e(verdict.get("wall_time_s"))} s']],
     ))
     parts.append(
-        "<pre>ivf reproduce " + _e(run_id) + "\nivf compare &lt;baseline-run&gt; " + _e(run_id) + "</pre>"
+        "<pre>ivf reproduce &lt;evidence-bundle-path&gt; --verify-only\n"
+        "ivf compare &lt;baseline-evidence-path&gt; &lt;candidate-evidence-path&gt;</pre>"
     )
     parts.append(
         '<p class="limit">Per-file SHA-256 digests are in <code>CHECKSUMS.sha256</code>, sealed by '

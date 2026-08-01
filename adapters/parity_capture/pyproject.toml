@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ivf-parity-capture"
-version = "0.1.0"
+version = "0.1.0rc1"
 description = "Isaac Lab capture adapter producing trajectory_bundle/v1 for IVF."
 readme = "README.md"
 license = {text = "BSD-3-Clause"}
@@ -16,7 +16,7 @@ requires-python = ">=3.10"
 # This package is installed into an environment that already has the simulator, which
 # `parity-capture doctor` verifies before any capture is attempted.
 dependencies = [
-    "ivf>=0.1.0",
+    "ivf==0.1.0rc1",
     "pyyaml>=6.0",
     "numpy>=1.24",
 ]

@@ -50,9 +50,9 @@ oracles:
       unit: dimensionless
       scope: deviation of |q| from 1, per element, per capture independently
       rationale: >
-        Root quaternions are captured as float32 and promoted. 1e-5 is several thousand
-        float32 ULP at unit magnitude and cannot be reached by rounding alone, so a
-        breach indicates an unnormalized write rather than accumulation.
+        Root quaternions are captured as float32 and promoted. 1e-5 is about 84 float32
+        ULP at unit magnitude. It is an explicit numerical guard: a breach indicates
+        materially non-unit captured data, not a claim about backend accuracy.
       aggregation: max
       min_samples: 1
       kind: numerical
@@ -66,31 +66,28 @@ oracles:
       unit: rad
       scope: per-step absolute pole-angle error, reduced over environments
       rationale: >
-        Derived from this workload, not chosen to pass. The pole crosses the 1.0 rad
-        termination threshold at a measured median rate of 3.456 rad/s, and the control
-        rate is 120 Hz, so 3.456/120 = 0.0288 rad is the largest angle difference that
-        cannot move the termination decision by a full control step. A difference below
-        this budget is invisible to the consumer of this workload; a difference above it
-        can move a termination across a step boundary, which the event oracle then
-        checks directly.
+        The baseline pole crosses 1.0 rad at a measured median rate of 3.456 rad/s. At
+        120 Hz, the local one-period angular displacement is 3.456 rad/s / 120 Hz =
+        0.0288 rad. This engineering budget corresponds to one control period near that
+        crossing. It does not guarantee that a sub-budget difference cannot change the
+        sampled crossing index; the event oracle checks timing directly.
       aggregation: second_largest
       min_samples: 1600
       kind: engineering
 
   - type: trajectory_equivalence
     name: pole_velocity_agreement
-    signal: joint_vel
+    signal: pole_velocity
     metric: absolute
     tolerance:
-      value: 8.64e-2
-      unit: rad/s (and m/s for the prismatic slider)
-      scope: per-step Euclidean joint-velocity error, reduced over environments
+      value: 9.094736842105263e-2
+      unit: rad/s
+      scope: per-step absolute pole angular-rate error, reduced over environments
       rationale: >
-        Derived from the angle budget and the horizon that matters. The baseline reaches
-        termination in a measured median of 37 steps, that is 0.31 s at 120 Hz, so a
-        sustained velocity difference dv contributes roughly dv * 0.31 s of angle error
-        before the decision is taken. Requiring that contribution to stay inside the
-        0.0288 rad one-step angle budget gives dv < 0.0288 / 0.333 = 0.0864 rad/s.
+        Capture index 0 is the first post-reset step. The baseline median threshold index
+        is 37, so median elapsed time is 38 / 120 = 0.3166667 s. Requiring a sustained
+        pole-rate difference to accumulate no more than the 0.0288 rad angle budget over
+        that measured median time gives 0.0288 rad / 0.3166667 s = 0.0909474 rad/s.
 
         This oracle exists because of what it observes, not only what it gates: a reset
         that drops velocity leaves position identical at step 0 and only diverges through
@@ -112,9 +109,9 @@ oracles:
       unit: steps
       scope: absolute difference in the first step at which |pole angle| exceeds 1.0 rad
       rationale: >
-        One control step is the finest resolution this workload has. A termination that
-        moves by a single step is indistinguishable from sampling phase; two or more is
-        a behavioural change a downstream consumer would observe.
+        One control step is the finest resolution this workload has. A one-step timing
+        difference is observable but explicitly permitted as a sampling allowance; two
+        or more steps fails the declared event contract.
       aggregation: max
       min_samples: 8
       kind: event
@@ -148,10 +145,9 @@ oracles:
       unit: rad
       scope: horizon-mean pole angle per environment, paired across captures
       rationale: >
-        Half the one-control-step budget above. A time-averaged shift of half a step of
-        angle cannot move the termination statistics of this workload, and averaging
-        over the horizon absorbs the transient disagreement that the per-step oracle
-        exists to catch, so the margin is deliberately looser than the pointwise one.
+        Half the one-control-step angle budget above: 0.5 * 0.0288 = 0.0144 rad. The
+        horizon-mean margin is deliberately tighter than the pointwise allowance so a
+        persistent shift is held to a stronger criterion than a transient difference.
       aggregation: mean
       min_samples: 16
       kind: statistical

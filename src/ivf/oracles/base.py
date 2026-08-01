@@ -156,7 +156,7 @@ def aggregate(values: np.ndarray, how: str) -> float:
     ``second_largest`` is the reduction over environments the pre-existing parity work
     settled on: ``mean`` dilutes a single diverging environment by the environment
     count, while ``max`` gates on the single worst bifurcation tail. Second-largest
-    keeps single-environment sensitivity while trimming one tail event.
+    trims one tail event, so at least two elements must exceed a threshold to fail.
     """
     flat = np.asarray(values, dtype=np.float64).reshape(-1)
     if flat.size == 0:

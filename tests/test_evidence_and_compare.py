@@ -125,6 +125,25 @@ def test_a_bundle_is_readable_without_ivf(sealed):
         assert payload.files
 
 
+def test_public_provenance_redacts_identity_paths_and_pythonpath(sealed):
+    text = (sealed.root / "provenance.json").read_text(encoding="utf-8")
+    payload = json.loads(text)
+    assert "/home/" not in text
+    assert payload["host"]["hostname"] == "redacted"
+    assert payload["host"]["user"] == "redacted"
+    assert payload["python"]["executable"] == "python"
+    if "PYTHONPATH" in payload["environment_variables"]:
+        assert payload["environment_variables"]["PYTHONPATH"] == "set (value redacted)"
+
+
+def test_generated_reproduction_command_uses_global_options_before_the_subcommand(sealed):
+    script = (sealed.root / "reproduce.sh").read_text(encoding="utf-8")
+    assert "ivf --results-root ivf-results validate" in script
+    assert "repository_root=" in script
+    assert "ivf validate" not in script
+    assert "/home/" not in script
+
+
 # -- comparison ----------------------------------------------------------------------------
 
 def _run(tmp_path, text, name):

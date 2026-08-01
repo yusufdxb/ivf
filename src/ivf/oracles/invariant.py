@@ -96,7 +96,9 @@ def _violations(check: str, arr: np.ndarray, ctx: OracleContext) -> tuple[int, i
     elif check == "unit_quaternion":
         if arr.shape[-1] != 4:
             return None
-        tol = ctx.spec.tolerance.value if ctx.spec.tolerance else 1e-6
+        if ctx.spec.tolerance is None:  # guarded by manifest parsing; protects direct callers
+            raise ValueError("unit_quaternion requires an explicit tolerance")
+        tol = ctx.spec.tolerance.value
         mask = np.abs(np.linalg.norm(arr, axis=-1) - 1.0) > tol
         mask = mask[..., None]
     elif check == "bounded":

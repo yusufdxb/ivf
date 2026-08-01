@@ -60,6 +60,7 @@ def write_bundle(root, *, run_status="completed", captured_steps=STEPS, declared
                  "config_digest_sha256": "0" * 64},
         "backend": {"id": "fixture-backend", "solver_settings": {"iters": 4}, "features": []},
         "software": {"python": "3.12", "numpy": np.__version__},
+        "hardware": {"gpu": "fixture", "driver": "fixture"},
         "seed": {"value": 0, "env_ids": list(range(ENVS)), "env_order": "clone_index"},
         "timing": {"physics_dt": 0.005, "control_dt": 0.005, "decimation": 1,
                    "action_applied": "before_physics_step",
@@ -379,3 +380,32 @@ def test_a_refused_capture_still_produces_verifiable_evidence(tmp_path, results_
     result = validate(parse_manifest(MANIFEST.format(a=good_a, b=bad_b)), results_root=results_root)
     assert result.verdict is Verdict.INVALID_EXPERIMENT
     assert EvidenceBundle.open(result.bundle_path).verify() == []
+
+
+V1_CONTROL_MANIFEST = MANIFEST.replace(
+    "require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon]",
+    "require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon, "
+    "frame_convention, quaternion_convention, reset_semantics, environment_ordering, action_timing]\n"
+    "  unsupported_or_unverifiable: [asset_binary_identity, initial_state_realization, "
+    "backend_internal_state]",
+)
+
+
+@pytest.mark.integration
+def test_v1_declared_conventions_are_verified_and_unsupported_controls_stay_explicit(
+    tmp_path, results_root
+):
+    a = write_bundle(tmp_path / "a")
+    b = write_bundle(tmp_path / "b")
+    result = validate(
+        parse_manifest(V1_CONTROL_MANIFEST.format(a=a, b=b)),
+        results_root=results_root,
+    )
+    assert result.verdict is Verdict.PASS
+    checks = {check.name: check.status for check in result.validity.checks}
+    assert checks["frame convention matches"] == "pass"
+    assert checks["quaternion convention matches"] == "pass"
+    assert checks["reset semantics matches"] == "pass"
+    assert checks["environment ordering matches"] == "pass"
+    assert checks["action timing matches"] == "pass"
+    assert sum(status == "unverifiable" for status in checks.values()) >= 3

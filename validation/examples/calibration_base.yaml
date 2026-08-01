@@ -78,10 +78,9 @@ oracles:
       unit: rad/s
       scope: per-step absolute angular-velocity error, reduced over environments
       rationale: >
-        Ten times the angle budget, because velocity is the derivative of the gated
-        quantity and at a 200 Hz control rate a 2 mrad angle budget corresponds to about
-        0.4 rad/s of instantaneous velocity disagreement. A tighter budget would make
-        this oracle fire on differences the angle oracle deliberately tolerates.
+        A declared 0.1 s accumulation window maps the 2 mrad pointwise angle budget to
+        0.002 rad / 0.1 s = 0.02 rad/s. This is an engineering diagnostic allowance, not
+        the one-control-period equivalent, which would be 0.4 rad/s at 200 Hz.
       aggregation: second_largest
       min_samples: 800
       kind: engineering

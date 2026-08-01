@@ -17,11 +17,9 @@ evidence, the real failure is the actionable result.
 
 from __future__ import annotations
 
-import getpass
 import json
 import os
 import platform
-import socket
 import sys
 import time
 import traceback
@@ -187,46 +185,68 @@ def decide(manifest: Manifest, validity: ValidityReport,
 
 
 def _provenance(manifest: Manifest, command: list[str] | None) -> dict[str, Any]:
-    """Collect everything needed to know where this evidence came from."""
+    """Collect audit provenance without publishing machine-local identity or paths."""
     from .env import run_doctor
 
     doctor = run_doctor()
-    tracked_env = {
-        k: v for k, v in os.environ.items()
-        if k in ("CUDA_VISIBLE_DEVICES", "CUBLAS_WORKSPACE_CONFIG", "PYTHONHASHSEED",
-                 "OMNI_KIT_ACCEPT_EULA", "IVF_RESULTS_ROOT", "PYTHONPATH")
-    }
+    tracked_names = (
+        "CUDA_VISIBLE_DEVICES", "CUBLAS_WORKSPACE_CONFIG", "PYTHONHASHSEED",
+        "OMNI_KIT_ACCEPT_EULA", "IVF_RESULTS_ROOT", "PYTHONPATH",
+    )
+    tracked_env = {}
+    for name in tracked_names:
+        if name not in os.environ:
+            continue
+        if name == "PYTHONPATH":
+            tracked_env[name] = "set (value redacted)"
+        else:
+            tracked_env[name] = _portable_text(os.environ[name])
     return {
         "ivf_version": __version__,
         "evidence_schema_version": EVIDENCE_SCHEMA_VERSION,
         "manifest_schema_version": manifest.schema_version,
         "manifest_digest_sha256": manifest.digest(),
-        "manifest_source_path": manifest.source_path,
+        "manifest_source_path": _portable_text(manifest.source_path or "<in-memory>"),
         "created_utc": datetime.now(timezone.utc).isoformat(),
-        "command": command or sys.argv,
-        "cwd": os.getcwd(),
-        "python": {"version": platform.python_version(), "executable": sys.executable},
+        "command": [_portable_text(str(item)) for item in (command or sys.argv)],
+        "cwd": "$REPOSITORY_ROOT",
+        "python": {"version": platform.python_version(), "executable": "python"},
         "host": {
-            "hostname": socket.gethostname(),
-            "user": _safe_user(),
+            "hostname": "redacted",
+            "user": "redacted",
             "platform": f"{platform.system()} {platform.release()} {platform.machine()}",
         },
         "environment_variables": tracked_env,
-        "doctor": doctor.to_jsonable(),
+        "doctor": _portable_value(doctor.to_jsonable()),
     }
 
 
-def _safe_user() -> str:
-    """Return the current username, or an empty string when it cannot be determined."""
-    try:
-        return getpass.getuser()
-    except Exception:
-        return ""
+def _portable_text(value: str) -> str:
+    """Replace the repository and home prefixes in a provenance string."""
+    cwd = os.getcwd().rstrip("/")
+    home = str(Path.home()).rstrip("/")
+    return value.replace(cwd, "$REPOSITORY_ROOT").replace(home, "$HOME")
+
+
+def _portable_value(value: Any) -> Any:
+    """Recursively remove machine-local absolute prefixes from doctor output."""
+    if isinstance(value, dict):
+        return {str(key): _portable_value(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_portable_value(item) for item in value]
+    if isinstance(value, str):
+        return _portable_text(value)
+    return value
 
 
 def _reproduce_script(manifest: Manifest, run_id: str, results_root: Path) -> str:
     """Return the contents of ``reproduce.sh``."""
     manifest_path = manifest.source_path or "<manifest not loaded from a file>"
+    try:
+        relative_manifest = Path(manifest_path).resolve().relative_to(Path.cwd().resolve()).as_posix()
+        script_manifest = f'"${{repository_root}}/{relative_manifest}"'
+    except (OSError, ValueError):
+        script_manifest = _shell_quote(_portable_text(manifest_path))
     return f"""#!/usr/bin/env bash
 # Reproduce IVF run {run_id}
 #
@@ -236,7 +256,8 @@ def _reproduce_script(manifest: Manifest, run_id: str, results_root: Path) -> st
 # changed.
 set -euo pipefail
 
-ivf validate {_shell_quote(manifest_path)} --results-root {_shell_quote(str(results_root))}
+repository_root="$(git rev-parse --show-toplevel)"
+ivf --results-root ivf-results validate {script_manifest}
 """
 
 

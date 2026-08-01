@@ -363,10 +363,9 @@ def _initial_state_digest(metadata: dict[str, Any], scenario_cfg: Any) -> str:
 def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> SignalSet:
     """Read a ``trajectory_bundle/v1`` capture, refusing anything that violates the contract.
 
-    Everything the v1 contract declares is mapped onto the metadata the validity layer
-    consumes, so a strict capture makes controls *verifiable* rather than merely
-    plausible: the quaternion layout, the frame convention, the reset semantics and the
-    environment ordering all arrive as declarations instead of assumptions.
+    Contract declarations are mapped onto validity metadata. A comparison can therefore
+    verify declared conventions while explicitly partitioning controls that the capture
+    cannot substantiate, such as binary asset identity or backend-internal state.
     """
     from .bundle import load_v1  # local import: keeps the legacy path free of the strict reader
 
@@ -390,14 +389,30 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
         "control_dt": float(contract.timing["control_dt"]),
         "action_applied": contract.timing.get("action_applied"),
         "capture_hook": contract.timing.get("capture_hook"),
+        "action_timing": {
+            "action_applied": contract.timing.get("action_applied"),
+            "capture_hook": contract.timing.get("capture_hook"),
+            "control_dt": contract.timing.get("control_dt"),
+            "decimation": contract.timing.get("decimation"),
+        },
         "seed": contract.seed.get("value"),
         "env_ids": list(contract.seed.get("env_ids", [])),
+        "environment_ordering": {
+            "env_ids": list(contract.seed.get("env_ids", [])),
+            "env_order": contract.seed.get("env_order"),
+        },
         "initial_state_digest": str(contract.reset.get("initial_state_digest", "")),
         "reset_semantics": str(contract.reset.get("semantics", "")),
         "termination": contract.termination,
         "frame_convention": str(contract.frames.get("convention", "")),
         "quaternion_layout": str(contract.quaternion.get("layout", "")),
+        "quaternion_convention": {
+            "layout": contract.quaternion.get("layout"),
+            "scalar_first": contract.quaternion.get("scalar_first"),
+            "hemisphere": contract.quaternion.get("hemisphere"),
+        },
         "library_versions": dict(contract.software),
+        "hardware": dict(contract.hardware),
         "units": {n: a.unit for n, a in contract.arrays.items()},
         "checksums": bundle.checksums,
     }

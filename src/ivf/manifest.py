@@ -50,8 +50,8 @@ AGGREGATIONS = frozenset({"max", "mean", "p95", "second_largest", "final", "any"
 """How per-element errors reduce to one number.
 
 ``second_largest`` is the reduction the pre-existing parity harness settled on for
-reductions over environments: ``mean`` dilutes a single diverging environment by the
-environment count, and ``max`` gates on the single worst bifurcation tail.
+reductions over environments: it deliberately discards the single largest environment,
+so at least two environments must exceed a threshold before the reduction fails.
 """
 
 KNOWN_CONTROLS = frozenset({
@@ -65,9 +65,24 @@ KNOWN_CONTROLS = frozenset({
     "horizon",
     "task_variant",
     "solver_specific_parameters",
+    "frame_convention",
+    "quaternion_convention",
+    "reset_semantics",
+    "environment_ordering",
+    "action_timing",
+    "asset_binary_identity",
+    "initial_state_realization",
+    "backend_internal_state",
 })
 """Properties the validity layer knows how to check. Unknown names are rejected at
 load: silently ignoring a control the user asked for is the worst possible failure."""
+
+UNVERIFIABLE_ONLY_CONTROLS = frozenset({
+    "asset_binary_identity",
+    "initial_state_realization",
+    "backend_internal_state",
+})
+"""Controls the current bundle contract can name but cannot compare."""
 
 
 class ManifestError(ValueError):
@@ -267,6 +282,7 @@ class Controls:
 
     require_same: tuple[str, ...] = ()
     allow_different: tuple[str, ...] = ()
+    unsupported_or_unverifiable: tuple[str, ...] = ()
 
     @classmethod
     def parse(cls, raw: Any) -> Controls:
@@ -275,23 +291,43 @@ class Controls:
             return cls()
         if not isinstance(raw, dict):
             raise ManifestError("controls: expected a mapping")
+        known_keys = {"require_same", "allow_different", "unsupported_or_unverifiable"}
+        unknown_keys = set(raw) - known_keys
+        if unknown_keys:
+            raise ManifestError(f"controls: unknown key(s) {sorted(unknown_keys)}")
         same = tuple(str(x) for x in raw.get("require_same", ()) or ())
         diff = tuple(str(x) for x in raw.get("allow_different", ()) or ())
-        for name in (*same, *diff):
+        unsupported = tuple(str(x) for x in raw.get("unsupported_or_unverifiable", ()) or ())
+        for name in (*same, *diff, *unsupported):
             if name not in KNOWN_CONTROLS:
                 raise ManifestError(
                     f"controls: unknown control {name!r}. Known controls: {sorted(KNOWN_CONTROLS)}"
                 )
-        overlap = set(same) & set(diff)
+        overlap = (set(same) & set(diff)) | (set(same) & set(unsupported)) | (set(diff) & set(unsupported))
         if overlap:
             raise ManifestError(
-                f"controls: {sorted(overlap)} appear in both require_same and allow_different"
+                f"controls: {sorted(overlap)} appear in more than one control partition"
             )
-        return cls(require_same=same, allow_different=diff)
+        misplaced = (set(same) | set(diff)) & UNVERIFIABLE_ONLY_CONTROLS
+        if misplaced:
+            raise ManifestError(
+                "controls: "
+                f"{sorted(misplaced)} can only appear in unsupported_or_unverifiable; "
+                "trajectory_bundle/v1 does not expose enough information to compare them"
+            )
+        return cls(
+            require_same=same,
+            allow_different=diff,
+            unsupported_or_unverifiable=unsupported,
+        )
 
     def to_jsonable(self) -> dict[str, Any]:
         """Return a JSON-serializable view."""
-        return {"require_same": list(self.require_same), "allow_different": list(self.allow_different)}
+        return {
+            "require_same": list(self.require_same),
+            "allow_different": list(self.allow_different),
+            "unsupported_or_unverifiable": list(self.unsupported_or_unverifiable),
+        }
 
 
 @dataclass(frozen=True)
@@ -317,6 +353,8 @@ class OracleSpec:
             raise ManifestError(f"{where}.name: {name!r} is not a valid identifier-like name")
         tolerance = Tolerance.parse(raw["tolerance"], f"{where}.tolerance") if "tolerance" in raw else None
         params = {k: v for k, v in raw.items() if k not in ("type", "name", "tolerance")}
+        if otype == "invariant" and params.get("check") == "unit_quaternion" and tolerance is None:
+            raise ManifestError(f"{where}.tolerance: required for unit_quaternion; no implicit epsilon")
         return cls(type=otype, name=name, params=params, tolerance=tolerance)
 
     def to_jsonable(self) -> dict[str, Any]:

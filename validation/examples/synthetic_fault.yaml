@@ -1,12 +1,12 @@
 schema_version: ivf.validation/v1
 name: synthetic-reset-velocity-defect
 description: >
-  The five-minute example. Baseline and candidate are the same declared experiment; the
-  candidate carries a silently injected defect from the ignored-reset-velocity class,
-  where a reset writes position but drops velocity. Nothing in the candidate's recorded
-  provenance reveals the defect: the asset declaration, the initial-state declaration,
-  the timestep and the commanded action stream are all identical. It has to be caught by
-  an oracle, and localized well enough to point an engineer at the reset path.
+  The five-minute example. Baseline and candidate are the same validity-controlled
+  experiment, and the candidate uses an explicit generation-level ignored-reset-velocity
+  fixture. Evidence metadata records that perturbation as ground truth for auditability;
+  the verdict logic does not consume the label. The commanded action stream and selected
+  validity declarations remain identical, while trajectory oracles establish and
+  localize the numerical consequence.
 
   Runs on CPU in under a second and needs no Isaac Lab and no GPU.
 
@@ -56,8 +56,9 @@ oracles:
       unit: dimensionless
       scope: deviation of |q| from 1, per element
       rationale: >
-        The quaternion is constructed analytically in float64, so any deviation beyond a
-        few ULP of 1.0 indicates a corrupted or reordered payload rather than physics.
+        The quaternion is constructed analytically in float64. The 1e-9 guard is about
+        4.5 million float64 ULP at unit magnitude, so it is deliberately conservative;
+        a breach indicates materially non-unit synthetic output.
       aggregation: max
       min_samples: 1
       kind: numerical
@@ -71,11 +72,10 @@ oracles:
       unit: rad
       scope: per-step absolute angle error, reduced over environments
       rationale: >
-        2 mrad is roughly the angular resolution below which the downstream termination
-        decision in this workload is unaffected: the termination threshold is 1.2 rad and
-        the trajectory crosses it at about 3 rad/s, so 2 mrad corresponds to under one
-        control step of timing shift. Anything larger can move a termination across a
-        step boundary, which is what the event oracle below then checks directly.
+        Two milliradians is the predeclared illustrative pointwise engineering budget for
+        this synthetic fixture. It is not derived from the 1.2 rad termination event:
+        nominal and reset-fixture trajectories do not reach that threshold, so the event
+        and decision oracles are negative controls rather than active gates in this case.
       aggregation: second_largest
       min_samples: 800
       kind: engineering
@@ -108,9 +108,9 @@ oracles:
       unit: steps
       scope: absolute difference in the first step at which |angle| exceeds 1.2 rad
       rationale: >
-        One control step is the finest resolution the workload has. A termination that
-        moves by a single step is indistinguishable from sampling phase; two or more is a
-        behavioural change a downstream consumer would see.
+        One control step is the finest resolution the workload has. A one-step timing
+        difference is observable but explicitly permitted; two or more fails the event
+        contract. Neither subject crosses the threshold in the nominal fixture.
       aggregation: max
       min_samples: 8
       kind: event

@@ -111,6 +111,22 @@ _CONTROL_CHECKS = {
     ),
     "seeds": ("V-06", "seed", "IVF-CONTROL-SEED-MISMATCH", "seed"),
     "task_variant": ("V-09", "task_variant", "IVF-CONTROL-TASK-VARIANT-MISMATCH", "task variant"),
+    "frame_convention": (
+        "V-14", "frame_convention", "IVF-CONTROL-FRAME-CONVENTION-MISMATCH", "frame convention",
+    ),
+    "quaternion_convention": (
+        "V-15", "quaternion_convention", "IVF-CONTROL-QUATERNION-CONVENTION-MISMATCH",
+        "quaternion convention",
+    ),
+    "reset_semantics": (
+        "V-16", "reset_semantics", "IVF-CONTROL-RESET-SEMANTICS-MISMATCH", "reset semantics",
+    ),
+    "environment_ordering": (
+        "V-17", "environment_ordering", "IVF-CONTROL-ENV-ORDER-MISMATCH", "environment ordering",
+    ),
+    "action_timing": (
+        "V-18", "action_timing", "IVF-CONTROL-ACTION-TIMING-MISMATCH", "action timing",
+    ),
 }
 
 
@@ -121,6 +137,16 @@ def check_experiment(
     report = ValidityReport()
     required = set(manifest.controls.require_same)
     allowed = set(manifest.controls.allow_different)
+    unsupported = set(manifest.controls.unsupported_or_unverifiable)
+
+    for control in sorted(unsupported):
+        report.checks.append(ValidityCheck(
+            "V-UNVERIFIABLE",
+            f"{control.replace('_', ' ')} is explicitly partitioned",
+            "unverifiable",
+            "the manifest records this control as unsupported or unverifiable; it is not "
+            "treated as matched and cannot support the verdict",
+        ))
 
     # --- declared metadata controls ---------------------------------------------------
     for control, (check_id, key, code, label) in _CONTROL_CHECKS.items():

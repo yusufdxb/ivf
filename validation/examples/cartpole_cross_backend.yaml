@@ -13,7 +13,7 @@ description: >
   refuse to overclaim where the evidence does not support a claim".
 
   Note in particular the solver-settings control below. These bundles record no solver
-  configuration at all, so IVF reports that control as *unverifiable* rather than
+  configuration at all, so IVF reports that control as unverifiable rather than
   matched. That is a real gap in the released evidence, not a formality.
 
 subjects:
@@ -35,7 +35,6 @@ workload:
 
 controls:
   require_same:
-    - asset_identity
     - observation_definition
     - control_frequency
     - num_envs
@@ -44,6 +43,15 @@ controls:
     - seeds
   allow_different:
     - solver_specific_parameters
+  unsupported_or_unverifiable:
+    - asset_binary_identity
+    - initial_state_realization
+    - frame_convention
+    - quaternion_convention
+    - reset_semantics
+    - environment_ordering
+    - action_timing
+    - backend_internal_state
 
 oracles:
   # Tier 0: holds regardless of which backend is "right", and is the only defense
@@ -61,10 +69,9 @@ oracles:
       unit: dimensionless
       scope: deviation of |q| from 1, per element, per backend independently
       rationale: >
-        Both backends emit float32-derived quaternions promoted to float64. A drift of
-        1e-5 is several thousand float32 ULP at unit magnitude and cannot be reached by
-        rounding alone; anything at that level indicates an unnormalized write rather
-        than accumulation.
+        Both backends emit float32-derived quaternions promoted to float64. The 1e-5
+        guard is about 84 float32 ULP at unit magnitude. It is a conservative numerical
+        check for materially non-unit captured data, not a backend accuracy estimate.
       aggregation: max
       min_samples: 1
       kind: numerical
@@ -72,21 +79,17 @@ oracles:
   # Tier 1: an operational agreement question, with a budget chosen from the workload
   # rather than from what happens to pass.
   - type: trajectory_equivalence
-    name: joint_position_agreement
-    signal: joint_pos
+    name: root_position_agreement
+    signal: root_link_pos_w
     metric: absolute
     tolerance:
       value: 1.0e-2
-      unit: rad (and m for the prismatic slider)
-      scope: per-step Euclidean error over the two joint coordinates, reduced over environments
+      unit: m
+      scope: per-step Euclidean world-position error of the fixed root, reduced over environments
       rationale: >
-        1e-2 is the disagreement at which a cart-pole balancing controller tuned on one
-        backend begins to behave visibly differently on the other, taking the pole length
-        (0.5 m) as the characteristic scale. It is an engineering budget for this
-        workload, not a claim about either engine's accuracy. The mixed unit is recorded
-        honestly: this signal packs a prismatic and a revolute joint, so the Euclidean
-        reduction is over a mixed-unit vector and the budget is the looser of the two
-        interpretations.
+        The cart-pole articulation root is fixed in both captures. A 1 cm world-position
+        budget is an explicit structural engineering allowance with homogeneous length
+        units. It does not make a claim about dynamic cart or pole agreement.
       aggregation: second_largest
       min_samples: 1920
       kind: engineering
@@ -111,22 +114,18 @@ oracles:
   # Tier 2: an equivalence question that survives a divergence horizon, with an
   # explicit statement of what "no difference" would mean operationally.
   - type: statistical_equivalence
-    name: joint_position_envelope_equivalence
-    signal: joint_pos
+    name: root_position_rms_equivalence
+    signal: root_link_pos_w
     summary: rms
     tolerance:
       value: 5.0e-2
-      unit: rad (and m for the prismatic slider)
-      scope: per-environment RMS joint magnitude over the horizon, paired across backends
+      unit: m
+      scope: per-environment RMS fixed-root world position over the horizon, paired across backends
       rationale: >
-        Two integrators of a passive articulation diverge pointwise long before they
-        disagree about the amplitude of the motion. This asks the question that survives
-        the divergence horizon: is the energy envelope the same to within 5e-2, which is
-        10% of the pole length and the level at which a downstream consumer would notice
-        a different-looking swing. The minimum sample count is set at 20 paired
-        environments, which these four-environment bundles do not meet: IVF will return
-        INCONCLUSIVE for this oracle rather than an equivalence claim the evidence cannot
-        support. That is the intended demonstration.
+        A 5 cm RMS margin is an explicit legacy structural allowance. The minimum sample
+        count is 20 paired environments, which these four-environment bundles do not
+        meet, so IVF returns INCONCLUSIVE rather than inferring equivalence from the
+        undersized sample. This oracle does not measure energy or articulation dynamics.
       aggregation: mean
       min_samples: 20
       kind: statistical

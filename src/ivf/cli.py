@@ -3,13 +3,14 @@
 
 """The ``ivf`` command line.
 
-Five verbs, each of which does one thing and exits with a status a CI job can branch on:
+Six verbs, each of which does one thing and exits with a status a CI job can branch on:
 
 ``doctor``     what can this machine actually do
 ``validate``   run a manifest, seal an evidence bundle, return a verdict
 ``report``     render or re-render the static report for a bundle
 ``compare``    diff two evidence bundles, offline
 ``reproduce``  verify a bundle's checksums and re-run it when the runtime allows
+``calibrate``  measure the declared synthetic fault-detectability matrix
 
 Exit codes follow :class:`ivf.verdicts.Verdict`: 0 pass, 1 fail, 2 inconclusive,
 3 unsupported, 4 invalid experiment, 5 error. Usage errors exit 64, following the
@@ -86,7 +87,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
             print(f"    {check.check_id} {check.name}: {check.detail}")
     print(f"\nevidence: {result.bundle_path}")
     print(f"report:   {result.bundle_path / 'report.html'}")
-    print(f"rerun:    ivf validate {args.manifest} --results-root {args.results_root}")
+    print(f"rerun:    ivf --results-root {args.results_root} validate {args.manifest}")
     return result.exit_code
 
 
@@ -180,6 +181,9 @@ def cmd_reproduce(args: argparse.Namespace) -> int:
         return 0
 
     manifest_path = bundle.read_json("provenance.json").get("manifest_source_path")
+    if manifest_path:
+        manifest_path = str(manifest_path).replace("$REPOSITORY_ROOT", str(Path.cwd()))
+        manifest_path = manifest_path.replace("$HOME", str(Path.home()))
     if not manifest_path or not Path(manifest_path).is_file():
         print("\ncannot re-execute: the original manifest is not available at "
               f"{manifest_path!r}. The bundle remains fully verifiable and readable offline; "

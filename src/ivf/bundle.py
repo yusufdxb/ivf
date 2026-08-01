@@ -139,6 +139,7 @@ class CaptureContract:
     task: dict[str, Any]
     backend: dict[str, Any]
     software: dict[str, Any]
+    hardware: dict[str, Any]
     seed: dict[str, Any]
     timing: dict[str, Any]
     frames: dict[str, Any]
@@ -165,6 +166,7 @@ class CaptureContract:
             "declared_steps": self.declared_steps,
             "captured_steps": self.captured_steps,
             "task": self.task, "backend": self.backend, "software": self.software,
+            "hardware": self.hardware,
             "seed": self.seed, "timing": self.timing, "frames": self.frames,
             "quaternion": self.quaternion, "reset": self.reset,
             "termination": self.termination,
@@ -313,6 +315,7 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
     return CaptureContract(
         run_status=run_status, declared_steps=declared_steps, captured_steps=captured_steps,
         task=dict(raw["task"]), backend=dict(raw["backend"]), software=dict(raw["software"]),
+        hardware=dict(raw.get("hardware", {})),
         seed=dict(seed), timing=dict(timing), frames=dict(frames), quaternion=dict(quat),
         reset=dict(reset), termination=dict(termination), arrays=arrays,
     )

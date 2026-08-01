@@ -73,7 +73,8 @@ def test_validate_passes_once_the_defect_is_removed(capsys, results_root):
 def test_validate_on_real_cross_backend_bundles_without_isaac_lab(capsys, results_root):
     code = cli("validate", str(EXAMPLES / "cartpole_cross_backend.yaml"), results_root=results_root)
     out = capsys.readouterr().out
-    assert code == 1
+    assert code == 2
+    assert out.startswith("INCONCLUSIVE")
     assert "unverifiable controls" in out
     assert "solver" in out
 

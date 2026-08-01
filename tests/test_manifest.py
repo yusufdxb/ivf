@@ -88,7 +88,59 @@ def test_contradictory_controls_are_rejected():
         "  require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon]",
         "  require_same: [asset_identity]\n  allow_different: [asset_identity]",
     )
-    with pytest.raises(ManifestError, match="both require_same and allow_different"):
+    with pytest.raises(ManifestError, match="more than one control partition"):
+        parse_manifest(text)
+
+
+def test_control_block_rejects_unknown_keys_instead_of_dropping_them():
+    text = MINIMAL_MANIFEST.replace(
+        "  require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon]",
+        "  require_same: [asset_identity]\n  silently_ignored: [reset_semantics]",
+    )
+    with pytest.raises(ManifestError, match="controls: unknown key"):
+        parse_manifest(text)
+
+
+def test_unsupported_controls_are_preserved_and_cannot_overlap():
+    text = MINIMAL_MANIFEST.replace(
+        "  require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon]",
+        "  require_same: [asset_identity]\n"
+        "  unsupported_or_unverifiable: [frame_convention, asset_binary_identity]",
+    )
+    manifest = parse_manifest(text)
+    assert manifest.controls.unsupported_or_unverifiable == (
+        "frame_convention",
+        "asset_binary_identity",
+    )
+    assert manifest.to_jsonable()["controls"]["unsupported_or_unverifiable"] == [
+        "frame_convention",
+        "asset_binary_identity",
+    ]
+
+    overlap = text.replace(
+        "unsupported_or_unverifiable: [frame_convention, asset_binary_identity]",
+        "unsupported_or_unverifiable: [asset_identity]",
+    )
+    with pytest.raises(ManifestError, match="more than one control partition"):
+        parse_manifest(overlap)
+
+
+def test_unverifiable_only_control_cannot_be_required():
+    text = MINIMAL_MANIFEST.replace(
+        "  require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon]",
+        "  require_same: [asset_binary_identity]",
+    )
+    with pytest.raises(ManifestError, match="only appear in unsupported_or_unverifiable"):
+        parse_manifest(text)
+
+
+def test_unit_quaternion_has_no_unexplained_fallback_epsilon():
+    text = MINIMAL_MANIFEST + """  - type: invariant
+    name: unit_quaternion
+    check: unit_quaternion
+    signals: [pole_quat]
+"""
+    with pytest.raises(ManifestError, match="no implicit epsilon"):
         parse_manifest(text)
 
 

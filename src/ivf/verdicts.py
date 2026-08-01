@@ -93,6 +93,11 @@ REASON_CODES: dict[str, str] = {
     "IVF-CONTROL-SOLVER-PRESENTED-AS-EQUIVALENT":
         "Solver-specific parameters differ but were declared equivalent.",
     "IVF-CONTROL-TASK-VARIANT-MISMATCH": "Subjects ran different task variants.",
+    "IVF-CONTROL-FRAME-CONVENTION-MISMATCH": "Subjects use different coordinate-frame conventions.",
+    "IVF-CONTROL-QUATERNION-CONVENTION-MISMATCH": "Subjects use different quaternion conventions.",
+    "IVF-CONTROL-RESET-SEMANTICS-MISMATCH": "Subjects use different reset semantics.",
+    "IVF-CONTROL-ENV-ORDER-MISMATCH": "Subjects use different environment ordering.",
+    "IVF-CONTROL-ACTION-TIMING-MISMATCH": "Subjects apply or capture actions at different times.",
     "IVF-CONTROL-WARMUP-UNDECLARED":
         "The manifest declares no warm-up, so early-transient results are uninterpretable.",
     "IVF-CONTROL-HORIZON-MISMATCH": "Subjects captured different numbers of steps.",

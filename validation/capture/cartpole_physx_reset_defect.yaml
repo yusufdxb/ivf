@@ -11,4 +11,6 @@ initial_pole_angle_spread: 0.05
 initial_pole_velocity: 0.5
 termination_angle: 1.0
 defect:
+  # Explicit simulator-level perturbation modeled after parity-harness reset semantics
+  # fixed in upstream commit 9aaa389. This is not a literal historical reproduction.
   drop_reset_velocity: true

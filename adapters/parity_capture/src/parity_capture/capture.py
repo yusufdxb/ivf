@@ -11,8 +11,8 @@ this package exists at all: IVF core must stay importable on a laptop.
 The cart-pole construction mirrors the proven ``isaaclab_contrib.parity`` scenario
 (stock ``CARTPOLE_CFG``, pinned actuator gains, pole released off-centre) so this adapter
 inherits a configuration that has already produced real cross-backend evidence, rather
-than inventing an unvalidated one. What it adds is explicit control of the reset, which
-is what makes a genuine simulator-level reset defect demonstrable.
+than inventing an unvalidated one. What it adds is an explicit, recorded simulator-level
+reset perturbation modeled after a failure observed while developing the parity harness.
 """
 
 from __future__ import annotations
@@ -51,7 +51,10 @@ def _software_versions() -> dict[str, str]:
     import importlib.metadata as md
 
     out: dict[str, str] = {"python": platform.python_version()}
-    for pkg in ("isaacsim", "isaaclab", "isaaclab_physx", "isaaclab_newton", "torch", "numpy"):
+    for pkg in (
+        "isaacsim", "isaaclab", "isaaclab_physx", "isaaclab_newton", "newton", "torch", "numpy",
+        "warp-lang",
+    ):
         try:
             out[pkg] = md.version(pkg)
         except Exception:
@@ -60,16 +63,47 @@ def _software_versions() -> dict[str, str]:
         import torch
 
         out["cuda"] = str(torch.version.cuda)
-        # Captures are meant to be shared. An exact device model is sometimes more
-        # identifying than a team wants to publish, so IVF_HARDWARE_LABEL substitutes a
-        # coarser label while keeping the provenance field meaningful.
-        import os
+    except Exception:
+        pass
+    try:
+        import omni.kit.app
+
+        out["kit"] = str(omni.kit.app.get_app().get_build_version())
+    except Exception:
+        pass
+    return out
+
+
+def _hardware_metadata() -> dict[str, Any]:
+    """Collect the declared device and driver without requiring an exact public GPU name."""
+    import os
+    import subprocess
+
+    out: dict[str, Any] = {"platform": platform.platform()}
+    try:
+        import torch
 
         out["gpu"] = os.environ.get("IVF_HARDWARE_LABEL") or (
             torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu"
         )
+        out["cuda_device_count"] = int(torch.cuda.device_count())
     except Exception:
-        pass
+        out["gpu"] = os.environ.get("IVF_HARDWARE_LABEL", "unavailable")
+    driver = os.environ.get("IVF_DRIVER_LABEL")
+    if not driver:
+        try:
+            result = subprocess.run(
+                ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                driver = result.stdout.splitlines()[0].strip()
+        except Exception:
+            driver = None
+    out["driver"] = driver or "unavailable"
     return out
 
 
@@ -99,14 +133,13 @@ def build_cartpole(spec: CaptureSpec):
     return InteractiveScene(CartpoleSceneCfg(num_envs=spec.num_envs, env_spacing=ENV_SPACING))
 
 
-def apply_reset(scene, spec: CaptureSpec) -> None:
+def apply_reset(scene, spec: CaptureSpec) -> dict[str, Any]:
     """Write the declared initial state onto the articulation.
 
     The configuration asks for both position and velocity to be written. When the
-    test-only ``drop_reset_velocity`` defect is active the velocity write is skipped and
-    nothing else changes: no error is raised, no metadata differs, and the resulting
-    trajectory is smooth and physically plausible. That is precisely the shape of the
-    real defect, and it is why the capture contract alone cannot catch it.
+    test-only ``drop_reset_velocity`` perturbation is active, a zero velocity vector is
+    written instead. The capture metadata records requested and applied values; the
+    oracles establish the resulting trajectory and event consequences independently.
     """
     import torch
 
@@ -133,13 +166,16 @@ def apply_reset(scene, spec: CaptureSpec) -> None:
     robot.write_root_pose_to_sim(root_state[:, :7])
     robot.write_root_velocity_to_sim(root_state[:, 7:])
 
-    if spec.defect.drop_reset_velocity:
-        # The defect: position is written, velocity is silently left at whatever the
-        # articulation already held.
-        robot.write_joint_state_to_sim(joint_pos, torch.zeros_like(joint_vel))
-    else:
-        robot.write_joint_state_to_sim(joint_pos, joint_vel)
+    applied_joint_vel = torch.zeros_like(joint_vel) if spec.defect.drop_reset_velocity else joint_vel
+    robot.write_joint_state_to_sim(joint_pos, applied_joint_vel)
     scene.reset()
+    return {
+        "joint_names": list(robot.joint_names),
+        "requested_joint_pos": joint_pos.detach().cpu().tolist(),
+        "requested_joint_vel": joint_vel.detach().cpu().tolist(),
+        "applied_joint_pos": joint_pos.detach().cpu().tolist(),
+        "applied_joint_vel": applied_joint_vel.detach().cpu().tolist(),
+    }
 
 
 def roll_out(sim, scene, spec: CaptureSpec) -> tuple[dict[str, np.ndarray], np.ndarray, int]:
@@ -157,14 +193,16 @@ def roll_out(sim, scene, spec: CaptureSpec) -> tuple[dict[str, np.ndarray], np.n
     joint_vel = np.zeros_like(joint_pos)
     root_pos = np.zeros((spec.steps, spec.num_envs, 3), dtype=np.float32)
     root_quat = np.zeros((spec.steps, spec.num_envs, 4), dtype=np.float32)
-    actions = np.zeros((spec.steps, spec.num_envs, 0), dtype=np.float32)
+    actions = np.zeros((spec.steps, spec.num_envs, n_joints), dtype=np.float32)
 
     captured = 0
     for step in range(spec.steps):
         # Passive workload: the commanded effort is identically zero every step, which
         # is written explicitly rather than skipped so the action stream is a recorded
         # fact rather than an assumption.
-        robot.set_joint_effort_target(torch.zeros_like(robot.data.joint_pos))
+        effort = torch.zeros_like(robot.data.joint_pos)
+        robot.set_joint_effort_target(effort)
+        actions[step] = effort.detach().cpu().numpy()
         scene.write_data_to_sim()
         sim.step()
         scene.update(sim.get_physics_dt())
@@ -182,6 +220,7 @@ def roll_out(sim, scene, spec: CaptureSpec) -> tuple[dict[str, np.ndarray], np.n
         "root_link_pos_w": root_pos,
         "root_link_quat_w": root_quat,
         "pole_angle": joint_pos[:, :, pole_index : pole_index + 1].copy(),
+        "pole_velocity": joint_vel[:, :, pole_index : pole_index + 1].copy(),
         "abs_pole_angle": np.abs(joint_pos[:, :, pole_index : pole_index + 1]).copy(),
     }
     return arrays, actions, captured
@@ -189,7 +228,7 @@ def roll_out(sim, scene, spec: CaptureSpec) -> tuple[dict[str, np.ndarray], np.n
 
 def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured_steps: int,
                    joint_names: list[str], solver_settings: dict[str, Any],
-                   run_status: str) -> dict[str, Any]:
+                   initial_state: dict[str, Any], run_status: str) -> dict[str, Any]:
     """Assemble the ``trajectory_bundle/v1`` capture contract for this run."""
     import hashlib
 
@@ -215,12 +254,13 @@ def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured
         "root_link_pos_w": "m",
         "root_link_quat_w": "dimensionless",
         "pole_angle": "rad",
+        "pole_velocity": "rad/s",
         "abs_pole_angle": "rad",
     }
     frames = {
         "joint_pos": "joint", "joint_vel": "joint",
         "root_link_pos_w": "world", "root_link_quat_w": "world",
-        "pole_angle": "joint", "abs_pole_angle": "joint",
+        "pole_angle": "joint", "pole_velocity": "joint", "abs_pole_angle": "joint",
     }
     return {
         "schema": "trajectory_bundle/v1",
@@ -239,6 +279,7 @@ def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured
             "features": ["articulation", "revolute_joint", "prismatic_joint"],
         },
         "software": _software_versions(),
+        "hardware": _hardware_metadata(),
         "seed": {
             "value": spec.seed,
             "env_ids": list(range(spec.num_envs)),
@@ -260,11 +301,9 @@ def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured
         "quaternion": {"layout": "wxyz", "scalar_first": True, "normalized": True,
                        "hemisphere": "unconstrained"},
         "reset": {
-            # Declares what the configuration asked for. When the test-only reset defect
-            # is active this declaration is deliberately true of the intent and false of
-            # the behaviour, which is the entire point of the defective demonstration.
             "semantics": "writes_pose_and_velocity",
             "initial_state_digest": initial_state_digest,
+            "initial_state": initial_state,
             "applied_before_step": 0,
             "randomized_fields": (
             ["cart_to_pole initial position (uniform, seeded)"]
@@ -334,13 +373,10 @@ def run_capture(spec: CaptureSpec, output: Path) -> CaptureResult:
 
     sim_cfg = sim_utils.SimulationCfg(dt=PHYSICS_DT, device=spec.device)
     if spec.backend == "newton":
-        # Backend selection is polymorphic on SimulationCfg. Newton is accepted here so
-        # the adapter is not silently PhysX-only, but only PhysX has been executed and
-        # the compatibility statement says so rather than implying both were tested.
         try:
-            from isaaclab_newton.physics import NewtonManagerCfg
+            from isaaclab_newton.physics import MJWarpSolverCfg, NewtonCfg
 
-            sim_cfg.physics = NewtonManagerCfg()
+            sim_cfg.physics = NewtonCfg(solver_cfg=MJWarpSolverCfg())
         except Exception as exc:  # pragma: no cover - depends on the installed backend
             raise RuntimeError(f"backend 'newton' requested but not constructible: {exc}") from exc
 
@@ -358,14 +394,14 @@ def run_capture(spec: CaptureSpec, output: Path) -> CaptureResult:
     except Exception as exc:  # provenance is best effort, but its absence is recorded
         solver_settings = {"unavailable": str(exc)}
 
-    apply_reset(scene, spec)
+    initial_state = apply_reset(scene, spec)
     arrays, actions, captured = roll_out(sim, scene, spec)
 
     run_status = "completed" if captured == spec.steps else "partial"
     contract = build_contract(
         spec, arrays, captured_steps=captured,
         joint_names=list(scene["robot"].joint_names),
-        solver_settings=solver_settings, run_status=run_status,
+        solver_settings=solver_settings, initial_state=initial_state, run_status=run_status,
     )
     result = write_bundle(Path(output), spec, arrays, actions, contract, run_status=run_status)
     print(f"[parity-capture] captured {captured}/{spec.steps} steps, status={run_status}",

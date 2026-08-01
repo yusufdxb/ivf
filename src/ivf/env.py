@@ -51,8 +51,8 @@ COMPATIBILITY_MATRIX: list[dict[str, str]] = [
         "isaac_lab": "2.x / 4.5.x-era contrib tree",
         "path": "parity_bundle ingest",
         "status": "supported",
-        "evidence": "reads bundle schema 1.1 and 1.2; verified against 12 live PhysX/Newton "
-                    "bundles generated 2026-07-12/13",
+        "evidence": "reads bundle schema 1.1 and 1.2; verified against six live "
+                    "PhysX/Newton bundles generated 2026-07-12",
     },
     {
         "isaac_lab": "3.0 (develop)",
@@ -65,6 +65,12 @@ COMPATIBILITY_MATRIX: list[dict[str, str]] = [
         "path": "live execution (subjects.kind = isaaclab)",
         "status": "not implemented",
         "evidence": "generate bundles with isaaclab_contrib.parity and ingest them instead",
+    },
+    {
+        "isaac_lab": "10.2.0 / Isaac Sim 6.0.0.1",
+        "path": "repository parity-capture adapter (cartpole_passive only)",
+        "status": "supported for the recorded runtime",
+        "evidence": "real PhysX and Newton trajectory_bundle/v1 captures and marked tests",
     },
 ]
 
