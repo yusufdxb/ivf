@@ -81,11 +81,24 @@ uv run ivf reproduce validation/evidence/<run-id> --verify-only
 Recomputes every file digest against the sealed `CHECKSUMS.sha256`. Drop `--verify-only`
 to also re-execute the manifest and diff the two runs.
 
+### If `uv run pytest` cannot import `ivf`
+
+On a host that exports a global `PYTHONPATH` (a sourced ROS 2 workspace is the usual
+cause), that path leaks into the project environment and pytest loads plugins from a
+different Python's site-packages. Run the suite hermetically instead:
+
+```bash
+env -u PYTHONPATH uv run pytest -q
+```
+
+Nothing in IVF depends on an inherited `PYTHONPATH`.
+
 ## Real cross-backend data
 
 `validation/bundles/` contains six genuine PhysX and Newton/MJWarp trajectory bundles
-captured on a GPU workstation on 2026-07-12. Nothing about reading them needs a
-simulator:
+captured on a GPU workstation on 2026-07-12, and `artifacts/` contains four
+`trajectory_bundle/v1` captures produced by a live Isaac Lab run together with their
+sealed verdicts. Nothing about reading any of them needs a simulator:
 
 ```bash
 uv run ivf validate validation/examples/cartpole_cross_backend.yaml
