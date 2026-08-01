@@ -19,7 +19,8 @@ env -u PYTHONPATH "$ISAACLAB_PYTHON" -m pip install . ./adapters/parity_capture
 ## Use
 
 ```bash
-env -u PYTHONPATH "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
+env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
+  "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
 
 env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
   "$ISAACLAB_PYTHON" -m parity_capture.cli \

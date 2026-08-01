@@ -89,7 +89,8 @@ from contaminating the simulator process.
 ```bash
 export ISAACLAB_PYTHON=/path/to/isaaclab/python
 env -u PYTHONPATH "$ISAACLAB_PYTHON" -m pip install . ./adapters/parity_capture
-env -u PYTHONPATH "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
+env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
+  "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
 ```
 
 `OMNI_KIT_ACCEPT_EULA=YES` records non-interactive acceptance of the Kit EULA. Set a

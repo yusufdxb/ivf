@@ -71,7 +71,8 @@ because ROS and simulator environments commonly export incompatible Python paths
 
 ```bash
 export ISAACLAB_PYTHON=/path/to/isaaclab/python
-env -u PYTHONPATH "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
+env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
+  "$ISAACLAB_PYTHON" -m parity_capture.cli doctor
 
 env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
   IVF_CAPTURE_PYTHON="$ISAACLAB_PYTHON" \
