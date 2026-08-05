@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   cpu:
@@ -103,7 +104,14 @@ jobs:
   # CI run must never be read as covering the simulator. See docs/ci-gpu-runner.md.
   simulator:
     name: simulator (self-hosted GPU, opt-in)
-    if: ${{ vars.IVF_GPU_RUNNER != '' }}
+    # Never runs from a pull_request event. This repository is public and the runner is
+    # self-hosted, so a fork PR reaching it would be arbitrary code execution on the
+    # machine holding the Isaac install. Restricting the job to workflow_dispatch and to
+    # pushes on main, both of which require write access, closes that hole. Exercise the
+    # GPU path with: gh workflow run ci.yml --ref <branch>
+    if: >-
+      ${{ vars.IVF_GPU_RUNNER != ''
+          && github.event_name != 'pull_request' }}
     # The fallback is never used: the job is skipped when the variable is unset. It is
     # here so an unset variable yields a skipped job rather than an invalid workflow,
     # which would take the CPU jobs down with it.

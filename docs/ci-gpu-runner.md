@@ -95,3 +95,20 @@ env -u PYTHONPATH \
 
 Drop `IVF_REQUIRE_SIMULATOR` and the same command degrades to honest skips on a machine
 without the runtime.
+
+## Why the job never runs from a pull request
+
+This repository is public and the simulator job runs on a self-hosted runner. A workflow
+that let a pull request reach that runner would let anyone who can open a PR execute code
+on the machine holding the Isaac Sim installation. The job is therefore gated on
+`github.event_name != 'pull_request'`, so it runs only from `workflow_dispatch` and from
+pushes to `main`, both of which require write access to the repository.
+
+Exercise the GPU path deliberately:
+
+```bash
+gh workflow run ci.yml --ref <branch>
+```
+
+A pull request will always show this job as skipped. That is by design and is not evidence
+about the simulator either way.
