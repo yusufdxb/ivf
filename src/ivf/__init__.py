@@ -13,6 +13,6 @@ It does not claim that any simulator or physics backend is universally correct.
 
 from __future__ import annotations
 
-__version__ = "0.1.0rc1"
+__version__ = "0.1.0rc2"
 
 __all__ = ["__version__"]
