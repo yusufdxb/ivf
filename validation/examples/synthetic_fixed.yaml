@@ -1,14 +1,21 @@
 schema_version: ivf.validation/v1
 name: synthetic-reset-velocity-fixed
 description: >
-  The corrected half of the fault case study: byte-for-byte the same manifest as
-  synthetic_fault.yaml with the injected defect removed from the candidate. Every
-  acceptance criterion and every tolerance is unchanged, which is what makes the pair a
-  fair before/after: the only thing that moved is the subject under test.
+  The corrected half of the fault case study, run as a declared A/A identity experiment.
+  Byte-for-byte the same manifest as synthetic_fault.yaml with the injected defect
+  removed from the candidate. Because removing the defect restores the candidate to the
+  baseline configuration exactly, and the synthetic integrator is deterministic, the two
+  subjects carry identical arrays.
 
-  This is also the negative control for the whole validator. If it does not PASS, the
-  tolerances are too tight and every failure this tool reports is suspect.
+  What this establishes: with the defect removed, the tolerances that fail
+  synthetic_fault.yaml do not fire, so that failure is attributable to the defect rather
+  than to thresholds that nothing could satisfy.
 
+  What it does not establish: it exercises no nonzero accepted difference, so it is not
+  evidence that the tolerances admit legitimate variation. That is what
+  cartpole_benign_difference.yaml is for.
+
+experiment_mode: identity_check
 subjects:
   baseline:
     kind: synthetic

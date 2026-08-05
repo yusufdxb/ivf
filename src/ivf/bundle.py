@@ -147,6 +147,10 @@ class CaptureContract:
     reset: dict[str, Any]
     termination: dict[str, Any]
     arrays: dict[str, ArraySpec] = field(default_factory=dict)
+    capture: dict[str, Any] = field(default_factory=dict)
+    """Optional capture-identity block: ``capture_id``, ``created_utc``, ``producer``,
+    ``execution``. Added additively, so every bundle written before it stays loadable and
+    simply reports no capture identity rather than a fabricated one."""
 
     @property
     def is_partial(self) -> bool:
@@ -170,6 +174,7 @@ class CaptureContract:
             "seed": self.seed, "timing": self.timing, "frames": self.frames,
             "quaternion": self.quaternion, "reset": self.reset,
             "termination": self.termination,
+            "capture": self.capture,
             "arrays": {n: a.to_jsonable() for n, a in sorted(self.arrays.items())},
         }
 
@@ -318,6 +323,7 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
         hardware=dict(raw.get("hardware", {})),
         seed=dict(seed), timing=dict(timing), frames=dict(frames), quaternion=dict(quat),
         reset=dict(reset), termination=dict(termination), arrays=arrays,
+        capture=dict(raw.get("capture", {}) or {}),
     )
 
 
