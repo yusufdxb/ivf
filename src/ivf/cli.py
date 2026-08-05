@@ -16,6 +16,13 @@ Exit codes follow :class:`ivf.verdicts.Verdict`: 0 pass, 1 fail, 2 inconclusive,
 3 unsupported, 4 invalid experiment, 5 error. Usage errors exit 64, following the
 ``sysexits`` convention, so a broken command line is never mistaken for a failed
 experiment.
+
+Exit code 1 is reserved for a scientific ``FAIL`` and nothing else. Every expected
+operational failure, a missing path, an unreadable bundle, a checksum mismatch, an
+unknown evidence schema, an ordinary ``OSError``, is mapped to ``ERROR`` with a stable
+reason code and exit 5. No traceback is printed unless ``--debug`` is passed: an
+operator reading CI output needs one actionable line, and a stack trace in the default
+path trains people to ignore the output.
 """
 
 from __future__ import annotations
@@ -238,6 +245,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="Offline acceptance and evidence for simulator experiments.",
     )
     parser.add_argument("--version", action="version", version=f"ivf {__version__}")
+    parser.add_argument("--debug", action="store_true",
+                        help="print the traceback for an operational error instead of one line")
     parser.add_argument(
         "--results-root", default="ivf-results",
         help="directory holding evidence bundles (default: ivf-results)",
@@ -294,6 +303,40 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _operational_error(exc: Exception) -> tuple[str, str]:
+    """Map an expected operational failure to ``(reason code, actionable message)``.
+
+    The mapping exists because exit code 1 means one thing only: the science failed. A
+    missing directory, an unreadable file or an unknown schema is IVF being unable to run,
+    which is a different event with a different remedy, and a CI job that cannot tell them
+    apart will eventually treat a typo as a regression.
+    """
+    from .bundle import BundleContractError
+    from .evidence import EvidenceError
+    from .manifest import ManifestError
+
+    if isinstance(exc, BundleContractError):
+        return exc.reason_code, f"the capture violates the boundary contract: {exc}"
+    if isinstance(exc, ManifestError):
+        return "IVF-CLI-MANIFEST-INVALID", f"the manifest could not be loaded: {exc}"
+    if isinstance(exc, EvidenceError):
+        text = str(exc)
+        if "checksum" in text.lower():
+            return "IVF-EVIDENCE-CHECKSUM-MISMATCH", text
+        if "schema" in text.lower():
+            return "IVF-EVIDENCE-SCHEMA-INCOMPATIBLE", text
+        return "IVF-CLI-EVIDENCE-UNREADABLE", text
+    if isinstance(exc, FileNotFoundError):
+        return "IVF-CLI-PATH-NOT-FOUND", f"path not found: {exc}"
+    if isinstance(exc, PermissionError):
+        return "IVF-CLI-PATH-UNREADABLE", f"permission denied: {exc}"
+    if isinstance(exc, (json.JSONDecodeError, UnicodeDecodeError)):
+        return "IVF-CLI-EVIDENCE-UNREADABLE", f"a required file is not readable as text: {exc}"
+    if isinstance(exc, OSError):
+        return "IVF-CLI-IO-ERROR", f"the filesystem refused the operation: {exc}"
+    raise exc
+
+
 def main(argv: list[str] | None = None) -> int:
     """CLI entry point."""
     parser = build_parser()
@@ -305,6 +348,23 @@ def main(argv: list[str] | None = None) -> int:
         return 130
     except BrokenPipeError:  # pragma: no cover - depends on the consumer
         return 0
+    except Exception as exc:
+        try:
+            code, message = _operational_error(exc)
+        except Exception:
+            # Genuinely unexpected: still not a science failure, and still not a wall of
+            # traceback unless the operator asked for one.
+            code, message = "IVF-CLI-UNEXPECTED-ERROR", f"{type(exc).__name__}: {exc}"
+        print("ERROR", file=sys.stderr)
+        print(code, file=sys.stderr)
+        print(message, file=sys.stderr)
+        if getattr(args, "debug", False):
+            import traceback
+
+            traceback.print_exc()
+        else:
+            print("re-run with --debug for the traceback", file=sys.stderr)
+        return 5
 
 
 if __name__ == "__main__":  # pragma: no cover
