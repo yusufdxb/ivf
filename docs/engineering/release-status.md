@@ -3,7 +3,8 @@
 **Current published release:** `v0.1.0-rc1` (commit `3aa56ac`). That tag is immutable and
 has not been moved.
 
-**Candidate branch:** `audit-hardening-and-gpu-gate`, built on public `main`.
+**Merged into `main`:** the audit remediation and the gated simulator CI job, as
+[PR #1](https://github.com/yusufdxb/ivf/pull/1). `v0.1.0-rc2` is prepared but not tagged.
 
 ## What changed since RC1
 
@@ -34,17 +35,20 @@ result is unchanged and still `FAIL`.
 | all shipped evidence bundles verify | yes, 7 of 7 |
 | upstream parity suite | 133 passed |
 | release-equivalence recomputation | 7 of 7 groups match |
-| real PhysX simulator tests | 5 passed, author's workstation only |
-| real Newton simulator tests | 1 passed, author's workstation only |
+| real PhysX simulator tests | 5 passed, on a self-hosted runner in public CI |
+| real Newton simulator tests | 1 passed, on a self-hosted runner in public CI |
+| simulator job, `IVF_GPU_RUNNER` unset | skipped, does not block |
+| simulator job, `IVF_GPU_RUNNER` set | executed and passed |
 
 ## What has not been verified
 
-* **The GPU simulator CI job has never run on GitHub.** It is gated on the repository
-  variable `IVF_GPU_RUNNER`, which is unset, so the job does not execute. A green CI run
-  is **not** evidence that the simulator path works. See [../ci-gpu-runner.md](../ci-gpu-runner.md).
 * **No external reproduction has completed.**
 * **No second independent audit has been performed.**
 * **Cross-machine determinism is not claimed.** The corrected case rests on bit-identical
   re-execution observed on one machine.
 
-Those three gaps are why this is a release *candidate*.
+Those gaps are why this is a release *candidate*.
+
+The simulator job has now been exercised publicly in both modes, on one self-hosted
+runner. That establishes the gate works; it does not establish that the GPU path works on
+arbitrary hardware.
