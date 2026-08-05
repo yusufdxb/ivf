@@ -175,7 +175,7 @@ class EvidenceBundle:
         """Return a list of integrity problems; empty means the bundle is intact.
 
         Checks the seal, then every recorded checksum, then looks for files that appeared
-        after finalization. All three matter: a tampered bundle usually gains a file or
+        after finalization. All three matter: an uncoordinated edit usually gains a file or
         loses one rather than editing in place.
         """
         problems: list[str] = []

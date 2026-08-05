@@ -11,10 +11,12 @@ subjects:
     kind: parity_bundle
     label: PhysX v1 capture
     path: artifacts/cartpole-physx-baseline
+    bundle_sha256: 0947a726333914db45727c138f17152995aec5bda3c6d862e1501e4f7e4a0794
   candidate:
     kind: parity_bundle
     label: Newton MJWarp v1 capture
     path: artifacts/cartpole-newton-baseline
+    bundle_sha256: 86ac7101ce268106b963a45301559476184a6085a0e3439cba7b4d59b2744565
 
 workload:
   task: cartpole_passive

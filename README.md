@@ -111,6 +111,12 @@ not become a scientific failure.
   `INCONCLUSIVE` rather than being mislabeled as a difference.
 - Each bundle contains per-file SHA-256 digests sealed by `SEAL.json`. Editing, adding,
   or removing a file is detected by `ivf reproduce --verify-only`.
+
+  IVF evidence bundles include checksums and an integrity seal that detect accidental
+  corruption, incomplete transfer, and uncoordinated modification. The seal is not a
+  digital signature and does not establish authenticity against an actor who can modify
+  and reseal the entire bundle. Verification answers "is this bundle internally
+  consistent", not "who produced it".
 - Divergence records identify the first violating step, affected environments, signal,
   tolerance, and event-level consequence where applicable.
 

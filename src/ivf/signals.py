@@ -98,6 +98,21 @@ class SignalSet:
             return hashlib.sha256(np.ascontiguousarray(self.actions, dtype=np.float64).tobytes()).hexdigest()
         return str(self.metadata.get("action_stream_sha256", ""))
 
+    def content_digest(self) -> str:
+        """Return a digest of the scientific arrays this subject contributes.
+
+        Deliberately over the *arrays* rather than over the bundle directory. Two captures
+        that differ only in what their directory is called, or in which name their spec
+        carries, are the same data; a comparison between them measures the validator, not
+        the subject. Hashing the payload is what makes that detectable regardless of how
+        the two subjects were addressed.
+        """
+        digest = hashlib.sha256()
+        for name, arr in sorted(self.signals.items()):
+            digest.update(name.encode("utf-8"))
+            digest.update(np.ascontiguousarray(arr, dtype=np.float64).tobytes())
+        return digest.hexdigest()
+
 
 CONTROL_METADATA_KEYS = (
     "asset_identity",
@@ -414,7 +429,22 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
         "library_versions": dict(contract.software),
         "hardware": dict(contract.hardware),
         "units": {n: a.unit for n, a in contract.arrays.items()},
+        # Per-array declarations, consumed by ivf.signal_contract before any oracle runs.
+        # A strict v1 capture always declares these; a legacy bundle declares none, which
+        # is why the key is absent there rather than filled with a guess.
+        "signal_contract": {
+            n: {"unit": a.unit, "frame": a.frame, "dtype": a.dtype,
+                "shape": list(a.shape), "semantics": a.semantics}
+            for n, a in contract.arrays.items()
+        },
+        # Content identity, bound here so the verdict can name exactly what it judged.
+        "bundle_root_sha256": bundle.bundle_sha256,
+        "payload_sha256": bundle.checksums.get("trajectories.npz", ""),
+        "capture_id": str(contract.capture.get("capture_id", "")),
+        "capture_created_utc": str(contract.capture.get("created_utc", "")),
+        "capture_producer": contract.capture.get("producer", {}) or {},
         "checksums": bundle.checksums,
+        "bundle_sha256": bundle.bundle_sha256,
     }
     return SignalSet(
         role=role, signals=signals, metadata=metadata, actions=bundle.actions,
@@ -435,7 +465,27 @@ def _load_parity_bundle_subject(subject: Subject) -> SignalSet:
     if not path:
         raise SignalSourceError(f"subjects.{subject.role}.path: required for kind 'parity_bundle'")
     if Path(path).is_dir() and is_v1(path):
-        return load_trajectory_bundle_v1(path, role=subject.role)
+        signal_set = load_trajectory_bundle_v1(path, role=subject.role)
+        expected = str(subject.params.get("bundle_sha256", "")).strip().lower()
+        if expected:
+            actual = str(signal_set.metadata["bundle_sha256"])
+            if len(expected) != 64 or any(character not in "0123456789abcdef" for character in expected):
+                from .bundle import BundleContractError
+
+                raise BundleContractError(
+                    "IVF-BUNDLE-CHECKSUM-MISMATCH",
+                    f"subjects.{subject.role}.bundle_sha256 is not a 64-character "
+                    "lowercase SHA-256 digest",
+                )
+            if expected != actual:
+                from .bundle import BundleContractError
+
+                raise BundleContractError(
+                    "IVF-BUNDLE-CHECKSUM-MISMATCH",
+                    f"subjects.{subject.role} locks bundle root {expected}, but {path} "
+                    f"has finalized root {actual}",
+                )
+        return signal_set
     return load_parity_bundle(path, role=subject.role)
 
 

@@ -25,6 +25,7 @@ plugin registration: every task needs its own declared reset and termination sem
 and a generic loader would let someone add a task without declaring them."""
 
 SUPPORTED_BACKENDS = frozenset({"physx", "newton"})
+SUBJECT_ROLES = frozenset({"baseline", "candidate"})
 
 
 class SpecError(ValueError):
@@ -72,6 +73,19 @@ class Defect:
 
 
 @dataclass(frozen=True)
+class IVFManifestSpec:
+    """How a successful capture updates a generated, hash-locked IVF manifest."""
+
+    role: str
+    template: str
+    filename: str = "cartpole_real.yaml"
+
+    def to_jsonable(self) -> dict[str, str]:
+        """Return a JSON-serializable view."""
+        return {"role": self.role, "template": self.template, "filename": self.filename}
+
+
+@dataclass(frozen=True)
 class CaptureSpec:
     """A parsed capture specification."""
 
@@ -87,11 +101,12 @@ class CaptureSpec:
     initial_pole_velocity: float
     termination_angle: float
     defect: Defect = field(default_factory=Defect)
+    ivf_manifest: IVFManifestSpec | None = None
     source_path: str | None = None
 
     def to_jsonable(self) -> dict[str, Any]:
         """Return a JSON-serializable view, used as the task configuration identity."""
-        return {
+        payload = {
             "schema": SPEC_SCHEMA,
             "name": self.name,
             "task": self.task,
@@ -106,6 +121,9 @@ class CaptureSpec:
             "termination_angle": self.termination_angle,
             "defect": self.defect.to_jsonable(),
         }
+        if self.ivf_manifest is not None:
+            payload["ivf_manifest"] = self.ivf_manifest.to_jsonable()
+        return payload
 
     def config_identity(self) -> dict[str, Any]:
         """Return the configuration fields that define *what experiment this is*.
@@ -116,7 +134,7 @@ class CaptureSpec:
         would refuse the comparison and the defect could never be caught by an oracle.
         """
         payload = self.to_jsonable()
-        for key in ("backend", "device", "defect", "name"):
+        for key in ("backend", "device", "defect", "ivf_manifest", "name"):
             payload.pop(key, None)
         return payload
 
@@ -136,7 +154,7 @@ def parse_spec(text: str, *, source_path: str | None = None) -> CaptureSpec:
 
     known = {"schema_version", "name", "task", "backend", "device", "num_envs", "steps",
              "seed", "initial_pole_angle", "initial_pole_angle_spread", "initial_pole_velocity",
-             "termination_angle", "defect"}
+             "termination_angle", "defect", "ivf_manifest"}
     unknown = set(raw) - known
     if unknown:
         raise SpecError(f"top level: unknown key(s) {sorted(unknown)}")
@@ -168,6 +186,29 @@ def parse_spec(text: str, *, source_path: str | None = None) -> CaptureSpec:
     if not isinstance(drop_reset_velocity, bool):
         raise SpecError("defect.drop_reset_velocity: expected a YAML boolean")
 
+    ivf_raw = raw.get("ivf_manifest")
+    ivf_manifest = None
+    if ivf_raw is not None:
+        if not isinstance(ivf_raw, dict):
+            raise SpecError("ivf_manifest: expected a mapping")
+        unknown_ivf = set(ivf_raw) - {"role", "template", "filename"}
+        if unknown_ivf:
+            raise SpecError(f"ivf_manifest: unknown key(s) {sorted(unknown_ivf)}")
+        for key in ("role", "template"):
+            if not str(ivf_raw.get(key, "")).strip():
+                raise SpecError(f"ivf_manifest.{key}: required")
+        role = str(ivf_raw["role"])
+        if role not in SUBJECT_ROLES:
+            raise SpecError(f"ivf_manifest.role: expected one of {sorted(SUBJECT_ROLES)}")
+        filename = str(ivf_raw.get("filename", "cartpole_real.yaml"))
+        if Path(filename).name != filename or not filename.endswith((".yaml", ".yml")):
+            raise SpecError("ivf_manifest.filename: expected a YAML filename without directories")
+        ivf_manifest = IVFManifestSpec(
+            role=role,
+            template=str(ivf_raw["template"]),
+            filename=filename,
+        )
+
     return CaptureSpec(
         name=str(raw["name"]),
         task=task,
@@ -184,6 +225,7 @@ def parse_spec(text: str, *, source_path: str | None = None) -> CaptureSpec:
             drop_reset_velocity=drop_reset_velocity,
             damping_scale=float(defect_raw.get("damping_scale", 1.0)),
         ),
+        ivf_manifest=ivf_manifest,
         source_path=source_path,
     )
 

@@ -101,6 +101,24 @@ REASON_CODES: dict[str, str] = {
     "IVF-CONTROL-WARMUP-UNDECLARED":
         "The manifest declares no warm-up, so early-transient results are uninterpretable.",
     "IVF-CONTROL-HORIZON-MISMATCH": "Subjects captured different numbers of steps.",
+    # -- per-signal dimensional compatibility (checked automatically, never opt-in) -----
+    "IVF-CONTROL-SIGNAL-UNIT-MISMATCH":
+        "Subjects declare different units for a signal an oracle consumes.",
+    "IVF-CONTROL-SIGNAL-FRAME-MISMATCH":
+        "Subjects declare different reference frames for a signal an oracle consumes.",
+    "IVF-CONTROL-SIGNAL-DTYPE-MISMATCH":
+        "Subjects declare different dtypes for a signal an oracle consumes.",
+    "IVF-CONTROL-TOLERANCE-UNIT-MISMATCH":
+        "A tolerance is declared in a different unit from the signal it gates.",
+    "IVF-CONTROL-MIXED-UNIT-REDUCTION-INVALID":
+        "A signal carrying more than one physical unit was reduced to a single scalar "
+        "against a single-unit threshold.",
+    # -- experiment identity -----------------------------------------------------------
+    "IVF-EXPERIMENT-SELF-COMPARISON":
+        "Both subjects resolve to identical content, so the result describes the "
+        "validator rather than the subject.",
+    "IVF-EXPERIMENT-IDENTITY-MODE-SUBJECTS-DIFFER":
+        "The manifest declares an A/A identity check but the subjects differ.",
     "IVF-PROTOCOL-PARTIAL-RUN": "At least one subject produced a truncated or failed run.",
     "IVF-PROTOCOL-STALE-ARTIFACT": "An input artifact predates the sources it claims to describe.",
     "IVF-PROTOCOL-TOLERANCE-RATIONALE-MISSING":
@@ -154,6 +172,15 @@ REASON_CODES: dict[str, str] = {
     "IVF-EVIDENCE-CHECKSUM-MISMATCH": "An evidence file does not match its recorded checksum.",
     "IVF-EVIDENCE-SCHEMA-INCOMPATIBLE":
         "The evidence bundle was written by an incompatible schema version.",
+    # -- CLI operational failures (never exit 1; see ivf.cli._operational_error) --------
+    "IVF-CLI-PATH-NOT-FOUND": "A path the command needs does not exist.",
+    "IVF-CLI-PATH-UNREADABLE": "A path the command needs cannot be read.",
+    "IVF-CLI-EVIDENCE-UNREADABLE": "The evidence directory is absent, malformed or unreadable.",
+    "IVF-CLI-MANIFEST-INVALID": "The manifest could not be parsed or validated.",
+    "IVF-CLI-IO-ERROR": "The filesystem refused an operation the command needed.",
+    "IVF-CLI-UNEXPECTED-ERROR":
+        "An unanticipated internal error. Reported as ERROR rather than as a failed "
+        "experiment, because IVF did not reach a scientific conclusion.",
 }
 
 

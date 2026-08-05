@@ -13,8 +13,12 @@ Into the environment that has Isaac Lab:
 ```bash
 cd /absolute/path/to/ivf
 export ISAACLAB_PYTHON=/absolute/path/to/isaaclab/python
-env -u PYTHONPATH "$ISAACLAB_PYTHON" -m pip install . ./adapters/parity_capture
+env -u PYTHONPATH "$ISAACLAB_PYTHON" -m pip install ./adapters/parity_capture
 ```
+
+The adapter does not depend on the IVF Python package. It writes the documented
+`trajectory_bundle/v1` files directly; the simulator-independent IVF installation reads
+them later.
 
 ## Use
 
@@ -31,6 +35,29 @@ env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
 The command boots the real simulator, builds the workload, runs the rollout, captures the
 declared signals, checksums the payload, and writes the completion marker last. It then
 prints the IVF command to validate the result.
+
+## No-edit baseline/candidate workflow
+
+The paired specs generate a local validation manifest beside the output bundles. The
+manifest assigns baseline/candidate roles and locks each bundle's finalized root hash.
+The second command leaves it ready to validate, with no Python or YAML editing:
+
+```bash
+env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
+  "$ISAACLAB_PYTHON" -m parity_capture.cli \
+  validation/capture/cartpole_physx_baseline.yaml \
+  --output artifacts/generated/cartpole-baseline
+
+env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
+  "$ISAACLAB_PYTHON" -m parity_capture.cli \
+  validation/capture/cartpole_physx_candidate.yaml \
+  --output artifacts/generated/cartpole-candidate
+
+env -u PYTHONPATH uv run ivf validate artifacts/generated/cartpole_real.yaml
+```
+
+The CLI prints that exact IVF command after capture. If only one role exists, it also
+names the pending role; it never presents the generated manifest as ready prematurely.
 
 There is no mock mode and no dry run. A capture tool whose happy path can be exercised
 without a simulator will eventually be trusted without one.

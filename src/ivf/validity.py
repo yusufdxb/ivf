@@ -322,4 +322,62 @@ def check_experiment(
             "V-13", "physics timestep matches", "pass", f"both {a_dt}",
         ))
 
+    # --- per-signal dimensional compatibility (always on, never opt-in) ----------------
+    from .signal_contract import check_signal_contracts
+
+    report.checks.extend(check_signal_contracts(manifest, baseline, candidate))
+
+    # --- self-comparison ---------------------------------------------------------------
+    report.checks.append(_check_self_comparison(manifest, baseline, candidate))
+
     return report
+
+
+def _check_self_comparison(
+    manifest: Manifest, baseline: SignalSet, candidate: SignalSet
+) -> ValidityCheck:
+    """Refuse a comparison whose two subjects are the same finalized content.
+
+    Comparing a bundle against itself always passes every oracle, and that ``PASS`` says
+    nothing about the thing the reader believes it says. It is a statement about the
+    validator, not about repeatability or equivalence, so the default is refusal.
+
+    An A/A run is still a legitimate experiment, which is why it can be declared. What it
+    may not be is *undeclared*, arrived at silently by pointing both subjects at the same
+    capture.
+    """
+    a_root, b_root = baseline.content_digest(), candidate.content_digest()
+    identity_mode = manifest.experiment_mode == "identity_check"
+
+    if a_root != b_root:
+        if identity_mode:
+            return ValidityCheck(
+                "V-19", "declared identity check has identical subjects", "fail",
+                f"the manifest declares experiment_mode: identity_check, but the subjects have "
+                f"different content roots ({a_root[:16]}… vs {b_root[:16]}…). An identity check "
+                "whose inputs differ is not an identity check.",
+                "IVF-EXPERIMENT-IDENTITY-MODE-SUBJECTS-DIFFER",
+                baseline_value=a_root, candidate_value=b_root,
+            )
+        return ValidityCheck(
+            "V-19", "subjects are distinct content", "pass",
+            f"content roots differ ({a_root[:16]}… vs {b_root[:16]}…)",
+            baseline_value=a_root, candidate_value=b_root,
+        )
+    if identity_mode:
+        return ValidityCheck(
+            "V-19", "declared A/A identity check", "not_applicable",
+            "both subjects have identical finalized content and the manifest declares "
+            "experiment_mode: identity_check. This run tests validator identity behaviour. "
+            "It does not establish independent repeatability or equivalence.",
+            baseline_value=a_root, candidate_value=b_root,
+        )
+    return ValidityCheck(
+        "V-19", "subjects are distinct content", "fail",
+        f"both subjects resolve to identical finalized content ({a_root[:16]}…). Every oracle "
+        "would compare a capture against itself, so the result would describe the validator "
+        "rather than the subject. Declare experiment_mode: identity_check to run this "
+        "deliberately.",
+        "IVF-EXPERIMENT-SELF-COMPARISON",
+        baseline_value=a_root, candidate_value=b_root,
+    )

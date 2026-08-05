@@ -16,6 +16,7 @@ from ivf.evidence import EvidenceBundle
 from ivf.manifest import parse_manifest
 from ivf.runner import validate
 from ivf.verdicts import Verdict
+from tests.simulator_gate import simulator_unavailable
 
 pytestmark = [
     pytest.mark.integration,
@@ -39,7 +40,7 @@ def _capture_command() -> list[str] | None:
 def test_real_newton_capture_reaches_a_sealed_typed_ivf_verdict(tmp_path):
     command = _capture_command()
     if command is None:
-        pytest.skip(
+        simulator_unavailable(
             "Newton capture unavailable: set IVF_CAPTURE_PYTHON to the Isaac Lab interpreter "
             "with ivf-parity-capture installed"
         )
@@ -53,7 +54,9 @@ def test_real_newton_capture_reaches_a_sealed_typed_ivf_verdict(tmp_path):
         env={**os.environ, "OMNI_KIT_ACCEPT_EULA": "YES"},
     )
     if doctor.returncode != 0:
-        pytest.skip(f"Newton capture prerequisites unavailable: {(doctor.stdout + doctor.stderr).strip()}")
+        simulator_unavailable(
+            f"Newton capture prerequisites unavailable: {(doctor.stdout + doctor.stderr).strip()}"
+        )
 
     capture = tmp_path / "cartpole-newton"
     run = subprocess.run(
@@ -91,9 +94,12 @@ def test_real_newton_capture_reaches_a_sealed_typed_ivf_verdict(tmp_path):
     assert set(bundle.arrays) >= {"pole_angle", "pole_velocity", "abs_pole_angle"}
 
     manifest_path = ROOT / "validation" / "examples" / "cartpole_physx_vs_newton_v1.yaml"
-    text = manifest_path.read_text(encoding="utf-8").replace(
-        "artifacts/cartpole-newton-baseline", str(capture)
-    )
+    import yaml
+
+    raw = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    raw["subjects"]["candidate"]["path"] = str(capture)
+    raw["subjects"]["candidate"]["bundle_sha256"] = bundle.bundle_sha256
+    text = yaml.safe_dump(raw, sort_keys=False)
     manifest = parse_manifest(text, source_path=str(manifest_path))
     result = validate(manifest, results_root=tmp_path / "evidence")
 

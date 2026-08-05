@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import platform
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -26,6 +27,7 @@ from typing import Any
 
 import numpy as np
 
+from .bundle_writer import finalize_v1
 from .spec import CaptureSpec
 
 # Pinned so an upstream retune of the stock asset cannot silently change the experiment.
@@ -46,14 +48,70 @@ class CaptureResult:
     checksums: dict[str, str]
 
 
-def _software_versions() -> dict[str, str]:
+def _git_revision(path: Path, *, require_tracked_file: bool) -> dict[str, Any] | None:
+    """Resolve the Git revision owning ``path``, optionally requiring it to be tracked."""
+    source = path.resolve()
+    candidates = (source, *source.parents) if source.is_dir() else source.parents
+    for parent in candidates:
+        if not (parent / ".git").exists():
+            continue
+        if require_tracked_file:
+            relative = source.relative_to(parent)
+            tracked = subprocess.run(
+                ["git", "-C", str(parent), "ls-files", "--error-unmatch", str(relative)],
+                capture_output=True, text=True, timeout=10, check=False,
+            )
+            if tracked.returncode != 0:
+                continue
+        head = subprocess.run(
+            ["git", "-C", str(parent), "rev-parse", "HEAD"],
+            capture_output=True, text=True, timeout=10, check=False,
+        )
+        status = subprocess.run(
+            ["git", "-C", str(parent), "status", "--porcelain"],
+            capture_output=True, text=True, timeout=10, check=False,
+        )
+        if head.returncode == 0:
+            return {
+                "status": "resolved",
+                "commit": head.stdout.strip(),
+                "dirty": status.returncode != 0 or bool(status.stdout.strip()),
+            }
+    return None
+
+
+def _module_git_revision(module_name: str, distribution_name: str) -> dict[str, Any]:
+    """Return a source revision without mistaking a venv's parent repo for package source."""
+    import importlib.metadata as md
+    import importlib.util
+    from urllib.parse import unquote, urlparse
+
+    try:
+        direct_url = md.distribution(distribution_name).read_text("direct_url.json")
+        if direct_url:
+            source_url = str(json.loads(direct_url).get("url", ""))
+            parsed = urlparse(source_url)
+            if parsed.scheme == "file":
+                revision = _git_revision(Path(unquote(parsed.path)), require_tracked_file=False)
+                if revision is not None:
+                    return revision
+    except Exception:
+        pass
+
+    spec = importlib.util.find_spec(module_name)
+    if spec is None or spec.origin is None:
+        return {"status": "unavailable"}
+    return _git_revision(Path(spec.origin), require_tracked_file=True) or {"status": "unavailable"}
+
+
+def _software_versions() -> dict[str, Any]:
     """Collect the version identity of everything that can change a trajectory."""
     import importlib.metadata as md
 
-    out: dict[str, str] = {"python": platform.python_version()}
+    out: dict[str, Any] = {"python": platform.python_version()}
     for pkg in (
-        "isaacsim", "isaaclab", "isaaclab_physx", "isaaclab_newton", "newton", "torch", "numpy",
-        "warp-lang",
+        "ivf-parity-capture", "isaacsim", "isaaclab", "isaaclab_physx",
+        "isaaclab_newton", "newton", "torch", "numpy", "warp-lang",
     ):
         try:
             out[pkg] = md.version(pkg)
@@ -71,6 +129,13 @@ def _software_versions() -> dict[str, str]:
         out["kit"] = str(omni.kit.app.get_app().get_build_version())
     except Exception:
         pass
+    out["source_commits"] = {
+        module: _module_git_revision(module, distribution)
+        for module, distribution in (
+            ("parity_capture", "ivf-parity-capture"),
+            ("isaaclab", "isaaclab"),
+        )
+    }
     return out
 
 
@@ -262,6 +327,12 @@ def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured
         "root_link_pos_w": "world", "root_link_quat_w": "world",
         "pole_angle": "joint", "pole_velocity": "joint", "abs_pole_angle": "joint",
     }
+    try:
+        from isaaclab_assets import CARTPOLE_CFG
+
+        asset_uri = str(CARTPOLE_CFG.spawn.usd_path)
+    except Exception:
+        asset_uri = "unavailable"
     return {
         "schema": "trajectory_bundle/v1",
         "run_status": run_status,
@@ -272,6 +343,11 @@ def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured
             "variant": "stock CARTPOLE_CFG, pinned actuator gains, passive",
             "config_digest_sha256": config_digest,
             "joint_names": joint_names,
+            "asset": {
+                "id": "isaaclab_assets.CARTPOLE_CFG",
+                "source_uri": asset_uri,
+                "binary_identity": "unverifiable",
+            },
         },
         "backend": {
             "id": spec.backend,
@@ -291,6 +367,11 @@ def build_contract(spec: CaptureSpec, arrays: dict[str, np.ndarray], *, captured
             "decimation": 1,
             "action_applied": "before_physics_step",
             "capture_hook": "post_step_post_update",
+            "warmup_steps": 0,
+            "warmup_semantics": "no warm-up steps; sample 0 is the first post-reset physics step",
+            "timestamp_convention": (
+                "sample i is post-step state at (i + 1) * physics_dt from reset completion"
+            ),
         },
         "frames": {
             "convention": "world_z_up_right_handed",
@@ -338,8 +419,6 @@ def write_bundle(output: Path, spec: CaptureSpec, arrays: dict[str, np.ndarray],
     refuses with ``IVF-BUNDLE-INCOMPLETE`` rather than one that reads as a short but
     successful run.
     """
-    from ivf.bundle import finalize_v1
-
     output.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(output / "trajectories.npz", **arrays, __actions__=actions)
     metadata = {

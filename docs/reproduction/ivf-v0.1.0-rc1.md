@@ -24,15 +24,24 @@ snapshot and an internal release checklist. One exact hardware model in this rec
 replaced by the coarse capture label. These publication-only changes do not affect the
 scientific content.
 
-The seven current evidence bundles retain the short producer reference `a8a2d3b` inside
-their sealed `provenance.json`. It is intentionally not rewritten: it records the private
-development checkout that actually produced the evidence and participates in the seal.
-After the obsolete directories are removed from every revision, that deletion-only
-commit becomes empty. Its original tree is
-`296b5635b32e5e2f7eb19f86c9bf96d8346813da`. Public commit
-`170c027ee5d5cc97c2d670ccd27c1799644ad469` has the same source, tolerance,
-manifest, capture, and legacy-bundle trees; its full tree differs only because the
-obsolete workspace snapshot and internal release checklist are absent.
+The seven current evidence bundles retain a short producer commit reference inside their
+sealed `provenance.json`. It is intentionally not rewritten: it names the private
+development checkout that actually produced the evidence, and it participates in the seal,
+so removing it would require resealing evidence that is otherwise untouched.
+
+That reference is an **author attestation**. It points at history this repository does not
+publish, so no reader can resolve it, compare it, or falsify it. Treat it as a note about
+where the evidence came from, not as something you can check.
+
+Object ids naming private trees and commits have been removed from
+`docs/releases/v0.1.0-rc1-equivalence.json`. A published hex id invites a reader to assume
+it is resolvable; these were not, and a hash nobody can look up adds the appearance of
+rigour without any of it. What remains in that record is the half a reader can actually
+recompute:
+
+```bash
+python tools/recompute_release_equivalence.py --check
+```
 
 No raw trajectory, captured signal, oracle output, verdict, report, checksum, or evidence
 seal was changed during publication sanitation. The machine-readable comparison is

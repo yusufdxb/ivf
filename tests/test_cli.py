@@ -11,7 +11,7 @@ import pytest
 
 from ivf.cli import main
 
-from .conftest import EXAMPLES
+from .conftest import EXAMPLES, REPO_ROOT
 
 pytestmark = pytest.mark.integration
 
@@ -141,7 +141,7 @@ def test_reproduce_verifies_and_reruns(capsys, results_root):
     code = cli("reproduce", latest(results_root, "defect").name, results_root=results_root)
     out = capsys.readouterr().out
     assert code == 0
-    assert "integrity ok" in out
+    assert "integrity verified against included seal" in out
     assert "No material differences." in out
 
 
@@ -176,3 +176,79 @@ def test_version_flag(capsys):
         main(["--version"])
     assert exc.value.code == 0
     assert "ivf" in capsys.readouterr().out
+
+
+# -- seal threat model -----------------------------------------------------------------
+
+@pytest.mark.integration
+def test_the_seal_detects_uncoordinated_change_but_not_a_coordinated_reseal(tmp_path):
+    """The documented threat-model boundary, asserted rather than only written down.
+
+    An unkeyed digest over content the editor controls cannot establish authorship. The
+    first four cases are what the seal is for; the fifth is what it is not for, and it is
+    tested so the limitation cannot quietly stop being true.
+    """
+    import json as _json
+    import shutil as _shutil
+
+    from ivf.evidence import EvidenceBundle
+
+    source = next(iter((REPO_ROOT / "artifacts" / "evidence").iterdir()))
+
+    def fresh(name):
+        dst = tmp_path / name
+        _shutil.copytree(source, dst)
+        for path in dst.rglob("*"):
+            if path.is_file():
+                path.chmod(0o644)
+        return dst
+
+    # 1. a naive content edit
+    edited = fresh("edited")
+    (edited / "verdict.json").write_text(
+        (edited / "verdict.json").read_text() + "\n", encoding="utf-8"
+    )
+    assert EvidenceBundle.open(edited).verify()
+
+    # 2. a deleted file
+    deleted = fresh("deleted")
+    (deleted / "divergence.jsonl").unlink()
+    assert EvidenceBundle.open(deleted).verify()
+
+    # 3. an unrecorded added file
+    added = fresh("added")
+    (added / "extra.json").write_text("{}", encoding="utf-8")
+    assert EvidenceBundle.open(added).verify()
+
+    # 4. an incompatible schema major is refused at open, before verification
+    from ivf.evidence import EvidenceError
+
+    schema = fresh("schema")
+    seal = _json.loads((schema / "SEAL.json").read_text())
+    seal["evidence_schema_version"] = "ivf.evidence/v99"
+    (schema / "SEAL.json").write_text(_json.dumps(seal, indent=2, sort_keys=True) + "\n")
+    with pytest.raises(EvidenceError, match="not compatible"):
+        EvidenceBundle.open(schema)
+
+    # 5. a coordinated edit plus reseal verifies as internally consistent. This is the
+    #    boundary: the seal establishes integrity, never authenticity.
+    resealed = fresh("resealed")
+    (resealed / "verdict.json").write_text(
+        (resealed / "verdict.json").read_text() + "\n", encoding="utf-8"
+    )
+    bundle = EvidenceBundle.open(resealed)
+    lines = [
+        f"{digest}  {name}"
+        for name, digest in sorted(bundle._compute_checksums().items())
+    ]
+    (resealed / "CHECKSUMS.sha256").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    from ivf.evidence import sha256_file
+
+    seal = _json.loads((resealed / "SEAL.json").read_text())
+    seal["checksums_sha256"] = sha256_file(resealed / "CHECKSUMS.sha256")
+    seal["n_files"] = len(lines)
+    (resealed / "SEAL.json").write_text(_json.dumps(seal, indent=2, sort_keys=True) + "\n")
+    assert EvidenceBundle.open(resealed).verify() == [], (
+        "a coordinated edit plus reseal is internally consistent by construction; "
+        "this is the documented limit of an unkeyed seal"
+    )

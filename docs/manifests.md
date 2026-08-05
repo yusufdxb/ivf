@@ -33,22 +33,27 @@ subjects:
   baseline:
     kind: parity_bundle
     label: PhysX                      # shown in the report
-    path: validation/bundles/cartpole_passive_physx_cuda0_s0_29075be3
+    path: artifacts/cartpole-physx-baseline
+    bundle_sha256: 0947a726333914db45727c138f17152995aec5bda3c6d862e1501e4f7e4a0794
   candidate:
     kind: parity_bundle
     label: Newton / MJWarp
-    path: validation/bundles/cartpole_passive_newton-mjwarp_cuda0_s0_30d7a160
+    path: artifacts/cartpole-newton-baseline
+    bundle_sha256: 86ac7101ce268106b963a45301559476184a6085a0e3439cba7b4d59b2744565
 ```
 
 | `kind` | Parameters | Needs |
 |---|---|---|
 | `synthetic` | `system`, plus that system's parameters; optional `fault`, `fault_params` | nothing |
-| `parity_bundle` | `path` to an `isaaclab_contrib.parity` trajectory bundle | nothing (numpy only) |
+| `parity_bundle` | `path` to an `isaaclab_contrib.parity` trajectory bundle; v1 captures should also set `bundle_sha256` to the finalized root in `COMPLETE` | nothing (numpy only) |
 | `isaaclab` | backend/preset | reserved in core; returns `UNSUPPORTED` |
 
 To run a live workload, generate a trajectory bundle with `isaaclab_contrib.parity` or
 the repository's narrow `parity-capture` cart-pole adapter, then point a
 `parity_bundle` subject at it. IVF core remains offline and does not import Isaac Lab.
+For v1, a mismatched `bundle_sha256` returns `INVALID_EXPERIMENT` with
+`IVF-BUNDLE-CHECKSUM-MISMATCH` before any oracle runs. The paired capture specs generate
+these locks automatically.
 
 ## `workload`
 

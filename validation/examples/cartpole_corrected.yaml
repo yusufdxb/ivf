@@ -1,11 +1,24 @@
 schema_version: ivf.validation/v1
 name: cartpole-physx-corrected
 description: >
-  Corrected case. The candidate is a fresh capture from the same simulator with the
-  defect removed, judged by a byte-identical set of oracles and tolerances. This is the
-  negative control for the whole comparison: if it does not PASS, the tolerances are too
-  tight and the defective case's failure proves nothing.
+  Independent no-defect repeatability check, run as a declared A/A identity experiment.
 
+  Both subjects are captures of the same passive cartpole configuration with no defect
+  injected: the baseline and candidate capture specs are identical apart from the output
+  name. Two independent simulator processes were executed to produce them, and PhysX on
+  the recorded machine reproduced the trajectories bit for bit, so the two subjects carry
+  identical scientific arrays.
+
+  What this establishes: independent deterministic re-execution produced identical
+  scientific arrays on the recorded machine, and the validator returns PASS on data it
+  should return PASS on.
+
+  What it does not establish: it is not evidence of tolerance to capture variation, and
+  because the two subjects are byte-identical it cannot exercise the tolerances at all.
+  The engineering negative control for a nonzero accepted difference is
+  cartpole_benign_difference.yaml, not this case.
+
+experiment_mode: identity_check
 subjects:
   baseline:
     kind: parity_bundle
@@ -13,7 +26,7 @@ subjects:
     path: artifacts/cartpole-physx-baseline
   candidate:
     kind: parity_bundle
-    label: PhysX capture with the reset path corrected
+    label: PhysX capture, independent re-execution of the same configuration
     path: artifacts/cartpole-physx-corrected
 
 workload:
