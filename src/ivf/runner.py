@@ -184,7 +184,8 @@ def decide(manifest: Manifest, validity: ValidityReport,
     return Verdict.PASS, codes
 
 
-def _provenance(manifest: Manifest, command: list[str] | None) -> dict[str, Any]:
+def _provenance(manifest: Manifest, command: list[str] | None,
+                subjects: dict[str, SignalSet] | None = None) -> dict[str, Any]:
     """Collect audit provenance without publishing machine-local identity or paths."""
     from .env import run_doctor
 
@@ -217,8 +218,34 @@ def _provenance(manifest: Manifest, command: list[str] | None) -> dict[str, Any]
             "platform": f"{platform.system()} {platform.release()} {platform.machine()}",
         },
         "environment_variables": tracked_env,
+        "subject_identities": _subject_identities(subjects or {}),
         "doctor": _portable_value(doctor.to_jsonable()),
     }
+
+
+def _subject_identities(subjects: dict[str, SignalSet]) -> dict[str, Any]:
+    """Record what each subject actually was, so the verdict names its own inputs.
+
+    A path is not an identity: it says where a directory sat at run time, not what was in
+    it. Binding the finalized digests here is what lets a reader confirm that the bundle
+    they are holding is the one the verdict was computed from.
+    """
+    out: dict[str, Any] = {}
+    for role, sset in sorted(subjects.items()):
+        if sset is None:
+            continue
+        out[role] = {
+            "capture_schema": sset.metadata.get("capture_schema", "legacy"),
+            "bundle_root_sha256": sset.metadata.get("bundle_root_sha256", ""),
+            "payload_sha256": sset.metadata.get("payload_sha256", ""),
+            "content_digest_sha256": sset.content_digest(),
+            "capture_id": sset.metadata.get("capture_id", ""),
+            "capture_created_utc": sset.metadata.get("capture_created_utc", ""),
+            "capture_producer": _portable_value(sset.metadata.get("capture_producer", {})),
+            "task_variant": sset.metadata.get("task_variant", ""),
+            "backend": sset.metadata.get("backend", ""),
+        }
+    return out
 
 
 def _portable_text(value: str) -> str:
@@ -358,7 +385,10 @@ def validate(
             "divergence.jsonl",
             [o.divergence.to_jsonable() for o in outcomes if o.divergence is not None],
         )
-        bundle.write_json("provenance.json", _provenance(manifest, command))
+        bundle.write_json(
+            "provenance.json",
+            _provenance(manifest, command, {"baseline": baseline, "candidate": candidate}),
+        )
         for role, sset in (("baseline", baseline), ("candidate", candidate)):
             if sset is not None:
                 bundle.write_signals(role, sset.signals)
