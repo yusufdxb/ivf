@@ -13,10 +13,12 @@ subjects:
     kind: parity_bundle
     label: PhysX reference capture
     path: artifacts/cartpole-physx-baseline
+    bundle_sha256: 0947a726333914db45727c138f17152995aec5bda3c6d862e1501e4f7e4a0794
   candidate:
     kind: parity_bundle
     label: PhysX capture with cart damping raised 0.2%
     path: artifacts/cartpole-physx-benign
+    bundle_sha256: 21dfab878b225cba9802ce5376ec7701437d5d0e08acf84efdd6881317a21b77
 
 workload:
   task: cartpole_passive

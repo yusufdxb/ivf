@@ -27,6 +27,7 @@ from ivf.bundle import (
     finalize_v1,
     is_v1,
     load_v1,
+    sha256_file,
 )
 from ivf.manifest import parse_manifest
 from ivf.runner import validate
@@ -247,6 +248,107 @@ def test_a_dtype_that_contradicts_the_declaration_is_refused(tmp_path):
     assert exc.value.reason_code == "IVF-BUNDLE-ARRAY-DTYPE-INCONSISTENT"
 
 
+@pytest.mark.parametrize("unit", ["", "unknown"])
+def test_a_missing_or_unknown_unit_is_refused(tmp_path, unit):
+    def edit(c):
+        c["arrays"]["root_pos_w"]["unit"] = unit
+        return c
+
+    root = write_bundle(tmp_path / "b", contract_edits=edit)
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-CONTRACT-INCOMPLETE"
+
+
+def test_environment_ordering_is_required(tmp_path):
+    def edit(c):
+        c["seed"].pop("env_order")
+        return c
+
+    root = write_bundle(tmp_path / "b", contract_edits=edit)
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-CONTRACT-INCOMPLETE"
+
+
+@pytest.mark.parametrize("edit", [
+    lambda c: {k: v for k, v in c.items() if k != "hardware"},
+    lambda c: {**c, "hardware": {"gpu": "fixture"}},
+    lambda c: {**c, "backend": {"id": "fixture-backend"}},
+])
+def test_hardware_driver_and_solver_identity_are_required(tmp_path, edit):
+    root = write_bundle(tmp_path / "b", contract_edits=edit)
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-CONTRACT-INCOMPLETE"
+
+
+def test_the_reserved_action_array_is_required_and_shape_checked(tmp_path):
+    root = write_bundle(tmp_path / "b")
+    payload = root / "trajectories.npz"
+    with np.load(payload) as archive:
+        arrays = {name: archive[name] for name in archive.files if name != "__actions__"}
+    np.savez_compressed(payload, **arrays)
+    finalize_v1_again(root)
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT"
+
+
+def test_payload_entries_must_use_the_declared_deflate_compression(tmp_path):
+    root = write_bundle(tmp_path / "b")
+    payload = root / "trajectories.npz"
+    with np.load(payload) as archive:
+        arrays = {name: archive[name] for name in archive.files}
+    np.savez(payload, **arrays)
+    finalize_v1_again(root)
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-CONTRACT-INCOMPLETE"
+
+
+def test_completion_marker_and_contract_status_must_agree(tmp_path):
+    root = write_bundle(tmp_path / "b")
+    marker = json.loads((root / COMPLETION_MARKER).read_text())
+    marker["run_status"] = "failed"
+    (root / COMPLETION_MARKER).write_text(json.dumps(marker))
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-CONTRACT-INCOMPLETE"
+
+
+def test_failed_run_requires_a_structured_error_record(tmp_path):
+    root = write_bundle(
+        tmp_path / "b", captured_steps=12, declared_steps=STEPS, run_status="failed"
+    )
+    with pytest.raises(BundleContractError) as exc:
+        load_v1(root)
+    assert exc.value.reason_code == "IVF-BUNDLE-CONTRACT-INCOMPLETE"
+
+
+def test_declared_failed_run_loads_but_is_never_complete(tmp_path):
+    def edit(c):
+        c["error"] = {"type": "RuntimeError", "message": "fixture failure", "failed_step": 12}
+        return c
+
+    root = write_bundle(
+        tmp_path / "b", captured_steps=12, declared_steps=STEPS,
+        run_status="failed", contract_edits=edit,
+    )
+    bundle = load_v1(root)
+    assert bundle.contract.run_status == "failed"
+    from ivf.signals import load_trajectory_bundle_v1
+
+    assert load_trajectory_bundle_v1(root).complete is False
+
+
+def test_unknown_additive_fields_are_ignored_within_v1(tmp_path):
+    root = write_bundle(
+        tmp_path / "b", contract_edits=lambda c: {**c, "producer_extension": {"value": 1}}
+    )
+    assert load_v1(root).contract.run_status == "completed"
+
+
 @pytest.mark.parametrize("section", ["task", "software", "timing", "frames", "reset",
                                      "termination", "seed", "arrays"])
 def test_every_required_declaration_is_enforced(tmp_path, section):
@@ -380,6 +482,32 @@ def test_a_refused_capture_still_produces_verifiable_evidence(tmp_path, results_
     result = validate(parse_manifest(MANIFEST.format(a=good_a, b=bad_b)), results_root=results_root)
     assert result.verdict is Verdict.INVALID_EXPERIMENT
     assert EvidenceBundle.open(result.bundle_path).verify() == []
+
+
+@pytest.mark.integration
+def test_manifest_bundle_root_lock_is_enforced_before_oracles(tmp_path, results_root):
+    a = write_bundle(tmp_path / "a")
+    b = write_bundle(tmp_path / "b")
+    a_root = sha256_file(a / CHECKSUM_FILE)
+    b_root = sha256_file(b / CHECKSUM_FILE)
+    # Two write_bundle() calls emit the same payload, so this is an A/A run and says so.
+    # The lock under test is on the bundle roots, which do differ between the two dirs.
+    locked = MANIFEST.replace(
+        "schema_version: ivf.validation/v1",
+        "schema_version: ivf.validation/v1\nexperiment_mode: identity_check",
+    ).replace(
+        "path: {a}", "path: {a}\n    bundle_sha256: " + a_root,
+    ).replace(
+        "path: {b}", "path: {b}\n    bundle_sha256: " + b_root,
+    )
+    passing = validate(parse_manifest(locked.format(a=a, b=b)), results_root=results_root)
+    assert passing.verdict is Verdict.PASS
+
+    mismatched = locked.replace(b_root, "f" * 64)
+    refused = validate(parse_manifest(mismatched.format(a=a, b=b)), results_root=results_root)
+    assert refused.verdict is Verdict.INVALID_EXPERIMENT
+    assert refused.reason_codes == ["IVF-BUNDLE-CHECKSUM-MISMATCH"]
+    assert refused.outcomes == []
 
 
 # write_bundle() emits the same payload twice, so this control fixture is an A/A run and

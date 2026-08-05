@@ -14,10 +14,12 @@ subjects:
     kind: parity_bundle
     label: PhysX reference capture
     path: artifacts/cartpole-physx-baseline
+    bundle_sha256: 0947a726333914db45727c138f17152995aec5bda3c6d862e1501e4f7e4a0794
   candidate:
     kind: parity_bundle
     label: PhysX capture with a test-only reset defect
     path: artifacts/cartpole-physx-reset-defect
+    bundle_sha256: 3452705e34b358582227a8fe4a9cfd9f040e5f6ed8bf6e8dda983673c4b76fea
 
 workload:
   task: cartpole_passive

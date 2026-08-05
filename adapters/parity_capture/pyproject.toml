@@ -11,12 +11,11 @@ license = {text = "BSD-3-Clause"}
 authors = [{name = "Yusuf Guenena"}]
 requires-python = ">=3.10"
 
-# Deliberately thin. `ivf` provides the trajectory_bundle/v1 writer and nothing else;
-# Isaac Lab is NOT declared here because it is never installed from PyPI in practice.
-# This package is installed into an environment that already has the simulator, which
-# `parity-capture doctor` verifies before any capture is attempted.
+# Deliberately thin. Isaac Lab is not declared because it is never installed from PyPI
+# in practice. This package is installed into an environment that already has the
+# simulator, which `parity-capture doctor` verifies before capture. IVF is also absent:
+# the integration boundary is the versioned bundle on disk, not a Python dependency.
 dependencies = [
-    "ivf==0.1.0rc1",
     "pyyaml>=6.0",
     "numpy>=1.24",
 ]

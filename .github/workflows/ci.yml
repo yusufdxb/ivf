@@ -27,6 +27,24 @@ jobs:
       - name: Doctor must report the offline capability
         run: uv run ivf doctor --require offline
 
+      # This runner has no GPU and no Isaac Lab, so the simulator-backed tests must
+      # SKIP here. If they ever report passed on a CPU runner, they are not talking to
+      # a simulator and every simulator claim in this repository is void.
+      - name: The simulator tests must skip here, never pass
+        run: |
+          uv run pytest tests/test_simulator_end_to_end.py \
+                        tests/test_simulator_newton_end_to_end.py -q -rs \
+            | tee cpu-simulator.txt
+          for expected in "Isaac Lab capture unavailable" "Newton capture unavailable"; do
+            if ! grep -q "$expected" cpu-simulator.txt; then
+              echo "expected a skip reading '$expected' on a CPU runner; got none."
+              echo "either the tests stopped skipping, or they are no longer honest."
+              exit 1
+            fi
+          done
+          echo "GPU path: UNEXERCISED on this job. This is correct for a CPU runner."
+          echo "A green cpu job is NOT evidence that IVF works against Isaac Lab."
+
   workflow:
     name: end-to-end workflow
     runs-on: ubuntu-latest
@@ -74,6 +92,53 @@ jobs:
 
       - name: Fault detectability matrix matches the taxonomy
         run: uv run ivf calibrate --seeds 11 23 47
+
+  # The GPU path. This job does NOT run on hosted runners: GitHub-hosted runners have no
+  # GPU and no Isaac Lab licence, and Isaac Sim is a multi-gigabyte install that cannot
+  # be provisioned per job. It runs only when the repository defines the variable
+  # IVF_GPU_RUNNER naming a self-hosted runner label. Until then it does not execute at
+  # all, which is the honest state: absent from the check list rather than green.
+  #
+  # It is deliberately NOT a required check, and no other job depends on it, so a green
+  # CI run must never be read as covering the simulator. See docs/ci-gpu-runner.md.
+  simulator:
+    name: simulator (self-hosted GPU, opt-in)
+    if: ${{ vars.IVF_GPU_RUNNER != '' }}
+    # The fallback is never used: the job is skipped when the variable is unset. It is
+    # here so an unset variable yields a skipped job rather than an invalid workflow,
+    # which would take the CPU jobs down with it.
+    runs-on: ${{ vars.IVF_GPU_RUNNER || 'ubuntu-latest' }}
+    env:
+      # Turns every "simulator missing" skip into a failure. Without it this job would
+      # go green on a runner that had quietly lost its Isaac Lab install.
+      IVF_REQUIRE_SIMULATOR: "1"
+      IVF_CAPTURE_PYTHON: ${{ vars.IVF_CAPTURE_PYTHON }}
+      OMNI_KIT_ACCEPT_EULA: "YES"
+      # Never let a bundle record the exact GPU model or VRAM.
+      IVF_HARDWARE_LABEL: ${{ vars.IVF_HARDWARE_LABEL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+
+      - name: The runner must actually declare a capture interpreter
+        run: |
+          test -n "$IVF_CAPTURE_PYTHON" || {
+            echo "IVF_CAPTURE_PYTHON is unset. Set the repository variable to the"
+            echo "Isaac Lab interpreter that has ivf-parity-capture installed."
+            exit 1
+          }
+          test -n "$IVF_HARDWARE_LABEL" || {
+            echo "IVF_HARDWARE_LABEL is unset. Evidence bundles must not record the"
+            echo "exact GPU model or VRAM; set a generic label."
+            exit 1
+          }
+          "$IVF_CAPTURE_PYTHON" -m parity_capture.cli doctor
+
+      - name: Real PhysX and Newton captures through to sealed verdicts
+        run: |
+          uv run pytest tests/test_simulator_end_to_end.py \
+                        tests/test_simulator_newton_end_to_end.py -v
 
   package:
     name: build and clean-install

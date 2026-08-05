@@ -33,6 +33,7 @@ from ivf.evidence import EvidenceBundle
 from ivf.manifest import load_manifest, parse_manifest
 from ivf.runner import validate
 from ivf.verdicts import Verdict
+from tests.simulator_gate import simulator_unavailable
 
 pytestmark = [
     pytest.mark.integration,
@@ -89,7 +90,7 @@ def capture_command() -> list[str]:
     """The capture command, skipping the module with a precise reason when unavailable."""
     reason = _missing_prerequisite()
     if reason is not None:
-        pytest.skip(f"Isaac Lab capture unavailable. {reason}", allow_module_level=False)
+        simulator_unavailable(f"Isaac Lab capture unavailable. {reason}")
     return _capture_command()
 
 
@@ -123,8 +124,8 @@ def live_captures(capture_command, tmp_path_factory) -> dict[str, Path]:
     """
     root = tmp_path_factory.mktemp("live-captures")
     specs = {
-        "baseline": SPEC_DIR / "cartpole_physx.yaml",
-        "corrected": SPEC_DIR / "cartpole_physx_corrected.yaml",
+        "baseline": SPEC_DIR / "cartpole_physx_baseline.yaml",
+        "corrected": SPEC_DIR / "cartpole_physx_candidate.yaml",
         "defect": SPEC_DIR / "cartpole_physx_reset_defect.yaml",
     }
     return {name: run_capture(capture_command, spec, root / name) for name, spec in specs.items()}
@@ -142,7 +143,13 @@ def test_the_capture_is_a_complete_trajectory_bundle_v1(live_captures):
         assert contract.backend["id"] == "physx"
         assert contract.quaternion["layout"] == "wxyz"
         assert contract.software.get("isaaclab"), f"{name}: no Isaac Lab version recorded"
+        assert set(contract.software.get("source_commits", {})) == {
+            "parity_capture", "isaaclab",
+        }
         assert contract.backend["solver_settings"], f"{name}: no solver settings recorded"
+        assert contract.task["asset"]["id"] == "isaaclab_assets.CARTPOLE_CFG"
+        assert contract.timing["warmup_steps"] == 0
+        assert contract.timing["timestamp_convention"]
         assert set(contract.arrays) >= {"pole_angle", "pole_velocity", "root_link_quat_w"}
         assert bundle.actions is not None and bundle.actions.shape == (400, 16, 2)
 
@@ -158,23 +165,29 @@ def test_the_completion_marker_is_written_after_the_checksums(live_captures):
 
 
 def _manifest_for(name: str, baseline: Path, candidate: Path):
-    """Load a shipped demonstration manifest, repointed at freshly captured bundles."""
+    """Load a shipped manifest with fresh paths and their fresh finalized root locks."""
+    import yaml
+
     source = Path(__file__).resolve().parents[1] / "validation" / "examples" / name
-    text = source.read_text()
-    text = text.replace("artifacts/cartpole-physx-baseline", str(baseline))
-    for stale in ("artifacts/cartpole-physx-corrected", "artifacts/cartpole-physx-reset-defect"):
-        text = text.replace(stale, str(candidate))
+    raw = yaml.safe_load(source.read_text(encoding="utf-8"))
+    for role, path in (("baseline", baseline), ("candidate", candidate)):
+        raw["subjects"][role]["path"] = str(path)
+        raw["subjects"][role]["bundle_sha256"] = load_v1(path).bundle_sha256
+    text = yaml.safe_dump(raw, sort_keys=False)
     return parse_manifest(text, source_path=str(source))
 
 
 def test_a_corrected_capture_passes_end_to_end(live_captures, results_root):
-    """Real simulator to PASS, using the shipped manifest unmodified except for paths.
+    """Real simulator to PASS through the generated, hash-locked manifest.
 
     This is the negative control for the failing case below: if a clean rerun of the
     same workload does not pass, a failure elsewhere proves nothing about the defect.
     """
-    manifest = _manifest_for("cartpole_corrected.yaml",
-                             live_captures["baseline"], live_captures["corrected"])
+    generated = live_captures["baseline"].parent / "cartpole_real.yaml"
+    assert generated.is_file(), "the two capture commands did not generate the IVF manifest"
+    manifest = load_manifest(generated)
+    for role in ("baseline", "candidate"):
+        assert len(str(manifest.subjects[role].params.get("bundle_sha256", ""))) == 64
     result = validate(manifest, results_root=results_root)
 
     assert result.verdict is Verdict.PASS, (

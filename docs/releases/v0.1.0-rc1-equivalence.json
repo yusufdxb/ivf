@@ -34,13 +34,14 @@
       "path_encoding": "POSIX relative path from the repository root, UTF-8",
       "per_file": "sha256 over raw bytes"
     },
+    "computed_over": "the tree at tag v0.1.0-rc1",
     "groups": {
       "example_manifest_tree": {
         "n_files": 8,
         "patterns": [
           "validation/examples/*.yaml"
         ],
-        "sha256": "02145bafd0084f6f960fd43f859da584c4646587854ad1e5ee1994d9517f64a4"
+        "sha256": "682f79d9d41cec31aeb5c2535b224db3a99e8e10a418535bbcbc6773f88904bf"
       },
       "raw_capture_trajectory_aggregate": {
         "n_files": 11,
@@ -75,11 +76,11 @@
         "sha256": "c5f146a4da4635096c7f574598e3676199509f04685320aa7bd726515f6acde8"
       },
       "source_tree": {
-        "n_files": 24,
+        "n_files": 23,
         "patterns": [
           "src/ivf/**/*.py"
         ],
-        "sha256": "6e34b04637075233eaf4a4655adae5ef07e7a1cb5bcc3d3cb07712f3b0d822ef"
+        "sha256": "51f78ddf8fbb84335a741e71d47651f7e7f8e95c8fb303bce6f47ac35c431338"
       },
       "tolerance_registry_tree": {
         "n_files": 1,
@@ -89,7 +90,7 @@
         "sha256": "b9f1ef502fe1ddb7e199fd69d8d0761c4924098e497f9387464b2f0a82685292"
       }
     },
-    "how": "python tools/recompute_release_equivalence.py --check docs/releases/v0.1.0-rc1-equivalence.json",
+    "how": "git worktree add /tmp/rc1 v0.1.0-rc1 && python tools/recompute_release_equivalence.py --check --root /tmp/rc1",
     "recomputed_at_commit": "audit-hardening-and-gpu-gate (post-RC1 remediation)"
   },
   "release": "v0.1.0-rc1",

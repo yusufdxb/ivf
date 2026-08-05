@@ -24,11 +24,30 @@ def record():
 
 
 @pytest.mark.integration
-def test_every_published_aggregate_recomputes_from_this_clone(record):
-    """The whole point of the record: a reader can check it without trusting the author."""
+def test_every_published_aggregate_recomputes_from_the_release_tree(record, tmp_path):
+    """The whole point of the record: a reader can check it without trusting the author.
+
+    The record names a release, so it is checked against that release's tree. Checking it
+    against the working branch would make it fail on every subsequent commit, which would
+    teach people to ignore it rather than to run it.
+    """
+    import subprocess
+
     from recompute_release_equivalence import main
 
-    assert main(["--check", "docs/releases/v0.1.0-rc1-equivalence.json"]) == 0
+    worktree = tmp_path / "rc1"
+    made = subprocess.run(
+        ["git", "worktree", "add", "--detach", str(worktree), "v0.1.0-rc1"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if made.returncode != 0:  # pragma: no cover - shallow clone or missing tag
+        pytest.skip(f"cannot materialize the v0.1.0-rc1 tree: {made.stderr.strip()}")
+    try:
+        assert main(["--check", "docs/releases/v0.1.0-rc1-equivalence.json",
+                     "--root", str(worktree)]) == 0
+    finally:
+        subprocess.run(["git", "worktree", "remove", "--force", str(worktree)],
+                       cwd=REPO_ROOT, capture_output=True)
 
 
 def test_the_recomputation_is_deterministic():

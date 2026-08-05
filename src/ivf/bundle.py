@@ -40,6 +40,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -83,7 +84,7 @@ tell that case apart from the defect where velocity was dropped by accident."""
 
 REQUIRED_CONTRACT_SECTIONS = (
     "schema", "run_status", "declared_steps", "captured_steps",
-    "task", "backend", "software", "seed", "timing", "frames",
+    "task", "backend", "software", "hardware", "seed", "timing", "frames",
     "quaternion", "reset", "termination", "arrays",
 )
 
@@ -189,6 +190,7 @@ class TrajectoryBundleV1:
     arrays: dict[str, np.ndarray]
     actions: np.ndarray | None = None
     checksums: dict[str, str] = field(default_factory=dict)
+    bundle_sha256: str = ""
 
 
 # --------------------------------------------------------------------------------------
@@ -221,8 +223,8 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
              f"{where}: run_status {run_status!r} is not one of {sorted(RUN_STATUSES)}")
     declared_steps = int(raw["declared_steps"])
     captured_steps = int(raw["captured_steps"])
-    _require(declared_steps > 0 and captured_steps > 0, "IVF-BUNDLE-CONTRACT-INCOMPLETE",
-             f"{where}: declared_steps and captured_steps must both be positive")
+    _require(declared_steps > 0 and captured_steps >= 0, "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+             f"{where}: declared_steps must be positive and captured_steps must be non-negative")
     _require(captured_steps <= declared_steps, "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT",
              f"{where}: captured_steps ({captured_steps}) exceeds declared_steps "
              f"({declared_steps}), which no honest capture can do")
@@ -231,6 +233,20 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
              f"{where}: only {captured_steps} of {declared_steps} declared steps were "
              "captured, but run_status says 'completed'. A short rollout must declare "
              "itself partial; otherwise a consumer cannot tell truncation from intent")
+    _require(not (run_status == "partial" and captured_steps == declared_steps),
+             "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+             f"{where}: run_status is 'partial' but all {declared_steps} declared steps "
+             "were captured")
+    error = raw.get("error")
+    if run_status == "failed":
+        _require(isinstance(error, dict), "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+                 f"{where}: a failed run must carry a structured error block")
+        for key in ("type", "message", "failed_step"):
+            _require(key in error, "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+                     f"{where}: a failed run must declare error.{key}")
+    else:
+        _require(error in (None, {}), "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+                 f"{where}: only a failed run may carry an error block")
 
     # -- quaternion convention ----------------------------------------------------------
     quat = raw["quaternion"]
@@ -275,10 +291,12 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
 
     # -- seed and environment ordering -----------------------------------------------------
     seed = raw["seed"]
-    _require(isinstance(seed, dict) and "value" in seed and "env_ids" in seed,
+    _require(isinstance(seed, dict) and "value" in seed and "env_ids" in seed
+             and str(seed.get("env_order", "")).strip(),
              "IVF-BUNDLE-CONTRACT-INCOMPLETE",
-             f"{where}: seed.value and seed.env_ids are required. Environment ordering is "
-             "what makes a paired comparison meaningful, so it is declared, not assumed")
+             f"{where}: seed.value, seed.env_ids, and seed.env_order are required. "
+             "Environment ordering is what makes a paired comparison meaningful, so it "
+             "is declared, not assumed")
     env_ids = list(seed["env_ids"])
     _require(len(set(env_ids)) == len(env_ids), "IVF-BUNDLE-CONTRACT-INCOMPLETE",
              f"{where}: seed.env_ids contains duplicates")
@@ -303,12 +321,19 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
         _require(shape[1] == len(env_ids), "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT",
                  f"{where}: arrays.{name} declares {shape[1]} environments but "
                  f"seed.env_ids lists {len(env_ids)}")
+        _require(str(spec["unit"]).strip().lower() not in ("", "unknown"),
+                 "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+                 f"{where}: arrays.{name}.unit must name the physical unit or "
+                 "'dimensionless'; an unknown unit cannot be recovered from the payload")
+        _require(str(spec["frame"]).strip().lower() not in ("", "unknown"),
+                 "IVF-BUNDLE-FRAME-UNDECLARED",
+                 f"{where}: arrays.{name}.frame must name the coordinate frame")
         arrays[str(name)] = ArraySpec(
             name=str(name), shape=shape, dtype=str(spec["dtype"]), unit=str(spec["unit"]),
             frame=str(spec["frame"]), semantics=str(spec.get("semantics", "")),
         )
 
-    for section in ("task", "backend", "software"):
+    for section in ("task", "backend", "software", "hardware"):
         _require(isinstance(raw[section], dict) and raw[section],
                  "IVF-BUNDLE-CONTRACT-INCOMPLETE", f"{where}: {section} must be a non-empty mapping")
     for key in ("id", "config_digest_sha256"):
@@ -316,6 +341,13 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
                  f"{where}: task.{key} is required")
     _require("id" in raw["backend"], "IVF-BUNDLE-CONTRACT-INCOMPLETE",
              f"{where}: backend.id is required")
+    _require(isinstance(raw["backend"].get("solver_settings"), dict)
+             and raw["backend"]["solver_settings"], "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+             f"{where}: backend.solver_settings must be a non-empty mapping")
+    _require(str(raw["hardware"].get("driver", "")).strip(),
+             "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+             f"{where}: hardware.driver is required; use an explicit 'unavailable' value "
+             "when the runtime cannot query it")
 
     return CaptureContract(
         run_status=run_status, declared_steps=declared_steps, captured_steps=captured_steps,
@@ -396,9 +428,28 @@ def load_v1(path: str | Path, *, verify_checksums: bool = True) -> TrajectoryBun
              f"{root}: expected {METADATA_FILE} and {PAYLOAD_FILE}")
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     contract = _parse_contract(metadata.get(CONTRACT_KEY), str(root))
+    _require(str(marker_payload.get("run_status", "")) == contract.run_status,
+             "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+             f"{root}: {COMPLETION_MARKER} run_status "
+             f"{marker_payload.get('run_status')!r} contradicts metadata run_status "
+             f"{contract.run_status!r}")
 
     arrays: dict[str, np.ndarray] = {}
     actions: np.ndarray | None = None
+    try:
+        with zipfile.ZipFile(payload_path) as archive:
+            _require(bool(archive.infolist()), "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+                     f"{root}: {PAYLOAD_FILE} contains no arrays")
+            uncompressed = [item.filename for item in archive.infolist()
+                            if item.compress_type != zipfile.ZIP_DEFLATED]
+            _require(not uncompressed, "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+                     f"{root}: {PAYLOAD_FILE} must use ZIP DEFLATE compression for every "
+                     f"entry; uncompressed entries: {uncompressed}")
+    except zipfile.BadZipFile as exc:
+        raise BundleContractError(
+            "IVF-BUNDLE-CONTRACT-INCOMPLETE",
+            f"{root}: {PAYLOAD_FILE} is not a readable NPZ/ZIP payload",
+        ) from exc
     with np.load(payload_path) as payload:
         for key in payload.files:
             raw = np.asarray(payload[key])
@@ -406,6 +457,16 @@ def load_v1(path: str | Path, *, verify_checksums: bool = True) -> TrajectoryBun
                 actions = raw.astype(np.float64)
                 continue
             arrays[key] = raw
+
+    _require(actions is not None, "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT",
+             f"{root}: payload lacks the reserved __actions__ array")
+    _require(actions.ndim in (2, 3), "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT",
+             f"{root}: __actions__ must have shape (steps, envs) or "
+             f"(steps, envs, action_dim), got {list(actions.shape)}")
+    _require(tuple(actions.shape[:2]) == (contract.captured_steps, len(contract.seed["env_ids"])),
+             "IVF-BUNDLE-ARRAY-SHAPE-INCONSISTENT",
+             f"{root}: __actions__ has leading shape {list(actions.shape[:2])}, expected "
+             f"[{contract.captured_steps}, {len(contract.seed['env_ids'])}]")
 
     declared = set(contract.arrays)
     actual_names = set(arrays)
@@ -430,6 +491,7 @@ def load_v1(path: str | Path, *, verify_checksums: bool = True) -> TrajectoryBun
         root=root, contract=contract, metadata=metadata,
         arrays={k: v.astype(np.float64) for k, v in arrays.items()},
         actions=actions, checksums=checksums,
+        bundle_sha256=sha256_file(root / CHECKSUM_FILE) if verify_checksums else "",
     )
 
 

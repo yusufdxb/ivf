@@ -101,11 +101,11 @@ class SignalSet:
     def content_digest(self) -> str:
         """Return a digest of the scientific arrays this subject contributes.
 
-        Deliberately over the *arrays* rather than over the bundle directory. Two
-        captures that differ only in what their directory is called, or in which name
-        their spec carries, are the same data; a comparison between them measures the
-        validator, not the subject. Hashing the payload is what makes that detectable
-        regardless of how the two subjects were addressed.
+        Deliberately over the *arrays* rather than over the bundle directory. Two captures
+        that differ only in what their directory is called, or in which name their spec
+        carries, are the same data; a comparison between them measures the validator, not
+        the subject. Hashing the payload is what makes that detectable regardless of how
+        the two subjects were addressed.
         """
         digest = hashlib.sha256()
         for name, arr in sorted(self.signals.items()):
@@ -375,16 +375,6 @@ def _initial_state_digest(metadata: dict[str, Any], scenario_cfg: Any) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
 
 
-def _checksums_root(checksums: dict[str, str]) -> str:
-    """Return one digest standing for a bundle's whole finalized file set.
-
-    Recorded in the verdict so the evidence names the exact inputs it judged, rather
-    than only the paths they happened to sit at.
-    """
-    payload = json.dumps(dict(sorted(checksums.items())), sort_keys=True)
-    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
-
-
 def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> SignalSet:
     """Read a ``trajectory_bundle/v1`` capture, refusing anything that violates the contract.
 
@@ -401,15 +391,6 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
         "source": "trajectory_bundle/v1",
         "bundle_path": str(bundle.root),
         "capture_schema": "trajectory_bundle/v1",
-        # Content identity, bound here so the verdict can name exactly what it judged.
-        # The payload digest is the scientific content: two subjects with the same
-        # payload are the same data whatever their directories are called.
-        "bundle_root_sha256": bundle.checksums.get("CHECKSUMS.sha256")
-        or _checksums_root(bundle.checksums),
-        "payload_sha256": bundle.checksums.get("trajectories.npz", ""),
-        "capture_id": str(contract.capture.get("capture_id", "")),
-        "capture_created_utc": str(contract.capture.get("created_utc", "")),
-        "capture_producer": contract.capture.get("producer", {}) or {},
         "run_status": contract.run_status,
         "declared_steps": contract.declared_steps,
         "captured_steps": contract.captured_steps,
@@ -456,7 +437,14 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
                 "shape": list(a.shape), "semantics": a.semantics}
             for n, a in contract.arrays.items()
         },
+        # Content identity, bound here so the verdict can name exactly what it judged.
+        "bundle_root_sha256": bundle.bundle_sha256,
+        "payload_sha256": bundle.checksums.get("trajectories.npz", ""),
+        "capture_id": str(contract.capture.get("capture_id", "")),
+        "capture_created_utc": str(contract.capture.get("created_utc", "")),
+        "capture_producer": contract.capture.get("producer", {}) or {},
         "checksums": bundle.checksums,
+        "bundle_sha256": bundle.bundle_sha256,
     }
     return SignalSet(
         role=role, signals=signals, metadata=metadata, actions=bundle.actions,
@@ -477,7 +465,27 @@ def _load_parity_bundle_subject(subject: Subject) -> SignalSet:
     if not path:
         raise SignalSourceError(f"subjects.{subject.role}.path: required for kind 'parity_bundle'")
     if Path(path).is_dir() and is_v1(path):
-        return load_trajectory_bundle_v1(path, role=subject.role)
+        signal_set = load_trajectory_bundle_v1(path, role=subject.role)
+        expected = str(subject.params.get("bundle_sha256", "")).strip().lower()
+        if expected:
+            actual = str(signal_set.metadata["bundle_sha256"])
+            if len(expected) != 64 or any(character not in "0123456789abcdef" for character in expected):
+                from .bundle import BundleContractError
+
+                raise BundleContractError(
+                    "IVF-BUNDLE-CHECKSUM-MISMATCH",
+                    f"subjects.{subject.role}.bundle_sha256 is not a 64-character "
+                    "lowercase SHA-256 digest",
+                )
+            if expected != actual:
+                from .bundle import BundleContractError
+
+                raise BundleContractError(
+                    "IVF-BUNDLE-CHECKSUM-MISMATCH",
+                    f"subjects.{subject.role} locks bundle root {expected}, but {path} "
+                    f"has finalized root {actual}",
+                )
+        return signal_set
     return load_parity_bundle(path, role=subject.role)
 
 

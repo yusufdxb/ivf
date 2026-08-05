@@ -19,6 +19,12 @@ Usage::
     python tools/recompute_release_equivalence.py                 # print JSON
     python tools/recompute_release_equivalence.py --check         # compare to the record
 
+A record names a *release*, so it is checked against that release's tree, not against
+whatever the working branch currently holds::
+
+    git worktree add /tmp/rc1 v0.1.0-rc1
+    python tools/recompute_release_equivalence.py --check --root /tmp/rc1
+
 Exit codes: ``0`` recomputed (and matched, under ``--check``), ``1`` a mismatch,
 ``2`` the recorded file is missing or unreadable.
 
@@ -102,7 +108,7 @@ def group_digest(root: Path, patterns: tuple[str, ...]) -> tuple[str, list[str]]
     for path in files:
         rel = path.relative_to(root).as_posix()
         names.append(rel)
-        aggregate.update(f"{rel}\n{sha256_file(path)}\n".encode("utf-8"))
+        aggregate.update(f"{rel}\n{sha256_file(path)}\n".encode())
     return aggregate.hexdigest(), names
 
 
@@ -139,9 +145,12 @@ def main(argv: list[str] | None = None) -> int:
                         help="compare against the publicly_recomputable block of a record")
     parser.add_argument("--full", action="store_true",
                         help="include the per-group file lists in the printed JSON")
+    parser.add_argument("--root", metavar="DIR", default=None,
+                        help="recompute against another checkout, e.g. a worktree at the "
+                             "tag the record names (default: this checkout)")
     args = parser.parse_args(argv)
 
-    record = recompute()
+    record = recompute(Path(args.root).resolve() if args.root else REPO_ROOT)
     if not args.full:
         for group in record["groups"].values():  # type: ignore[union-attr]
             group.pop("files", None)  # type: ignore[union-attr]

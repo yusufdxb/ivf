@@ -6,8 +6,8 @@ The flagship PhysX case is an **explicit simulator-level test perturbation**. It
 a restored historical implementation, a configuration defect, post-capture array
 corruption, or a simulator-discovered defect.
 
-The switch was introduced in public IVF commit
-`8a7bb15cbf1f6fb69cfccdbf2a4a566629f2b991` and is enabled only by
+The switch was introduced in IVF commit
+`729a8db50b5f89f9c3ee62b156d820bb4b9a2729` and is enabled only by
 `validation/capture/cartpole_physx_reset_defect.yaml`:
 
 ```yaml
