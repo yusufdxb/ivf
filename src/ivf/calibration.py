@@ -166,12 +166,26 @@ class DetectabilityMatrix:
         }
 
 
+#: Faults that perturb only declared metadata, leaving every trajectory array identical.
+#: ``none`` is the false-alarm control and belongs here for the same structural reason.
+ARRAY_PRESERVING_FAULTS = frozenset({
+    "none", "corrupted_metadata", "unsupported_feature_misreported",
+})
+
+
 def _inject_into_manifest(base_text: str, fault: str, seed: int) -> str:
     """Return manifest YAML with the named fault injected into the candidate subject."""
     doc = yaml.safe_load(base_text)
     candidate = doc["subjects"]["candidate"]
     if fault != "none":
         candidate["fault"] = fault
+    if fault in ARRAY_PRESERVING_FAULTS:
+        # These arms leave the trajectories untouched, so the two subjects carry identical
+        # arrays. Declaring the mode keeps the campaign measuring what it claims to
+        # measure: without it, the self-comparison veto would "detect" a metadata-only
+        # fault for a reason that has nothing to do with the fault, and the detectability
+        # matrix would credit IVF with a capability it does not have.
+        doc["experiment_mode"] = "identity_check"
     doc.setdefault("workload", {})["seeds"] = [seed]
     doc["name"] = f"{doc['name']}.{fault.replace('_', '-')}.s{seed}"
     return yaml.safe_dump(doc, sort_keys=False)

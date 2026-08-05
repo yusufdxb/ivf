@@ -37,6 +37,10 @@ def results_root(tmp_path: Path) -> Path:
 MINIMAL_MANIFEST = """
 schema_version: ivf.validation/v1
 name: minimal
+# Both subjects are the same synthetic system, so this fixture is an A/A run. It is
+# declared as one: these tests exercise the verdict machinery, not a science claim, and
+# an undeclared self-comparison is refused by design.
+experiment_mode: identity_check
 subjects:
   baseline:
     kind: synthetic

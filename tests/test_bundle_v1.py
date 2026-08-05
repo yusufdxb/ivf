@@ -382,7 +382,12 @@ def test_a_refused_capture_still_produces_verifiable_evidence(tmp_path, results_
     assert EvidenceBundle.open(result.bundle_path).verify() == []
 
 
+# write_bundle() emits the same payload twice, so this control fixture is an A/A run and
+# is declared as one. What it exercises is the declared-convention checks, not divergence.
 V1_CONTROL_MANIFEST = MANIFEST.replace(
+    "schema_version: ivf.validation/v1",
+    "schema_version: ivf.validation/v1\nexperiment_mode: identity_check",
+).replace(
     "require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon]",
     "require_same: [asset_identity, observation_definition, control_frequency, num_envs, horizon, "
     "frame_convention, quaternion_convention, reset_semantics, environment_ordering, action_timing]\n"

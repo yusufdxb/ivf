@@ -77,6 +77,10 @@ KNOWN_CONTROLS = frozenset({
 """Properties the validity layer knows how to check. Unknown names are rejected at
 load: silently ignoring a control the user asked for is the worst possible failure."""
 
+#: How a run declares what it is. ``identity_check`` is the only sanctioned way to
+#: compare a capture against itself; see :func:`ivf.validity._check_self_comparison`.
+EXPERIMENT_MODES = frozenset({"comparison", "identity_check"})
+
 UNVERIFIABLE_ONLY_CONTROLS = frozenset({
     "asset_binary_identity",
     "initial_state_realization",
@@ -413,6 +417,13 @@ class Manifest:
     oracles: tuple[OracleSpec, ...]
     verdict_policy: VerdictPolicy
     description: str = ""
+    experiment_mode: str = "comparison"
+    """``"comparison"`` (default) or ``"identity_check"``.
+
+    ``identity_check`` declares an intentional A/A run: both subjects are the same
+    finalized content. It exists so that such a run can be stated rather than stumbled
+    into, and so the report can say plainly that it measures validator behaviour rather
+    than repeatability. See :data:`EXPERIMENT_MODES`."""
     source_path: str | None = None
     source_text: str = ""
 
@@ -437,6 +448,7 @@ class Manifest:
             "schema_version": self.schema_version,
             "name": self.name,
             "description": self.description,
+            "experiment_mode": self.experiment_mode,
             "subjects": {role: s.to_jsonable() for role, s in sorted(self.subjects.items())},
             "workload": self.workload.to_jsonable(),
             "controls": self.controls.to_jsonable(),
@@ -510,16 +522,23 @@ def parse_manifest(text: str, *, source_path: str | None = None) -> Manifest:
 
     known_top = {
         "schema_version", "name", "description", "subjects", "workload",
-        "controls", "oracles", "verdict_policy",
+        "controls", "oracles", "verdict_policy", "experiment_mode",
     }
     unknown_top = set(raw) - known_top
     if unknown_top:
         raise ManifestError(f"top level: unknown key(s) {sorted(unknown_top)}")
 
+    mode = str(raw.get("experiment_mode", "comparison"))
+    if mode not in EXPERIMENT_MODES:
+        raise ManifestError(
+            f"experiment_mode: {mode!r} is not one of {sorted(EXPERIMENT_MODES)}"
+        )
+
     return Manifest(
         schema_version=SCHEMA_VERSION,
         name=name,
         description=str(raw.get("description", "")),
+        experiment_mode=mode,
         subjects=subjects,
         workload=Workload.parse(raw.get("workload")),
         controls=Controls.parse(raw.get("controls")),
