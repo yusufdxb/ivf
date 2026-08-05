@@ -112,3 +112,11 @@ gh workflow run ci.yml --ref <branch>
 
 A pull request will always show this job as skipped. That is by design and is not evidence
 about the simulator either way.
+
+## The runner environment must not leak into the job
+
+A self-hosted runner inherits the environment of the shell that started it. The simulator
+job therefore clears `PYTHONPATH` explicitly. Leaving it inherited caused a real failure on
+the first public run, where a sourced ROS 2 setup put another interpreter's site-packages
+on the path and pytest loaded plugins from it. Clearing it also stops absolute
+home-directory paths reaching a public log.

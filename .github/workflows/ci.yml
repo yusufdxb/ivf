@@ -120,6 +120,13 @@ jobs:
       # Turns every "simulator missing" skip into a failure. Without it this job would
       # go green on a runner that had quietly lost its Isaac Lab install.
       IVF_REQUIRE_SIMULATOR: "1"
+      # A self-hosted runner inherits the environment of whoever started it. If that shell
+      # had sourced a ROS 2 setup, PYTHONPATH points at a different Python's site-packages
+      # and pytest silently loads plugins from it, which is how this job first failed on
+      # `ModuleNotFoundError: No module named 'lark'`. Two reasons to clear it rather than
+      # fix the runner: the job becomes hermetic on any machine, and an inherited PYTHONPATH
+      # can carry absolute home-directory paths into a public log.
+      PYTHONPATH: ""
       IVF_CAPTURE_PYTHON: ${{ vars.IVF_CAPTURE_PYTHON }}
       OMNI_KIT_ACCEPT_EULA: "YES"
       # Never let a bundle record the exact GPU model or VRAM.
