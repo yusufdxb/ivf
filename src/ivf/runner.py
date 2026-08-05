@@ -305,7 +305,13 @@ def validate(
         baseline = _load_subject_multiseed(manifest, "baseline")
         candidate = _load_subject_multiseed(manifest, "candidate")
         validity = check_experiment(manifest, baseline, candidate)
-        outcomes = _run_oracles(manifest, baseline, candidate, alpha=alpha, seed=seed)
+        # An invalidated experiment produces no oracle outcomes at all. Reporting numbers
+        # from a comparison we have just declared uninterpretable is how a reader ends up
+        # quoting "0.0 rad of divergence" from two subjects measured in different units.
+        outcomes = (
+            [] if not validity.valid
+            else _run_oracles(manifest, baseline, candidate, alpha=alpha, seed=seed)
+        )
         verdict, codes = decide(manifest, validity, outcomes)
     except BundleContractError as exc:
         # A capture that violates the boundary is uninterpretable, not broken

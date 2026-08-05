@@ -98,6 +98,21 @@ class SignalSet:
             return hashlib.sha256(np.ascontiguousarray(self.actions, dtype=np.float64).tobytes()).hexdigest()
         return str(self.metadata.get("action_stream_sha256", ""))
 
+    def content_digest(self) -> str:
+        """Return a digest of the scientific arrays this subject contributes.
+
+        Deliberately over the *arrays* rather than over the bundle directory. Two
+        captures that differ only in what their directory is called, or in which name
+        their spec carries, are the same data; a comparison between them measures the
+        validator, not the subject. Hashing the payload is what makes that detectable
+        regardless of how the two subjects were addressed.
+        """
+        digest = hashlib.sha256()
+        for name, arr in sorted(self.signals.items()):
+            digest.update(name.encode("utf-8"))
+            digest.update(np.ascontiguousarray(arr, dtype=np.float64).tobytes())
+        return digest.hexdigest()
+
 
 CONTROL_METADATA_KEYS = (
     "asset_identity",
@@ -360,6 +375,16 @@ def _initial_state_digest(metadata: dict[str, Any], scenario_cfg: Any) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
 
 
+def _checksums_root(checksums: dict[str, str]) -> str:
+    """Return one digest standing for a bundle's whole finalized file set.
+
+    Recorded in the verdict so the evidence names the exact inputs it judged, rather
+    than only the paths they happened to sit at.
+    """
+    payload = json.dumps(dict(sorted(checksums.items())), sort_keys=True)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
 def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> SignalSet:
     """Read a ``trajectory_bundle/v1`` capture, refusing anything that violates the contract.
 
@@ -376,6 +401,15 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
         "source": "trajectory_bundle/v1",
         "bundle_path": str(bundle.root),
         "capture_schema": "trajectory_bundle/v1",
+        # Content identity, bound here so the verdict can name exactly what it judged.
+        # The payload digest is the scientific content: two subjects with the same
+        # payload are the same data whatever their directories are called.
+        "bundle_root_sha256": bundle.checksums.get("CHECKSUMS.sha256")
+        or _checksums_root(bundle.checksums),
+        "payload_sha256": bundle.checksums.get("trajectories.npz", ""),
+        "capture_id": str(contract.capture.get("capture_id", "")),
+        "capture_created_utc": str(contract.capture.get("created_utc", "")),
+        "capture_producer": contract.capture.get("producer", {}) or {},
         "run_status": contract.run_status,
         "declared_steps": contract.declared_steps,
         "captured_steps": contract.captured_steps,
@@ -414,6 +448,14 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
         "library_versions": dict(contract.software),
         "hardware": dict(contract.hardware),
         "units": {n: a.unit for n, a in contract.arrays.items()},
+        # Per-array declarations, consumed by ivf.signal_contract before any oracle runs.
+        # A strict v1 capture always declares these; a legacy bundle declares none, which
+        # is why the key is absent there rather than filled with a guess.
+        "signal_contract": {
+            n: {"unit": a.unit, "frame": a.frame, "dtype": a.dtype,
+                "shape": list(a.shape), "semantics": a.semantics}
+            for n, a in contract.arrays.items()
+        },
         "checksums": bundle.checksums,
     }
     return SignalSet(
