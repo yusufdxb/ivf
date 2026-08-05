@@ -144,6 +144,21 @@ dt, seed, solver settings, backend, device, library versions, hashes.
 covering every file except itself and the seal. `SEAL.json` records the schema version,
 the run id, the file count, and the SHA-256 of the checksum file.
 
+### What the seal does and does not establish
+
+IVF evidence bundles include checksums and an integrity seal that detect accidental
+corruption, incomplete transfer, and uncoordinated modification. The seal is not a digital
+signature and does not establish authenticity against an actor who can modify and reseal
+the entire bundle.
+
+Concretely, verification catches an edited file, a deleted file, a file added after
+finalization, and an incompatible schema. It does not catch an actor who edits the payload
+and recomputes `CHECKSUMS.sha256` and `SEAL.json` to match, because the seal is an unkeyed
+digest of content the same actor controls. That bundle verifies as internally consistent,
+and internal consistency is the whole of the claim. Establishing *who* produced a bundle
+needs a signing key, which this release deliberately does not ship rather than implying
+with vocabulary it has not earned.
+
 Finalization attempts to make every local file read-only. That is a best-effort accidental
 edit guard, not a portable security boundary: Git and archive formats need not preserve
 mode bits. Verification checks the seal, then every recorded digest, then looks for files
@@ -155,8 +170,10 @@ uv run ivf reproduce <bundle> --verify-only
 
 ## Guarantees
 
-* **Tamper-evident after finalization.** Finalizing twice is refused, and any content or
-  file-set change is detected by verification. Filesystem read-only modes are local only.
+* **Integrity-checked after finalization.** Finalizing twice is refused, and any
+  uncoordinated content or file-set change is detected by verification. Filesystem
+  read-only modes are local only. This is not authenticity: see the threat-model note
+  above.
 * **Self-describing.** Nothing requires IVF to interpret.
 * **Version-checked.** A major-version mismatch is refused with a clear message rather
   than half-parsed. There is no silent migration.

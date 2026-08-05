@@ -179,7 +179,8 @@ def cmd_reproduce(args: argparse.Namespace) -> int:
         for problem in problems:
             print(f"  {problem}")
         return 5
-    print(f"integrity ok      {bundle.run_id} ({len(bundle._compute_checksums())} files verified)")
+    print(f"integrity verified against included seal  {bundle.run_id} "
+          f"({len(bundle._compute_checksums())} files)")
 
     verdict = bundle.verdict
     print(f"recorded verdict  {verdict['verdict']}  {verdict.get('experiment')}")
@@ -283,10 +284,20 @@ def build_parser() -> argparse.ArgumentParser:
                            help="exit 1 when anything material differs")
     p_compare.set_defaults(func=cmd_compare)
 
-    p_repro = sub.add_parser("reproduce", help="verify checksums and re-run an evidence bundle")
+    p_repro = sub.add_parser(
+        "reproduce",
+        help="verify a bundle against its included seal and re-run it",
+        description=(
+            "Verify an evidence bundle against its included checksums and seal, then "
+            "re-execute it when the runtime allows. Verification detects accidental "
+            "corruption, incomplete transfer and uncoordinated modification. The seal is "
+            "not a digital signature and does not establish authenticity against an actor "
+            "who can modify and reseal the entire bundle."
+        ),
+    )
     p_repro.add_argument("bundle", help="evidence bundle path or run id")
     p_repro.add_argument("--verify-only", action="store_true",
-                         help="check integrity and stop, without re-executing")
+                         help="check integrity against the included seal and stop")
     p_repro.set_defaults(func=cmd_reproduce)
 
     p_cal = sub.add_parser(

@@ -343,7 +343,10 @@ def render_html(
     )
     parts.append(
         '<p class="limit">Per-file SHA-256 digests are in <code>CHECKSUMS.sha256</code>, sealed by '
-        "<code>SEAL.json</code>. Run <code>ivf reproduce &lt;run&gt; --verify-only</code> to check them."
+        "<code>SEAL.json</code>. Run <code>ivf reproduce &lt;run&gt; --verify-only</code> to check them. "
+        "These detect accidental corruption, incomplete transfer and uncoordinated "
+        "modification. The seal is not a digital signature and does not establish "
+        "authenticity against an actor who can modify and reseal the entire bundle."
         "</p>"
     )
     return "\n".join(parts)
