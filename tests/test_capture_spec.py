@@ -127,7 +127,13 @@ def test_source_revision_probe_resolves_the_actual_ivf_checkout():
 
 
 def test_adapter_has_no_ivf_runtime_dependency(repo_root):
-    import tomllib
+    # tomllib is stdlib from 3.11, and this project supports 3.10. The assertion is a
+    # static repository invariant rather than a property of the run, so checking it on the
+    # interpreters that can read TOML without a third-party parser is sufficient; adding a
+    # dependency to the test environment to re-check it on 3.10 would buy nothing.
+    tomllib = pytest.importorskip(
+        "tomllib", reason="stdlib TOML parser is 3.11+; covered by the 3.11 and 3.12 jobs"
+    )
 
     project = tomllib.loads(
         (repo_root / "adapters" / "parity_capture" / "pyproject.toml").read_text(encoding="utf-8")
