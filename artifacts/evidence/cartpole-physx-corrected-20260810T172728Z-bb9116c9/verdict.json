@@ -1,0 +1,23 @@
+{
+  "alpha": 0.05,
+  "counts": {
+    "fail": 0,
+    "inconclusive": 0,
+    "pass": 8,
+    "skipped": 0,
+    "unsupported": 0
+  },
+  "created_utc": "2026-08-10T17:27:28.177720+00:00",
+  "description": "Independent no-defect repeatability check, run as a declared A/A identity experiment.\nBoth subjects are captures of the same passive cartpole configuration with no defect injected: the baseline and candidate capture specs are identical apart from the output name. Two independent simulator processes were executed to produce them, and PhysX on the recorded machine reproduced the trajectories bit for bit, so the two subjects carry identical scientific arrays.\nWhat this establishes: independent deterministic re-execution produced identical scientific arrays on the recorded machine, and the validator returns PASS on data it should return PASS on.\nWhat it does not establish: it is not evidence of tolerance to capture variation, and because the two subjects are byte-identical it cannot exercise the tolerances at all. The engineering negative control for a nonzero accepted difference is cartpole_benign_difference.yaml, not this case.\n",
+  "error": null,
+  "evidence_schema_version": "ivf.evidence/v1",
+  "exit_code": 0,
+  "experiment": "cartpole-physx-corrected",
+  "ivf_version": "0.1.0rc2",
+  "manifest_digest_sha256": "bb9116c9f5b67b2a2311f8463165080422b1776b1691cc882ee82ed85950b266",
+  "reason_codes": [],
+  "run_id": "cartpole-physx-corrected-20260810T172728Z-bb9116c9",
+  "seed": 0,
+  "verdict": "PASS",
+  "wall_time_s": 0.0143
+}

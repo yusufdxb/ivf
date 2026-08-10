@@ -60,7 +60,7 @@ seal was changed during publication sanitation. The machine-readable comparison 
 - `PYTHONPATH`: removed for every command
 - `PYTHONHASHSEED`: 0 for execution checks
 - hardware label in shareable evidence: `NVIDIA Blackwell consumer GPU`
-- driver label: 570.211.01
+- driver label: redacted
 - installation: wheel, non-editable; import resolved from the clean virtual
   environment's `site-packages`
 
@@ -183,9 +183,9 @@ Runtime observed from the real command output and installed metadata:
 | Newton | 1.4.0.dev0 |
 | Kit | 110.1.1+production.305458.6312fa25.gl |
 | PyTorch | 2.11.0+cu128 |
-| CUDA | PyTorch 12.8; Warp toolkit 12.9 with driver API 12.8 |
+| CUDA | PyTorch 12.8; Warp toolkit 12.9 with a compatible driver API |
 | Warp | 1.15.0.dev20260626 |
-| driver | 570.211.01 |
+| driver | redacted for publication |
 | GPU reported by runtime | NVIDIA Blackwell consumer GPU |
 | Newton preset | `NewtonCfg(solver_cfg=MJWarpSolverCfg())` |
 
@@ -194,7 +194,7 @@ Exact capture command:
 ```bash
 env -u PYTHONPATH OMNI_KIT_ACCEPT_EULA=YES \
   IVF_HARDWARE_LABEL='NVIDIA Blackwell consumer GPU' \
-  IVF_DRIVER_LABEL='570.211.01' \
+  IVF_DRIVER_LABEL='redacted' \
   <isaac-lab-python> -m parity_capture.cli \
   validation/capture/cartpole_newton.yaml \
   --output artifacts/cartpole-newton-baseline

@@ -141,7 +141,7 @@
     },
     "hardware": {
       "cuda_device_count": 1,
-      "driver": "570.211.01",
+      "driver": "redacted",
       "gpu": "NVIDIA Blackwell consumer GPU",
       "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35"
     },
@@ -459,14 +459,32 @@
       "isaaclab_newton": "1.7.0",
       "isaaclab_physx": "2.8.1",
       "isaacsim": "6.0.0.1",
+      "ivf-parity-capture": "0.1.0rc2",
       "kit": "110.1.1+production.305458.6312fa25.gl",
       "newton": "1.4.0.dev0",
       "numpy": "2.4.4",
       "python": "3.12.13",
+      "source_commits": {
+        "isaaclab": {
+          "commit": "290149083ec5060111ba6fd26b1213c55d9be59c",
+          "dirty": false,
+          "status": "resolved"
+        },
+        "parity_capture": {
+          "commit": "83f7633f0a6d75efd81e8fb71dfb89fa7041e1c4",
+          "dirty": false,
+          "status": "resolved"
+        }
+      },
       "torch": "2.11.0+cu128",
       "warp-lang": "1.15.0.dev20260626"
     },
     "task": {
+      "asset": {
+        "binary_identity": "unverifiable",
+        "id": "isaaclab_assets.CARTPOLE_CFG",
+        "source_uri": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Robots/Classic/Cartpole/cartpole.usd"
+      },
       "config_digest_sha256": "c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817",
       "id": "cartpole_passive",
       "joint_names": [
@@ -486,7 +504,10 @@
       "capture_hook": "post_step_post_update",
       "control_dt": 0.008333333333333333,
       "decimation": 1,
-      "physics_dt": 0.008333333333333333
+      "physics_dt": 0.008333333333333333,
+      "timestamp_convention": "sample i is post-step state at (i + 1) * physics_dt from reset completion",
+      "warmup_semantics": "no warm-up steps; sample 0 is the first post-reset physics step",
+      "warmup_steps": 0
     }
   },
   "capture_spec": {

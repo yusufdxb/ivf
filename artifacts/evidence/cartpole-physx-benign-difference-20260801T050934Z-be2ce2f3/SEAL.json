@@ -1,6 +1,0 @@
-{
-  "checksums_sha256": "7122c817bd2559f9eabbf645906a815a56fe3d4b8265b5e45197c4c52130180b",
-  "evidence_schema_version": "ivf.evidence/v1",
-  "n_files": 13,
-  "run_id": "cartpole-physx-benign-difference-20260801T050934Z-be2ce2f3"
-}

@@ -108,15 +108,15 @@ comparison.
 
 ## 9. Evidence and reproduction commands
 
-- [Sealed evidence bundle](../artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912)
-- [Static HTML report](../artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/report.html)
+- [Sealed evidence bundle](../artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b)
+- [Static HTML report](../artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/report.html)
 - [PhysX capture](../artifacts/cartpole-physx-baseline)
 - [Newton/MJWarp capture](../artifacts/cartpole-newton-baseline)
 
 ```bash
 uv sync --frozen
-uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
-uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --print-verdict
+uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --verify-only
+uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --print-verdict
 uv run ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
 ```
 

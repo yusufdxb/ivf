@@ -1,0 +1,278 @@
+{
+  "checks": [
+    {
+      "baseline_value": "c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817",
+      "candidate_value": "c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817",
+      "check_id": "V-01",
+      "detail": "both 'c1968710d82e92a6ef563ab6576475594306e9894e405982a5cf89a7ef3f3817'",
+      "name": "asset identity matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641",
+      "candidate_value": "e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641",
+      "check_id": "V-03",
+      "detail": "both 'e470657793089cf58b935e3287cebc78c2966de123bbed3eb26dd4dd64ddb641'",
+      "name": "initial-state distribution matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 120.0,
+      "candidate_value": 120.0,
+      "check_id": "V-05",
+      "detail": "both 120.0",
+      "name": "control frequency matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "cartpole_passive",
+      "candidate_value": "cartpole_passive",
+      "check_id": "V-09",
+      "detail": "both 'cartpole_passive'",
+      "name": "task variant matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-04",
+      "detail": "7 signal(s)",
+      "name": "observation definition matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 16,
+      "candidate_value": 16,
+      "check_id": "V-07",
+      "detail": "baseline 16 vs candidate 16",
+      "name": "environment count matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 400,
+      "candidate_value": 400,
+      "check_id": "V-08",
+      "detail": "baseline 400 vs candidate 400",
+      "name": "captured horizon matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-10",
+      "detail": "identical",
+      "name": "solver settings match",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "400 steps captured",
+      "name": "baseline run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "400 steps captured",
+      "name": "candidate run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-12",
+      "detail": "0 steps discarded",
+      "name": "warm-up is declared",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-13",
+      "detail": "both 0.008333333333333333",
+      "name": "physics timestep matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad",
+      "candidate_value": "rad",
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "both 'rad'",
+      "name": "abs_pole_angle: declared unit matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "joint",
+      "candidate_value": "joint",
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "both 'joint'",
+      "name": "abs_pole_angle: declared frame matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "float32",
+      "candidate_value": "float32",
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "both 'float32'",
+      "name": "abs_pole_angle: declared dtype matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad",
+      "candidate_value": "steps",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "tolerance unit 'steps' gates a property of the comparison, not the dimension of 'abs_pole_angle'",
+      "name": "termination_timing: tolerance unit suits abs_pole_angle",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad",
+      "candidate_value": "fraction",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "tolerance unit 'fraction' gates a property of the comparison, not the dimension of 'abs_pole_angle'",
+      "name": "episode_survival: tolerance unit suits abs_pole_angle",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad",
+      "candidate_value": "rad",
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "both 'rad'",
+      "name": "pole_angle: declared unit matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "joint",
+      "candidate_value": "joint",
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "both 'joint'",
+      "name": "pole_angle: declared frame matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "float32",
+      "candidate_value": "float32",
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "both 'float32'",
+      "name": "pole_angle: declared dtype matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad",
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "both 'rad'",
+      "name": "pole_angle_agreement: tolerance unit suits pole_angle",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad",
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "both 'rad'",
+      "name": "mean_pole_angle_equivalence: tolerance unit suits pole_angle",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad/s",
+      "candidate_value": "rad/s",
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "both 'rad/s'",
+      "name": "pole_velocity: declared unit matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "joint",
+      "candidate_value": "joint",
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "both 'joint'",
+      "name": "pole_velocity: declared frame matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "float32",
+      "candidate_value": "float32",
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "both 'float32'",
+      "name": "pole_velocity: declared dtype matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "rad/s",
+      "candidate_value": "rad/s",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "both 'rad/s'",
+      "name": "pole_velocity_agreement: tolerance unit suits pole_velocity",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "dimensionless",
+      "candidate_value": "dimensionless",
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "both 'dimensionless'",
+      "name": "root_link_quat_w: declared unit matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "world",
+      "candidate_value": "world",
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "both 'world'",
+      "name": "root_link_quat_w: declared frame matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "float32",
+      "candidate_value": "float32",
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "both 'float32'",
+      "name": "root_link_quat_w: declared dtype matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "f3a37133791745bdf59bedcca7f408a95860787c8ce9351b1fa89266bd2d7655",
+      "candidate_value": "f3a37133791745bdf59bedcca7f408a95860787c8ce9351b1fa89266bd2d7655",
+      "check_id": "V-19",
+      "detail": "both subjects have identical finalized content and the manifest declares experiment_mode: identity_check. This run tests validator identity behaviour. It does not establish independent repeatability or equivalence.",
+      "name": "declared A/A identity check",
+      "reason_code": null,
+      "status": "not_applicable"
+    }
+  ],
+  "n_checks": 30,
+  "n_failed": 0,
+  "n_unverifiable": 0,
+  "valid": true
+}

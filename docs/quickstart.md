@@ -54,7 +54,7 @@ the tolerances are too tight and every failure IVF reports is suspect.
 ## 4. Look at the report
 
 ```bash
-uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --print-verdict
+uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --print-verdict
 ```
 
 Prints the path to a single self-contained HTML file: verdict, reason codes, validity
@@ -68,7 +68,7 @@ reproduce it.
 review_results="$(mktemp -d)"
 uv run ivf --results-root "$review_results" validate validation/examples/synthetic_fixed.yaml
 review_candidate="$(find "$review_results" -mindepth 1 -maxdepth 1 -type d -print -quit)"
-uv run ivf compare validation/evidence/synthetic-reset-velocity-fixed-20260801T050934Z-c64ac825 "$review_candidate"
+uv run ivf compare validation/evidence/synthetic-reset-velocity-fixed-20260810T172728Z-028ad366 "$review_candidate"
 ```
 
 This creates one temporary rerun of the same fixed manifest and compares it with the
@@ -80,7 +80,7 @@ a misleading diff.
 ## 6. Verify evidence someone else produced
 
 ```bash
-uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --verify-only
 ```
 
 Recomputes every file digest against the sealed `CHECKSUMS.sha256`. Drop `--verify-only`

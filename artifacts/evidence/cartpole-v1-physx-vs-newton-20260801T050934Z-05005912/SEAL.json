@@ -1,6 +1,0 @@
-{
-  "checksums_sha256": "8c72dba08d50230aab22e99bb13cbd34a4810858e2456437f99e0df25da01e49",
-  "evidence_schema_version": "ivf.evidence/v1",
-  "n_files": 13,
-  "run_id": "cartpole-v1-physx-vs-newton-20260801T050934Z-05005912"
-}

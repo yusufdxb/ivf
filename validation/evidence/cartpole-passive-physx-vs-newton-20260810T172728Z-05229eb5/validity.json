@@ -1,0 +1,278 @@
+{
+  "checks": [
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "action timing is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "asset binary identity is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "backend internal state is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "environment ordering is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "frame convention is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "initial state realization is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "quaternion convention is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-UNVERIFIABLE",
+      "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+      "name": "reset semantics is explicitly partitioned",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": 120.0,
+      "candidate_value": 120.0,
+      "check_id": "V-05",
+      "detail": "both 120.0",
+      "name": "control frequency matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 0,
+      "candidate_value": 0,
+      "check_id": "V-06",
+      "detail": "both 0",
+      "name": "seed matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "cartpole_passive",
+      "candidate_value": "cartpole_passive",
+      "check_id": "V-09",
+      "detail": "both 'cartpole_passive'",
+      "name": "task variant matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-04",
+      "detail": "7 signal(s)",
+      "name": "observation definition matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 4,
+      "candidate_value": 4,
+      "check_id": "V-07",
+      "detail": "baseline 4 vs candidate 4",
+      "name": "environment count matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 480,
+      "candidate_value": 480,
+      "check_id": "V-08",
+      "detail": "baseline 480 vs candidate 480",
+      "name": "captured horizon matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": {},
+      "candidate_value": {},
+      "check_id": "V-10",
+      "detail": "the manifest declares solver parameters may differ, but at least one subject records no solver configuration at all. IVF therefore cannot report *what* differs, so a solver-parameter explanation for any divergence below is a hypothesis rather than a finding.",
+      "name": "solver settings are recorded",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "480 steps captured",
+      "name": "baseline run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "480 steps captured",
+      "name": "candidate run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-12",
+      "detail": "0 steps discarded",
+      "name": "warm-up is declared",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-13",
+      "detail": "both 0.008333333333333333",
+      "name": "physics timestep matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "at least one subject does not declare a unit for 'root_link_pos_w'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "root_link_pos_w: declared unit matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "at least one subject does not declare a frame for 'root_link_pos_w'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "root_link_pos_w: declared frame matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "at least one subject does not declare a dtype for 'root_link_pos_w'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "root_link_pos_w: declared dtype matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "m",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'root_link_pos_w', so the tolerance declared in 'm' cannot be shown to gate the right dimension",
+      "name": "root_position_agreement: tolerance unit suits root_link_pos_w",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "m",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'root_link_pos_w', so the tolerance declared in 'm' cannot be shown to gate the right dimension",
+      "name": "root_position_rms_equivalence: tolerance unit suits root_link_pos_w",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "at least one subject does not declare a unit for 'root_link_quat_w'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "root_link_quat_w: declared unit matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "at least one subject does not declare a frame for 'root_link_quat_w'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "root_link_quat_w: declared frame matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "at least one subject does not declare a dtype for 'root_link_quat_w'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "root_link_quat_w: declared dtype matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'root_link_quat_w', so the tolerance declared in 'rad' cannot be shown to gate the right dimension",
+      "name": "root_orientation_agreement: tolerance unit suits root_link_quat_w",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'root_link_quat_w', so the tolerance declared in 'rad' cannot be shown to gate the right dimension",
+      "name": "quaternion_double_cover: tolerance unit suits root_link_quat_w",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": "6855b687ca4551e2f33f944803e4604d706ac071c726822aabe5ed0203d46add",
+      "candidate_value": "07f78a2ea8c717ebf226cbc06969b34327f4508c2a7a91c93d4c87ee576a41d7",
+      "check_id": "V-19",
+      "detail": "content roots differ (6855b687ca4551e2\u2026 vs 07f78a2ea8c717eb\u2026)",
+      "name": "subjects are distinct content",
+      "reason_code": null,
+      "status": "pass"
+    }
+  ],
+  "n_checks": 30,
+  "n_failed": 0,
+  "n_unverifiable": 19,
+  "valid": true
+}

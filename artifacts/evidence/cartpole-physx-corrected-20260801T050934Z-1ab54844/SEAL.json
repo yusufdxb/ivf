@@ -1,6 +1,0 @@
-{
-  "checksums_sha256": "c2d6e4c5f20b7e43c65f85640ba16a8cd16b894a4a9c7d1831569f1c87076c01",
-  "evidence_schema_version": "ivf.evidence/v1",
-  "n_files": 13,
-  "run_id": "cartpole-physx-corrected-20260801T050934Z-1ab54844"
-}

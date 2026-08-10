@@ -1,0 +1,26 @@
+{
+  "alpha": 0.05,
+  "counts": {
+    "fail": 4,
+    "inconclusive": 0,
+    "pass": 4,
+    "skipped": 0,
+    "unsupported": 0
+  },
+  "created_utc": "2026-08-10T17:27:28.332914+00:00",
+  "description": "Explicit simulator-level reset perturbation on real Isaac Lab captures. It is modeled after a reset-semantics failure observed while developing the parity harness and fixed in upstream commit 9aaa389. It is not a literal reproduction of that historical case: this adapter writes zero cart-pole joint velocity instead of the requested 0.5 rad/s, while the historical harness omitted a rigid-body root velocity write. The bundle records the deliberate switch. IVF validity and oracle decisions do not consume that bookkeeping field; they establish the trajectory and event consequences.\n",
+  "error": null,
+  "evidence_schema_version": "ivf.evidence/v1",
+  "exit_code": 1,
+  "experiment": "cartpole-physx-reset-defect",
+  "ivf_version": "0.1.0rc2",
+  "manifest_digest_sha256": "791857143f4a32d2dff52bc3b9d932df30b8d12da25dc19c8fabd20e7261e3bc",
+  "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT",
+    "IVF-ORACLE-EVENT-TIMING-DELTA"
+  ],
+  "run_id": "cartpole-physx-reset-defect-20260810T172728Z-79185714",
+  "seed": 0,
+  "verdict": "FAIL",
+  "wall_time_s": 0.0148
+}

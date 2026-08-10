@@ -34,7 +34,7 @@ obvious at a glance when two runs came from the same declared experiment.
   "verdict": "FAIL",
   "exit_code": 1,
   "reason_codes": ["IVF-ORACLE-NON_EQUIVALENT"],
-  "run_id": "synthetic-reset-velocity-defect-20260801T050934Z-903ee8a4",
+  "run_id": "synthetic-reset-velocity-defect-20260810T172728Z-b86d9cd9",
   "experiment": "synthetic-reset-velocity-defect",
   "manifest_digest_sha256": "903ee8a400c03f5ebe90ca02605e208057534198b99a7185175e9ccc00b0232e",
   "ivf_version": "0.1.0rc1",
