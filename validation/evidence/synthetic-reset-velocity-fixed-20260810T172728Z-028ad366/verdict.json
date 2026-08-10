@@ -1,0 +1,23 @@
+{
+  "alpha": 0.05,
+  "counts": {
+    "fail": 0,
+    "inconclusive": 0,
+    "pass": 8,
+    "skipped": 0,
+    "unsupported": 0
+  },
+  "created_utc": "2026-08-10T17:27:28.896321+00:00",
+  "description": "The corrected half of the fault case study, run as a declared A/A identity experiment. Byte-for-byte the same manifest as synthetic_fault.yaml with the injected defect removed from the candidate. Because removing the defect restores the candidate to the baseline configuration exactly, and the synthetic integrator is deterministic, the two subjects carry identical arrays.\nWhat this establishes: with the defect removed, the tolerances that fail synthetic_fault.yaml do not fire, so that failure is attributable to the defect rather than to thresholds that nothing could satisfy.\nWhat it does not establish: it exercises no nonzero accepted difference, so it is not evidence that the tolerances admit legitimate variation. That is what cartpole_benign_difference.yaml is for.\n",
+  "error": null,
+  "evidence_schema_version": "ivf.evidence/v1",
+  "exit_code": 0,
+  "experiment": "synthetic-reset-velocity-fixed",
+  "ivf_version": "0.1.0rc2",
+  "manifest_digest_sha256": "028ad3662d08b445c4d6d3011ba934512cfdf518ff1ff152579d85025bf6f7c3",
+  "reason_codes": [],
+  "run_id": "synthetic-reset-velocity-fixed-20260810T172728Z-028ad366",
+  "seed": 0,
+  "verdict": "PASS",
+  "wall_time_s": 0.0201
+}

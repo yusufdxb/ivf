@@ -50,8 +50,8 @@ configured. Record every skip and its reported reason.
 ```bash
 env -u PYTHONPATH .venv-review/bin/ivf doctor
 env -u PYTHONPATH .venv-review/bin/ivf validate validation/examples/synthetic_fixed.yaml
-env -u PYTHONPATH .venv-review/bin/ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
-env -u PYTHONPATH .venv-review/bin/ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --print-verdict
+env -u PYTHONPATH .venv-review/bin/ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --verify-only
+env -u PYTHONPATH .venv-review/bin/ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --print-verdict
 ```
 
 Expected results are synthetic `PASS`, flagship integrity `ok`, and recorded flagship
@@ -72,7 +72,7 @@ python3 -m http.server 8000
 ```
 
 Open
-`http://127.0.0.1:8000/artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/report.html`
+`http://127.0.0.1:8000/artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/report.html`
 and then stop the server with Ctrl-C. Confirm the typed verdict, reason codes, 22 validity
 checks with zero failed, three unverifiable controls, numerical tables, and divergence plots.
 
@@ -142,7 +142,7 @@ it with a mock result.
 ### Validate the shipped cross-backend evidence
 
 ```bash
-env -u PYTHONPATH .venv-review/bin/ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+env -u PYTHONPATH .venv-review/bin/ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --verify-only
 env -u PYTHONPATH .venv-review/bin/ivf validate validation/examples/cartpole_physx_vs_newton_v1.yaml
 ```
 

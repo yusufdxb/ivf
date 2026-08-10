@@ -33,7 +33,7 @@ The CPU path needs Python and UV, but no GPU, Isaac Lab, Isaac Sim, or CUDA:
 uv sync --frozen
 uv run ivf doctor
 uv run ivf validate validation/examples/synthetic_fixed.yaml
-uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --verify-only
 ```
 
 The synthetic manifest exercises validation, oracles, a typed `PASS`, evidence sealing,
@@ -58,8 +58,8 @@ environment, with agreement `1.0`. This result says that the two captures do not
 this workload's acceptance contract. It does not say which backend is physically correct.
 
 - [Flagship case study](docs/case-study.md)
-- [Sealed evidence bundle](artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912)
-- [Static HTML report](artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/report.html)
+- [Sealed evidence bundle](artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b)
+- [Static HTML report](artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/report.html)
 - [Experiment manifest](validation/examples/cartpole_physx_vs_newton_v1.yaml)
 
 ## Simulator capture workflow

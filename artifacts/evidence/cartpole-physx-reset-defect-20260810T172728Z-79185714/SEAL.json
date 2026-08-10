@@ -1,0 +1,6 @@
+{
+  "checksums_sha256": "83ae4112bfe9ecd0b5e9a2c12c2f3ecf3acefadd4a797f69952c45d7ba3d1e79",
+  "evidence_schema_version": "ivf.evidence/v1",
+  "n_files": 13,
+  "run_id": "cartpole-physx-reset-defect-20260810T172728Z-79185714"
+}

@@ -1,0 +1,25 @@
+{
+  "alpha": 0.05,
+  "counts": {
+    "fail": 3,
+    "inconclusive": 0,
+    "pass": 5,
+    "skipped": 0,
+    "unsupported": 0
+  },
+  "created_utc": "2026-08-10T17:27:28.745182+00:00",
+  "description": "The five-minute example. Baseline and candidate are the same validity-controlled experiment, and the candidate uses an explicit generation-level ignored-reset-velocity fixture. Evidence metadata records that perturbation as ground truth for auditability; the verdict logic does not consume the label. The commanded action stream and selected validity declarations remain identical, while trajectory oracles establish and localize the numerical consequence.\nRuns on CPU in under a second and needs no Isaac Lab and no GPU.\n",
+  "error": null,
+  "evidence_schema_version": "ivf.evidence/v1",
+  "exit_code": 1,
+  "experiment": "synthetic-reset-velocity-defect",
+  "ivf_version": "0.1.0rc2",
+  "manifest_digest_sha256": "b86d9cd92416ea2db567faf7fa4705c9664ad179bc5595adf0af25a7e5316cb4",
+  "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+  ],
+  "run_id": "synthetic-reset-velocity-defect-20260810T172728Z-b86d9cd9",
+  "seed": 0,
+  "verdict": "FAIL",
+  "wall_time_s": 0.0213
+}

@@ -19,8 +19,8 @@ differences, unverifiable controls, signals, units, and decision thresholds.
 ## 2. Inspect the recorded verdict
 
 ```bash
-sed -n '1,220p' artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/verdict.json
-sed -n '1,260p' artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/validity.json
+sed -n '1,220p' artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/verdict.json
+sed -n '1,260p' artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/validity.json
 ```
 
 Look for `FAIL` and the two reason codes in `verdict.json`. In `validity.json`, look for
@@ -29,7 +29,7 @@ Look for `FAIL` and the two reason codes in `verdict.json`. In `validity.json`, 
 ## 3. Verify every evidence file
 
 ```bash
-uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --verify-only
 ```
 
 Expected: `integrity ok`, 13 files verified, and recorded verdict `FAIL`.
@@ -37,18 +37,18 @@ Expected: `integrity ok`, 13 files verified, and recorded verdict `FAIL`.
 ## 4. Open the static report
 
 ```bash
-uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --print-verdict
+uv run ivf report artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b --print-verdict
 python3 -m http.server 8000
 ```
 
 Open
-`http://127.0.0.1:8000/artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/report.html`,
+`http://127.0.0.1:8000/artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/report.html`,
 then stop the server with Ctrl-C.
 
 ## 5. Inspect the first divergence
 
 ```bash
-sed -n '1,3p' artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912/divergence.jsonl
+sed -n '1,3p' artifacts/evidence/cartpole-v1-physx-vs-newton-20260810T172728Z-f190cf5b/divergence.jsonl
 ```
 
 The first pole-rate tolerance violation is at step 13. The first pole-angle violation is

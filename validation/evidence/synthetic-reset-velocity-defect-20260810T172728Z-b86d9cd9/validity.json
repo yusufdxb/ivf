@@ -1,0 +1,260 @@
+{
+  "checks": [
+    {
+      "baseline_value": "damped_pendulum.v1",
+      "candidate_value": "damped_pendulum.v1",
+      "check_id": "V-01",
+      "detail": "both 'damped_pendulum.v1'",
+      "name": "asset identity matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "c71c3648d9a601d217fbdd9e5fe66c4e9f6792d93abc0ba0b99b75fcc466725a",
+      "candidate_value": "c71c3648d9a601d217fbdd9e5fe66c4e9f6792d93abc0ba0b99b75fcc466725a",
+      "check_id": "V-03",
+      "detail": "both 'c71c3648d9a601d217fbdd9e5fe66c4e9f6792d93abc0ba0b99b75fcc466725a'",
+      "name": "initial-state distribution matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 200.0,
+      "candidate_value": 200.0,
+      "check_id": "V-05",
+      "detail": "both 200.0",
+      "name": "control frequency matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": "damped_pendulum.v1",
+      "candidate_value": "damped_pendulum.v1",
+      "check_id": "V-09",
+      "detail": "both 'damped_pendulum.v1'",
+      "name": "task variant matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-02",
+      "detail": "digest cf981e84f287c172\u2026",
+      "name": "action sequence matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-04",
+      "detail": "4 signal(s)",
+      "name": "observation definition matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 24,
+      "candidate_value": 24,
+      "check_id": "V-07",
+      "detail": "baseline 24 vs candidate 24",
+      "name": "environment count matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": 400,
+      "candidate_value": 400,
+      "check_id": "V-08",
+      "detail": "baseline 400 vs candidate 400",
+      "name": "captured horizon matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-10",
+      "detail": "identical",
+      "name": "solver settings match",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "400 steps captured",
+      "name": "baseline run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-11",
+      "detail": "400 steps captured",
+      "name": "candidate run is complete",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-12",
+      "detail": "0 steps discarded",
+      "name": "warm-up is declared",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-13",
+      "detail": "both 0.005",
+      "name": "physics timestep matches",
+      "reason_code": null,
+      "status": "pass"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "at least one subject does not declare a unit for 'abs_pole_angle'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "abs_pole_angle: declared unit matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "at least one subject does not declare a frame for 'abs_pole_angle'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "abs_pole_angle: declared frame matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "at least one subject does not declare a dtype for 'abs_pole_angle'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "abs_pole_angle: declared dtype matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "steps",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'abs_pole_angle', so the tolerance declared in 'steps' cannot be shown to gate the right dimension",
+      "name": "termination_timing: tolerance unit suits abs_pole_angle",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "fraction",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'abs_pole_angle', so the tolerance declared in 'fraction' cannot be shown to gate the right dimension",
+      "name": "episode_survival: tolerance unit suits abs_pole_angle",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "at least one subject does not declare a unit for 'pole_angle'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "pole_angle: declared unit matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "at least one subject does not declare a frame for 'pole_angle'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "pole_angle: declared frame matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "at least one subject does not declare a dtype for 'pole_angle'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "pole_angle: declared dtype matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'pole_angle', so the tolerance declared in 'rad' cannot be shown to gate the right dimension",
+      "name": "pole_angle_agreement: tolerance unit suits pole_angle",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'pole_angle', so the tolerance declared in 'rad' cannot be shown to gate the right dimension",
+      "name": "mean_angle_equivalence: tolerance unit suits pole_angle",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-UNIT",
+      "detail": "at least one subject does not declare a unit for 'pole_quat'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "pole_quat: declared unit matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-FRAME",
+      "detail": "at least one subject does not declare a frame for 'pole_quat'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "pole_quat: declared frame matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": null,
+      "check_id": "V-SIGNAL-DTYPE",
+      "detail": "at least one subject does not declare a dtype for 'pole_quat'; the signals cannot be shown to be commensurable and are not treated as matched",
+      "name": "pole_quat: declared dtype matches",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": null,
+      "candidate_value": "rad",
+      "check_id": "V-TOLERANCE-UNIT",
+      "detail": "the baseline declares no unit for 'pole_quat', so the tolerance declared in 'rad' cannot be shown to gate the right dimension",
+      "name": "pole_orientation_agreement: tolerance unit suits pole_quat",
+      "reason_code": null,
+      "status": "unverifiable"
+    },
+    {
+      "baseline_value": "683b8195069c4d2c4f120215191031e7226b7fe34023ef03c4676804dd11a267",
+      "candidate_value": "2a5d1e4852dd4441c8aec876513fc02d0edf9a2f0032734c2a066ac6d3f57cfa",
+      "check_id": "V-19",
+      "detail": "content roots differ (683b8195069c4d2c\u2026 vs 2a5d1e4852dd4441\u2026)",
+      "name": "subjects are distinct content",
+      "reason_code": null,
+      "status": "pass"
+    }
+  ],
+  "n_checks": 28,
+  "n_failed": 0,
+  "n_unverifiable": 14,
+  "valid": true
+}
