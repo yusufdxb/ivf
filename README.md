@@ -1,48 +1,71 @@
 # IVF: Isaac Validation Framework
 
-IVF is an offline acceptance and evidence layer for simulator experiments. It validates
-capture integrity, checks declared behavioral contracts, localizes meaningful divergence,
-and produces sealed, reproducible verdicts.
+**A command-line acceptance checker for simulator experiments: you write down what
+"unchanged behavior" means in a YAML file, IVF runs the comparison and hands back a
+tamper-evident PASS or FAIL bundle you can re-verify a year later.** It is for robotics
+and simulation engineers who change a physics backend, an engine version, or a reset
+path and need something stronger than a green test suite.
 
-Use IVF when a simulator backend, version, configuration, or reset path changes and a
-passing test suite is not enough to answer: did the declared workload remain within its
-acceptance contract, and what evidence supports that decision?
+## What problem this solves
 
-IVF accepts a versioned experiment manifest plus either generated synthetic signals or
-captured trajectory bundles. Real captures use the strict `trajectory_bundle/v1`
-boundary. A completed run returns one typed verdict:
+You upgrade Isaac Lab, or swap PhysX for Newton/MJWarp, or touch the reset path. Your
+unit tests still pass, because none of them was written to catch a pole angle that drifts
+3.5 rad by step 29 in one environment out of sixteen. The usual fallback, eyeballing a
+plot or diffing arrays by hand, produces no record anyone can audit later.
 
-| Verdict | Meaning |
-|---|---|
-| `PASS` | every decision-bearing criterion passed |
-| `FAIL` | at least one decision-bearing criterion failed |
-| `INCONCLUSIVE` | the experiment was valid, but evidence was insufficient for pass or fail |
-| `UNSUPPORTED` | the requested runtime or subject is not implemented or unavailable |
-| `INVALID_EXPERIMENT` | required comparison controls were not established |
-| `ERROR` | infrastructure failed before a scientific verdict could be produced |
+IVF makes the acceptance criteria explicit before the run: which signals, which
+tolerances and their units, which controls must hold, how many samples are the minimum.
+It checks that the experiment was even valid (same action stream, same task, same reset
+semantics) before letting any result decide a verdict, then seals the manifest, signals,
+reasoning, provenance, and per-file SHA-256 digests into one evidence directory.
 
-IVF is not a performance benchmark. It does not measure throughput or designate a
-reference engine. It checks a predeclared behavioral acceptance contract and preserves
-the data, reasoning, provenance, and checksums needed to audit the verdict.
+## See it work (CPU only, no GPU, no Isaac Sim)
 
-## Fastest meaningful demonstration
+```console
+$ uv sync --frozen
+$ uv run ivf validate validation/examples/synthetic_fixed.yaml
+PASS  synthetic-reset-velocity-fixed  (synthetic-reset-velocity-fixed-20260812T013122Z-c64ac825)
+  [        pass] finite_state: invariant 'finite_state' held over 134400 elements across 4 signal(s)
+  [        pass] pole_angle_agreement: pole_angle: worst second_largest absolute error 0.000e+00 rad <= 2.000e-03 rad
+  [        pass] termination_timing: event 'termination': same occurrence pattern across 24 environments, worst timing delta 0 steps <= 1
+  [        pass] episode_survival: decision 'episode_success': agreement 1.000 >= 1 over 24 envs
+  [        pass] action_replay: both subjects consumed the same action stream (cf981e84f287c172…)
 
-The CPU path needs Python and UV, but no GPU, Isaac Lab, Isaac Sim, or CUDA:
-
-```bash
-uv sync --frozen
-uv run ivf doctor
-uv run ivf validate validation/examples/synthetic_fixed.yaml
-uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+evidence: ivf-results/synthetic-reset-velocity-fixed-20260812T013122Z-c64ac825
+report:   ivf-results/synthetic-reset-velocity-fixed-20260812T013122Z-c64ac825/report.html
 ```
 
-The synthetic manifest exercises validation, oracles, a typed `PASS`, evidence sealing,
-and reporting. The final command independently verifies every file in the shipped
-flagship evidence bundle. For a short guided audit, follow
-[`docs/review-in-five-minutes.md`](docs/review-in-five-minutes.md).
+(Three passing oracle lines elided for length; exit code `0`.)
 
-CPU-only users can also validate all shipped manifests, compare bundles, verify seals,
-and open static reports. The simulator is needed only to produce new real captures.
+The same binary re-verifies the shipped real-capture bundle without re-running anything:
+
+```console
+$ uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
+integrity verified against included seal  cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 (13 files)
+recorded verdict  FAIL  cartpole-v1-physx-vs-newton
+```
+
+For a guided audit of that bundle, follow
+[`docs/review-in-five-minutes.md`](docs/review-in-five-minutes.md). CPU-only users can
+validate every shipped manifest, compare bundles, verify seals, and open the static HTML
+reports. A simulator is needed only to produce new real captures.
+
+## Status and verified numbers
+
+| Item | Value |
+|---|---|
+| Test suite | 265 passed, 5 skipped (`uv run pytest -q`, CPU-only run; the skips are the simulator-backed tests) |
+| Flagship case | real PhysX versus Newton/MJWarp cart-pole captures, recorded verdict `FAIL`, 5 of 9 oracles pass and 4 fail |
+| Experiment validity | 22 checks recorded: 18 pass, 3 unverifiable, 1 not applicable, 0 failed |
+| Evidence integrity | 13 files re-verified from `SEAL.json` by `ivf reproduce --verify-only` |
+| CI coverage | CPU only. Simulator-backed tests skip on hosted runners, and a skip is not a pass |
+| Hardware verification | one workstation with a single NVIDIA GPU, Isaac Sim 6.0.0.1, Isaac Lab 10.2.0. No multi-GPU or cross-hardware determinism claim |
+| Scope of the real evidence | one passive cart-pole workload, one recorded Isaac stack, PhysX plus one Newton/MJWarp preset |
+| Release | `0.1.0rc1` |
+
+IVF is not a performance benchmark. It does not measure throughput and does not designate
+a reference engine. It checks a predeclared behavioral acceptance contract and preserves
+the data, reasoning, provenance, and checksums needed to audit the verdict.
 
 ## Flagship result: PhysX versus Newton/MJWarp
 
@@ -53,9 +76,19 @@ identity, reset semantics, coordinate and quaternion conventions, and other decl
 controls. Backend solver settings were recorded and allowed to differ.
 
 The typed result is `FAIL`: trajectory and event-timing contracts exceeded their
-declared budgets. The final survive-or-terminate decision still agreed for every paired
-environment, with agreement `1.0`. This result says that the two captures do not satisfy
-this workload's acceptance contract. It does not say which backend is physically correct.
+declared budgets. The recorded oracle lines localize where, for example:
+
+```text
+fail  pole_angle_agreement: worst second_largest absolute error 3.533e+00 rad exceeds
+      2.880e-02 rad; first violation at step 29
+fail  termination_timing: event 'termination': worst timing delta 2 steps exceeds the
+      declared 1 steps
+pass  episode_survival: decision 'episode_survives_400_steps': agreement 1.000 >= 1 over 16 envs
+```
+
+The final survive-or-terminate decision still agreed for every paired environment, with
+agreement `1.0`. This result says that the two captures do not satisfy this workload's
+acceptance contract. It does not say which backend is physically correct.
 
 - [Flagship case study](docs/case-study.md)
 - [Sealed evidence bundle](artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912)
@@ -96,9 +129,18 @@ and validation procedure is in
 | `ivf reproduce <bundle>` | verify checksums and optionally re-run | no for verification |
 | `ivf calibrate` | measure the declared synthetic fault-detectability matrix | no |
 
-Exit codes are `0` pass, `1` fail, `2` inconclusive, `3` unsupported,
-`4` invalid experiment, `5` error, and `64` usage error. An infrastructure failure does
-not become a scientific failure.
+A completed run returns exactly one typed verdict:
+
+| Verdict | Meaning | Exit code |
+|---|---|---|
+| `PASS` | every decision-bearing criterion passed | `0` |
+| `FAIL` | at least one decision-bearing criterion failed | `1` |
+| `INCONCLUSIVE` | the experiment was valid, but evidence was insufficient for pass or fail | `2` |
+| `UNSUPPORTED` | the requested runtime or subject is not implemented or unavailable | `3` |
+| `INVALID_EXPERIMENT` | required comparison controls were not established | `4` |
+| `ERROR` | infrastructure failed before a scientific verdict could be produced | `5` |
+
+A usage error exits `64`. An infrastructure failure does not become a scientific failure.
 
 ## Why the evidence is auditable
 
