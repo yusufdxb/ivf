@@ -61,7 +61,7 @@ reports. A simulator is needed only to produce new real captures.
 | CI coverage | CPU only. Simulator-backed tests skip on hosted runners, and a skip is not a pass |
 | Hardware verification | one workstation with a single NVIDIA GPU, Isaac Sim 6.0.0.1, Isaac Lab 10.2.0. No multi-GPU or cross-hardware determinism claim |
 | Scope of the real evidence | one passive cart-pole workload, one recorded Isaac stack, PhysX plus one Newton/MJWarp preset |
-| Release | `0.1.0rc1` |
+| Release | `0.1.0rc2` |
 
 IVF is not a performance benchmark. It does not measure throughput and does not designate
 a reference engine. It checks a predeclared behavioral acceptance contract and preserves

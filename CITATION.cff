@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use IVF in your work, please cite it as below."
+title: "IVF: offline acceptance validation and evidence for simulator experiments"
+abstract: >-
+  IVF compares two simulator capture bundles against a declarative,
+  predeclared acceptance contract. Before any oracle result is allowed to
+  decide a verdict it runs a validity pass over the required comparison
+  controls, recording missing controls as unverifiable rather than as
+  matches. It emits a single typed verdict plus a sealed evidence directory
+  whose per-file digests can be re-verified independently.
+authors:
+  - family-names: Guenena
+    given-names: Yusuf
+version: 0.1.0rc2
+license: BSD-3-Clause
+repository-code: "https://github.com/yusufdxb/ivf"
+keywords:
+  - simulation
+  - validation
+  - acceptance testing
+  - reproducibility
+  - robotics

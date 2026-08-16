@@ -32,7 +32,7 @@ Look for `FAIL` and the two reason codes in `verdict.json`. In `validity.json`, 
 uv run ivf reproduce artifacts/evidence/cartpole-v1-physx-vs-newton-20260801T050934Z-05005912 --verify-only
 ```
 
-Expected: `integrity ok`, 13 files verified, and recorded verdict `FAIL`.
+Expected: `integrity verified against included seal`, 13 files verified, and recorded verdict `FAIL`.
 
 ## 4. Open the static report
 
