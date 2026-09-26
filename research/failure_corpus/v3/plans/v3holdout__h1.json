@@ -1,0 +1,572 @@
+{
+ "split": "v3holdout",
+ "platform": "h1",
+ "policy": "research/failure_corpus/policies/h1/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "v3h_2ab50b3c2d3b",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:13",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v3h_ef06139e05f5",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_1262e9997ff2",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_offset_as_shape_margin",
+    "params": {
+     "margin_m": 0.02
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_73edee096c61",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "physx_iteration_counts_as_mjwarp_budget",
+    "params": {
+     "iterations": 4,
+     "ls_iterations": 4
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_b5bb2081d016",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjc_frictionloss_candidate_only",
+    "params": {
+     "frictionloss_nm": 0.1
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_42679a20f081",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "disabled_joint_range_enforced",
+    "params": {
+     "half_range_rad": 0.45
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_5fac968cff38",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "link_mass_table_name_sorted_order",
+    "params": {
+     "keep_root": true
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_1dec7daf0898",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "last_action_slot_scaled",
+    "params": {
+     "action_scale": 0.5
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_33c3be74a19b",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "optional_term_hoisted_to_front",
+    "params": {
+     "term": "velocity_commands"
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_0d3c22e9c8df",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "policy_decimation_held_across_steps",
+    "params": {
+     "hold": 2
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_f80da090bc7f",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_sample_broadcast",
+    "params": {
+     "source": "first_selected_env"
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_d192403dd47e",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "raw_action_clipped_to_unit_box",
+    "params": {
+     "clip": 1.0
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_e39a611e2506",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "stochastic_actor_head_at_eval",
+    "params": {
+     "std": 0.35,
+     "seed": 7103
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_60dfae4c5baa",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "termination_reads_latest_contact_only",
+    "params": {
+     "field": "net_forces_w"
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_d15a6c4c16a2",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_viewer_camera_reframe",
+    "params": {
+     "eye": [
+      4.0,
+      4.0,
+      2.5
+     ],
+     "lookat": [
+      0.0,
+      0.0,
+      0.4
+     ],
+     "resolution": [
+      1920,
+      1080
+     ]
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_5af5b5c84849",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_command_arrow_debug_vis_off",
+    "params": {
+     "debug_vis": false
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_a77bbf5172c5",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_unused_debug_obs_group",
+    "params": {
+     "group_name": "debug_state"
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_50a45fcb6c7f",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_identical_respecification",
+    "params": {
+     "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_bf278807dcdc",
+   "platform": "h1",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_terrain_visual_material_swap",
+    "params": {
+     "diffuse_color": [
+      0.35,
+      0.35,
+      0.38
+     ],
+     "roughness": 0.8
+    }
+   },
+   "replay_ref": "h1:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_528a9a6ecdef",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:14",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v3h_7011fb16a392",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_503bfc74dbb1",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_offset_as_shape_margin",
+    "params": {
+     "margin_m": 0.02
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_ce9885e9cd58",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "physx_iteration_counts_as_mjwarp_budget",
+    "params": {
+     "iterations": 4,
+     "ls_iterations": 4
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_9c3cb35827ba",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjc_frictionloss_candidate_only",
+    "params": {
+     "frictionloss_nm": 0.1
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_ad97a47e913a",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "disabled_joint_range_enforced",
+    "params": {
+     "half_range_rad": 0.45
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_11c6a6088e05",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "link_mass_table_name_sorted_order",
+    "params": {
+     "keep_root": true
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_59524c603924",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "last_action_slot_scaled",
+    "params": {
+     "action_scale": 0.5
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_b526e691aefc",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "optional_term_hoisted_to_front",
+    "params": {
+     "term": "velocity_commands"
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_8498d5fa29f1",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "policy_decimation_held_across_steps",
+    "params": {
+     "hold": 2
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_fe1d0a0263be",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_sample_broadcast",
+    "params": {
+     "source": "first_selected_env"
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_53f44289dd7a",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "raw_action_clipped_to_unit_box",
+    "params": {
+     "clip": 1.0
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_fa54c87199d9",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "stochastic_actor_head_at_eval",
+    "params": {
+     "std": 0.35,
+     "seed": 7103
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_fdfec917ebf8",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "termination_reads_latest_contact_only",
+    "params": {
+     "field": "net_forces_w"
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_ab703193ea8c",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_viewer_camera_reframe",
+    "params": {
+     "eye": [
+      4.0,
+      4.0,
+      2.5
+     ],
+     "lookat": [
+      0.0,
+      0.0,
+      0.4
+     ],
+     "resolution": [
+      1920,
+      1080
+     ]
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_edb10ecdb0b9",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_command_arrow_debug_vis_off",
+    "params": {
+     "debug_vis": false
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_4b92bba40924",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_unused_debug_obs_group",
+    "params": {
+     "group_name": "debug_state"
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_e50c6e22ed41",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_identical_respecification",
+    "params": {
+     "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_7917a2dc5edd",
+   "platform": "h1",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_terrain_visual_material_swap",
+    "params": {
+     "diffuse_color": [
+      0.35,
+      0.35,
+      0.38
+     ],
+     "roughness": 0.8
+    }
+   },
+   "replay_ref": "h1:14",
+   "is_reference": false
+  }
+ ],
+ "fault_module": "research/failure_corpus/v3/holdout/faults.py"
+}

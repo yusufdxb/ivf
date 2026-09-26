@@ -1,0 +1,115 @@
+{
+ "split": "calibration",
+ "platform": "cassie",
+ "policy": "research/failure_corpus/policies/cassie/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "calibration__cassie__s0__ref_physx",
+   "platform": "cassie",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:0",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__cassie__s0__clean_physx_rerun",
+   "platform": "cassie",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__cassie__s0__clean_newton",
+   "platform": "cassie",
+   "seed": 0,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__cassie__s1__ref_physx",
+   "platform": "cassie",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:1",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__cassie__s1__clean_physx_rerun",
+   "platform": "cassie",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__cassie__s1__clean_newton",
+   "platform": "cassie",
+   "seed": 1,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__cassie__s2__ref_physx",
+   "platform": "cassie",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:2",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__cassie__s2__clean_physx_rerun",
+   "platform": "cassie",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:2",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__cassie__s2__clean_newton",
+   "platform": "cassie",
+   "seed": 2,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "cassie:2",
+   "is_reference": false
+  }
+ ]
+}

@@ -1,0 +1,948 @@
+[
+ {
+  "family": "contact_offset_as_shape_margin",
+  "defect": true,
+  "category": "actuator_solver_config",
+  "params": {
+   "go2": {
+    "margin_m": 0.02
+   },
+   "g1": {
+    "margin_m": 0.02
+   },
+   "h1": {
+    "margin_m": 0.02
+   },
+   "anymal_d": {
+    "margin_m": 0.02
+   },
+   "cassie": {
+    "margin_m": 0.02
+   },
+   "spot": {
+    "margin_m": 0.02
+   }
+  },
+  "mechanism": "PhysX collision shapes carry a contactOffset (about 2 cm) that only widens the contact-detection band and produces no force; the rest surface is restOffset (0). When porting the scene to Newton, the engineer copies contactOffset into NewtonCfg.default_shape_cfg.margin because both are 'contact margins'. In Newton and current MuJoCo semantics margin is geometric inflation of every shape, so feet and ground are both inflated and the constraint engages centimetres before real contact. The robot stands and walks slightly higher with shorter effective legs and altered foot slip; nothing errors and gaits look plausible. Newton's own importer maps restOffset to margin and contactOffset-restOffset to gap.",
+  "sources": [
+   {
+    "url": "https://mujoco.readthedocs.io/en/latest/changelog.html",
+    "quote": "Under the new semantics, margin is the geometric inflation of the geom surface and gap is an additional detection buffer beyond the inflated surface"
+   },
+   {
+    "url": "https://raw.githubusercontent.com/newton-physics/newton/main/newton/_src/usd/schemas.py",
+    "quote": "# Collisions: newton margin == physx restOffset, newton gap == physx contactOffset - restOffset."
+   }
+  ]
+ },
+ {
+  "family": "physx_iteration_counts_as_mjwarp_budget",
+  "defect": true,
+  "category": "actuator_solver_config",
+  "params": {
+   "go2": {
+    "iterations": 4,
+    "ls_iterations": 4
+   },
+   "g1": {
+    "iterations": 8,
+    "ls_iterations": 8
+   },
+   "h1": {
+    "iterations": 4,
+    "ls_iterations": 4
+   },
+   "anymal_d": {
+    "iterations": 4,
+    "ls_iterations": 4
+   },
+   "cassie": {
+    "iterations": 4,
+    "ls_iterations": 4
+   },
+   "spot": {
+    "iterations": 4,
+    "ls_iterations": 4
+   }
+  },
+  "mechanism": "The PhysX asset configs set solver_position_iteration_count (4, or 8 for G1). When the physics block is rewritten for MJWarp, the engineer maps that count onto MJWarpSolverCfg.iterations and ls_iterations, following the migration advice to keep line-search counts low for speed. MJWarp's defaults are 100/50; with 4-8 Newton iterations the constraint solve (contacts, joint limits, friction cone) exits far from the tolerance on contact-rich steps. There is no warning: the robot walks, but with softer, drifting contacts and under-resolved friction, so the candidate physics is not the configured solver.",
+  "sources": [
+   {
+    "url": "https://isaac-sim.github.io/IsaacLab/main/source/experimental-features/newton-physics-integration/solver-transitioning.html",
+    "quote": "Keeping this number low is important for performance."
+   },
+   {
+    "url": "https://isaac-sim.github.io/IsaacLab/main/source/experimental-features/newton-physics-integration/solver-transitioning.html",
+    "quote": "What does require change is the way that some solver-specific settings are configured. Tuning these parameters can have a significant impact on both simulation performance and behaviour."
+   }
+  ]
+ },
+ {
+  "family": "mjc_frictionloss_candidate_only",
+  "defect": true,
+  "category": "actuator_solver_config",
+  "params": {
+   "go2": {
+    "frictionloss_nm": 0.2
+   },
+   "g1": {
+    "frictionloss_nm": 0.3
+   },
+   "h1": {
+    "frictionloss_nm": 0.1
+   },
+   "anymal_d": {
+    "frictionloss_nm": 0.1
+   },
+   "cassie": {
+    "frictionloss_nm": 0.1
+   },
+   "spot": {
+    "frictionloss_nm": 0.1
+   }
+  },
+  "mechanism": "To share one robot description between backends, the asset is round-tripped through the vendor MJCF, whose default joint class authors frictionloss (Go2 0.2, G1 0.3, ANYmal 0.1 N*m in MuJoCo Menagerie; the same conversion template's 0.1 N*m default is applied to robots whose vendor MJCF has none). PhysX ignores mjc:* attributes, but the MJWarp import path resolves mjc:frictionloss into Newton's Model.joint_friction, an absolute dry-friction torque rather than a unitless coefficient. Only the candidate therefore gets Coulomb friction on every DOF: small-amplitude joint motions stick, low-gain joints lag, and the gait changes quietly with no error.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/pull/7298",
+    "quote": "Consequently, a joint authored with `mjc:frictionloss=0.11` finalized with `Model.joint_friction=0.0`, even though Newton supports the attribute through `SchemaResolverMjc`."
+   },
+   {
+    "url": "https://raw.githubusercontent.com/google-deepmind/mujoco_menagerie/main/unitree_go2/go2.xml",
+    "quote": "<joint axis=\"0 1 0\" damping=\"2\" armature=\"0.01\" frictionloss=\"0.2\"/>"
+   },
+   {
+    "url": "https://github.com/newton-physics/newton/issues/3560",
+    "quote": "where the static/dynamic quantities are absolute efforts (force for a linear axis, torque for a rotational axis), not dimensionless coefficients"
+   }
+  ]
+ },
+ {
+  "family": "disabled_joint_range_enforced",
+  "defect": true,
+  "category": "ineffective_stale_config",
+  "params": {
+   "go2": {
+    "half_range_rad": 0.5
+   },
+   "g1": {
+    "half_range_rad": 0.45
+   },
+   "h1": {
+    "half_range_rad": 0.45
+   },
+   "anymal_d": {
+    "half_range_rad": 0.5
+   },
+   "cassie": {
+    "half_range_rad": 0.45
+   },
+   "spot": {
+    "half_range_rad": 0.5
+   }
+  },
+  "mechanism": "The converted robot description keeps a nominal operating range around the default pose on each joint but marks it limited=\"false\", so the source model (and the PhysX asset, which uses the full mechanical range) does not enforce it. Newton's importer ignores the disable flag and turns the finite range into active joint bounds, so SolverMuJoCo enforces a much narrower range than intended. The disable flag is silently ineffective: swing and stance excursions are clipped at the stale range, reset poses near the edge are pushed back by limit impulses, and nothing is reported.",
+  "sources": [
+   {
+    "url": "https://github.com/newton-physics/newton/pull/4263",
+    "quote": "MJCF joints with `limited=\"false\"` can still carry a finite range. Newton currently imports that range as active generic bounds, so `SolverMuJoCo` enables a constraint that the source model disabled."
+   }
+  ]
+ },
+ {
+  "family": "link_mass_table_name_sorted_order",
+  "defect": true,
+  "category": "joint_body_ordering",
+  "params": {
+   "go2": {
+    "keep_root": true
+   },
+   "g1": {
+    "keep_root": true
+   },
+   "h1": {
+    "keep_root": true
+   },
+   "anymal_d": {
+    "keep_root": true
+   },
+   "cassie": {
+    "keep_root": true
+   },
+   "spot": {
+    "keep_root": true
+   }
+  },
+  "mechanism": "Per-link masses identified on the PhysX side (PhysX orders bodies by breadth-first parsing of the articulation tree) are exported as a name-keyed table (JSON with sorted keys) and written back positionally into the Newton articulation, whose body order follows the USD/MJCF tree. The table order matches neither simulator, so limb link masses are shuffled across hips, thighs, shanks and feet (root body and total mass unchanged, inertia tensors untouched). The robot still stands and walks, but leg dynamics, swing inertia and contact loading differ from the PhysX model without any error.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/discussions/506",
+    "quote": "We use the convention followed by the PhysX stage parser for ordering bodies and joints. This convention is based on the articulation tree's breadth-first parsing."
+   },
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/discussions/506",
+    "quote": "I want all the related properties (stiffness, damping, inertia, friction etc..) to be ordered accordingly."
+   }
+  ]
+ },
+ {
+  "family": "last_action_slot_scaled",
+  "defect": true,
+  "category": "obs_action_ordering",
+  "params": {
+   "go2": {
+    "action_scale": 0.25
+   },
+   "g1": {
+    "action_scale": 0.5
+   },
+   "h1": {
+    "action_scale": 0.5
+   },
+   "anymal_d": {
+    "action_scale": 0.5
+   },
+   "cassie": {
+    "action_scale": 0.5
+   },
+   "spot": {
+    "action_scale": 0.2
+   }
+  },
+  "mechanism": "The PhysX policy was trained with mdp.last_action, the raw policy output, in the actions slot of its observation. The candidate observation adapter is written in the style of MuJoCo deploy loops, where the previous action fed back is the processed action, and fills the slot with the scaled joint-target offset (raw * action_scale). The recurrent action feedback is shrunk by 2-5x. The policy still acts and usually keeps walking, but its closed-loop behaviour is off-distribution (damping of its own action history changes); open-loop observation records differ only in that slot.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/pull/2019",
+    "quote": "Currently, the actions from the policy are directly applied to the environment and also often fed back to the policy using the last action as observation."
+   },
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/issues/7750",
+    "quote": "prev(29)   = previous processed actions (absolute joint targets)"
+   }
+  ]
+ },
+ {
+  "family": "optional_term_hoisted_to_front",
+  "defect": true,
+  "category": "obs_action_ordering",
+  "params": {
+   "go2": {
+    "term": "velocity_commands"
+   },
+   "g1": {
+    "term": "velocity_commands"
+   },
+   "h1": {
+    "term": "velocity_commands"
+   },
+   "anymal_d": {
+    "term": "velocity_commands"
+   },
+   "cassie": {
+    "term": "velocity_commands"
+   },
+   "spot": {
+    "term": "velocity_commands"
+   }
+  },
+  "mechanism": "In the Newton variant of the observation config the velocity_commands term is annotated `ObsTerm | None` so the migrated play mode can disable it. The configclass then builds that Optional-annotated term first, so the concatenated policy vector becomes [commands, base_lin_vel, base_ang_vel, projected_gravity, joint terms...]: the first 12 dimensions are rotated by one term. No shape changes and no error; the policy reads commands as linear velocity, linear velocity as angular velocity, and so on. This is a declaration-order effect, not a swap of two terms.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/issues/1743",
+    "quote": "if I add a type hint for a term to be ObsTerm | None, the order of the observations is changed. Instead of being created in the order defined, the None typed term is moved to the top."
+   }
+  ]
+ },
+ {
+  "family": "policy_decimation_held_across_steps",
+  "defect": true,
+  "category": "timestep_decimation",
+  "params": {
+   "go2": {
+    "hold": 2
+   },
+   "g1": {
+    "hold": 2
+   },
+   "h1": {
+    "hold": 2
+   },
+   "anymal_d": {
+    "hold": 2
+   },
+   "cassie": {
+    "hold": 2
+   },
+   "spot": {
+    "hold": 2
+   }
+  },
+  "mechanism": "The candidate control loop computes when to query the policy from a control decimation written for a different physics rate (a count of physics steps valid for one dt reused with another), so the policy is re-evaluated only every second 50 Hz control step and its previous output is re-sent in between. The environment's sim dt, decimation and horizon are unchanged; the policy effectively runs at 25 Hz with a sample-and-hold. Locomotion usually survives with degraded tracking and rougher gait, so the failure is quiet.",
+  "sources": [
+   {
+    "url": "https://github.com/mujocolab/mjlab/issues/201",
+    "quote": "# Controller update frequency (meets the requirement of simulation_dt * controll_decimation=0.02; 50Hz)"
+   },
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/issues/7750",
+    "quote": "PhysX 2000 Hz (dt=0.005), decimation 4 → 50 Hz control."
+   }
+  ]
+ },
+ {
+  "family": "reset_sample_broadcast",
+  "defect": true,
+  "category": "reset_randomization",
+  "params": {
+   "go2": {
+    "source": "first_selected_env"
+   },
+   "g1": {
+    "source": "first_selected_env"
+   },
+   "h1": {
+    "source": "first_selected_env"
+   },
+   "anymal_d": {
+    "source": "first_selected_env"
+   },
+   "cassie": {
+    "source": "first_selected_env"
+   },
+   "spot": {
+    "source": "first_selected_env"
+   }
+  },
+  "mechanism": "The reset path now hands callbacks a slice or mask selector instead of an index tensor. A custom reset callback in the migrated stack derives its sample count from the selector as one, draws a single randomized root/joint reset, and the tensor broadcast applies that one sample to every environment reset in the same call. Every environment is still reset and each episode still starts from a 'random' state, but all envs reset together (start of evaluation, open-loop capture) share one initial state, collapsing the reset distribution the experiment is defined on.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/pull/8030",
+    "quote": "custom reset callbacks must accept slices as well as device indices. Index buffers with the selector directly; use selected data shapes or `len(range(env.num_envs)[env_ids])` for slice counts."
+   },
+   {
+    "url": "https://github.com/mujocolab/mjlab/issues/588",
+    "quote": "[BUG] Resetting any env changes data for other non-reset envs."
+   }
+  ]
+ },
+ {
+  "family": "raw_action_clipped_to_unit_box",
+  "defect": true,
+  "category": "checkpoint_schema",
+  "params": {
+   "go2": {
+    "clip": 1.0
+   },
+   "g1": {
+    "clip": 1.0
+   },
+   "h1": {
+    "clip": 1.0
+   },
+   "anymal_d": {
+    "clip": 1.0
+   },
+   "cassie": {
+    "clip": 1.0
+   },
+   "spot": {
+    "clip": 1.0
+   }
+  },
+  "mechanism": "The PhysX checkpoint was trained with the RSL-RL wrapper's clip_actions=None, i.e. unbounded Gaussian actions (typical magnitudes exceed 1 because action_scale is 0.2-0.5). The candidate runner reconstructs the policy from a regenerated agent/env spec that declares the action space as Box(-1, 1) and clips raw actions to it, as other RL front-ends do. Large corrective actions are silently saturated; the robot still walks but loses recovery authority and tracking.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/issues/1757",
+    "quote": "We can notice that, rl_games clipped the action while rsl_rl didn't."
+   },
+   {
+    "url": "https://isaac-sim.github.io/IsaacLab/main/_modules/isaaclab_rl/rsl_rl/rl_cfg.html",
+    "quote": "The clipping value for actions. If None, then no clipping is done. Defaults to None."
+   }
+  ]
+ },
+ {
+  "family": "stochastic_actor_head_at_eval",
+  "defect": true,
+  "category": "checkpoint_schema",
+  "params": {
+   "go2": {
+    "std": 0.3,
+    "seed": 7101
+   },
+   "g1": {
+    "std": 0.35,
+    "seed": 7102
+   },
+   "h1": {
+    "std": 0.35,
+    "seed": 7103
+   },
+   "anymal_d": {
+    "std": 0.3,
+    "seed": 7104
+   },
+   "cassie": {
+    "std": 0.35,
+    "seed": 7105
+   },
+   "spot": {
+    "std": 0.3,
+    "seed": 7106
+   }
+  },
+  "mechanism": "During the rsl-rl >= 5 migration the deprecated stochastic flag is replaced by distribution_cfg; the checkpoint's actor keeps its GaussianDistributionCfg and the candidate evaluation calls the sampling path instead of the deterministic mean the PhysX baseline uses. Every action gets i.i.d. Gaussian exploration noise at the checkpoint's learned std. The robot keeps walking with a jittery gait; tracking and energy degrade quietly.",
+  "sources": [
+   {
+    "url": "https://isaac-sim.github.io/IsaacLab/main/_modules/isaaclab_rl/rsl_rl/rl_cfg.html",
+    "quote": "For rsl-rl >= 5.0.0, this configuration is is deprecated. Please use `distribution_cfg` instead and set it to None for deterministic output or to a valid configuration class, e.g., `GaussianDistributionCfg` for stochastic output."
+   }
+  ]
+ },
+ {
+  "family": "termination_reads_latest_contact_only",
+  "defect": true,
+  "category": "termination_metric",
+  "params": {
+   "go2": {
+    "field": "net_forces_w"
+   },
+   "g1": {
+    "field": "net_forces_w"
+   },
+   "h1": {
+    "field": "net_forces_w"
+   },
+   "anymal_d": {
+    "field": "net_forces_w"
+   },
+   "cassie": {
+    "field": "net_forces_w"
+   },
+   "spot": {
+    "field": "net_forces_w"
+   }
+  },
+  "mechanism": "The illegal-contact termination is re-implemented against the Newton contact sensor using its instantaneous net_forces_w field (newest physics sample) instead of the net_forces_w_history window spanning the decimation substeps. Base/body impacts that start and resolve inside a control step, or bounce off before the last substep, no longer terminate the episode. Falls are detected late or not at all, so failure counts and episode lengths look better than the physics warrants; no error is raised.",
+  "sources": [
+   {
+    "url": "https://github.com/isaac-sim/IsaacLab/issues/1720",
+    "quote": "Depending on the decimation factor, we noticed that it is critical to consider the full history of the contact sensor."
+   },
+   {
+    "url": "https://github.com/mujocolab/mjlab/issues/931",
+    "quote": "I noticed that the contact_sensor often produces many brief collisions that resolve mid-substep."
+   }
+  ]
+ },
+ {
+  "family": "benign_viewer_camera_reframe",
+  "defect": false,
+  "category": "none",
+  "params": {
+   "go2": {
+    "eye": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "lookat": [
+     0.0,
+     0.0,
+     0.4
+    ],
+    "resolution": [
+     1920,
+     1080
+    ]
+   },
+   "g1": {
+    "eye": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "lookat": [
+     0.0,
+     0.0,
+     0.4
+    ],
+    "resolution": [
+     1920,
+     1080
+    ]
+   },
+   "h1": {
+    "eye": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "lookat": [
+     0.0,
+     0.0,
+     0.4
+    ],
+    "resolution": [
+     1920,
+     1080
+    ]
+   },
+   "anymal_d": {
+    "eye": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "lookat": [
+     0.0,
+     0.0,
+     0.4
+    ],
+    "resolution": [
+     1920,
+     1080
+    ]
+   },
+   "cassie": {
+    "eye": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "lookat": [
+     0.0,
+     0.0,
+     0.4
+    ],
+    "resolution": [
+     1920,
+     1080
+    ]
+   },
+   "spot": {
+    "eye": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "lookat": [
+     0.0,
+     0.0,
+     0.4
+    ],
+    "resolution": [
+     1920,
+     1080
+    ]
+   }
+  },
+  "mechanism": "The migration branch re-frames the viewport camera for Newton screenshots (new eye/lookat and a 1080p resolution).",
+  "contract_preservation": "ViewerCfg only positions the Kit viewport camera and sets its render resolution. It is not read by physics, the scene layout (env_spacing/origins), observations, actions, events, rewards or terminations; runs are headless, and origin_type/env_index/asset_name are unchanged. No runtime hook touches any tensor.",
+  "static_cfg_diff": {
+   "go2": [
+    "viewer.eye",
+    "viewer.lookat",
+    "viewer.resolution"
+   ],
+   "g1": [
+    "viewer.eye",
+    "viewer.lookat",
+    "viewer.resolution"
+   ],
+   "h1": [
+    "viewer.eye",
+    "viewer.lookat",
+    "viewer.resolution"
+   ],
+   "anymal_d": [
+    "viewer.eye",
+    "viewer.lookat",
+    "viewer.resolution"
+   ],
+   "cassie": [
+    "viewer.eye",
+    "viewer.lookat",
+    "viewer.resolution"
+   ],
+   "spot": [
+    "viewer.eye",
+    "viewer.lookat",
+    "viewer.resolution"
+   ]
+  },
+  "sources": []
+ },
+ {
+  "family": "benign_command_arrow_debug_vis_off",
+  "defect": false,
+  "category": "none",
+  "params": {
+   "go2": {
+    "debug_vis": false
+   },
+   "g1": {
+    "debug_vis": false
+   },
+   "h1": {
+    "debug_vis": false
+   },
+   "anymal_d": {
+    "debug_vis": false
+   },
+   "cassie": {
+    "debug_vis": false
+   },
+   "spot": {
+    "debug_vis": false
+   }
+  },
+  "mechanism": "The command term's velocity-arrow markers are disabled on the candidate to declutter Newton visualizer output.",
+  "contract_preservation": "UniformVelocityCommandCfg.debug_vis only creates/updates visualization markers for the goal and current velocity arrows. Command sampling ranges, resampling times, heading control and standing-env fraction are separate fields and are unchanged, so commands, observations and rewards are identical. No runtime hook touches any tensor.",
+  "static_cfg_diff": {
+   "go2": [
+    "commands.base_velocity.debug_vis"
+   ],
+   "g1": [
+    "commands.base_velocity.debug_vis"
+   ],
+   "h1": [
+    "commands.base_velocity.debug_vis"
+   ],
+   "anymal_d": [
+    "commands.base_velocity.debug_vis"
+   ],
+   "cassie": [
+    "commands.base_velocity.debug_vis"
+   ],
+   "spot": [
+    "commands.base_velocity.debug_vis"
+   ]
+  },
+  "sources": []
+ },
+ {
+  "family": "benign_unused_debug_obs_group",
+  "defect": false,
+  "category": "none",
+  "params": {
+   "go2": {
+    "group_name": "debug_state"
+   },
+   "g1": {
+    "group_name": "debug_state"
+   },
+   "h1": {
+    "group_name": "debug_state"
+   },
+   "anymal_d": {
+    "group_name": "debug_state"
+   },
+   "cassie": {
+    "group_name": "debug_state"
+   },
+   "spot": {
+    "group_name": "debug_state"
+   }
+  },
+  "mechanism": "A separate observation group 'debug_state' (base height and root quaternion, no noise) is added for logging during the migration.",
+  "contract_preservation": "The new group is a sibling of 'policy' and is not concatenated into it; the policy group's terms, order, noise and dimension are unchanged. Its terms (mdp.base_pos_z, mdp.root_quat_w) are read-only state queries with no noise model, so they draw no random numbers and write nothing to the simulator. No runtime hook touches any tensor.",
+  "static_cfg_diff": {
+   "go2": [
+    "observations.debug_state.base_height.clip",
+    "observations.debug_state.base_height.flatten_history_dim",
+    "observations.debug_state.base_height.func",
+    "observations.debug_state.base_height.history_length",
+    "observations.debug_state.base_height.modifiers",
+    "observations.debug_state.base_height.noise",
+    "observations.debug_state.base_height.scale",
+    "observations.debug_state.base_quat.clip",
+    "observations.debug_state.base_quat.flatten_history_dim",
+    "observations.debug_state.base_quat.func",
+    "observations.debug_state.base_quat.history_length",
+    "observations.debug_state.base_quat.modifiers",
+    "observations.debug_state.base_quat.noise",
+    "observations.debug_state.base_quat.scale",
+    "observations.debug_state.concatenate_dim",
+    "observations.debug_state.concatenate_terms",
+    "observations.debug_state.enable_corruption",
+    "observations.debug_state.flatten_history_dim",
+    "observations.debug_state.history_length"
+   ],
+   "g1": [
+    "observations.debug_state.base_height.clip",
+    "observations.debug_state.base_height.flatten_history_dim",
+    "observations.debug_state.base_height.func",
+    "observations.debug_state.base_height.history_length",
+    "observations.debug_state.base_height.modifiers",
+    "observations.debug_state.base_height.noise",
+    "observations.debug_state.base_height.scale",
+    "observations.debug_state.base_quat.clip",
+    "observations.debug_state.base_quat.flatten_history_dim",
+    "observations.debug_state.base_quat.func",
+    "observations.debug_state.base_quat.history_length",
+    "observations.debug_state.base_quat.modifiers",
+    "observations.debug_state.base_quat.noise",
+    "observations.debug_state.base_quat.scale",
+    "observations.debug_state.concatenate_dim",
+    "observations.debug_state.concatenate_terms",
+    "observations.debug_state.enable_corruption",
+    "observations.debug_state.flatten_history_dim",
+    "observations.debug_state.history_length"
+   ],
+   "h1": [
+    "observations.debug_state.base_height.clip",
+    "observations.debug_state.base_height.flatten_history_dim",
+    "observations.debug_state.base_height.func",
+    "observations.debug_state.base_height.history_length",
+    "observations.debug_state.base_height.modifiers",
+    "observations.debug_state.base_height.noise",
+    "observations.debug_state.base_height.scale",
+    "observations.debug_state.base_quat.clip",
+    "observations.debug_state.base_quat.flatten_history_dim",
+    "observations.debug_state.base_quat.func",
+    "observations.debug_state.base_quat.history_length",
+    "observations.debug_state.base_quat.modifiers",
+    "observations.debug_state.base_quat.noise",
+    "observations.debug_state.base_quat.scale",
+    "observations.debug_state.concatenate_dim",
+    "observations.debug_state.concatenate_terms",
+    "observations.debug_state.enable_corruption",
+    "observations.debug_state.flatten_history_dim",
+    "observations.debug_state.history_length"
+   ],
+   "anymal_d": [
+    "observations.debug_state.base_height.clip",
+    "observations.debug_state.base_height.flatten_history_dim",
+    "observations.debug_state.base_height.func",
+    "observations.debug_state.base_height.history_length",
+    "observations.debug_state.base_height.modifiers",
+    "observations.debug_state.base_height.noise",
+    "observations.debug_state.base_height.scale",
+    "observations.debug_state.base_quat.clip",
+    "observations.debug_state.base_quat.flatten_history_dim",
+    "observations.debug_state.base_quat.func",
+    "observations.debug_state.base_quat.history_length",
+    "observations.debug_state.base_quat.modifiers",
+    "observations.debug_state.base_quat.noise",
+    "observations.debug_state.base_quat.scale",
+    "observations.debug_state.concatenate_dim",
+    "observations.debug_state.concatenate_terms",
+    "observations.debug_state.enable_corruption",
+    "observations.debug_state.flatten_history_dim",
+    "observations.debug_state.history_length"
+   ],
+   "cassie": [
+    "observations.debug_state.base_height.clip",
+    "observations.debug_state.base_height.flatten_history_dim",
+    "observations.debug_state.base_height.func",
+    "observations.debug_state.base_height.history_length",
+    "observations.debug_state.base_height.modifiers",
+    "observations.debug_state.base_height.noise",
+    "observations.debug_state.base_height.scale",
+    "observations.debug_state.base_quat.clip",
+    "observations.debug_state.base_quat.flatten_history_dim",
+    "observations.debug_state.base_quat.func",
+    "observations.debug_state.base_quat.history_length",
+    "observations.debug_state.base_quat.modifiers",
+    "observations.debug_state.base_quat.noise",
+    "observations.debug_state.base_quat.scale",
+    "observations.debug_state.concatenate_dim",
+    "observations.debug_state.concatenate_terms",
+    "observations.debug_state.enable_corruption",
+    "observations.debug_state.flatten_history_dim",
+    "observations.debug_state.history_length"
+   ],
+   "spot": [
+    "observations.debug_state.base_height.clip",
+    "observations.debug_state.base_height.flatten_history_dim",
+    "observations.debug_state.base_height.func",
+    "observations.debug_state.base_height.history_length",
+    "observations.debug_state.base_height.modifiers",
+    "observations.debug_state.base_height.noise",
+    "observations.debug_state.base_height.scale",
+    "observations.debug_state.base_quat.clip",
+    "observations.debug_state.base_quat.flatten_history_dim",
+    "observations.debug_state.base_quat.func",
+    "observations.debug_state.base_quat.history_length",
+    "observations.debug_state.base_quat.modifiers",
+    "observations.debug_state.base_quat.noise",
+    "observations.debug_state.base_quat.scale",
+    "observations.debug_state.concatenate_dim",
+    "observations.debug_state.concatenate_terms",
+    "observations.debug_state.enable_corruption",
+    "observations.debug_state.flatten_history_dim",
+    "observations.debug_state.history_length"
+   ]
+  },
+  "sources": []
+ },
+ {
+  "family": "benign_identical_respecification",
+  "defect": false,
+  "category": "none",
+  "params": {
+   "go2": {
+    "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+   },
+   "g1": {
+    "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+   },
+   "h1": {
+    "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+   },
+   "anymal_d": {
+    "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+   },
+   "cassie": {
+    "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+   },
+   "spot": {
+    "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+   }
+  },
+  "mechanism": "The migration re-derives gravity, physics dt and decimation through an explicit conversion path (tuple(float(g)), float(dt), int(decimation)) instead of inheriting them.",
+  "contract_preservation": "Each value is re-assigned from itself with a type-preserving conversion; the flattened resolved config is identical to the clean Newton config (empty static diff on all six platforms). No runtime hook touches any tensor.",
+  "static_cfg_diff": {
+   "go2": [],
+   "g1": [],
+   "h1": [],
+   "anymal_d": [],
+   "cassie": [],
+   "spot": []
+  },
+  "sources": []
+ },
+ {
+  "family": "benign_terrain_visual_material_swap",
+  "defect": false,
+  "category": "none",
+  "params": {
+   "go2": {
+    "diffuse_color": [
+     0.35,
+     0.35,
+     0.38
+    ],
+    "roughness": 0.8
+   },
+   "g1": {
+    "diffuse_color": [
+     0.35,
+     0.35,
+     0.38
+    ],
+    "roughness": 0.8
+   },
+   "h1": {
+    "diffuse_color": [
+     0.35,
+     0.35,
+     0.38
+    ],
+    "roughness": 0.8
+   },
+   "anymal_d": {
+    "diffuse_color": [
+     0.35,
+     0.35,
+     0.38
+    ],
+    "roughness": 0.8
+   },
+   "cassie": {
+    "diffuse_color": [
+     0.35,
+     0.35,
+     0.38
+    ],
+    "roughness": 0.8
+   },
+   "spot": {
+    "diffuse_color": [
+     0.35,
+     0.35,
+     0.38
+    ],
+    "roughness": 0.8
+   }
+  },
+  "mechanism": "The ground's MDL visual material is replaced by a flat preview-surface colour for lighter rendering on the candidate.",
+  "contract_preservation": "TerrainImporterCfg.visual_material only binds a render material to the ground mesh. Collision geometry, terrain type/generator, physics_material (friction/restitution), env origins and spacing are separate fields and are unchanged. No runtime hook touches any tensor.",
+  "static_cfg_diff": {
+   "go2": [
+    "scene.terrain.visual_material.albedo_brightness",
+    "scene.terrain.visual_material.diffuse_color",
+    "scene.terrain.visual_material.emissive_color",
+    "scene.terrain.visual_material.func",
+    "scene.terrain.visual_material.mdl_path",
+    "scene.terrain.visual_material.metallic",
+    "scene.terrain.visual_material.opacity",
+    "scene.terrain.visual_material.project_uvw",
+    "scene.terrain.visual_material.roughness",
+    "scene.terrain.visual_material.texture_scale"
+   ],
+   "g1": [
+    "scene.terrain.visual_material.albedo_brightness",
+    "scene.terrain.visual_material.diffuse_color",
+    "scene.terrain.visual_material.emissive_color",
+    "scene.terrain.visual_material.func",
+    "scene.terrain.visual_material.mdl_path",
+    "scene.terrain.visual_material.metallic",
+    "scene.terrain.visual_material.opacity",
+    "scene.terrain.visual_material.project_uvw",
+    "scene.terrain.visual_material.roughness",
+    "scene.terrain.visual_material.texture_scale"
+   ],
+   "h1": [
+    "scene.terrain.visual_material.albedo_brightness",
+    "scene.terrain.visual_material.diffuse_color",
+    "scene.terrain.visual_material.emissive_color",
+    "scene.terrain.visual_material.func",
+    "scene.terrain.visual_material.mdl_path",
+    "scene.terrain.visual_material.metallic",
+    "scene.terrain.visual_material.opacity",
+    "scene.terrain.visual_material.project_uvw",
+    "scene.terrain.visual_material.roughness",
+    "scene.terrain.visual_material.texture_scale"
+   ],
+   "anymal_d": [
+    "scene.terrain.visual_material.albedo_brightness",
+    "scene.terrain.visual_material.diffuse_color",
+    "scene.terrain.visual_material.emissive_color",
+    "scene.terrain.visual_material.func",
+    "scene.terrain.visual_material.mdl_path",
+    "scene.terrain.visual_material.metallic",
+    "scene.terrain.visual_material.opacity",
+    "scene.terrain.visual_material.project_uvw",
+    "scene.terrain.visual_material.roughness",
+    "scene.terrain.visual_material.texture_scale"
+   ],
+   "cassie": [
+    "scene.terrain.visual_material.albedo_brightness",
+    "scene.terrain.visual_material.diffuse_color",
+    "scene.terrain.visual_material.emissive_color",
+    "scene.terrain.visual_material.func",
+    "scene.terrain.visual_material.mdl_path",
+    "scene.terrain.visual_material.metallic",
+    "scene.terrain.visual_material.opacity",
+    "scene.terrain.visual_material.project_uvw",
+    "scene.terrain.visual_material.roughness",
+    "scene.terrain.visual_material.texture_scale"
+   ],
+   "spot": [
+    "scene.terrain.visual_material.albedo_brightness",
+    "scene.terrain.visual_material.diffuse_color",
+    "scene.terrain.visual_material.emissive_color",
+    "scene.terrain.visual_material.func",
+    "scene.terrain.visual_material.mdl_path",
+    "scene.terrain.visual_material.metallic",
+    "scene.terrain.visual_material.opacity",
+    "scene.terrain.visual_material.project_uvw",
+    "scene.terrain.visual_material.roughness",
+    "scene.terrain.visual_material.texture_scale"
+   ]
+  },
+  "sources": []
+ }
+]

@@ -1,0 +1,115 @@
+{
+ "split": "calibration",
+ "platform": "g1",
+ "policy": "research/failure_corpus/policies/g1/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "calibration__g1__s0__ref_physx",
+   "platform": "g1",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:0",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__g1__s0__clean_physx_rerun",
+   "platform": "g1",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__g1__s0__clean_newton",
+   "platform": "g1",
+   "seed": 0,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__g1__s1__ref_physx",
+   "platform": "g1",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:1",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__g1__s1__clean_physx_rerun",
+   "platform": "g1",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__g1__s1__clean_newton",
+   "platform": "g1",
+   "seed": 1,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__g1__s2__ref_physx",
+   "platform": "g1",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:2",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__g1__s2__clean_physx_rerun",
+   "platform": "g1",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:2",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__g1__s2__clean_newton",
+   "platform": "g1",
+   "seed": 2,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "g1:2",
+   "is_reference": false
+  }
+ ]
+}

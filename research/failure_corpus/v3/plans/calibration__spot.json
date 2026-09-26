@@ -1,0 +1,115 @@
+{
+ "split": "calibration",
+ "platform": "spot",
+ "policy": "research/failure_corpus/policies/spot/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "calibration__spot__s0__ref_physx",
+   "platform": "spot",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:0",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__spot__s0__clean_physx_rerun",
+   "platform": "spot",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__spot__s0__clean_newton",
+   "platform": "spot",
+   "seed": 0,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__spot__s1__ref_physx",
+   "platform": "spot",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:1",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__spot__s1__clean_physx_rerun",
+   "platform": "spot",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__spot__s1__clean_newton",
+   "platform": "spot",
+   "seed": 1,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__spot__s2__ref_physx",
+   "platform": "spot",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:2",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__spot__s2__clean_physx_rerun",
+   "platform": "spot",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:2",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__spot__s2__clean_newton",
+   "platform": "spot",
+   "seed": 2,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "spot:2",
+   "is_reference": false
+  }
+ ]
+}

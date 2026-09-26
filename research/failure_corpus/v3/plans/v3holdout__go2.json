@@ -1,0 +1,572 @@
+{
+ "split": "v3holdout",
+ "platform": "go2",
+ "policy": "research/failure_corpus/policies/go2/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "v3h_b986ff6e42a6",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2:13",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v3h_decea4e26d59",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_f52833d8d221",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_offset_as_shape_margin",
+    "params": {
+     "margin_m": 0.02
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_1dde94364894",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "physx_iteration_counts_as_mjwarp_budget",
+    "params": {
+     "iterations": 4,
+     "ls_iterations": 4
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_215ea917f69d",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjc_frictionloss_candidate_only",
+    "params": {
+     "frictionloss_nm": 0.2
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_858a1a598c61",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "disabled_joint_range_enforced",
+    "params": {
+     "half_range_rad": 0.5
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_980ce4517ca9",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "link_mass_table_name_sorted_order",
+    "params": {
+     "keep_root": true
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_6e828d564844",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "last_action_slot_scaled",
+    "params": {
+     "action_scale": 0.25
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_03581c229790",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "optional_term_hoisted_to_front",
+    "params": {
+     "term": "velocity_commands"
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_b52b06b94c40",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "policy_decimation_held_across_steps",
+    "params": {
+     "hold": 2
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_88df3f52c3f9",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_sample_broadcast",
+    "params": {
+     "source": "first_selected_env"
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_766ed64e1796",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "raw_action_clipped_to_unit_box",
+    "params": {
+     "clip": 1.0
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_efc364fb779a",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "stochastic_actor_head_at_eval",
+    "params": {
+     "std": 0.3,
+     "seed": 7101
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_39bc94e62a5c",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "termination_reads_latest_contact_only",
+    "params": {
+     "field": "net_forces_w"
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_2c69611dd9d4",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_viewer_camera_reframe",
+    "params": {
+     "eye": [
+      4.0,
+      4.0,
+      2.5
+     ],
+     "lookat": [
+      0.0,
+      0.0,
+      0.4
+     ],
+     "resolution": [
+      1920,
+      1080
+     ]
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_d4fe1553a803",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_command_arrow_debug_vis_off",
+    "params": {
+     "debug_vis": false
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_c2b7ad07dcab",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_unused_debug_obs_group",
+    "params": {
+     "group_name": "debug_state"
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_72960528f1f0",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_identical_respecification",
+    "params": {
+     "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_b1e079922803",
+   "platform": "go2",
+   "seed": 13,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_terrain_visual_material_swap",
+    "params": {
+     "diffuse_color": [
+      0.35,
+      0.35,
+      0.38
+     ],
+     "roughness": 0.8
+    }
+   },
+   "replay_ref": "go2:13",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_cc9cdc4aa466",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2:14",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v3h_4af8c748c91c",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_3e309ad839cd",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_offset_as_shape_margin",
+    "params": {
+     "margin_m": 0.02
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_d012360e2d1c",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "physx_iteration_counts_as_mjwarp_budget",
+    "params": {
+     "iterations": 4,
+     "ls_iterations": 4
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_9ec2914b80d6",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjc_frictionloss_candidate_only",
+    "params": {
+     "frictionloss_nm": 0.2
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_4d7a3db9d2ac",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "disabled_joint_range_enforced",
+    "params": {
+     "half_range_rad": 0.5
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_1ca6b6640b97",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "link_mass_table_name_sorted_order",
+    "params": {
+     "keep_root": true
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_ef06229a77eb",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "last_action_slot_scaled",
+    "params": {
+     "action_scale": 0.25
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_b01b42d30e15",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "optional_term_hoisted_to_front",
+    "params": {
+     "term": "velocity_commands"
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_a7252c4f9ab0",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "policy_decimation_held_across_steps",
+    "params": {
+     "hold": 2
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_bda6ff5e1528",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_sample_broadcast",
+    "params": {
+     "source": "first_selected_env"
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_12e2f4797454",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "raw_action_clipped_to_unit_box",
+    "params": {
+     "clip": 1.0
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_269a423b572d",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "stochastic_actor_head_at_eval",
+    "params": {
+     "std": 0.3,
+     "seed": 7101
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_6371223fbe35",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "termination_reads_latest_contact_only",
+    "params": {
+     "field": "net_forces_w"
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_bc1ab020deb7",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_viewer_camera_reframe",
+    "params": {
+     "eye": [
+      4.0,
+      4.0,
+      2.5
+     ],
+     "lookat": [
+      0.0,
+      0.0,
+      0.4
+     ],
+     "resolution": [
+      1920,
+      1080
+     ]
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_4f02c3c371b9",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_command_arrow_debug_vis_off",
+    "params": {
+     "debug_vis": false
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_248d9750c613",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_unused_debug_obs_group",
+    "params": {
+     "group_name": "debug_state"
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_f790373c125c",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_identical_respecification",
+    "params": {
+     "note": "gravity, sim.dt and decimation re-specified from their own values via explicit float/int conversion"
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v3h_804f0f081f12",
+   "platform": "go2",
+   "seed": 14,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_terrain_visual_material_swap",
+    "params": {
+     "diffuse_color": [
+      0.35,
+      0.35,
+      0.38
+     ],
+     "roughness": 0.8
+    }
+   },
+   "replay_ref": "go2:14",
+   "is_reference": false
+  }
+ ],
+ "fault_module": "research/failure_corpus/v3/holdout/faults.py"
+}
