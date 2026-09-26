@@ -1,0 +1,584 @@
+{
+ "split": "v2holdout",
+ "platform": "h1",
+ "policy": "research/failure_corpus/policies/h1/policy.pt",
+ "fault_module": "research/failure_corpus/v2/holdout/faults.py",
+ "jobs": [
+  {
+   "capture_id": "v2h_4ded69130f39",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v2h_58a4863b9b64",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_557e40776dfa",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_joint_offset_dof_index_shift",
+    "params": {
+     "shift": 1
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_501bb4bbb8d9",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "projected_gravity_quat_wxyz_misread",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_07eaf4d86c54",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "base_lin_vel_world_frame",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_514cb71d87df",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "action_one_step_transport_delay",
+    "params": {
+     "delay_steps": 1
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_e7b104bbb246",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "joint_vel_finite_diff_physics_dt",
+    "params": {
+     "dt": 0.005
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_81909954a74a",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_root_twist_angular_linear_order",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_c14cf24e56fd",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "spawn_height_from_asset_keyframe",
+    "params": {
+     "dz": 0.12
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_592aaabb3f3f",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "actuator_model_substitution",
+    "params": {
+     "groups": {
+      "legs": {
+       "to": "ideal_pd"
+      }
+     }
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_267bafb08c12",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjwarp_preset_overrides_lost",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_5434d944daa4",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "friction_randomization_noop",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_ee4b730c2539",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "legged_gym_obs_scales_applied",
+    "params": {
+     "lin_vel": 2.0,
+     "ang_vel": 0.25,
+     "commands": [
+      2.0,
+      2.0,
+      0.25
+     ],
+     "dof_pos": 1.0,
+     "dof_vel": 0.05
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_7b041dcccbd0",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "stale_default_pose_action_offset",
+    "params": {
+     "action_scale": 0.5,
+     "offsets": [
+      [
+       ".*_hip_pitch",
+       -0.1
+      ],
+      [
+       ".*_knee",
+       0.2
+      ],
+      [
+       ".*_ankle",
+       -0.1
+      ]
+     ]
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_0c90adef2990",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_threshold_impulse_units",
+    "params": {
+     "dt": 0.005
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_464296489107",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "timeout_counted_as_termination",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_c5988790304e",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjwarp_solver_iteration_headroom",
+    "params": {
+     "factor": 2.0
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_9a49eb3c2f23",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "env_spacing_widened",
+    "params": {
+     "env_spacing": 4.0
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_9024f0230a62",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "action_clip_wide",
+    "params": {
+     "clip": 100.0
+    }
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_3cefc9f50f35",
+   "platform": "h1",
+   "seed": 9,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "debug_visualization_off",
+    "params": {}
+   },
+   "replay_ref": "h1:9",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_8f19a6ec8ded",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v2h_8767fc3c9cfc",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_ad59fe2ae4e5",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_joint_offset_dof_index_shift",
+    "params": {
+     "shift": 1
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_4b7260562ea7",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "projected_gravity_quat_wxyz_misread",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_d74f4d4587b2",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "base_lin_vel_world_frame",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_fbf89788ae53",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "action_one_step_transport_delay",
+    "params": {
+     "delay_steps": 1
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_c1fbe1f8fefd",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "joint_vel_finite_diff_physics_dt",
+    "params": {
+     "dt": 0.005
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_3e158f3fa389",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_root_twist_angular_linear_order",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_e6264ed0c1aa",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "spawn_height_from_asset_keyframe",
+    "params": {
+     "dz": 0.12
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_2c69bb43a0b5",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "actuator_model_substitution",
+    "params": {
+     "groups": {
+      "legs": {
+       "to": "ideal_pd"
+      }
+     }
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_4179c38708f7",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjwarp_preset_overrides_lost",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_695059d02ab7",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "friction_randomization_noop",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_0e85cc677e3b",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "legged_gym_obs_scales_applied",
+    "params": {
+     "lin_vel": 2.0,
+     "ang_vel": 0.25,
+     "commands": [
+      2.0,
+      2.0,
+      0.25
+     ],
+     "dof_pos": 1.0,
+     "dof_vel": 0.05
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_03bd2680e0ac",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "stale_default_pose_action_offset",
+    "params": {
+     "action_scale": 0.5,
+     "offsets": [
+      [
+       ".*_hip_pitch",
+       -0.1
+      ],
+      [
+       ".*_knee",
+       0.2
+      ],
+      [
+       ".*_ankle",
+       -0.1
+      ]
+     ]
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_d358b0cfbd35",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_threshold_impulse_units",
+    "params": {
+     "dt": 0.005
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_4fcff13e023a",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "timeout_counted_as_termination",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_7e25fbd7c388",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mjwarp_solver_iteration_headroom",
+    "params": {
+     "factor": 2.0
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_5722cfdc3dc6",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "env_spacing_widened",
+    "params": {
+     "env_spacing": 4.0
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_f52e277dd214",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "action_clip_wide",
+    "params": {
+     "clip": 100.0
+    }
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v2h_5de61f4a3308",
+   "platform": "h1",
+   "seed": 10,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "debug_visualization_off",
+    "params": {}
+   },
+   "replay_ref": "h1:10",
+   "is_reference": false
+  }
+ ]
+}

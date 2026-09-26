@@ -1,0 +1,110 @@
+[
+ {
+  "capture_id": "calibration__cassie__s0__ref_physx",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 0,
+  "condition": "reference",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": true,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s0__clean_physx_rerun",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 0,
+  "condition": "same",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": false,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s0__clean_newton",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 0,
+  "condition": "cross",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": false,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s1__ref_physx",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 1,
+  "condition": "reference",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": true,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s1__clean_physx_rerun",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 1,
+  "condition": "same",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": false,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s1__clean_newton",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 1,
+  "condition": "cross",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": false,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s2__ref_physx",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 2,
+  "condition": "reference",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": true,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s2__clean_physx_rerun",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 2,
+  "condition": "same",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": false,
+  "sources": []
+ },
+ {
+  "capture_id": "calibration__cassie__s2__clean_newton",
+  "split": "calibration_cassie",
+  "platform": "cassie",
+  "seed": 2,
+  "condition": "cross",
+  "family": "none",
+  "defect": false,
+  "category": "none",
+  "is_reference": false,
+  "sources": []
+ }
+]

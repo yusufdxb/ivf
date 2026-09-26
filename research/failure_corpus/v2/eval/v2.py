@@ -212,12 +212,12 @@ def cmd_ivf(args):
 
 def cmd_calibrate(args):
     raw: dict = {}
-    for c in cases("calibration"):
+    splits = ["calibration"] + (["calibration_cassie"] if (RESULTS / "calibration_cassie").exists() else [])
+    for split, c in [(sp, c) for sp in splits for c in cases(sp)]:
         p, cond = c["platform"], c["condition"]
-        s = json.loads((RESULTS / "calibration" / "ivf" / "permissive" / f"{c['capture_id']}.json").read_text())
-        ref, res = result("calibration", c["reference_id"]), result("calibration", c["capture_id"])
-        ba, ca = stats.load_arrays(bundle("calibration", c["reference_id"])), stats.load_arrays(
-            bundle("calibration", c["capture_id"]))
+        s = json.loads((RESULTS / split / "ivf" / "permissive" / f"{c['capture_id']}.json").read_text())
+        ref, res = result(split, c["reference_id"]), result(split, c["capture_id"])
+        ba, ca = stats.load_arrays(bundle(split, c["reference_id"])), stats.load_arrays(bundle(split, c["capture_id"]))
         e = raw.setdefault(p, {}).setdefault(cond, {"traj": [], "perf": [], "b3": [], "ev": [], "stat": [],
                                                     "surv": [], "model": [], "real": [], "refused": []})
         e["perf"].append(stats.perf_stats(ref, res))
@@ -237,9 +237,9 @@ def cmd_calibrate(args):
             e["stat"].append(max(abs(o["mean_base_height"]["ci_low"]), abs(o["mean_base_height"]["ci_high"])))
             e["surv"].append(1.0 - float(o["survival"].get("agreement_rate", 1.0)))
         # experiment-input realized values, read straight from the bundles
-        a_in = json.loads((bundle("calibration", c["reference_id"]) / "metadata.json").read_text())[
+        a_in = json.loads((bundle(split, c["reference_id"]) / "metadata.json").read_text())[
             "capture_contract"]["experiment_inputs"]
-        b_in = json.loads((bundle("calibration", c["capture_id"]) / "metadata.json").read_text())[
+        b_in = json.loads((bundle(split, c["capture_id"]) / "metadata.json").read_text())[
             "capture_contract"]["experiment_inputs"]
         from ivf.experiment_inputs import _max_rel_diff
         am, bm = a_in["effective_model"], b_in["effective_model"]

@@ -1,0 +1,523 @@
+{
+ "B2": {
+  "anymal_d": {
+   "cross": {
+    "falls": 1.62109375,
+    "return_rel": 0.2873206839129147,
+    "tilted": 0.012871094513684511,
+    "tracking": 0.08247787587810307
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "g1": {
+   "cross": {
+    "falls": 0.01953125,
+    "return_rel": 0.14106432480223643,
+    "tilted": 0.00011718750101863407,
+    "tracking": 0.03703565669246019
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "go2": {
+   "cross": {
+    "falls": 1e-06,
+    "return_rel": 0.11102089637245427,
+    "tilted": 1e-06,
+    "tracking": 0.04476908259559423
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "h1": {
+   "cross": {
+    "falls": 1e-06,
+    "return_rel": 0.03233355031429353,
+    "tilted": 1e-06,
+    "tracking": 0.008480780785903343
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  }
+ },
+ "B3": {
+  "anymal_d": {
+   "cross": {
+    "joint_pos": 0.23651993270414215,
+    "root_link_pos_w": 0.39968006912302123
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "g1": {
+   "cross": {
+    "joint_pos": 0.12933685691423402,
+    "root_link_pos_w": 0.9365428353222587
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "go2": {
+   "cross": {
+    "joint_pos": 0.12184462975001717,
+    "root_link_pos_w": 0.5135103031579633
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "h1": {
+   "cross": {
+    "joint_pos": 0.26748106047161896,
+    "root_link_pos_w": 1.2306388457621047
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  }
+ },
+ "ivf": {
+  "anymal_d": {
+   "cross": {
+    "decision": {
+     "survival": 0.921875
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.9375,
+     "fall_timing": 0.078125
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.16473508161329667
+    },
+    "traj": {
+     "base_height": 0.40998391807079315,
+     "joint_pos": 1.6286789556718828,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 14.462733286121935,
+     "policy_obs": 14.467259625307193,
+     "root_link_pos_w": 2.831513833746828,
+     "root_link_quat_w": 1.4607628434063482
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "g1": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.5976967279845558
+    },
+    "traj": {
+     "base_height": 0.7703409902751446,
+     "joint_pos": 1.7605260920742656,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 26.290703641835815,
+     "policy_obs": 26.505398779784556,
+     "root_link_pos_w": 3.3260739590556887,
+     "root_link_quat_w": 3.459626071423794
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "go2": {
+   "cross": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.005158902242779734
+    },
+    "traj": {
+     "base_height": 0.02943914383649826,
+     "joint_pos": 1.0457572517573206,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 26.949256915451354,
+     "policy_obs": 26.967665813389893,
+     "root_link_pos_w": 2.1620969969738586,
+     "root_link_quat_w": 1.366607341397672
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "h1": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.7579279919973342
+    },
+    "traj": {
+     "base_height": 1.0982731590047479,
+     "joint_pos": 1.870121380655093,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 33.593951799719804,
+     "policy_obs": 34.73415320364087,
+     "root_link_pos_w": 4.229007150700764,
+     "root_link_quat_w": 3.444933092810896
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  }
+ },
+ "raw_notes": {
+  "anymal_d": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "g1": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "go2": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "h1": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  }
+ },
+ "rule": "1.25 x worst clean calibration value, floored"
+}

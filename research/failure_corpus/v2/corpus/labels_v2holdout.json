@@ -1,0 +1,2792 @@
+[
+ {
+  "capture_id": "v2h_0dee98822916",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_3c64e03afe63",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_477a67625e0e",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2fd5c7b1d0c7",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_00b4dd4cfec9",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_af20d1831afe",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_bcf6ef65033f",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_1eeae8e0e675",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_eeef7e5a1a03",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e3eb20d0e97c",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_07248f5a1479",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_64b6fede3dd0",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_0c89cb95bb38",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_53ee16a9a742",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_ac9f18d805e7",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7d00995b787b",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_6136abb88f21",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d09d7b924752",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_0b9aa34539fc",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_bf917266f7c2",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_520fc33ad5b9",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_eda630298485",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_448b69e5a691",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_3b00c9a84863",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_01a64cff4d00",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_6d0613a707f5",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_dc3530198fcb",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_b5bbb163685c",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7ffac0c47fe3",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_a763eb75f953",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_001243cc29f9",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d2490be5d5e8",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e08ae92a80c9",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_bdd826bef6b5",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9b995ce900b8",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_421e5da1ba73",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_28c60c49a368",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2d07139d154c",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_829bc52e4100",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_b4d2181193c6",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5cb6bfe90f17",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_deabf4cba35d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_b5f815e34281",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_954e05dc8c33",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_bc456bded035",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_6f4f53c205bf",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_89c497db5c40",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_206c359a43fc",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_a339acf038ee",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f3933a160b86",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_51f72613b73f",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7e2cfc8831a7",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_15a5ccd327ed",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_56f78a0dad03",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5a719d4dfbd3",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2d7a81f5298a",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4d08f22141f6",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_575063fc4fc9",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_eccbe8cf70c7",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_b6ae4206ea5b",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2a3cc912ed23",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_8216e7211e7e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_a188c1028a17",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_90ade4dac921",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_decfa469c0bc",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_bbfcf32ff3bc",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_31e834025951",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d9661e6997d7",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c83fd410d501",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_eb4115b7e68a",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e8809b691205",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_1e238236a157",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c8d17c4656de",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_25a9d404f02f",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_57c089b46b4a",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d09aa0bcc3c6",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_63056bf53e46",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_74e04b8904ea",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e846948a6607",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f64efed024a0",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4ded69130f39",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_58a4863b9b64",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_557e40776dfa",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_501bb4bbb8d9",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_07eaf4d86c54",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_514cb71d87df",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e7b104bbb246",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_81909954a74a",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c14cf24e56fd",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_592aaabb3f3f",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_267bafb08c12",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5434d944daa4",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_ee4b730c2539",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7b041dcccbd0",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_0c90adef2990",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_464296489107",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c5988790304e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9a49eb3c2f23",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9024f0230a62",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_3cefc9f50f35",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_8f19a6ec8ded",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_8767fc3c9cfc",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_ad59fe2ae4e5",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4b7260562ea7",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d74f4d4587b2",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_fbf89788ae53",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c1fbe1f8fefd",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_3e158f3fa389",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e6264ed0c1aa",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2c69bb43a0b5",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4179c38708f7",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_695059d02ab7",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_0e85cc677e3b",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_03bd2680e0ac",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d358b0cfbd35",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4fcff13e023a",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7e25fbd7c388",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5722cfdc3dc6",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f52e277dd214",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5de61f4a3308",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_eaf81f5a641f",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_467aaf83d40e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_35be7a648713",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_afb1ded00fd0",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_a92988c44487",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c61861d9b761",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_ba512461f441",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_63271afe297e",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c8a1f1510fcb",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c03ec383193e",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f47d4a4f9406",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9a47fb65253b",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_26104d65da45",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_cee6144a83ec",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_85b04451668c",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_bac703b478fe",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4cde365c540c",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f921f7696c8a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_18f19b647b17",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_77b6ad641e0d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_805767c0eee3",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7d96794bdced",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_62e1b6e86d58",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_ee8db2c90a4b",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9cc9be03a322",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_820322c9b632",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_cf04ddc9d30b",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_44db41c2d434",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d96ed2288302",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_041fa56eec36",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9d91891a6041",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f0a90490a5e6",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_8f2084bc4c1e",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_305e2ad7f093",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_3ee2bd65c871",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_6a7e591a36a2",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_665a569495d2",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c6b2b595f519",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_51d167f95834",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_188165b038b0",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_1415d630eaf6",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_58681a6f4a56",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5c6cdbd5a337",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_09fb9387a608",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_40e30dc70da4",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_60b547f4301b",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_dae101f45942",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_6b61ba9bd131",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_51720b66d054",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2687bd32de2b",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e5514710c1fa",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_03c341e585c7",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e8d0b50b8133",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_39a6512b04ea",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_0fe818996201",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_321a04bf54be",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_7d979b1e336d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_cbebbf5c53a7",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_a4570fed6d9f",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d753483156f4",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 9,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_c738566579cb",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_9b968aedb8eb",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_d72949e1b039",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offset_dof_index_shift",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e7b4a804f424",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "projected_gravity_quat_wxyz_misread",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/5186",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_004c7af3660b",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "base_lin_vel_world_frame",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/issues/691",
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+   "https://github.com/isaac-sim/IsaacLab/issues/3751"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_1c5f71328a7c",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_one_step_transport_delay",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://github.com/earosenfeld/humanoid-locomotion-sim2sim"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_6c089026560b",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_finite_diff_physics_dt",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://github.com/strands-labs/robots/pull/3895",
+   "https://github.com/tinkerfuroc/tksim_isaac/pull/16"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_8f538cf9c9da",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_root_twist_angular_linear_order",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_a158abb643c1",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "spawn_height_from_asset_keyframe",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_f65e08f90f11",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_model_substitution",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e6d821c24c71",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "mjwarp_preset_overrides_lost",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_2757c35b5a40",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "friction_randomization_noop",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_b4c95e0f6efa",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "legged_gym_obs_scales_applied",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_4f9f4b029f5c",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "stale_default_pose_action_offset",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/3751",
+   "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_dd3f3f8070b9",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_threshold_impulse_units",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_5b6b9526dfc6",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "timeout_counted_as_termination",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+   "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_27269ba1ca62",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "mjwarp_solver_iteration_headroom",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_ec206565861a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "env_spacing_widened",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_e66ca39061e9",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "action_clip_wide",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [
+   "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py"
+  ],
+  "split": "v2holdout"
+ },
+ {
+  "capture_id": "v2h_aa1471a6f42b",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "debug_visualization_off",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 10,
+  "sources": [],
+  "split": "v2holdout"
+ }
+]
