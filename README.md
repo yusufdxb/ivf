@@ -1,18 +1,13 @@
 # IVF: Isaac Validation Framework
 
-**A command-line acceptance checker for simulator experiments: you write down what
-"unchanged behavior" means in a YAML file, IVF runs the comparison and hands back a
-tamper-evident PASS or FAIL bundle you can re-verify a year later.** It is for robotics
-and simulation engineers who change a physics backend, an engine version, or a reset
-path and need something stronger than a green test suite.
-
-## Research evaluation
-
-IVF's cross-backend validity claim was stress-tested through four preregistered evaluation
-rounds. The final confirmatory result did not support the broad claim; IVF remains useful as
-a conservative experiment-auditing tool. Full evaluation and negative result:
-[`research-archive/failure-corpus-v4-final`](https://github.com/yusufdxb/ivf/tree/research-archive/failure-corpus-v4-final/research/failure_corpus)
-([final report](https://github.com/yusufdxb/ivf/blob/research-archive/failure-corpus-v4-final/research/failure_corpus/v4/REPORT_V4.md)).
+**Cross-backend experiment auditing for Isaac Lab (PhysX, Newton/MuJoCo-Warp).** IVF is a
+command-line tool that checks two simulator runs were the experiment you declared (timestep
+and control rate, action stream, reset semantics, frame and quaternion conventions,
+environment ordering), compares the signals you name under stated tolerances and units,
+and writes a checksummed evidence bundle that can be re-verified later. It is meant for
+engineers moving an Isaac Lab workload between physics backends or engine versions who
+want the comparison's configuration and provenance on record, alongside their usual
+closed-loop evaluation.
 
 ## What problem this solves
 
@@ -203,6 +198,7 @@ signals, controls, workload, data, and acceptance budgets.
 | [Fault model](docs/fault-model.md) | detectable, undetectable, and out-of-scope failures |
 | [Claims and evidence](docs/engineering/claims-and-evidence.md) | public proof boundary and reproduction commands |
 | [Tolerance provenance](docs/engineering/tolerance-provenance.md) | machine-derived acceptance budgets |
+| [Research evaluation (archived)](https://github.com/yusufdxb/ivf/tree/research-archive/failure-corpus-v4-final/research/failure_corpus) | preregistered evaluation rounds and final report, archived at tag `research-archive/failure-corpus-v4-final` |
 
 ## Relationship to `isaaclab_contrib.parity`
 
