@@ -154,3 +154,15 @@ per-platform breakdown, both reporting-only.
   backend`) and was re-captured unchanged; clean calibration data only.
 - The thresholds command was made to skip calibration cases not yet captured; flat-robot
   thresholds equal the v3 values exactly.
+- **Infrastructure interruption during v4 holdout capture (before any scoring).** The first
+  capture pass was stopped by the host (Claude Code reaped the background process because
+  system memory was critically low while the session was idle) at 220 of 266 runs. Resumed
+  from the frozen state (`cda56f1`: faults, labels, IVF tree `becf39d`, thresholds and
+  pre-registration unchanged, all hashes re-verified). Only unfinished runs were captured;
+  completed runs were skipped by the producer. Unfinished runs were identified by capture id
+  without opening labels or outcomes: one G1 run whose capture raised
+  `Failed to get DOF velocities from backend` (the same transient PhysX read failure seen and
+  cleared on retry in Rough GO2 calibration), one partial H1 run, one partial Spot run, six
+  unstarted Spot runs, and 38 unstarted Rough GO2 runs. The failed and partial directories were
+  moved aside, not deleted, and re-captured as infrastructure retries. The resume ran under a
+  memory watchdog that stops the capture if available memory falls below 4 GiB.
