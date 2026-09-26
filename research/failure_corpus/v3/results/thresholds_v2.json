@@ -1,0 +1,779 @@
+{
+ "B2": {
+  "anymal_d": {
+   "cross": {
+    "falls": 1.54296875,
+    "return_rel": 0.28071365072444016,
+    "tilted": 0.01421875087544322,
+    "tracking": 0.08524071054998784
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "cassie": {
+   "cross": {
+    "falls": 1e-06,
+    "return_rel": 0.14995823995058857,
+    "tilted": 1e-06,
+    "tracking": 0.026857615234330313
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "g1": {
+   "cross": {
+    "falls": 0.01953125,
+    "return_rel": 0.14147898625678965,
+    "tilted": 0.00013671875422005542,
+    "tracking": 0.036720724250189976
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "go2": {
+   "cross": {
+    "falls": 1e-06,
+    "return_rel": 0.11711825615584509,
+    "tilted": 1e-06,
+    "tracking": 0.0496229357784614
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "h1": {
+   "cross": {
+    "falls": 1e-06,
+    "return_rel": 0.031659472225220316,
+    "tilted": 1e-06,
+    "tracking": 0.008462224854156389
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
+  "spot": {
+   "cross": {
+    "falls": 6.42578125,
+    "return_rel": 0.05617932701533678,
+    "tilted": 0.00019531249563442543,
+    "tracking": 0.04311901938170191
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  }
+ },
+ "B3": {
+  "anymal_d": {
+   "cross": {
+    "joint_pos": 0.2369931748458785,
+    "root_link_pos_w": 0.3997563786277927
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "cassie": {
+   "cross": {
+    "joint_pos": 0.2701359595887381,
+    "root_link_pos_w": 1.1201930405037293
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "g1": {
+   "cross": {
+    "joint_pos": 0.12960730433130338,
+    "root_link_pos_w": 0.9431593434253832
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "go2": {
+   "cross": {
+    "joint_pos": 0.12184470185629268,
+    "root_link_pos_w": 0.5135103406281648
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "h1": {
+   "cross": {
+    "joint_pos": 0.2673577780915636,
+    "root_link_pos_w": 1.231124135233121
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "spot": {
+   "cross": {
+    "joint_pos": 0.1874569893824501,
+    "root_link_pos_w": 0.5383937213913152
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  }
+ },
+ "ivf": {
+  "anymal_d": {
+   "cross": {
+    "decision": {
+     "survival": 0.921875
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.9375,
+     "fall_timing": 0.078125
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.16519285266264344
+    },
+    "traj": {
+     "base_height": 0.4082152619957924,
+     "joint_pos": 1.6751625829138668,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 15.83305881668563,
+     "policy_obs": 15.956547061355872,
+     "root_link_pos_w": 2.8430582561216875,
+     "root_link_quat_w": 1.4626410955197766
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "cassie": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.5582817864497193
+    },
+    "traj": {
+     "base_height": 0.8025511913001537,
+     "joint_pos": 1.6605014176390422,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 29.3400639813126,
+     "policy_obs": 29.555704248579083,
+     "root_link_pos_w": 4.864365761502048,
+     "root_link_quat_w": 3.9176324412845402
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "g1": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.5971891626822763
+    },
+    "traj": {
+     "base_height": 0.7698722882196307,
+     "joint_pos": 1.7606991516409511,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 26.290706588766387,
+     "policy_obs": 26.50542408444544,
+     "root_link_pos_w": 3.39962481297549,
+     "root_link_quat_w": 3.4826796488023914
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "go2": {
+   "cross": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.005158893123152667
+    },
+    "traj": {
+     "base_height": 0.029438510537147522,
+     "joint_pos": 1.0457576099708266,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 26.949256915451354,
+     "policy_obs": 26.967665813389893,
+     "root_link_pos_w": 2.1620946721866656,
+     "root_link_quat_w": 1.3666066582684917
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "h1": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.7578774263395172
+    },
+    "traj": {
+     "base_height": 1.0970302764326334,
+     "joint_pos": 1.8949955076989224,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 32.093450986523706,
+     "policy_obs": 33.256885313842076,
+     "root_link_pos_w": 4.2254515572671565,
+     "root_link_quat_w": 3.470547071522594
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "spot": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.309316850331903
+    },
+    "traj": {
+     "base_height": 0.5929888505488634,
+     "joint_pos": 1.365416775281115,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 27.68420783232766,
+     "policy_obs": 27.837284378193047,
+     "root_link_pos_w": 1.9613162816493652,
+     "root_link_quat_w": 3.9268538145423113
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  }
+ },
+ "raw_notes": {
+  "anymal_d": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "cassie": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "g1": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "go2": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "h1": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "spot": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  }
+ },
+ "rule": "1.25 x worst clean calibration value, floored"
+}

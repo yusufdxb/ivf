@@ -1,0 +1,33 @@
+{
+ "physx": [
+  "fl_hx",
+  "fr_hx",
+  "hl_hx",
+  "hr_hx",
+  "fl_hy",
+  "fr_hy",
+  "hl_hy",
+  "hr_hy",
+  "fl_kn",
+  "fr_kn",
+  "hl_kn",
+  "hr_kn"
+ ],
+ "physx_manager": "isaaclab_physx.physics.physx_manager:PhysxManager",
+ "newton": [
+  "fl_hx",
+  "fl_hy",
+  "fl_kn",
+  "fr_hx",
+  "fr_hy",
+  "fr_kn",
+  "hl_hx",
+  "hl_hy",
+  "hl_kn",
+  "hr_hx",
+  "hr_hy",
+  "hr_kn"
+ ],
+ "newton_manager": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+ "identical": false
+}

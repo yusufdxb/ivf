@@ -212,6 +212,15 @@ def controlled_cfg(cfg, platform: str, *, mode: str) -> None:
     for name in ("push_robot", "base_external_force_torque", "add_base_mass", "base_com"):
         if hasattr(ev, name):
             setattr(ev, name, None)
+    # Startup material randomization that actually samples is disabled on both backends, like
+    # mass/COM above; a degenerate range (a fixed material) is kept. Spot's stock config
+    # applies a sampled range on PhysX only (measured on clean calibration pairs).
+    pm = getattr(ev, "physics_material", None)
+    if pm is not None:
+        prm = pm.params or {}
+        ranges = [prm.get(k) for k in ("static_friction_range", "dynamic_friction_range", "restitution_range")]
+        if any(r is not None and tuple(r)[0] != tuple(r)[1] for r in ranges):
+            ev.physics_material = None
     # Pin actuator armature to the training (PhysX-resolved) value on every backend, so a
     # backend-conditioned preset cannot silently change the comparison inputs.
     for name, a in cfg.scene.robot.actuators.items():
@@ -914,7 +923,7 @@ def run_open_loop(
         }
         monitor = ResourceMonitor(u)
         base_ids, _ = robot.find_bodies(
-            BASE_BODY[platform] if platform in ("go2", "anymal_d") else "pelvis"
+            BASE_BODY[platform] if platform in ("go2", "anymal_d", "spot") else "pelvis"
         )
 
         rec: dict[str, list] = {k: [] for k in UNITS}

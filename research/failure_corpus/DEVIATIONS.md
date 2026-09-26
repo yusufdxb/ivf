@@ -126,3 +126,13 @@ per-platform breakdown, both reporting-only.
   calibration captures were set aside, not used.
 - Thresholds are frozen per robot before that robot's holdout cases are captured (five
   robots first, Spot after its training finishes).
+- **Spot producer fixes (clean calibration data only, after the v3 faults were sealed).**
+  (1) The base-body lookup hardcoded `pelvis` for platforms other than GO2 and ANYmal-D;
+  Spot's base is `body` (all 9 Spot calibration jobs raised). (2) Spot's stock config
+  applies sampled material randomization (static friction 0.3 to 1.0) as "PhysX-only
+  startup randomization", so stock Newton Spot silently drops it; IVF flagged all 3 clean
+  Spot pairs (`IVF-CONTROL-RANDOMIZATION-MISMATCH`, realized friction 0.69 vs 1.0). This is
+  a real in-tree backend-conditioned randomization difference, reported as a finding. To
+  keep "clean" like-for-like, the controlled protocol now disables startup material
+  randomization when its ranges sample (as it already did for mass/COM); fixed materials
+  (the other five robots) are unchanged. After this, 18/18 clean cross pairs pass.

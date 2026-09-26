@@ -31,6 +31,7 @@ TASKS = {
     "h1": "Isaac-Velocity-Flat-H1",
     "anymal_d": "Isaac-Velocity-Flat-AnymalD",
     "cassie": "Isaac-Velocity-Flat-Cassie",
+    "spot": "Isaac-Velocity-Flat-Spot",
 }
 root, out = Path(sys.argv[1]), Path(sys.argv[2])
 for platform in sys.argv[3:]:

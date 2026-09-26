@@ -1,0 +1,8 @@
+{
+ "task": "Isaac-Velocity-Flat-Spot",
+ "checkpoint": "spot_flat/2026-09-26_10-07-05/model_1499.pt",
+ "checkpoint_sha256": "213112a85abc29c6ef7571f9f77a69d144fb29f8519e4dcec6737e6a57005c65",
+ "policy_pt_sha256": "d8b42d80ae580142a2f1b1e05cd5ede8f0522750386bb11c162373ed90957213",
+ "trained_backend": "physx (default preset)",
+ "seed": 42
+}
