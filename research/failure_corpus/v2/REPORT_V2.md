@@ -1,5 +1,7 @@
 # Revised IVF on an independently authored holdout
 
+> **Archived round record.** Results below stand as recorded for this round. The authoritative research conclusion is [`../v4/REPORT_V4.md`](../v4/REPORT_V4.md); where this report differs, v4 governs.
+
 Research report, 2026-09-26. Branch `research/failure-corpus-eval`, local only.
 Pre-registration: [`docs/preregistration/2026-09-26-v2-holdout.md`](../../../docs/preregistration/2026-09-26-v2-holdout.md).
 v1 report (the starting point): [`../REPORT.md`](../REPORT.md).

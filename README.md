@@ -1,10 +1,57 @@
 # IVF: Isaac Validation Framework
 
-**A command-line acceptance checker for simulator experiments: you write down what
-"unchanged behavior" means in a YAML file, IVF runs the comparison and hands back a
-tamper-evident PASS or FAIL bundle you can re-verify a year later.** It is for robotics
-and simulation engineers who change a physics backend, an engine version, or a reset
-path and need something stronger than a green test suite.
+**A command-line tool for auditing cross-backend simulator experiments.** You write down,
+in a YAML file, what the experiment is supposed to be (the same action stream, reset
+state, backend, solver preset, model parameters, randomization, joint order, policy
+interface, and termination rules) and which trajectory tolerances you accept. IVF checks
+that both runs actually were that experiment, compares them under the declared contract,
+and seals the manifest, verdict, reasoning, and per-file checksums into an evidence bundle
+you can re-verify later.
+
+IVF is an **experiment-auditing tool, not a general simulator-equivalence validator**. It
+complements closed-loop sim-to-sim evaluation; it does not replace it. See
+[What IVF does, and does not, establish](#what-ivf-does-and-does-not-establish).
+
+> **Research status: development stopped (2026-09-26).** The research evaluation of IVF is
+> complete; its authoritative conclusion is
+> [`research/failure_corpus/v4/REPORT_V4.md`](research/failure_corpus/v4/REPORT_V4.md). The tool
+> remains usable. Future changes are ordinary engineering maintenance, or fixes motivated by
+> real failures reported by external users, not attempts to strengthen the research claim.
+
+## What IVF does, and does not, establish
+
+Evidence comes from four pre-registered rounds of real PhysX versus Newton/MuJoCo-Warp
+captures of trained locomotion policies (GO2, G1, H1, ANYmal-D, Cassie, Spot, and
+rough-terrain GO2), with externally sourced and independently authored fault families,
+sealed holdouts, and a single scoring run per holdout
+([research index](research/failure_corpus/README.md)).
+
+**Supported, on the final holdout (168 defects, 84 clean cases, 12 fault families):**
+
+- IVF's configuration/state checks are conservative: **0/84 false alarms** on clean
+  cross-backend runs.
+- They caught **21 defects that conventional validation missed** (native smoke checks,
+  closed-loop performance comparison, and trajectory error all accepted them).
+- That benefit was **concentrated in reset/randomization failures**: all 21 came from two
+  reset fault families, detected by the reset-realization and randomization checks.
+- Adding them to conventional validation lowered false acceptance from 0.548 to 0.423 with
+  no additional false alarms.
+
+**Not supported:**
+
+- The broad pre-registered claim that adding IVF *reliably* reduces false acceptance
+  **failed**: the family-level 95% confidence interval for the reduction was
+  [0.000, 0.304], which includes zero, because the gain came from 2 of 12 families.
+- IVF **missed most dynamic and runtime fault families** (for example action clamping,
+  reduced-precision policy I/O, stale or noisy observations, mirrored actuator signs,
+  unclamped torque limits, runtime-swapped terminations). Behavior-level failures of this
+  kind are caught by closed-loop evaluation, not by IVF.
+- IVF does not decide which backend is physically correct, does not prove simulator
+  equivalence, and its root-cause attribution was weak in every round.
+
+**Use it as:** an auditing layer run alongside conventional closed-loop sim-to-sim
+validation, to catch experiments whose declared configuration or state silently differs
+from what actually ran.
 
 ## What problem this solves
 
@@ -54,7 +101,7 @@ reports. A simulator is needed only to produce new real captures.
 
 | Item | Value |
 |---|---|
-| Test suite | 265 passed, 5 skipped (`uv run pytest -q`, CPU-only run; the skips are the simulator-backed tests) |
+| Test suite | 284 passed, 5 skipped (`uv run pytest -q`, CPU-only run; the skips are the simulator-backed tests) |
 | Flagship case | real PhysX versus Newton/MJWarp cart-pole captures, recorded verdict `FAIL`, 5 of 9 oracles pass and 4 fail |
 | Experiment validity | 22 checks recorded: 18 pass, 3 unverifiable, 1 not applicable, 0 failed |
 | Evidence integrity | 13 files re-verified from `SEAL.json` by `ivf reproduce --verify-only` |
@@ -62,6 +109,7 @@ reports. A simulator is needed only to produce new real captures.
 | Hardware verification | one workstation with a single NVIDIA GPU, Isaac Sim 6.0.0.1, Isaac Lab 10.2.0. No multi-GPU or cross-hardware determinism claim |
 | Scope of the real evidence | one passive cart-pole workload, one recorded Isaac stack, PhysX plus one Newton/MJWarp preset |
 | Release | `0.1.0rc2` |
+| Research development | stopped 2026-09-26; final result tagged `research-archive/failure-corpus-v4-final` |
 
 IVF is not a performance benchmark. It does not measure throughput and does not designate
 a reference engine. It checks a predeclared behavioral acceptance contract and preserves
@@ -195,6 +243,7 @@ signals, controls, workload, data, and acceptance budgets.
 | [Fault model](docs/fault-model.md) | detectable, undetectable, and out-of-scope failures |
 | [Claims and evidence](docs/engineering/claims-and-evidence.md) | public proof boundary and reproduction commands |
 | [Tolerance provenance](docs/engineering/tolerance-provenance.md) | machine-derived acceptance budgets |
+| [Research evaluation (final)](research/failure_corpus/v4/REPORT_V4.md) | authoritative research conclusion; index in [`research/failure_corpus/README.md`](research/failure_corpus/README.md) |
 
 ## Relationship to `isaaclab_contrib.parity`
 

@@ -1,5 +1,7 @@
 # Final confirmatory evaluation (v4): IVF configuration/state checks + conventional validation
 
+> **Status: authoritative final research conclusion.** Research development stopped 2026-09-26; archived as tag `research-archive/failure-corpus-v4-final` (commit `89398cb`). Index: [`../README.md`](../README.md).
+
 2026-09-26. Branch `research/failure-corpus-eval`, local only. This is the last round.
 Pre-registration: [`docs/preregistration/2026-09-26-v4-confirmatory.md`](../../../docs/preregistration/2026-09-26-v4-confirmatory.md).
 Earlier rounds: [v1](../REPORT.md), [v2](../v2/REPORT_V2.md), [v3](../v3/REPORT_V3.md). Deviations: [`../DEVIATIONS.md`](../DEVIATIONS.md).

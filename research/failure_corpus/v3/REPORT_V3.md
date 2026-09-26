@@ -1,5 +1,7 @@
 # Technical report: IVF experimental-validity checks added to conventional sim-to-sim validation
 
+> **Archived round record.** Results below stand as recorded for this round. The authoritative research conclusion is [`../v4/REPORT_V4.md`](../v4/REPORT_V4.md); where this report differs, v4 governs.
+
 2026-09-26. Branch `research/failure-corpus-eval`, local only.
 Pre-registration: [`docs/preregistration/2026-09-26-v3-holdout.md`](../../../docs/preregistration/2026-09-26-v3-holdout.md).
 Earlier rounds: [v1](../REPORT.md), [v2](../v2/REPORT_V2.md). Deviations: [`../DEVIATIONS.md`](../DEVIATIONS.md).
