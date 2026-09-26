@@ -1,0 +1,8 @@
+{
+ "task": "Isaac-Velocity-Flat-G1",
+ "checkpoint": "g1_flat/2026-09-26_02-36-53/model_799.pt",
+ "checkpoint_sha256": "c77a13c26736393553f6a730e4e2fca3b9768c0f6a7bc27ff7ee3aa267f0d2b6",
+ "policy_pt_sha256": "29c465019cfb4fa6fdbe4acd0773544cd1909a3db34220db9b7976bab82b3b7d",
+ "trained_backend": "physx (default preset)",
+ "seed": 42
+}

@@ -1,0 +1,175 @@
+{
+ "B1_native": {
+  "fpr": "0/3",
+  "recall": "3/48"
+ },
+ "B3_pole_angle": {
+  "fpr": "0/3",
+  "recall": "27/48"
+ },
+ "B3all": {
+  "fpr": "0/3",
+  "recall": "39/48"
+ },
+ "baseline_only": [],
+ "both_miss": [
+  "unsupported_feature_misreported"
+ ],
+ "composite_B1_B3all": {
+  "fpr": "0/3",
+  "recall": "42/48"
+ },
+ "ivf": {
+  "fpr": "0/3",
+  "recall": "45/48"
+ },
+ "ivf_classification_matches_category": "15/33",
+ "ivf_only": [
+  "corrupted_metadata"
+ ],
+ "n_trials": 51,
+ "per_fault": {
+  "altered_friction": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "numerical_drift"
+   ],
+   "ivf": 3
+  },
+  "altered_mass": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "numerical_drift"
+   ],
+   "ivf": 3
+  },
+  "corrupted_metadata": {
+   "B1": 0,
+   "B3all": 0,
+   "classification": [
+    "None"
+   ],
+   "ivf": 3
+  },
+  "dropped_action": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "numerical_drift"
+   ],
+   "ivf": 3
+  },
+  "ignored_reset_velocity": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "reset_mismatch"
+   ],
+   "ivf": 3
+  },
+  "incorrect_clone_count": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "None"
+   ],
+   "ivf": 3
+  },
+  "incorrect_timestep": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "None"
+   ],
+   "ivf": 3
+  },
+  "none": {
+   "B1": 0,
+   "B3all": 0,
+   "classification": [
+    "None"
+   ],
+   "ivf": 0
+  },
+  "observation_field_swap": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "reset_mismatch"
+   ],
+   "ivf": 3
+  },
+  "quaternion_ordering": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "quaternion_convention_mismatch"
+   ],
+   "ivf": 3
+  },
+  "shifted_action_timing": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "unknown"
+   ],
+   "ivf": 3
+  },
+  "silent_nan": {
+   "B1": 3,
+   "B3all": 0,
+   "classification": [
+    "numerical_drift"
+   ],
+   "ivf": 3
+  },
+  "stale_sensor_state": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "sensor_semantic_difference"
+   ],
+   "ivf": 3
+  },
+  "truncated_rollout": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "None"
+   ],
+   "ivf": 3
+  },
+  "unit_scaling": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "reset_mismatch"
+   ],
+   "ivf": 3
+  },
+  "unsupported_feature_misreported": {
+   "B1": 0,
+   "B3all": 0,
+   "classification": [
+    "None"
+   ],
+   "ivf": 0
+  },
+  "wrong_env_origin": {
+   "B1": 0,
+   "B3all": 3,
+   "classification": [
+    "coordinate_frame_mismatch"
+   ],
+   "ivf": 3
+  }
+ },
+ "thresholds": {
+  "abs_pole_angle": 1e-06,
+  "pole_ang_vel": 1e-06,
+  "pole_angle": 1e-06,
+  "pole_quat": 1e-06
+ }
+}

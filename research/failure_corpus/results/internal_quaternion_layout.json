@@ -1,0 +1,20 @@
+{
+ "internal-quat-as_shipped_both_wxyz": {
+  "verdict": "FAIL",
+  "reason_codes": [
+   "IVF-ORACLE-NON_EQUIVALENT",
+   "IVF-ORACLE-EVENT-TIMING-DELTA"
+  ],
+  "V-15": "pass",
+  "unit_quaternion_oracle": "pass"
+ },
+ "internal-quat-candidate_declares_xyzw": {
+  "verdict": "INVALID_EXPERIMENT",
+  "reason_codes": [
+   "IVF-CONTROL-QUATERNION-CONVENTION-MISMATCH"
+  ],
+  "V-15": "fail",
+  "unit_quaternion_oracle": "not run"
+ },
+ "fact": "shipped cart-pole bundles store identity root orientation as [0,0,0,1] (x,y,z,w per Isaac Lab 3 API docs) while declaring layout wxyz; read as declared this is a 180 degree rotation"
+}
