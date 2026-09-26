@@ -1,0 +1,1020 @@
+{
+ "error": null,
+ "evidence": null,
+ "localization": {
+  "basis": "traj_joint_pos classification=reset_mismatch",
+  "category": "reset_randomization",
+  "signal": "joint_pos"
+ },
+ "oracles": [
+  {
+   "divergence": null,
+   "metrics": {
+    "check": "finite_state",
+    "elements_inspected": 808000,
+    "signals": [
+     "base_contact_force",
+     "base_height",
+     "illegal_contact",
+     "joint_pos",
+     "joint_pos_target",
+     "joint_vel",
+     "policy_obs",
+     "root_ang_vel_b",
+     "root_lin_vel_b",
+     "root_link_pos_w",
+     "root_link_quat_w",
+     "upright"
+    ]
+   },
+   "name": "finite_state",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "invariant"
+  },
+  {
+   "divergence": null,
+   "metrics": {
+    "check": "unit_quaternion",
+    "elements_inspected": 32000,
+    "signals": [
+     "root_link_quat_w"
+    ]
+   },
+   "name": "unit_quaternion",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "invariant"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "joint_pos"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 1.2668009380892915,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 1.4915913244383203,
+    "worst_step": 26
+   },
+   "name": "traj_joint_pos",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "joint_vel"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 22.67539285060569,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 31.54381776297502,
+    "worst_step": 175
+   },
+   "name": "traj_joint_vel",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "joint_pos_target"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 1.3632867552146013,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 1.6008776190280336,
+    "worst_step": 47
+   },
+   "name": "traj_joint_pos_target",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0,
+     1,
+     2
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "root_link_pos_w"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 1.2137363251102138,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 3.9508564643639392,
+    "worst_step": 249
+   },
+   "name": "traj_root_link_pos_w",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "root_link_quat_w"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 0.7107674990887589,
+    "metric": "geodesic",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 1.5277106801094182,
+    "worst_step": 248
+   },
+   "name": "traj_root_link_quat_w",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "base_height"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 0.06764686852693558,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 0.0986739993095398,
+    "worst_step": 34
+   },
+   "name": "traj_base_height",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35
+    ],
+    "affected_env_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "reset_mismatch",
+    "confidence": "medium",
+    "first_event_disagreement_step": null,
+    "first_numerical_difference_step": 0,
+    "first_tolerance_violation_step": 0,
+    "signal": "policy_obs"
+   },
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 22.84491463572253,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 31.582000646447838,
+    "worst_step": 175
+   },
+   "name": "traj_policy_obs",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "trajectory_equivalence"
+  },
+  {
+   "divergence": null,
+   "metrics": {
+    "baseline_occurrences": 0,
+    "candidate_occurrences": 0,
+    "envs_with_count_mismatch": [],
+    "event": "fall",
+    "max_allowed_delta_steps": 1.0,
+    "median_timing_delta_steps": 0.0,
+    "n_envs": 16,
+    "worst_timing_delta_steps": 0
+   },
+   "name": "fall_timing",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "event_equivalence"
+  },
+  {
+   "divergence": {
+    "affected_components": [],
+    "affected_env_ids": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "classification": "task_level_regression",
+    "confidence": "medium",
+    "first_event_disagreement_step": 118,
+    "first_numerical_difference_step": null,
+    "first_tolerance_violation_step": null,
+    "signal": "illegal_contact"
+   },
+   "metrics": {
+    "baseline_occurrences": 0,
+    "candidate_occurrences": 15,
+    "envs_with_count_mismatch": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "event": "base_contact",
+    "max_allowed_delta_steps": 1.0,
+    "median_timing_delta_steps": 0.0,
+    "n_envs": 16,
+    "worst_timing_delta_steps": 0
+   },
+   "name": "contact_timing",
+   "reason_codes": [
+    "IVF-ORACLE-EVENT-COUNT-MISMATCH"
+   ],
+   "status": "fail",
+   "type": "event_equivalence"
+  },
+  {
+   "divergence": null,
+   "metrics": {
+    "agreement_rate": 1.0,
+    "baseline_positive_rate": 1.0,
+    "candidate_positive_rate": 1.0,
+    "decision": "survives_horizon",
+    "disagreeing_envs": [],
+    "minimum_agreement": 1.0,
+    "n_envs": 16
+   },
+   "name": "survival",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "decision_equivalence"
+  },
+  {
+   "divergence": null,
+   "metrics": {
+    "alpha": 0.05,
+    "bootstrap_seed": 0,
+    "ci_high": -0.053749025654327126,
+    "ci_level": 0.95,
+    "ci_low": -0.057616700793150816,
+    "cohens_dz": -13.523796287623092,
+    "equivalence_margin": 1e-06,
+    "mean_difference": -0.05539719986356795,
+    "minimum_meaningful_effect": 1e-07,
+    "n_pairs": 16,
+    "observed_absolute_effect": 0.05539719986356795,
+    "sd_difference": 0.004096275830054256,
+    "summary": "mean"
+   },
+   "name": "mean_base_height",
+   "reason_codes": [
+    "IVF-ORACLE-NON_EQUIVALENT"
+   ],
+   "status": "fail",
+   "type": "statistical_equivalence"
+  },
+  {
+   "divergence": null,
+   "metrics": {
+    "baseline": {
+     "base_contact_force": [
+      16,
+      1
+     ],
+     "base_height": [
+      16,
+      1
+     ],
+     "illegal_contact": [
+      16,
+      1
+     ],
+     "joint_pos": [
+      16,
+      12
+     ],
+     "joint_pos_target": [
+      16,
+      12
+     ],
+     "joint_vel": [
+      16,
+      12
+     ],
+     "policy_obs": [
+      16,
+      48
+     ],
+     "root_ang_vel_b": [
+      16,
+      3
+     ],
+     "root_lin_vel_b": [
+      16,
+      3
+     ],
+     "root_link_pos_w": [
+      16,
+      3
+     ],
+     "root_link_quat_w": [
+      16,
+      4
+     ],
+     "upright": [
+      16,
+      1
+     ]
+    },
+    "candidate": {
+     "base_contact_force": [
+      16,
+      1
+     ],
+     "base_height": [
+      16,
+      1
+     ],
+     "illegal_contact": [
+      16,
+      1
+     ],
+     "joint_pos": [
+      16,
+      12
+     ],
+     "joint_pos_target": [
+      16,
+      12
+     ],
+     "joint_vel": [
+      16,
+      12
+     ],
+     "policy_obs": [
+      16,
+      48
+     ],
+     "root_ang_vel_b": [
+      16,
+      3
+     ],
+     "root_lin_vel_b": [
+      16,
+      3
+     ],
+     "root_link_pos_w": [
+      16,
+      3
+     ],
+     "root_link_quat_w": [
+      16,
+      4
+     ],
+     "upright": [
+      16,
+      1
+     ]
+    },
+    "relation": "observation_definition_stability"
+   },
+   "name": "observation_shape_stability",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "metamorphic"
+  },
+  {
+   "divergence": null,
+   "metrics": {
+    "baseline_digest": "c5ad98b5a852fd6142acf3032eafb6f066c42177f0105dd4fb35575ef30c50c2",
+    "candidate_digest": "c5ad98b5a852fd6142acf3032eafb6f066c42177f0105dd4fb35575ef30c50c2",
+    "relation": "action_replay_consumption"
+   },
+   "name": "action_replay",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "metamorphic"
+  }
+ ],
+ "reason_codes": [
+  "IVF-ORACLE-NON_EQUIVALENT",
+  "IVF-ORACLE-EVENT-COUNT-MISMATCH"
+ ],
+ "validity": {
+  "checks": [
+   {
+    "check_id": "V-UNVERIFIABLE",
+    "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+    "name": "asset binary identity is explicitly partitioned",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-UNVERIFIABLE",
+    "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+    "name": "backend internal state is explicitly partitioned",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-10",
+    "detail": "the manifest declares solver parameters may differ; any resulting divergence is reported as a solver-parameter difference rather than a defect",
+    "name": "solver settings differ (declared allowed)",
+    "reason_code": null,
+    "status": "not_applicable"
+   },
+   {
+    "check_id": "V-11",
+    "detail": "250 steps captured",
+    "name": "baseline run is complete",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-11",
+    "detail": "250 steps captured",
+    "name": "candidate run is complete",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-12",
+    "detail": "0 steps discarded",
+    "name": "warm-up is declared",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-13",
+    "detail": "both 0.005",
+    "name": "physics timestep matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'm'",
+    "name": "base_height: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "name": "base_height: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "base_height: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "name": "traj_base_height: tolerance unit suits base_height",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "name": "mean_base_height: tolerance unit suits base_height",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "name": "illegal_contact: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'event'",
+    "name": "illegal_contact: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "illegal_contact: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'steps' gates a property of the comparison, not the dimension of 'illegal_contact'",
+    "name": "contact_timing: tolerance unit suits illegal_contact",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'rad'",
+    "name": "joint_pos: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'joint'",
+    "name": "joint_pos: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "joint_pos: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'rad'",
+    "name": "traj_joint_pos: tolerance unit suits joint_pos",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'rad'",
+    "name": "joint_pos_target: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'joint'",
+    "name": "joint_pos_target: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "joint_pos_target: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'rad'",
+    "name": "traj_joint_pos_target: tolerance unit suits joint_pos_target",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'rad/s'",
+    "name": "joint_vel: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'joint'",
+    "name": "joint_vel: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "joint_vel: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'rad/s'",
+    "name": "traj_joint_vel: tolerance unit suits joint_vel",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "name": "policy_obs: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'policy'",
+    "name": "policy_obs: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "policy_obs: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'dimensionless' gates a property of the comparison, not the dimension of 'policy_obs'",
+    "name": "traj_policy_obs: tolerance unit suits policy_obs",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'm'",
+    "name": "root_link_pos_w: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "name": "root_link_pos_w: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "root_link_pos_w: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "name": "traj_root_link_pos_w: tolerance unit suits root_link_pos_w",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "name": "root_link_quat_w: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "name": "root_link_quat_w: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "root_link_quat_w: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'dimensionless' gates a property of the comparison, not the dimension of 'root_link_quat_w'",
+    "name": "traj_root_link_quat_w: tolerance unit suits root_link_quat_w",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "name": "upright: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'base'",
+    "name": "upright: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "upright: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'steps' gates a property of the comparison, not the dimension of 'upright'",
+    "name": "fall_timing: tolerance unit suits upright",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'fraction' gates a property of the comparison, not the dimension of 'upright'",
+    "name": "survival: tolerance unit suits upright",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-19",
+    "detail": "content roots differ (373b1cfb9a96bf68\u2026 vs 31977e3b593def38\u2026)",
+    "name": "subjects are distinct content",
+    "reason_code": null,
+    "status": "pass"
+   }
+  ],
+  "valid": true
+ },
+ "verdict": "FAIL"
+}
