@@ -1,0 +1,106 @@
+{
+ "split": "calibration",
+ "platform": "go2",
+ "policy": "research/failure_corpus/policies/go2/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "calibration__go2__s0__ref_physx",
+   "platform": "go2",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:0",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__go2__s0__clean_physx_rerun",
+   "platform": "go2",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__go2__s0__clean_newton",
+   "platform": "go2",
+   "seed": 0,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__go2__s1__ref_physx",
+   "platform": "go2",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:1",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__go2__s1__clean_physx_rerun",
+   "platform": "go2",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__go2__s1__clean_newton",
+   "platform": "go2",
+   "seed": 1,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__go2__s2__ref_physx",
+   "platform": "go2",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:2",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__go2__s2__clean_physx_rerun",
+   "platform": "go2",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:2",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__go2__s2__clean_newton",
+   "platform": "go2",
+   "seed": 2,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:2",
+   "is_reference": false
+  }
+ ]
+}

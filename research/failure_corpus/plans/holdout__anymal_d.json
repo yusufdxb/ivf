@@ -1,0 +1,647 @@
+{
+ "split": "holdout",
+ "platform": "anymal_d",
+ "policy": "research/failure_corpus/policies/anymal_d/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "h_e9aea1d98d75",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": true
+  },
+  {
+   "capture_id": "h_aa73771aa40a",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_47a21cbb8f77",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_56ce16d557d9",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_capacity",
+    "params": {
+     "factor": 2
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_026e2a9aa98d",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "joint_order_obs_action",
+    "params": {
+     "perm": "per_limb"
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_d7156d520270",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "joint_order_obs_action",
+    "params": {
+     "perm": "per_limb"
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_82c368bb80a2",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "obs_term_swap",
+    "params": {
+     "a": "base_ang_vel",
+     "b": "projected_gravity"
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_c2a4abb98785",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "obs_term_swap",
+    "params": {
+     "a": "base_ang_vel",
+     "b": "projected_gravity"
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_b0242f2b4363",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "timestep_dt_decimation",
+    "params": {
+     "dt": 0.005,
+     "decimation": 2
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_28083a40ecc5",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "timestep_dt_decimation",
+    "params": {
+     "dt": 0.005,
+     "decimation": 2
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_677068cc3eb1",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "randomization_asymmetry",
+    "params": {
+     "body": "base",
+     "mass_range": [
+      0.8,
+      1.25
+     ]
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_7fbd2f09e788",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "randomization_asymmetry",
+    "params": {
+     "body": "base",
+     "mass_range": [
+      0.8,
+      1.25
+     ]
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_645b9c2f8b54",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_velocity_dropped",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_55c1345d44db",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "reset_velocity_dropped",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_f9264a64c6dc",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "armature_dropped",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_fca5c7e0de92",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_capacity",
+    "params": {
+     "nconmax": 2,
+     "njmax": 8
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_306e1a6b8f64",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "actuator_gain_scale",
+    "params": {
+     "stiffness_scale": 1.0,
+     "damping_scale": 0.0
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_f99c6607fd94",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "actuator_gain_scale",
+    "params": {
+     "stiffness_scale": 1.0,
+     "damping_scale": 0.0
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_e98043c15d73",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton_via_pre7103_test_path",
+   "fault": {
+    "family": "preset_not_applied",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_70c4965998cf",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "action_scale",
+    "params": {
+     "scale": 1.0
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_2fa505d1b8b9",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "action_scale",
+    "params": {
+     "scale": 1.0
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_c0a766c894cb",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "termination_body_mismatch",
+    "params": {
+     "body_index": 1
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_e91c9dcdae12",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "termination_body_mismatch",
+    "params": {
+     "body_index": 1
+    }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_7bee2a996259",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": true
+  },
+  {
+   "capture_id": "h_2098f0220229",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_e21708890a5e",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_b59adfe9dcc3",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "benign_capacity",
+    "params": {
+     "factor": 2
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_47b342dcbd0e",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "joint_order_obs_action",
+    "params": {
+     "perm": "per_limb"
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_62fec0c3730c",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "joint_order_obs_action",
+    "params": {
+     "perm": "per_limb"
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_7dfb6d05c119",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "obs_term_swap",
+    "params": {
+     "a": "base_ang_vel",
+     "b": "projected_gravity"
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_4e394c32aaf2",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "obs_term_swap",
+    "params": {
+     "a": "base_ang_vel",
+     "b": "projected_gravity"
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_730372d65fe9",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "timestep_dt_decimation",
+    "params": {
+     "dt": 0.005,
+     "decimation": 2
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_dd4743b515f6",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "timestep_dt_decimation",
+    "params": {
+     "dt": 0.005,
+     "decimation": 2
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_b20d76237042",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "randomization_asymmetry",
+    "params": {
+     "body": "base",
+     "mass_range": [
+      0.8,
+      1.25
+     ]
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_9b3c0b1fc2ba",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "randomization_asymmetry",
+    "params": {
+     "body": "base",
+     "mass_range": [
+      0.8,
+      1.25
+     ]
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_a13164ead88e",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_velocity_dropped",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_02024effc7d0",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "reset_velocity_dropped",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_3dc84abf787f",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "armature_dropped",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_5c694444463d",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_capacity",
+    "params": {
+     "nconmax": 2,
+     "njmax": 8
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_ac9fcd04b503",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "actuator_gain_scale",
+    "params": {
+     "stiffness_scale": 1.0,
+     "damping_scale": 0.0
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_9e7878a4fcb5",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "actuator_gain_scale",
+    "params": {
+     "stiffness_scale": 1.0,
+     "damping_scale": 0.0
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_b90b8c9e121c",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton_via_pre7103_test_path",
+   "fault": {
+    "family": "preset_not_applied",
+    "params": {}
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_7585336fe1fd",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "action_scale",
+    "params": {
+     "scale": 1.0
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_eadc86c1e5af",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "action_scale",
+    "params": {
+     "scale": 1.0
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_7be91b546635",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "termination_body_mismatch",
+    "params": {
+     "body_index": 1
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_a15b9d0795e7",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "termination_body_mismatch",
+    "params": {
+     "body_index": 1
+    }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  }
+ ]
+}

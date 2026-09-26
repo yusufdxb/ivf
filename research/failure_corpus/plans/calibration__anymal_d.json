@@ -1,0 +1,106 @@
+{
+ "split": "calibration",
+ "platform": "anymal_d",
+ "policy": "research/failure_corpus/policies/anymal_d/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "calibration__anymal_d__s0__ref_physx",
+   "platform": "anymal_d",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:0",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__anymal_d__s0__clean_physx_rerun",
+   "platform": "anymal_d",
+   "seed": 0,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__anymal_d__s0__clean_newton",
+   "platform": "anymal_d",
+   "seed": 0,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:0",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__anymal_d__s1__ref_physx",
+   "platform": "anymal_d",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:1",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__anymal_d__s1__clean_physx_rerun",
+   "platform": "anymal_d",
+   "seed": 1,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__anymal_d__s1__clean_newton",
+   "platform": "anymal_d",
+   "seed": 1,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:1",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__anymal_d__s2__ref_physx",
+   "platform": "anymal_d",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:2",
+   "is_reference": true
+  },
+  {
+   "capture_id": "calibration__anymal_d__s2__clean_physx_rerun",
+   "platform": "anymal_d",
+   "seed": 2,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:2",
+   "is_reference": false
+  },
+  {
+   "capture_id": "calibration__anymal_d__s2__clean_newton",
+   "platform": "anymal_d",
+   "seed": 2,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:2",
+   "is_reference": false
+  }
+ ]
+}

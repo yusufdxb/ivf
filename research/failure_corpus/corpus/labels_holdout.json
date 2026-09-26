@@ -1,0 +1,1802 @@
+[
+ {
+  "capture_id": "h_e9aea1d98d75",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_aa73771aa40a",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_47a21cbb8f77",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_56ce16d557d9",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "benign_capacity",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_026e2a9aa98d",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_d7156d520270",
+  "category": "joint_body_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_82c368bb80a2",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_c2a4abb98785",
+  "category": "obs_action_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_b0242f2b4363",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_28083a40ecc5",
+  "category": "timestep_decimation",
+  "condition": "same",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_677068cc3eb1",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_7fbd2f09e788",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_645b9c2f8b54",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_velocity_dropped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_55c1345d44db",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "reset_velocity_dropped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_f9264a64c6dc",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "armature_dropped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-pr7612-armature-split",
+   "isaaclab-pr7607-backend-conditioned-task-config",
+   "unitree-rl-lab-31-g1-arm-armature-mujoco",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_fca5c7e0de92",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_capacity",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-pr6850-newton-contact-buffer-overflow",
+   "isaacsim-doc-mjwarp-nconmax-drops-contacts",
+   "mjwarp-doc-overflow-undefined-behavior"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_306e1a6b8f64",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_f99c6607fd94",
+  "category": "actuator_solver_config",
+  "condition": "same",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_e98043c15d73",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "preset_not_applied",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-pr7103-smoke-test-preset-path (verified locally, this study)"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_70c4965998cf",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_2fa505d1b8b9",
+  "category": "checkpoint_schema",
+  "condition": "same",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_c0a766c894cb",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_e91c9dcdae12",
+  "category": "termination_metric",
+  "condition": "same",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_7bee2a996259",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_2098f0220229",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_e21708890a5e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_b59adfe9dcc3",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "benign_capacity",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_47b342dcbd0e",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_62fec0c3730c",
+  "category": "joint_body_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_7dfb6d05c119",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_4e394c32aaf2",
+  "category": "obs_action_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_730372d65fe9",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_dd4743b515f6",
+  "category": "timestep_decimation",
+  "condition": "same",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_b20d76237042",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_9b3c0b1fc2ba",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_a13164ead88e",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_velocity_dropped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_02024effc7d0",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "reset_velocity_dropped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_3dc84abf787f",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "armature_dropped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7612-armature-split",
+   "isaaclab-pr7607-backend-conditioned-task-config",
+   "unitree-rl-lab-31-g1-arm-armature-mujoco",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_5c694444463d",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_capacity",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr6850-newton-contact-buffer-overflow",
+   "isaacsim-doc-mjwarp-nconmax-drops-contacts",
+   "mjwarp-doc-overflow-undefined-behavior"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_ac9fcd04b503",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_9e7878a4fcb5",
+  "category": "actuator_solver_config",
+  "condition": "same",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_b90b8c9e121c",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "preset_not_applied",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7103-smoke-test-preset-path (verified locally, this study)"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_7585336fe1fd",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_eadc86c1e5af",
+  "category": "checkpoint_schema",
+  "condition": "same",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_7be91b546635",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_a15b9d0795e7",
+  "category": "termination_metric",
+  "condition": "same",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_1f37584d6757",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_45867a3c5d82",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_c7a613d85702",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_8124739d748a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "benign_capacity",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_cb171881a85c",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_ec79d448fb44",
+  "category": "joint_body_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a22d2b75e2f1",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_e2728d89bdee",
+  "category": "obs_action_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_e1f930ac139a",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_8c73307f544d",
+  "category": "timestep_decimation",
+  "condition": "same",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3a896457809a",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_5af388eda6df",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_2a698bc0cf76",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offsets_ignored",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_4fc44b9b80a8",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "reset_joint_offsets_ignored",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_b46f7de7949d",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "armature_dropped",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7612-armature-split",
+   "isaaclab-pr7607-backend-conditioned-task-config",
+   "unitree-rl-lab-31-g1-arm-armature-mujoco",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_cc3303825d54",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_capacity",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr6850-newton-contact-buffer-overflow",
+   "isaacsim-doc-mjwarp-nconmax-drops-contacts",
+   "mjwarp-doc-overflow-undefined-behavior"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_82c3d959c761",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_c077b6dafc00",
+  "category": "actuator_solver_config",
+  "condition": "same",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_10e008eacefb",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "preset_not_applied",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7103-smoke-test-preset-path (verified locally, this study)"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_5bfecddc40a1",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_6f5da7f140cf",
+  "category": "checkpoint_schema",
+  "condition": "same",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_ab7049a2aa0b",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_9f5f3a7f3c66",
+  "category": "termination_metric",
+  "condition": "same",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_092051fe319b",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_4e053f48cdf9",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_dea78b5d263c",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_83562f996612",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "benign_capacity",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_bf3e350f3557",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_680e5d27a329",
+  "category": "joint_body_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_7b2b7286e00a",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_16301589d0a5",
+  "category": "obs_action_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_aa6bb1575e5b",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a6a6aa5c0b2c",
+  "category": "timestep_decimation",
+  "condition": "same",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_71ebea5e1b4f",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_c268393021fe",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_eca82a67bbcc",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offsets_ignored",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_e60e30053c2a",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "reset_joint_offsets_ignored",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_7e0ba8656dc5",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "armature_dropped",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7612-armature-split",
+   "isaaclab-pr7607-backend-conditioned-task-config",
+   "unitree-rl-lab-31-g1-arm-armature-mujoco",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3e8b31539a99",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_capacity",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr6850-newton-contact-buffer-overflow",
+   "isaacsim-doc-mjwarp-nconmax-drops-contacts",
+   "mjwarp-doc-overflow-undefined-behavior"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_5a995bbd889b",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_d624b329b5a3",
+  "category": "actuator_solver_config",
+  "condition": "same",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_59a3c1806aae",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "preset_not_applied",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7103-smoke-test-preset-path (verified locally, this study)"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3b23b1b24c78",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_4734812e3e58",
+  "category": "checkpoint_schema",
+  "condition": "same",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_5e13535dcd36",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_7d5866055aba",
+  "category": "termination_metric",
+  "condition": "same",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a49160cb3806",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_dc6fff4dfd6d",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a391de08e089",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_584c20cda0ce",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "benign_capacity",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_483a7e0f3f3f",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_4dfdb65cd89a",
+  "category": "joint_body_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "joint_order_obs_action",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_c1276c5572a6",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_f343a3291960",
+  "category": "obs_action_ordering",
+  "condition": "same",
+  "defect": true,
+  "family": "obs_term_swap",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "unitree-rl-gym-32-go2-obs-order"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_d79e373b6a60",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_75ea0af58d7d",
+  "category": "timestep_decimation",
+  "condition": "same",
+  "defect": true,
+  "family": "timestep_dt_decimation",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "deploy-tienkung-8-decimation-mismatch",
+   "hover-38-mujoco-obs-update-frequency"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_d2a3fed3caa5",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_fa9f4d2ac9da",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "randomization_asymmetry",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+   "isaaclab-issue7097-com-randomization-unusable-newton",
+   "isaaclab-pr7992-featherstone-inertia-dr-no-effect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_01cc1852eb33",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_joint_offsets_ignored",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_e6fb24cc8803",
+  "category": "reset_randomization",
+  "condition": "same",
+  "defect": true,
+  "family": "reset_joint_offsets_ignored",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-issue7236-instep-reset-stale-fk-newton",
+   "ivf-internal-upstream-reset-defect"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_c4bc5400b4c1",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "armature_dropped",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7612-armature-split",
+   "isaaclab-pr7607-backend-conditioned-task-config",
+   "unitree-rl-lab-31-g1-arm-armature-mujoco",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3927e14ca871",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_capacity",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr6850-newton-contact-buffer-overflow",
+   "isaacsim-doc-mjwarp-nconmax-drops-contacts",
+   "mjwarp-doc-overflow-undefined-behavior"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_7b42f7f5a315",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_ff725ca4577a",
+  "category": "actuator_solver_config",
+  "condition": "same",
+  "defect": true,
+  "family": "actuator_gain_scale",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "newton-issue3698-mjcf-dampratio-ignored",
+   "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_ddc7cc221ca3",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "preset_not_applied",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-pr7103-smoke-test-preset-path (verified locally, this study)"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_b3a9fbc8d62f",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_00b87850f173",
+  "category": "checkpoint_schema",
+  "condition": "same",
+  "defect": true,
+  "family": "action_scale",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "unilab-579-cross-backend-config-drift"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_80ce9af33eda",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_6470175bed32",
+  "category": "termination_metric",
+  "condition": "same",
+  "defect": true,
+  "family": "termination_body_mismatch",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-body-ordering-silent",
+   "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ }
+]
