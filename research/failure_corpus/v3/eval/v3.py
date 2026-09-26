@@ -201,7 +201,9 @@ def cmd_ivf(args):
     th = {} if args.arm == "permissive" else json.loads((RESULTS / "thresholds_v2.json").read_text())
     out = RESULTS / args.split / "ivf" / args.arm
     evroot = str(common.DATA / "evidence_v2" / args.split / args.arm)
-    todo = [c for c in cases(args.split) if not (out / f"{c['capture_id']}.json").exists()]
+    todo = [c for c in cases(args.split) if not (out / f"{c['capture_id']}.json").exists()
+            and (bundle(args.split, c["capture_id"]) / "COMPLETE").exists()
+            and (bundle(args.split, c["reference_id"]) / "COMPLETE").exists()]
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         futs = []
         for c in todo:
@@ -219,7 +221,8 @@ def cmd_ivf(args):
 def cmd_calibrate(args):
     raw: dict = {}
     splits = ["calibration"]
-    for split, c in [(sp, c) for sp in splits for c in cases(sp)]:
+    for split, c in [(sp, c) for sp in splits for c in cases(sp)
+                     if (RESULTS / sp / "ivf" / "permissive" / f"{c['capture_id']}.json").exists()]:
         p, cond = c["platform"], c["condition"]
         s = json.loads((RESULTS / split / "ivf" / "permissive" / f"{c['capture_id']}.json").read_text())
         ref, res = result(split, c["reference_id"]), result(split, c["capture_id"])

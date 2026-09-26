@@ -662,22 +662,25 @@ def material_readback(u) -> dict[str, Any]:
         counts = list(robot.num_shapes_per_body)
         mu = wp.to_torch(robot._root_view.get_attribute("shape_material_mu", model)[:, 0]).to(torch.float64)
         rest = wp.to_torch(robot._root_view.get_attribute("shape_material_restitution", model)[:, 0]).to(torch.float64)
-    if sum(counts) != mu.shape[-1] or len(counts) != len(names):
-        return {"status": "unavailable", "reason": f"shape/body mismatch {sum(counts)} vs {mu.shape[-1]}"}
-    per_mu, per_rest, start = [], [], 0
-    for c in counts:
-        if c == 0:
-            per_mu.append(torch.full((mu.shape[0],), -1.0, dtype=torch.float64, device=mu.device))
-            per_rest.append(torch.full((mu.shape[0],), -1.0, dtype=torch.float64, device=mu.device))
-        else:
-            per_mu.append(mu[:, start:start + c].mean(dim=1))
-            per_rest.append(rest[:, start:start + c].mean(dim=1))
-        start += c
-    order = sorted(range(len(names)), key=lambda i: names[i])
-    mu_b = torch.stack(per_mu, dim=1)[:, order].cpu().numpy()
-    rest_b = torch.stack(per_rest, dim=1)[:, order].cpu().numpy()
-    return {"status": "available", "body_static_friction": np.round(mu_b, 6).tolist(),
-            "body_restitution": np.round(rest_b, 6).tolist()}
+        # PhysX material views cover collision shapes only; restrict Newton to the same set
+        flags = wp.to_torch(robot._root_view.get_attribute("shape_flags", model)[:, 0])
+        collide = (flags & 2) != 0
+        mu = torch.where(collide, mu, torch.full_like(mu, float("nan")))
+        rest = torch.where(collide, rest, torch.full_like(rest, float("nan")))
+    # Body assignment of collision shapes differs between backends (measured on clean G1, H1,
+    # ANYmal-D, Cassie), so compare the robot's collision-material distribution per env instead.
+    del counts, names
+
+    def stats(x):
+        valid = ~torch.isnan(x)
+        big, small = torch.full_like(x, float("inf")), torch.full_like(x, float("-inf"))
+        n = valid.sum(dim=1).clamp(min=1)
+        mean = torch.where(valid, x, torch.zeros_like(x)).sum(dim=1) / n
+        lo = torch.where(valid, x, big).min(dim=1).values
+        hi = torch.where(valid, x, small).max(dim=1).values
+        return np.round(torch.stack([mean, lo, hi], dim=1).cpu().numpy(), 6).tolist()
+    return {"status": "available", "material_static_friction_stats": stats(mu),
+            "material_restitution_stats": stats(rest)}
 
 
 def solver_effective(u) -> dict[str, Any]:

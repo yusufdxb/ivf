@@ -109,3 +109,20 @@ per-platform breakdown, both reporting-only.
 - Known producer instrumentation bug found in the holdout analysis: the recorded
   termination threshold and contact flag use a constant 1.0 instead of the live
   termination config. Not fixed; reported.
+
+## v3 notes
+
+- IVF source frozen at tree `becf39d` (commit `582c9e7`) before the v3 fault author started;
+  unchanged since.
+- **Producer fix after the v3 faults were sealed (clean calibration data only).** The first
+  v3 calibration showed clean PhysX and Newton disagreeing on per-body friction for G1, H1,
+  ANYmal-D and Cassie (relative 1.8), because the two backends assign collision shapes to
+  links differently (PhysX reported no collision shape on bodies where Newton has one).
+  That would have calibrated the effective-model tolerance to 2.25 and disabled the check.
+  The producer now records, per environment, the mean/min/max static friction and
+  restitution over all robot collision shapes (Newton restricted to shapes with the
+  collide flag). Verified: clean G1 PhysX vs Newton identical (0.8 / 0.0); the GO2
+  positive control (material event removed) still reads 1.0 vs 0.8. The earlier
+  calibration captures were set aside, not used.
+- Thresholds are frozen per robot before that robot's holdout cases are captured (five
+  robots first, Spot after its training finishes).
