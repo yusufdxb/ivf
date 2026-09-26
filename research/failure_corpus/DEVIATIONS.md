@@ -136,3 +136,9 @@ per-platform breakdown, both reporting-only.
   keep "clean" like-for-like, the controlled protocol now disables startup material
   randomization when its ranges sample (as it already did for mass/COM); fixed materials
   (the other five robots) are unchanged. After this, 18/18 clean cross pairs pass.
+- **Infrastructure retry during v3 holdout capture (before any scoring).** One Spot run (a
+  benign control, `benign_command_arrow_debug_vis_off`, seed 14) hit a GPU out-of-memory
+  error late in a long capture process, and the following CUDA error killed the process
+  before three further benign Spot runs started. Those four runs were re-captured
+  unchanged; the failed attempt is kept outside the repo. No holdout case had been
+  evaluated at that point.
