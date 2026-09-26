@@ -195,6 +195,8 @@ def cmd_thresholds(args):
             if c["condition"] != "cross":
                 continue
             ref, res = result(split, c["reference_id"]), result(split, c["capture_id"])
+            if ref is None or res is None:
+                continue  # not captured yet (Rough GO2 before its calibration run)
             e = raw.setdefault(c["platform"], {"perf": [], "b3": []})
             e["perf"].append(stats.perf_stats(ref, res))
             e["b3"].append(stats.trajectory_stats(stats.load_arrays(bundle(split, c["reference_id"])),

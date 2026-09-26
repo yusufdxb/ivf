@@ -142,3 +142,15 @@ per-platform breakdown, both reporting-only.
   before three further benign Spot runs started. Those four runs were re-captured
   unchanged; the failed attempt is kept outside the repo. No holdout case had been
   evaluated at that point.
+
+## v4 notes (final confirmatory round)
+
+- IVF source unchanged since the v3 freeze (`becf39d`). The v4 IVF arm is the eight
+  configuration/state checks only, frozen in `v4/eval/v4.py` before the fault author started.
+- Rough GO2 was trained on PhysX with 1024 envs (not 4096) to avoid starving another
+  session's GPU job. Its first run was stopped by me for that reason; the stop command also
+  matched its own shell (a known `pkill -f` pitfall), without affecting the other job.
+- Rough GO2 clean calibration seed 2 failed on PhysX (`Failed to get DOF velocities from
+  backend`) and was re-captured unchanged; clean calibration data only.
+- The thresholds command was made to skip calibration cases not yet captured; flat-robot
+  thresholds equal the v3 values exactly.
