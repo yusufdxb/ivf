@@ -1,0 +1,349 @@
+{
+ "B1": {
+  "false_acceptance": 0.9762,
+  "false_alarms": "0/84",
+  "fpr_wilson95": [
+   0.0,
+   0.0437
+  ],
+  "recall": "4/168",
+  "recall_rate": 0.0238
+ },
+ "B2": {
+  "false_acceptance": 0.5595,
+  "false_alarms": "12/84",
+  "fpr_wilson95": [
+   0.0837,
+   0.2333
+  ],
+  "recall": "74/168",
+  "recall_rate": 0.4405
+ },
+ "B3": {
+  "false_acceptance": 0.869,
+  "false_alarms": "6/84",
+  "fpr_wilson95": [
+   0.0331,
+   0.1472
+  ],
+  "recall": "22/168",
+  "recall_rate": 0.131
+ },
+ "conventional": {
+  "false_acceptance": 0.5476,
+  "false_alarms": "12/84",
+  "fpr_wilson95": [
+   0.0837,
+   0.2333
+  ],
+  "recall": "76/168",
+  "recall_rate": 0.4524
+ },
+ "ivf": {
+  "false_acceptance": 0.8333,
+  "false_alarms": "0/84",
+  "fpr_wilson95": [
+   0.0,
+   0.0437
+  ],
+  "recall": "28/168",
+  "recall_rate": 0.1667
+ },
+ "ivf_checks_on_ivf_only": {
+  "V-24": 21,
+  "V-27": 7
+ },
+ "ivf_false_alarm_checks": {},
+ "n_clean": 84,
+ "n_defect": 168,
+ "n_defect_families": 12,
+ "overlap": {
+  "both": 7,
+  "conventional_only": 69,
+  "ivf_only": 21,
+  "neither": 71
+ },
+ "overlap_by_category": {
+  "actuator_solver_config": {
+   "both": 0,
+   "conventional_only": 10,
+   "ivf_only": 0,
+   "neither": 18
+  },
+  "checkpoint_schema": {
+   "both": 0,
+   "conventional_only": 2,
+   "ivf_only": 0,
+   "neither": 12
+  },
+  "ineffective_stale_config": {
+   "both": 0,
+   "conventional_only": 9,
+   "ivf_only": 0,
+   "neither": 5
+  },
+  "joint_body_ordering": {
+   "both": 0,
+   "conventional_only": 17,
+   "ivf_only": 0,
+   "neither": 11
+  },
+  "obs_action_ordering": {
+   "both": 0,
+   "conventional_only": 14,
+   "ivf_only": 0,
+   "neither": 0
+  },
+  "reset_randomization": {
+   "both": 7,
+   "conventional_only": 0,
+   "ivf_only": 21,
+   "neither": 0
+  },
+  "termination_metric": {
+   "both": 0,
+   "conventional_only": 8,
+   "ivf_only": 0,
+   "neither": 20
+  },
+  "timestep_decimation": {
+   "both": 0,
+   "conventional_only": 9,
+   "ivf_only": 0,
+   "neither": 5
+  }
+ },
+ "per_family": {
+  "bf16_io_policy_export": {
+   "category": "checkpoint_schema",
+   "conventional": 2,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "command_arrows_hidden": {
+   "category": "none",
+   "conventional": 2,
+   "defect": false,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "command_rotated_by_heading": {
+   "category": "obs_action_ordering",
+   "conventional": 14,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 14
+  },
+  "contact_termination_inert": {
+   "category": "termination_metric",
+   "conventional": 6,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 6
+  },
+  "ctrlrange_target_clamp": {
+   "category": "actuator_solver_config",
+   "conventional": 5,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 5
+  },
+  "diagnostic_obs_group": {
+   "category": "none",
+   "conventional": 2,
+   "defect": false,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "joint_vel_prelaunch_snapshot": {
+   "category": "timestep_decimation",
+   "conventional": 9,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 9
+  },
+  "mirrored_actuator_gear_sign": {
+   "category": "joint_body_ordering",
+   "conventional": 14,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 14
+  },
+  "none": {
+   "category": "none",
+   "conventional": 2,
+   "defect": false,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "origin_marker_debug_draw": {
+   "category": "none",
+   "conventional": 2,
+   "defect": false,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "reset_offset_scale_conflation": {
+   "category": "reset_randomization",
+   "conventional": 5,
+   "defect": true,
+   "ivf": 14,
+   "n": 14,
+   "union": 14
+  },
+  "reset_world_index_shift": {
+   "category": "reset_randomization",
+   "conventional": 2,
+   "defect": true,
+   "ivf": 14,
+   "n": 14,
+   "union": 14
+  },
+  "root_velocity_link_point": {
+   "category": "joint_body_ordering",
+   "conventional": 3,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 3
+  },
+  "sensor_period_restated": {
+   "category": "none",
+   "conventional": 2,
+   "defect": false,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "success_threshold_relaxed": {
+   "category": "termination_metric",
+   "conventional": 2,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  },
+  "torque_limit_unclamped": {
+   "category": "actuator_solver_config",
+   "conventional": 5,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 5
+  },
+  "training_noise_stale_cfg": {
+   "category": "ineffective_stale_config",
+   "conventional": 9,
+   "defect": true,
+   "ivf": 0,
+   "n": 14,
+   "union": 9
+  },
+  "viewer_follow_camera": {
+   "category": "none",
+   "conventional": 2,
+   "defect": false,
+   "ivf": 0,
+   "n": 14,
+   "union": 2
+  }
+ },
+ "per_platform": {
+  "anymal_d": {
+   "conventional": "10/24 fa 0/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "12/24 fa 0/12"
+  },
+  "cassie": {
+   "conventional": "7/24 fa 0/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "11/24 fa 0/12"
+  },
+  "g1": {
+   "conventional": "15/24 fa 6/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "17/24 fa 6/12"
+  },
+  "go2": {
+   "conventional": "8/24 fa 0/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "12/24 fa 0/12"
+  },
+  "go2_rough": {
+   "conventional": "19/24 fa 6/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "20/24 fa 6/12"
+  },
+  "h1": {
+   "conventional": "9/24 fa 0/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "13/24 fa 0/12"
+  },
+  "spot": {
+   "conventional": "8/24 fa 0/12",
+   "ivf": "4/24 fa 0/12",
+   "union": "12/24 fa 0/12"
+  }
+ },
+ "primary": {
+  "ci95_family_cluster_bootstrap (primary)": [
+   0.0,
+   0.3036
+  ],
+  "ci95_robot_cluster_bootstrap (sensitivity)": [
+   0.0893,
+   0.1548
+  ],
+  "ci95_two_way_family_robot (sensitivity)": [
+   0.0,
+   0.3095
+  ],
+  "claim_passes": false,
+  "criteria": {
+   "added_fa_le_1": true,
+   "ci_excludes_0": false,
+   "reduction_ge_0.10": true
+  },
+  "fa_conventional": 0.5476,
+  "fa_reduction": 0.125,
+  "fa_union": 0.4226,
+  "n_family_clusters": 12,
+  "n_robot_clusters": 7,
+  "union_added_false_alarms": 0
+ },
+ "union": {
+  "false_acceptance": 0.4226,
+  "false_alarms": "12/84",
+  "fpr_wilson95": [
+   0.0837,
+   0.2333
+  ],
+  "recall": "97/168",
+  "recall_rate": 0.5774
+ },
+ "unique_catch_categories": {
+  "conventional_only": {
+   "actuator_solver_config": 10,
+   "checkpoint_schema": 2,
+   "ineffective_stale_config": 9,
+   "joint_body_ordering": 17,
+   "obs_action_ordering": 14,
+   "termination_metric": 8,
+   "timestep_decimation": 9
+  },
+  "ivf_only": {
+   "reset_randomization": 21
+  }
+ }
+}
