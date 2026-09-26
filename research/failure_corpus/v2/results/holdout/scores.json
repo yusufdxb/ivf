@@ -1,0 +1,856 @@
+{
+ "cross": {
+  "B1": {
+   "false_acceptance": {
+    "k": 60,
+    "n": 60,
+    "rate": 1.0,
+    "wilson95": [
+     0.9398,
+     1.0
+    ]
+   },
+   "flag_rate_all": 0.0,
+   "fpr": {
+    "k": 0,
+    "n": 18,
+    "rate": 0.0,
+    "wilson95": [
+     -0.0,
+     0.1759
+    ]
+   },
+   "recall": {
+    "k": 0,
+    "n": 60,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0602
+    ]
+   }
+  },
+  "B2": {
+   "false_acceptance": {
+    "k": 33,
+    "n": 60,
+    "rate": 0.55,
+    "wilson95": [
+     0.4249,
+     0.6691
+    ]
+   },
+   "flag_rate_all": 0.359,
+   "fpr": {
+    "k": 1,
+    "n": 18,
+    "rate": 0.0556,
+    "wilson95": [
+     0.0099,
+     0.2576
+    ]
+   },
+   "recall": {
+    "k": 27,
+    "n": 60,
+    "rate": 0.45,
+    "wilson95": [
+     0.3309,
+     0.5751
+    ]
+   }
+  },
+  "B3": {
+   "false_acceptance": {
+    "k": 42,
+    "n": 60,
+    "rate": 0.7,
+    "wilson95": [
+     0.5749,
+     0.801
+    ]
+   },
+   "flag_rate_all": 0.2308,
+   "fpr": {
+    "k": 0,
+    "n": 18,
+    "rate": 0.0,
+    "wilson95": [
+     -0.0,
+     0.1759
+    ]
+   },
+   "recall": {
+    "k": 18,
+    "n": 60,
+    "rate": 0.3,
+    "wilson95": [
+     0.199,
+     0.4251
+    ]
+   }
+  },
+  "conventional": {
+   "false_acceptance": {
+    "k": 28,
+    "n": 60,
+    "rate": 0.4667,
+    "wilson95": [
+     0.3463,
+     0.5911
+    ]
+   },
+   "flag_rate_all": 0.4231,
+   "fpr": {
+    "k": 1,
+    "n": 18,
+    "rate": 0.0556,
+    "wilson95": [
+     0.0099,
+     0.2576
+    ]
+   },
+   "recall": {
+    "k": 32,
+    "n": 60,
+    "rate": 0.5333,
+    "wilson95": [
+     0.4089,
+     0.6537
+    ]
+   }
+  },
+  "ivf": {
+   "false_acceptance": {
+    "k": 5,
+    "n": 60,
+    "rate": 0.0833,
+    "wilson95": [
+     0.0361,
+     0.1807
+    ]
+   },
+   "flag_rate_all": 0.7179,
+   "fpr": {
+    "k": 1,
+    "n": 18,
+    "rate": 0.0556,
+    "wilson95": [
+     0.0099,
+     0.2576
+    ]
+   },
+   "recall": {
+    "k": 55,
+    "n": 60,
+    "rate": 0.9167,
+    "wilson95": [
+     0.8193,
+     0.9639
+    ]
+   }
+  },
+  "ivf_minus_conventional_recall": {
+   "ci95": [
+    0.3167,
+    0.45
+   ],
+   "diff": 0.3833,
+   "mcnemar": {
+    "a_only": 23,
+    "b_only": 0,
+    "p": 0.0
+   }
+  },
+  "localization": {
+   "majority_category": "actuator_solver_config",
+   "majority_guess": 0.1818,
+   "set_contains_truth": {
+    "k": 55,
+    "n": 55,
+    "rate": 1.0,
+    "wilson95": [
+     0.9347,
+     1.0
+    ]
+   },
+   "top1": {
+    "k": 55,
+    "n": 55,
+    "rate": 1.0,
+    "wilson95": [
+     0.9347,
+     1.0
+    ]
+   },
+   "unattributed": {
+    "k": 0,
+    "n": 55,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0653
+    ]
+   },
+   "v1_classifier_top1": {
+    "k": 5,
+    "n": 55,
+    "rate": 0.0909,
+    "wilson95": [
+     0.0395,
+     0.1958
+    ]
+   }
+  },
+  "n_clean": 18,
+  "n_defect": 60,
+  "overlap": {
+   "both": 32,
+   "conventional_only": 0,
+   "ivf_only": 23,
+   "neither": 5
+  },
+  "overlap_by_category": {
+   "actuator_solver_config": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 5,
+    "neither": 5
+   },
+   "checkpoint_schema": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "ineffective_stale_config": {
+    "both": 0,
+    "conventional_only": 0,
+    "ivf_only": 5,
+    "neither": 0
+   },
+   "joint_body_ordering": {
+    "both": 10,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "obs_action_ordering": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "reset_randomization": {
+    "both": 0,
+    "conventional_only": 0,
+    "ivf_only": 10,
+    "neither": 0
+   },
+   "termination_metric": {
+    "both": 2,
+    "conventional_only": 0,
+    "ivf_only": 3,
+    "neither": 0
+   },
+   "timestep_decimation": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   }
+  },
+  "per_family": {
+   "action_scale": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "actuator_gain_scale": {
+    "conventional": 1,
+    "defect": true,
+    "ivf": 3,
+    "loc_correct": 3,
+    "n": 5,
+    "union": 3
+   },
+   "armature_mismatch": {
+    "conventional": 3,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "benign_capacity": {
+    "conventional": 0,
+    "defect": false,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 5,
+    "union": 0
+   },
+   "capture_not_canonicalized": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "contact_capacity": {
+    "conventional": 1,
+    "defect": true,
+    "ivf": 2,
+    "loc_correct": 2,
+    "n": 5,
+    "union": 2
+   },
+   "joint_order_interface": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "none": {
+    "conventional": 1,
+    "defect": false,
+    "ivf": 1,
+    "loc_correct": 0,
+    "n": 13,
+    "union": 2
+   },
+   "obs_term_swap": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "preset_not_applied": {
+    "conventional": 0,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "randomization_asymmetry": {
+    "conventional": 0,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "reset_joint_offsets_ignored": {
+    "conventional": 0,
+    "defect": true,
+    "ivf": 3,
+    "loc_correct": 3,
+    "n": 3,
+    "union": 3
+   },
+   "reset_velocity_dropped": {
+    "conventional": 0,
+    "defect": true,
+    "ivf": 2,
+    "loc_correct": 2,
+    "n": 2,
+    "union": 2
+   },
+   "termination_body_mismatch": {
+    "conventional": 2,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "timestep_dt_decimation": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   }
+  },
+  "per_platform": {
+   "anymal_d": {
+    "conventional": "12/24 fp 0/6",
+    "ivf": "20/24 fp 1/6",
+    "union": "20/24 fp 1/6"
+   },
+   "g1": {
+    "conventional": "6/12 fp 1/4",
+    "ivf": "12/12 fp 0/4",
+    "union": "12/12 fp 1/4"
+   },
+   "go2": {
+    "conventional": "7/12 fp 0/4",
+    "ivf": "11/12 fp 0/4",
+    "union": "11/12 fp 0/4"
+   },
+   "h1": {
+    "conventional": "7/12 fp 0/4",
+    "ivf": "12/12 fp 0/4",
+    "union": "12/12 fp 0/4"
+   }
+  },
+  "union": {
+   "false_acceptance": {
+    "k": 5,
+    "n": 60,
+    "rate": 0.0833,
+    "wilson95": [
+     0.0361,
+     0.1807
+    ]
+   },
+   "flag_rate_all": 0.7308,
+   "fpr": {
+    "k": 2,
+    "n": 18,
+    "rate": 0.1111,
+    "wilson95": [
+     0.031,
+     0.328
+    ]
+   },
+   "recall": {
+    "k": 55,
+    "n": 60,
+    "rate": 0.9167,
+    "wilson95": [
+     0.8193,
+     0.9639
+    ]
+   }
+  },
+  "union_minus_conventional_recall": {
+   "ci95": [
+    0.3167,
+    0.45
+   ],
+   "diff": 0.3833
+  },
+  "union_minus_ivf_recall": {
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "diff": 0.0
+  }
+ },
+ "same": {
+  "B1": {
+   "false_acceptance": {
+    "k": 40,
+    "n": 40,
+    "rate": 1.0,
+    "wilson95": [
+     0.9124,
+     1.0
+    ]
+   },
+   "flag_rate_all": 0.0,
+   "fpr": {
+    "k": 0,
+    "n": 13,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.2281
+    ]
+   },
+   "recall": {
+    "k": 0,
+    "n": 40,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0876
+    ]
+   }
+  },
+  "B2": {
+   "false_acceptance": {
+    "k": 12,
+    "n": 40,
+    "rate": 0.3,
+    "wilson95": [
+     0.1807,
+     0.4543
+    ]
+   },
+   "flag_rate_all": 0.5283,
+   "fpr": {
+    "k": 0,
+    "n": 13,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.2281
+    ]
+   },
+   "recall": {
+    "k": 28,
+    "n": 40,
+    "rate": 0.7,
+    "wilson95": [
+     0.5457,
+     0.8193
+    ]
+   }
+  },
+  "B3": {
+   "false_acceptance": {
+    "k": 12,
+    "n": 40,
+    "rate": 0.3,
+    "wilson95": [
+     0.1807,
+     0.4543
+    ]
+   },
+   "flag_rate_all": 0.5283,
+   "fpr": {
+    "k": 0,
+    "n": 13,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.2281
+    ]
+   },
+   "recall": {
+    "k": 28,
+    "n": 40,
+    "rate": 0.7,
+    "wilson95": [
+     0.5457,
+     0.8193
+    ]
+   }
+  },
+  "conventional": {
+   "false_acceptance": {
+    "k": 7,
+    "n": 40,
+    "rate": 0.175,
+    "wilson95": [
+     0.0875,
+     0.3195
+    ]
+   },
+   "flag_rate_all": 0.6226,
+   "fpr": {
+    "k": 0,
+    "n": 13,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.2281
+    ]
+   },
+   "recall": {
+    "k": 33,
+    "n": 40,
+    "rate": 0.825,
+    "wilson95": [
+     0.6805,
+     0.9125
+    ]
+   }
+  },
+  "ivf": {
+   "false_acceptance": {
+    "k": 0,
+    "n": 40,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0876
+    ]
+   },
+   "flag_rate_all": 1.0,
+   "fpr": {
+    "k": 13,
+    "n": 13,
+    "rate": 1.0,
+    "wilson95": [
+     0.7719,
+     1.0
+    ]
+   },
+   "recall": {
+    "k": 40,
+    "n": 40,
+    "rate": 1.0,
+    "wilson95": [
+     0.9124,
+     1.0
+    ]
+   }
+  },
+  "ivf_minus_conventional_recall": {
+   "ci95": [
+    0.125,
+    0.225
+   ],
+   "diff": 0.175,
+   "mcnemar": {
+    "a_only": 7,
+    "b_only": 0,
+    "p": 0.015625
+   }
+  },
+  "localization": {
+   "majority_category": "reset_randomization",
+   "majority_guess": 0.25,
+   "set_contains_truth": {
+    "k": 38,
+    "n": 40,
+    "rate": 0.95,
+    "wilson95": [
+     0.835,
+     0.9862
+    ]
+   },
+   "top1": {
+    "k": 38,
+    "n": 40,
+    "rate": 0.95,
+    "wilson95": [
+     0.835,
+     0.9862
+    ]
+   },
+   "unattributed": {
+    "k": 2,
+    "n": 40,
+    "rate": 0.05,
+    "wilson95": [
+     0.0138,
+     0.165
+    ]
+   },
+   "v1_classifier_top1": {
+    "k": 5,
+    "n": 40,
+    "rate": 0.125,
+    "wilson95": [
+     0.0546,
+     0.2611
+    ]
+   }
+  },
+  "n_clean": 13,
+  "n_defect": 40,
+  "overlap": {
+   "both": 33,
+   "conventional_only": 0,
+   "ivf_only": 7,
+   "neither": 0
+  },
+  "overlap_by_category": {
+   "actuator_solver_config": {
+    "both": 3,
+    "conventional_only": 0,
+    "ivf_only": 2,
+    "neither": 0
+   },
+   "checkpoint_schema": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "joint_body_ordering": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "obs_action_ordering": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "reset_randomization": {
+    "both": 10,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "termination_metric": {
+    "both": 0,
+    "conventional_only": 0,
+    "ivf_only": 5,
+    "neither": 0
+   },
+   "timestep_decimation": {
+    "both": 5,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   }
+  },
+  "per_family": {
+   "action_scale": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "actuator_gain_scale": {
+    "conventional": 3,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 3,
+    "n": 5,
+    "union": 5
+   },
+   "joint_order_interface": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "none": {
+    "conventional": 0,
+    "defect": false,
+    "ivf": 13,
+    "loc_correct": 0,
+    "n": 13,
+    "union": 13
+   },
+   "obs_term_swap": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "randomization_asymmetry": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "reset_joint_offsets_ignored": {
+    "conventional": 3,
+    "defect": true,
+    "ivf": 3,
+    "loc_correct": 3,
+    "n": 3,
+    "union": 3
+   },
+   "reset_velocity_dropped": {
+    "conventional": 2,
+    "defect": true,
+    "ivf": 2,
+    "loc_correct": 2,
+    "n": 2,
+    "union": 2
+   },
+   "termination_body_mismatch": {
+    "conventional": 0,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   },
+   "timestep_dt_decimation": {
+    "conventional": 5,
+    "defect": true,
+    "ivf": 5,
+    "loc_correct": 5,
+    "n": 5,
+    "union": 5
+   }
+  },
+  "per_platform": {
+   "anymal_d": {
+    "conventional": "12/16 fp 0/4",
+    "ivf": "16/16 fp 4/4",
+    "union": "16/16 fp 4/4"
+   },
+   "g1": {
+    "conventional": "7/8 fp 0/3",
+    "ivf": "8/8 fp 3/3",
+    "union": "8/8 fp 3/3"
+   },
+   "go2": {
+    "conventional": "7/8 fp 0/3",
+    "ivf": "8/8 fp 3/3",
+    "union": "8/8 fp 3/3"
+   },
+   "h1": {
+    "conventional": "7/8 fp 0/3",
+    "ivf": "8/8 fp 3/3",
+    "union": "8/8 fp 3/3"
+   }
+  },
+  "union": {
+   "false_acceptance": {
+    "k": 0,
+    "n": 40,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0876
+    ]
+   },
+   "flag_rate_all": 1.0,
+   "fpr": {
+    "k": 13,
+    "n": 13,
+    "rate": 1.0,
+    "wilson95": [
+     0.7719,
+     1.0
+    ]
+   },
+   "recall": {
+    "k": 40,
+    "n": 40,
+    "rate": 1.0,
+    "wilson95": [
+     0.9124,
+     1.0
+    ]
+   }
+  },
+  "union_minus_conventional_recall": {
+   "ci95": [
+    0.125,
+    0.225
+   ],
+   "diff": 0.175
+  },
+  "union_minus_ivf_recall": {
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "diff": 0.0
+  }
+ }
+}

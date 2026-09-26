@@ -1,0 +1,8 @@
+{
+ "task": "Isaac-Velocity-Flat-Cassie",
+ "checkpoint": "cassie_flat/2026-09-26_06-44-45/model_999.pt",
+ "checkpoint_sha256": "25e11b15608d165741c5bd73eecd868863f82f3511482434ed4c4b6a84c9f7d4",
+ "policy_pt_sha256": "1b3117a8f21cf2b6b5fb6c074321d1ff3d508e093d61775c32f21561d0a4d7e2",
+ "trained_backend": "physx (default preset)",
+ "seed": 42
+}
