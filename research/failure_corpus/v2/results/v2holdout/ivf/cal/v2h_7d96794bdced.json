@@ -1,0 +1,918 @@
+{
+ "attribution": {
+  "causes": [],
+  "findings": [],
+  "primary": null
+ },
+ "error": null,
+ "oracles": [
+  {
+   "metrics": {
+    "check": "finite_state",
+    "elements_inspected": 808000,
+    "signals": [
+     "base_contact_force",
+     "base_height",
+     "illegal_contact",
+     "joint_pos",
+     "joint_pos_target",
+     "joint_vel",
+     "policy_obs",
+     "root_ang_vel_b",
+     "root_lin_vel_b",
+     "root_link_pos_w",
+     "root_link_quat_w",
+     "upright"
+    ]
+   },
+   "name": "finite_state",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "check": "unit_quaternion",
+    "elements_inspected": 32000,
+    "signals": [
+     "root_link_quat_w"
+    ]
+   },
+   "name": "unit_quaternion",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 1.0905380479851716,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 1.308613272369623,
+    "worst_step": 195
+   },
+   "name": "traj_joint_pos",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 6.313574532762853,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 11.169983090864184,
+    "worst_step": 127
+   },
+   "name": "traj_joint_vel",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 0.0,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 0.0,
+    "worst_step": 0
+   },
+   "name": "traj_joint_pos_target",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 0.34924668569438744,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 1.4974523775012705,
+    "worst_step": 249
+   },
+   "name": "traj_root_link_pos_w",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 0.7803861705474369,
+    "metric": "geodesic",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 1.1185598483204935,
+    "worst_step": 249
+   },
+   "name": "traj_root_link_quat_w",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 0.2605466693639755,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 0.3142407536506653,
+    "worst_step": 185
+   },
+   "name": "traj_base_height",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "aggregation": "second_largest",
+    "median_aggregated_error": 6.588126735533586,
+    "metric": "absolute",
+    "n_samples": 4000,
+    "num_envs": 16,
+    "steps": 250,
+    "worst_aggregated_error": 11.414182300451596,
+    "worst_step": 127
+   },
+   "name": "traj_policy_obs",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "baseline_occurrences": 0,
+    "candidate_occurrences": 0,
+    "envs_with_count_mismatch": [],
+    "event": "fall",
+    "max_allowed_delta_steps": 1.0,
+    "max_occurrence_mismatch_fraction": 0.078125,
+    "median_timing_delta_steps": 0.0,
+    "n_envs": 16,
+    "occurrence_mismatch_fraction": 0.0,
+    "worst_timing_delta_steps": 0
+   },
+   "name": "fall_timing",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "baseline_occurrences": 0,
+    "candidate_occurrences": 9,
+    "envs_with_count_mismatch": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     12
+    ],
+    "event": "base_contact",
+    "max_allowed_delta_steps": 1.0,
+    "max_occurrence_mismatch_fraction": 0.9375,
+    "median_timing_delta_steps": 0.0,
+    "n_envs": 16,
+    "occurrence_mismatch_fraction": 0.5625,
+    "worst_timing_delta_steps": 0
+   },
+   "name": "contact_timing",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "agreement_rate": 1.0,
+    "baseline_positive_rate": 1.0,
+    "candidate_positive_rate": 1.0,
+    "decision": "survives_horizon",
+    "disagreeing_envs": [],
+    "minimum_agreement": 0.921875,
+    "n_envs": 16
+   },
+   "name": "survival",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "alpha": 0.05,
+    "bootstrap_seed": 0,
+    "ci_high": -0.047399123228713924,
+    "ci_level": 0.95,
+    "ci_low": -0.11911261225584893,
+    "cohens_dz": -1.088624292205897,
+    "equivalence_margin": 0.16473508161329667,
+    "mean_difference": -0.08318954370170831,
+    "minimum_meaningful_effect": 0.016473508161329666,
+    "n_pairs": 16,
+    "observed_absolute_effect": 0.08318954370170831,
+    "sd_difference": 0.0764171296721112,
+    "summary": "mean"
+   },
+   "name": "mean_base_height",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "baseline": {
+     "base_contact_force": [
+      16,
+      1
+     ],
+     "base_height": [
+      16,
+      1
+     ],
+     "illegal_contact": [
+      16,
+      1
+     ],
+     "joint_pos": [
+      16,
+      12
+     ],
+     "joint_pos_target": [
+      16,
+      12
+     ],
+     "joint_vel": [
+      16,
+      12
+     ],
+     "policy_obs": [
+      16,
+      48
+     ],
+     "root_ang_vel_b": [
+      16,
+      3
+     ],
+     "root_lin_vel_b": [
+      16,
+      3
+     ],
+     "root_link_pos_w": [
+      16,
+      3
+     ],
+     "root_link_quat_w": [
+      16,
+      4
+     ],
+     "upright": [
+      16,
+      1
+     ]
+    },
+    "candidate": {
+     "base_contact_force": [
+      16,
+      1
+     ],
+     "base_height": [
+      16,
+      1
+     ],
+     "illegal_contact": [
+      16,
+      1
+     ],
+     "joint_pos": [
+      16,
+      12
+     ],
+     "joint_pos_target": [
+      16,
+      12
+     ],
+     "joint_vel": [
+      16,
+      12
+     ],
+     "policy_obs": [
+      16,
+      48
+     ],
+     "root_ang_vel_b": [
+      16,
+      3
+     ],
+     "root_lin_vel_b": [
+      16,
+      3
+     ],
+     "root_link_pos_w": [
+      16,
+      3
+     ],
+     "root_link_quat_w": [
+      16,
+      4
+     ],
+     "upright": [
+      16,
+      1
+     ]
+    },
+    "relation": "observation_definition_stability"
+   },
+   "name": "observation_shape_stability",
+   "reason_codes": [],
+   "status": "pass"
+  },
+  {
+   "metrics": {
+    "baseline_digest": "32c7e43cb024387a7df9da4dd03f60511c65836413f1ec8ee60a39cbde6b8dcd",
+    "candidate_digest": "32c7e43cb024387a7df9da4dd03f60511c65836413f1ec8ee60a39cbde6b8dcd",
+    "relation": "action_replay_consumption"
+   },
+   "name": "action_replay",
+   "reason_codes": [],
+   "status": "pass"
+  }
+ ],
+ "reason_codes": [],
+ "v1_localization": {
+  "basis": "no failing validity check or oracle",
+  "category": "none",
+  "signal": null
+ },
+ "validity": {
+  "checks": [
+   {
+    "check_id": "V-UNVERIFIABLE",
+    "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+    "fields": null,
+    "name": "asset binary identity is explicitly partitioned",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-UNVERIFIABLE",
+    "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+    "fields": null,
+    "name": "backend internal state is explicitly partitioned",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-01",
+    "detail": "both '997f028f5be3d7fa5241e8cbf6e80f13ff334e55cd246a23a3da2f462704aa5e'",
+    "fields": null,
+    "name": "asset identity matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-03",
+    "detail": "both 'c0df3d7209fcac8eecb5a31b2b0f4bf870e5cf7d22ed1bc286c0865efdf96de8'",
+    "fields": null,
+    "name": "initial-state distribution matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-05",
+    "detail": "both 50.0",
+    "fields": null,
+    "name": "control frequency matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-06",
+    "detail": "both 10",
+    "fields": null,
+    "name": "seed matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-09",
+    "detail": "both 'anymal_d_velocity_flat_open_loop'",
+    "fields": null,
+    "name": "task variant matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-14",
+    "detail": "both 'world_z_up_right_handed'",
+    "fields": null,
+    "name": "frame convention matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-15",
+    "detail": "both {'layout': 'xyzw', 'scalar_first': False, 'hemisphere': 'unconstrained'}",
+    "fields": null,
+    "name": "quaternion convention matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-16",
+    "detail": "both 'writes_pose_and_velocity'",
+    "fields": null,
+    "name": "reset semantics matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-17",
+    "detail": "both {'env_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 'env_order': 'InteractiveScene clone index, ascending'}",
+    "fields": null,
+    "name": "environment ordering matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-18",
+    "detail": "both {'action_applied': 'before_physics_step, held for decimation substeps', 'capture_hook': 'post_env_step', 'control_dt': 0.02, 'decimation': 4}",
+    "fields": null,
+    "name": "action timing matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-02",
+    "detail": "digest 32c7e43cb024387a\u2026",
+    "fields": null,
+    "name": "action sequence matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-04",
+    "detail": "12 signal(s)",
+    "fields": null,
+    "name": "observation definition matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-07",
+    "detail": "baseline 16 vs candidate 16",
+    "fields": null,
+    "name": "environment count matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-08",
+    "detail": "baseline 250 vs candidate 250",
+    "fields": null,
+    "name": "captured horizon matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-10",
+    "detail": "the manifest declares solver parameters may differ; any resulting divergence is reported as a solver-parameter difference rather than a defect",
+    "fields": null,
+    "name": "solver settings differ (declared allowed)",
+    "reason_code": null,
+    "status": "not_applicable"
+   },
+   {
+    "check_id": "V-11",
+    "detail": "250 steps captured",
+    "fields": null,
+    "name": "baseline run is complete",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-11",
+    "detail": "250 steps captured",
+    "fields": null,
+    "name": "candidate run is complete",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-12",
+    "detail": "0 steps discarded",
+    "fields": null,
+    "name": "warm-up is declared",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-13",
+    "detail": "both 0.005",
+    "fields": null,
+    "name": "physics timestep matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'm'",
+    "fields": null,
+    "name": "base_height: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "fields": null,
+    "name": "base_height: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "base_height: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "fields": null,
+    "name": "traj_base_height: tolerance unit suits base_height",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "fields": null,
+    "name": "mean_base_height: tolerance unit suits base_height",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "fields": null,
+    "name": "illegal_contact: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'event'",
+    "fields": null,
+    "name": "illegal_contact: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "illegal_contact: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'steps' gates a property of the comparison, not the dimension of 'illegal_contact'",
+    "fields": null,
+    "name": "contact_timing: tolerance unit suits illegal_contact",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'rad'",
+    "fields": null,
+    "name": "joint_pos: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'joint'",
+    "fields": null,
+    "name": "joint_pos: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "joint_pos: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'rad'",
+    "fields": null,
+    "name": "traj_joint_pos: tolerance unit suits joint_pos",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'rad'",
+    "fields": null,
+    "name": "joint_pos_target: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'joint'",
+    "fields": null,
+    "name": "joint_pos_target: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "joint_pos_target: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'rad'",
+    "fields": null,
+    "name": "traj_joint_pos_target: tolerance unit suits joint_pos_target",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'rad/s'",
+    "fields": null,
+    "name": "joint_vel: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'joint'",
+    "fields": null,
+    "name": "joint_vel: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "joint_vel: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'rad/s'",
+    "fields": null,
+    "name": "traj_joint_vel: tolerance unit suits joint_vel",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "fields": null,
+    "name": "policy_obs: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'policy'",
+    "fields": null,
+    "name": "policy_obs: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "policy_obs: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'dimensionless' gates a property of the comparison, not the dimension of 'policy_obs'",
+    "fields": null,
+    "name": "traj_policy_obs: tolerance unit suits policy_obs",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'm'",
+    "fields": null,
+    "name": "root_link_pos_w: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "fields": null,
+    "name": "root_link_pos_w: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "root_link_pos_w: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "fields": null,
+    "name": "traj_root_link_pos_w: tolerance unit suits root_link_pos_w",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "fields": null,
+    "name": "root_link_quat_w: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "fields": null,
+    "name": "root_link_quat_w: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "root_link_quat_w: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'dimensionless' gates a property of the comparison, not the dimension of 'root_link_quat_w'",
+    "fields": null,
+    "name": "traj_root_link_quat_w: tolerance unit suits root_link_quat_w",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'dimensionless'",
+    "fields": null,
+    "name": "upright: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'base'",
+    "fields": null,
+    "name": "upright: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "fields": null,
+    "name": "upright: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'steps' gates a property of the comparison, not the dimension of 'upright'",
+    "fields": null,
+    "name": "fall_timing: tolerance unit suits upright",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "tolerance unit 'fraction' gates a property of the comparison, not the dimension of 'upright'",
+    "fields": null,
+    "name": "survival: tolerance unit suits upright",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-20",
+    "detail": "12 joints, same order",
+    "fields": null,
+    "name": "joint order matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-21",
+    "detail": "fields ['action_joint_order', 'action_scale', 'obs_joint_order', 'obs_layout'] identical",
+    "fields": null,
+    "name": "policy interface matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-22",
+    "detail": "6 parameter arrays within relative 0.0001",
+    "fields": null,
+    "name": "effective model parameters match",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-23",
+    "detail": "2 term(s) identical",
+    "fields": null,
+    "name": "termination semantics match",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-24",
+    "detail": "['joint_pos', 'joint_vel', 'root_vel'] within 0.0001",
+    "fields": null,
+    "name": "baseline initial state realized",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-25",
+    "detail": "both 'physx'",
+    "fields": null,
+    "name": "baseline runs the declared backend",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-26",
+    "detail": "the baseline's backend exposes no resource counters (unavailable)",
+    "fields": null,
+    "name": "baseline solver resources not saturated",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-24",
+    "detail": "['joint_pos', 'joint_vel', 'root_vel'] within 0.0001",
+    "fields": null,
+    "name": "candidate initial state realized",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-25",
+    "detail": "both 'newton'",
+    "fields": null,
+    "name": "candidate runs the declared backend",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-26",
+    "detail": "max_constraint_utilization 0.35, max_contact_utilization 0.16",
+    "fields": null,
+    "name": "candidate solver resources not saturated",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-19",
+    "detail": "content roots differ (d177a72bde06ddaf\u2026 vs 637a01593eacffc6\u2026)",
+    "fields": null,
+    "name": "subjects are distinct content",
+    "reason_code": null,
+    "status": "pass"
+   }
+  ],
+  "valid": true
+ },
+ "verdict": "PASS"
+}

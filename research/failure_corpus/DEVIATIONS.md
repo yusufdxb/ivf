@@ -95,3 +95,17 @@ came from `IVF-ORACLE-EVENT-COUNT-MISMATCH`. It removes the fall/contact event o
 the survival decision. It is post hoc and exploratory, and it does not change any
 registered result. Also added after scoring: the dose-matched sham computation and the
 per-platform breakdown, both reporting-only.
+
+## v2 notes
+
+- The v1 corpus was re-declared development data after inspection (v2/OVERLAP.md).
+- IVF changes (`1a7cced`) were made against v1 mechanisms, then frozen (`48861c1`) before
+  any v2 development evaluation. The independent fault author's completion summary
+  (family names and mechanisms) was seen before that evaluation; IVF source has not
+  changed since the freeze.
+- The producer's armature pinning was generalized (copy from the resolved PhysX config)
+  while the development recapture was running; it yields identical values on the four
+  existing platforms and was needed for Cassie.
+- Known producer instrumentation bug found in the holdout analysis: the recorded
+  termination threshold and contact flag use a constant 1.0 instead of the live
+  termination config. Not fixed; reported.

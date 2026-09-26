@@ -1,0 +1,489 @@
+{
+ "cross": {
+  "B1": {
+   "false_acceptance": {
+    "k": 136,
+    "n": 140,
+    "rate": 0.9714,
+    "wilson95": [
+     0.9288,
+     0.9888
+    ]
+   },
+   "flag_rate_all": 0.0211,
+   "fpr": {
+    "k": 0,
+    "n": 50,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0713
+    ]
+   },
+   "recall": {
+    "k": 4,
+    "n": 140,
+    "rate": 0.0286,
+    "wilson95": [
+     0.0112,
+     0.0712
+    ]
+   }
+  },
+  "B2": {
+   "false_acceptance": {
+    "k": 58,
+    "n": 140,
+    "rate": 0.4143,
+    "wilson95": [
+     0.336,
+     0.4971
+    ]
+   },
+   "flag_rate_all": 0.4579,
+   "fpr": {
+    "k": 5,
+    "n": 50,
+    "rate": 0.1,
+    "wilson95": [
+     0.0435,
+     0.2136
+    ]
+   },
+   "recall": {
+    "k": 82,
+    "n": 140,
+    "rate": 0.5857,
+    "wilson95": [
+     0.5029,
+     0.664
+    ]
+   }
+  },
+  "B3": {
+   "false_acceptance": {
+    "k": 130,
+    "n": 140,
+    "rate": 0.9286,
+    "wilson95": [
+     0.8735,
+     0.9607
+    ]
+   },
+   "flag_rate_all": 0.1053,
+   "fpr": {
+    "k": 10,
+    "n": 50,
+    "rate": 0.2,
+    "wilson95": [
+     0.1124,
+     0.3304
+    ]
+   },
+   "recall": {
+    "k": 10,
+    "n": 140,
+    "rate": 0.0714,
+    "wilson95": [
+     0.0393,
+     0.1265
+    ]
+   }
+  },
+  "conventional": {
+   "false_acceptance": {
+    "k": 51,
+    "n": 140,
+    "rate": 0.3643,
+    "wilson95": [
+     0.2892,
+     0.4466
+    ]
+   },
+   "flag_rate_all": 0.5421,
+   "fpr": {
+    "k": 14,
+    "n": 50,
+    "rate": 0.28,
+    "wilson95": [
+     0.1747,
+     0.4167
+    ]
+   },
+   "recall": {
+    "k": 89,
+    "n": 140,
+    "rate": 0.6357,
+    "wilson95": [
+     0.5534,
+     0.7108
+    ]
+   }
+  },
+  "ivf": {
+   "false_acceptance": {
+    "k": 72,
+    "n": 140,
+    "rate": 0.5143,
+    "wilson95": [
+     0.4322,
+     0.5956
+    ]
+   },
+   "flag_rate_all": 0.4105,
+   "fpr": {
+    "k": 10,
+    "n": 50,
+    "rate": 0.2,
+    "wilson95": [
+     0.1124,
+     0.3304
+    ]
+   },
+   "recall": {
+    "k": 68,
+    "n": 140,
+    "rate": 0.4857,
+    "wilson95": [
+     0.4044,
+     0.5678
+    ]
+   }
+  },
+  "ivf_minus_conventional_recall": {
+   "ci95": [
+    -0.2071,
+    -0.0929
+   ],
+   "diff": -0.15,
+   "mcnemar": {
+    "a_only": 23,
+    "b_only": 44,
+    "p": 0.013934
+   }
+  },
+  "localization": {
+   "majority_category": "reset_randomization",
+   "majority_guess": 0.2059,
+   "set_contains_truth": {
+    "k": 20,
+    "n": 68,
+    "rate": 0.2941,
+    "wilson95": [
+     0.1992,
+     0.4111
+    ]
+   },
+   "top1": {
+    "k": 20,
+    "n": 68,
+    "rate": 0.2941,
+    "wilson95": [
+     0.1992,
+     0.4111
+    ]
+   },
+   "unattributed": {
+    "k": 38,
+    "n": 68,
+    "rate": 0.5588,
+    "wilson95": [
+     0.4408,
+     0.6705
+    ]
+   },
+   "v1_classifier_top1": {
+    "k": 0,
+    "n": 68,
+    "rate": 0.0,
+    "wilson95": [
+     -0.0,
+     0.0535
+    ]
+   }
+  },
+  "n_clean": 50,
+  "n_defect": 140,
+  "overlap": {
+   "both": 45,
+   "conventional_only": 44,
+   "ivf_only": 23,
+   "neither": 28
+  },
+  "overlap_by_category": {
+   "actuator_solver_config": {
+    "both": 6,
+    "conventional_only": 0,
+    "ivf_only": 4,
+    "neither": 0
+   },
+   "checkpoint_schema": {
+    "both": 10,
+    "conventional_only": 6,
+    "ivf_only": 2,
+    "neither": 2
+   },
+   "ineffective_stale_config": {
+    "both": 2,
+    "conventional_only": 1,
+    "ivf_only": 0,
+    "neither": 17
+   },
+   "joint_body_ordering": {
+    "both": 2,
+    "conventional_only": 0,
+    "ivf_only": 8,
+    "neither": 0
+   },
+   "obs_action_ordering": {
+    "both": 0,
+    "conventional_only": 20,
+    "ivf_only": 0,
+    "neither": 0
+   },
+   "reset_randomization": {
+    "both": 5,
+    "conventional_only": 6,
+    "ivf_only": 9,
+    "neither": 0
+   },
+   "termination_metric": {
+    "both": 0,
+    "conventional_only": 11,
+    "ivf_only": 0,
+    "neither": 9
+   },
+   "timestep_decimation": {
+    "both": 20,
+    "conventional_only": 0,
+    "ivf_only": 0,
+    "neither": 0
+   }
+  },
+  "per_family": {
+   "action_clip_wide": {
+    "conventional": 1,
+    "defect": false,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 1
+   },
+   "action_one_step_transport_delay": {
+    "conventional": 10,
+    "defect": true,
+    "ivf": 10,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "actuator_model_substitution": {
+    "conventional": 6,
+    "defect": true,
+    "ivf": 10,
+    "loc_correct": 10,
+    "n": 10,
+    "union": 10
+   },
+   "base_lin_vel_world_frame": {
+    "conventional": 10,
+    "defect": true,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "contact_threshold_impulse_units": {
+    "conventional": 1,
+    "defect": true,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 1
+   },
+   "debug_visualization_off": {
+    "conventional": 1,
+    "defect": false,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 1
+   },
+   "env_spacing_widened": {
+    "conventional": 10,
+    "defect": false,
+    "ivf": 10,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "friction_randomization_noop": {
+    "conventional": 0,
+    "defect": true,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 0
+   },
+   "joint_vel_finite_diff_physics_dt": {
+    "conventional": 10,
+    "defect": true,
+    "ivf": 10,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "legged_gym_obs_scales_applied": {
+    "conventional": 8,
+    "defect": true,
+    "ivf": 2,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 8
+   },
+   "mjwarp_preset_overrides_lost": {
+    "conventional": 3,
+    "defect": true,
+    "ivf": 2,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 3
+   },
+   "mjwarp_solver_iteration_headroom": {
+    "conventional": 1,
+    "defect": false,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 1
+   },
+   "none": {
+    "conventional": 1,
+    "defect": false,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 1
+   },
+   "projected_gravity_quat_wxyz_misread": {
+    "conventional": 10,
+    "defect": true,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "reset_joint_offset_dof_index_shift": {
+    "conventional": 2,
+    "defect": true,
+    "ivf": 10,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "reset_root_twist_angular_linear_order": {
+    "conventional": 3,
+    "defect": true,
+    "ivf": 10,
+    "loc_correct": 10,
+    "n": 10,
+    "union": 10
+   },
+   "spawn_height_from_asset_keyframe": {
+    "conventional": 8,
+    "defect": true,
+    "ivf": 4,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "stale_default_pose_action_offset": {
+    "conventional": 8,
+    "defect": true,
+    "ivf": 10,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   },
+   "timeout_counted_as_termination": {
+    "conventional": 10,
+    "defect": true,
+    "ivf": 0,
+    "loc_correct": 0,
+    "n": 10,
+    "union": 10
+   }
+  },
+  "per_platform": {
+   "anymal_d": {
+    "conventional": "14/28 fp 2/10",
+    "ivf": "14/28 fp 2/10",
+    "union": "20/28 fp 2/10"
+   },
+   "cassie": {
+    "conventional": "19/28 fp 2/10",
+    "ivf": "12/28 fp 2/10",
+    "union": "22/28 fp 2/10"
+   },
+   "g1": {
+    "conventional": "19/28 fp 2/10",
+    "ivf": "14/28 fp 2/10",
+    "union": "24/28 fp 2/10"
+   },
+   "go2": {
+    "conventional": "16/28 fp 2/10",
+    "ivf": "16/28 fp 2/10",
+    "union": "22/28 fp 2/10"
+   },
+   "h1": {
+    "conventional": "21/28 fp 6/10",
+    "ivf": "12/28 fp 2/10",
+    "union": "24/28 fp 6/10"
+   }
+  },
+  "union": {
+   "false_acceptance": {
+    "k": 28,
+    "n": 140,
+    "rate": 0.2,
+    "wilson95": [
+     0.1422,
+     0.2739
+    ]
+   },
+   "flag_rate_all": 0.6632,
+   "fpr": {
+    "k": 14,
+    "n": 50,
+    "rate": 0.28,
+    "wilson95": [
+     0.1747,
+     0.4167
+    ]
+   },
+   "recall": {
+    "k": 112,
+    "n": 140,
+    "rate": 0.8,
+    "wilson95": [
+     0.7261,
+     0.8578
+    ]
+   }
+  },
+  "union_minus_conventional_recall": {
+   "ci95": [
+    0.1214,
+    0.2071
+   ],
+   "diff": 0.1643
+  },
+  "union_minus_ivf_recall": {
+   "ci95": [
+    0.2786,
+    0.35
+   ],
+   "diff": 0.3143
+  }
+ }
+}
