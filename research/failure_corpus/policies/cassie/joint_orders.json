@@ -1,0 +1,33 @@
+{
+ "physx": [
+  "hip_abduction_left",
+  "hip_abduction_right",
+  "hip_rotation_left",
+  "hip_rotation_right",
+  "hip_flexion_left",
+  "hip_flexion_right",
+  "thigh_joint_left",
+  "thigh_joint_right",
+  "ankle_joint_left",
+  "ankle_joint_right",
+  "toe_joint_left",
+  "toe_joint_right"
+ ],
+ "physx_manager": "isaaclab_physx.physics.physx_manager:PhysxManager",
+ "newton": [
+  "hip_abduction_left",
+  "hip_rotation_left",
+  "hip_flexion_left",
+  "thigh_joint_left",
+  "ankle_joint_left",
+  "toe_joint_left",
+  "hip_abduction_right",
+  "hip_rotation_right",
+  "hip_flexion_right",
+  "thigh_joint_right",
+  "ankle_joint_right",
+  "toe_joint_right"
+ ],
+ "newton_manager": "isaaclab_newton.physics.mjwarp_manager:NewtonMJWarpManager",
+ "identical": false
+}

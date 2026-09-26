@@ -14,6 +14,20 @@
     "tracking": 1e-06
    }
   },
+  "cassie": {
+   "cross": {
+    "falls": 1e-06,
+    "return_rel": 0.1500568385176934,
+    "tilted": 1e-06,
+    "tracking": 0.025724944267421987
+   },
+   "same": {
+    "falls": 1e-06,
+    "return_rel": 1e-06,
+    "tilted": 1e-06,
+    "tracking": 1e-06
+   }
+  },
   "g1": {
    "cross": {
     "falls": 0.01953125,
@@ -62,6 +76,16 @@
    "cross": {
     "joint_pos": 0.23651993270414215,
     "root_link_pos_w": 0.39968006912302123
+   },
+   "same": {
+    "joint_pos": 1e-06,
+    "root_link_pos_w": 1e-06
+   }
+  },
+  "cassie": {
+   "cross": {
+    "joint_pos": 0.2702085867538091,
+    "root_link_pos_w": 1.1191391279353022
    },
    "same": {
     "joint_pos": 1e-06,
@@ -128,6 +152,66 @@
      "policy_obs": 14.467259625307193,
      "root_link_pos_w": 2.831513833746828,
      "root_link_quat_w": 1.4607628434063482
+    }
+   },
+   "same": {
+    "decision": {
+     "survival": 1.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 0.0,
+     "fall_timing": 0.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 1e-06
+    },
+    "traj": {
+     "base_height": 1e-06,
+     "joint_pos": 1e-06,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 1e-06,
+     "policy_obs": 1e-06,
+     "root_link_pos_w": 1e-06,
+     "root_link_quat_w": 1e-06
+    }
+   }
+  },
+  "cassie": {
+   "cross": {
+    "decision": {
+     "survival": 0.0
+    },
+    "event": {
+     "contact_timing": 1,
+     "fall_timing": 1
+    },
+    "event_allowance": {
+     "contact_timing": 1.0,
+     "fall_timing": 1.0
+    },
+    "inputs": {
+     "effective_model_parameters": 0.0001,
+     "initial_state_realization": 0.0001
+    },
+    "statistical": {
+     "mean_base_height": 0.5582822693596826
+    },
+    "traj": {
+     "base_height": 0.8025511913001537,
+     "joint_pos": 1.6605061303723812,
+     "joint_pos_target": 1e-06,
+     "joint_vel": 29.737431925487364,
+     "policy_obs": 30.000519454557818,
+     "root_link_pos_w": 4.850828230314031,
+     "root_link_quat_w": 3.911010140310189
     }
    },
    "same": {
@@ -343,6 +427,50 @@
  },
  "raw_notes": {
   "anymal_d": {
+   "cross": {
+    "ivf_refused": [],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "same": {
+    "ivf_refused": [
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ],
+     [
+      "IVF-EXPERIMENT-SELF-COMPARISON"
+     ]
+    ],
+    "model_rel": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "realization": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "cassie": {
    "cross": {
     "ivf_refused": [],
     "model_rel": [
