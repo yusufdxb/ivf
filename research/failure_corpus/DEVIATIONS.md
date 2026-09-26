@@ -166,3 +166,11 @@ per-platform breakdown, both reporting-only.
   unstarted Spot runs, and 38 unstarted Rough GO2 runs. The failed and partial directories were
   moved aside, not deleted, and re-captured as infrastructure retries. The resume ran under a
   memory watchdog that stops the capture if available memory falls below 4 GiB.
+- **Second infrastructure stop (Rough GO2, before any scoring).** During the resumed pass,
+  the single Rough GO2 capture process accumulated GPU memory across environment builds
+  (11.1 GB after about 28 runs) and one run failed with a CUDA out-of-memory error; system
+  RAM also fell below the 4 GiB watchdog limit. The process was stopped (by the watchdog and
+  by exact PID). The failed run and one partial run were moved aside, and the 11 unfinished
+  Rough GO2 runs were captured in fresh processes of at most 6 runs each (plus the seed's
+  already-complete reference, which is skipped and only reloads its recorded action stream),
+  using the identical sealed job definitions, under a RAM and GPU-memory watchdog.
