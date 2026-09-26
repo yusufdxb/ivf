@@ -79,6 +79,8 @@ KNOWN_CONTROLS = frozenset({
     "termination_semantics",
     "backend_identity",
     "resource_health",
+    "randomization_semantics",
+    "solver_conformance",
 })
 """Properties the validity layer knows how to check. Unknown names are rejected at
 load: silently ignoring a control the user asked for is the worst possible failure."""

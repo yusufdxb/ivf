@@ -215,3 +215,50 @@ def test_new_reason_codes_are_registered():
                  "IVF-PROTOCOL-SOLVER-CAPACITY-SATURATED", "IVF-PROTOCOL-INITIAL-STATE-NOT-REALIZED"):
         assert code in REASON_CODES
     assert np.isfinite(1.0)
+
+
+def test_randomization_terms_must_match():
+    rand = [{"term": "physics_material", "mode": "startup", "static_friction_range": [0.8, 0.8]}]
+    a = inputs(randomization=rand)
+    b = inputs(randomization=[])
+    c = status(check_experiment(manifest(["randomization_semantics"]), *pair(a_inputs=a, b_inputs=b)), "V-27")
+    assert c.status == "fail" and c.reason_code == "IVF-CONTROL-RANDOMIZATION-MISMATCH"
+    assert c.fields == ["randomization.physics_material"]
+    ok = status(check_experiment(manifest(["randomization_semantics"]), *pair(a_inputs=a, b_inputs=a)), "V-27")
+    assert ok.status == "pass"
+
+
+def test_realized_friction_difference_is_attributed_to_contact_material():
+    a = inputs(effective_model={**inputs()["effective_model"], "body_static_friction": [[0.8]]})
+    b = inputs(effective_model={**inputs()["effective_model"], "body_static_friction": [[1.0]]})
+    rep = check_experiment(manifest(["effective_model_parameters"], tol=1e-4), *pair(a_inputs=a, b_inputs=b))
+    assert status(rep, "V-22").status == "fail"
+    assert attribute(rep, [])["primary"] == "model_parameters.contact_material"
+
+
+def _solver_manifest(expect):
+    text = manifest(["solver_conformance"]).source_text
+    block = "    expect_solver: " + str(expect).replace("'", '"') + "\n"
+    lines = text.split("\n")
+    idx = [i for i, ln in enumerate(lines) if ln.strip() == "system: damped_pendulum"][1]
+    lines.insert(idx + 1, block.rstrip("\n"))
+    return parse_manifest("\n".join(lines))
+
+
+def test_solver_conformance_compares_running_solver_with_declaration():
+    m = _solver_manifest({"integrator": "implicitfast", "iterations": 100})
+    good = inputs(solver_effective={"status": "available", "integrator": "IMPLICITFAST", "iterations": 100})
+    bad = inputs(solver_effective={"status": "available", "integrator": "euler", "iterations": 100})
+    rep = check_experiment(m, *pair(b_inputs=good))
+    assert status(rep, "V-28", "candidate").status == "pass"
+    assert status(rep, "V-28", "baseline").status == "unverifiable"
+    c = status(check_experiment(m, *pair(b_inputs=bad)), "V-28", "candidate")
+    assert c.status == "fail" and c.fields == ["solver.integrator"]
+    assert attribute(check_experiment(m, *pair(b_inputs=bad)), [])["primary"] == "solver_configuration"
+
+
+def test_solver_conformance_without_readback_is_unverifiable():
+    m = _solver_manifest({"integrator": "implicitfast"})
+    c = status(check_experiment(m, *pair(b_inputs=inputs(solver_effective={"status": "unavailable"}))),
+               "V-28", "candidate")
+    assert c.status == "unverifiable"

@@ -1,0 +1,62 @@
+{
+ "anymal_d": {
+  "cone": "elliptic",
+  "impratio": 100.0,
+  "integrator": "euler",
+  "iterations": 100,
+  "ls_iterations": 50,
+  "num_substeps": 1,
+  "solver": "newton",
+  "tolerance": 1e-06
+ },
+ "cassie": {
+  "cone": "pyramidal",
+  "impratio": 1,
+  "integrator": "implicitfast",
+  "iterations": 100,
+  "ls_iterations": 50,
+  "num_substeps": 1,
+  "solver": "newton",
+  "tolerance": 1e-06
+ },
+ "g1": {
+  "cone": "pyramidal",
+  "impratio": 1,
+  "integrator": "implicitfast",
+  "iterations": 100,
+  "ls_iterations": 50,
+  "num_substeps": 1,
+  "solver": "newton",
+  "tolerance": 1e-06
+ },
+ "go2": {
+  "cone": "pyramidal",
+  "impratio": 1,
+  "integrator": "implicitfast",
+  "iterations": 100,
+  "ls_iterations": 50,
+  "num_substeps": 1,
+  "solver": "newton",
+  "tolerance": 1e-06
+ },
+ "h1": {
+  "cone": "pyramidal",
+  "impratio": 1,
+  "integrator": "implicitfast",
+  "iterations": 100,
+  "ls_iterations": 50,
+  "num_substeps": 1,
+  "solver": "newton",
+  "tolerance": 1e-06
+ },
+ "spot": {
+  "cone": "pyramidal",
+  "impratio": 1,
+  "integrator": "implicitfast",
+  "iterations": 100,
+  "ls_iterations": 50,
+  "num_substeps": 1,
+  "solver": "newton",
+  "tolerance": 1e-06
+ }
+}

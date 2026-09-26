@@ -212,6 +212,39 @@ def check_experiment_inputs(manifest: Manifest, baseline: SignalSet, candidate: 
                 _check("V-23", "termination semantics match", "pass", f"{len(a)} term(s) identical")
             )
 
+    if "randomization_semantics" in required:
+        a, b = a_in.get("randomization"), b_in.get("randomization")
+        if a is None or b is None:
+            checks.append(
+                _check(
+                    "V-27",
+                    "randomization terms match",
+                    "unverifiable",
+                    "at least one subject does not record experiment_inputs.randomization",
+                )
+            )
+        else:
+            ka = {t.get("term"): t for t in a}
+            kb = {t.get("term"): t for t in b}
+            diff = sorted(k for k in set(ka) | set(kb) if ka.get(k) != kb.get(k))
+            if diff:
+                checks.append(
+                    _check(
+                        "V-27",
+                        "randomization terms match",
+                        "fail",
+                        f"randomization terms differ: {diff}",
+                        "IVF-CONTROL-RANDOMIZATION-MISMATCH",
+                        {k: ka.get(k) for k in diff},
+                        {k: kb.get(k) for k in diff},
+                        [f"randomization.{k}" for k in diff],
+                    )
+                )
+            else:
+                checks.append(
+                    _check("V-27", "randomization terms match", "pass", f"{len(ka)} term(s) identical")
+                )
+
     for role, inp in (("baseline", a_in), ("candidate", b_in)):
         if "initial_state_realization" in required:
             tol = manifest.controls.tolerances["initial_state_realization"].value
@@ -338,4 +371,66 @@ def check_experiment_inputs(manifest: Manifest, baseline: SignalSet, candidate: 
                             ", ".join(f"{k} {v:.3g}" for k, v in sorted(util.items())),
                         )
                     )
+    for role, inp in (("baseline", a_in), ("candidate", b_in)):
+        if "solver_conformance" not in required:
+            break
+        expected = manifest.subjects[role].params.get("expect_solver")
+        effective = inp.get("solver_effective") or {}
+        if not expected:
+            checks.append(
+                _check(
+                    "V-28",
+                    f"{role} solver settings as declared",
+                    "unverifiable",
+                    f"the {role} declares no expect_solver",
+                )
+            )
+            continue
+        if effective.get("status") != "available":
+            checks.append(
+                _check(
+                    "V-28",
+                    f"{role} solver settings as declared",
+                    "unverifiable",
+                    f"the {role}'s running solver settings are not recorded "
+                    f"({effective.get('reason', effective.get('status', 'absent'))})",
+                )
+            )
+            continue
+        bad = []
+        for key, want in sorted(expected.items()):
+            got = effective.get(key)
+            if (
+                isinstance(want, (int, float))
+                and isinstance(got, (int, float))
+                and not isinstance(want, bool)
+            ):
+                ok = abs(float(got) - float(want)) <= 1e-6 * max(1.0, abs(float(want)))
+            else:
+                ok = str(got).lower() == str(want).lower()
+            if not ok:
+                bad.append(key)
+        if bad:
+            checks.append(
+                _check(
+                    "V-28",
+                    f"{role} solver settings as declared",
+                    "fail",
+                    f"the {role}'s running solver differs from the declared settings: "
+                    + ", ".join(f"{k} {effective.get(k)!r} != {expected[k]!r}" for k in bad),
+                    "IVF-PROTOCOL-SOLVER-NOT-AS-DECLARED",
+                    {k: expected[k] for k in bad},
+                    {k: effective.get(k) for k in bad},
+                    [f"solver.{k}" for k in bad],
+                )
+            )
+        else:
+            checks.append(
+                _check(
+                    "V-28",
+                    f"{role} solver settings as declared",
+                    "pass",
+                    f"{len(expected)} declared setting(s) match the running solver",
+                )
+            )
     return checks

@@ -115,6 +115,10 @@ REASON_CODES: dict[str, str] = {
     "IVF-PROTOCOL-SOLVER-CAPACITY-SATURATED":
         "A solver resource buffer reached capacity during the run, so contacts or constraints "
         "may have been dropped.",
+    "IVF-CONTROL-RANDOMIZATION-MISMATCH":
+        "Subjects run different domain-randomization terms, modes, targets, or ranges.",
+    "IVF-PROTOCOL-SOLVER-NOT-AS-DECLARED":
+        "Solver settings read back from the running solver differ from the settings the manifest declares.",
     "IVF-CONTROL-HORIZON-MISMATCH": "Subjects captured different numbers of steps.",
     # -- per-signal dimensional compatibility (checked automatically, never opt-in) -----
     "IVF-CONTROL-SIGNAL-UNIT-MISMATCH":
