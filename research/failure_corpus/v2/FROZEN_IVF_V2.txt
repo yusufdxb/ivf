@@ -1,0 +1,1 @@
+48861c1ea320fe7c8c4bc023653282f401f1fa15  src/ivf tree frozen at commit 03b4ff9, 2026-09-26, before any v2 development evaluation and after the fault author's summary table was seen (files not opened)

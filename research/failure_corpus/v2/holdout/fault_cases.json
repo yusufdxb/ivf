@@ -1,0 +1,603 @@
+[
+  {
+    "family": "reset_joint_offset_dof_index_shift",
+    "defect": true,
+    "category": "joint_body_ordering",
+    "params": {
+      "go2": {
+        "shift": 1
+      },
+      "g1": {
+        "shift": 1
+      },
+      "h1": {
+        "shift": 1
+      },
+      "anymal_d": {
+        "shift": 1
+      },
+      "cassie": {
+        "shift": 1
+      }
+    },
+    "mechanism": "For a floating-base robot the generalized position vector carries 7 root coordinates and the generalized velocity vector 6, so joint slots computed from one layout and used to scatter into the other land one DOF away. The candidate's reset path scatters the per-joint reset offsets (requested pose minus default pose) with that off-by-one DOF index, so every joint receives its neighbour's offset in native order. Offsets are small and random-looking, so the reset still looks like ordinary joint randomization and nothing errors; only the realized joint pose differs from the requested one.",
+    "sources": [
+      {
+        "url": "https://github.com/strands-labs/robots/pull/3895",
+        "quote": "the observation now reads the same index beside each position (the two indices differ once a robot has a free root, which is every legged robot)."
+      }
+    ]
+  },
+  {
+    "family": "projected_gravity_quat_wxyz_misread",
+    "defect": true,
+    "category": "obs_action_ordering",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "Isaac Lab 3.x and Newton/Warp store quaternions as (x, y, z, w) while Isaac Lab 2.x and MuJoCo use (w, x, y, z). The candidate's projected-gravity helper was carried over from a wxyz code path and reads component 0 as the scalar. At zero heading the misread quaternion is a 180 degree rotation about z, which leaves gravity at (0, 0, -1), so a robot spawned facing +x looks correct; as heading changes the policy sees a tilted gravity vector (for pure yaw psi it reads (0, -sin psi, -cos psi)).",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/5186",
+        "quote": "All quaternions throughout Isaac Lab now use XYZW ordering to align with Warp, PhysX, and Newton conventions. Hard-coded quaternion values must be updated."
+      },
+      {
+        "url": "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+        "quote": "For example, converting from Isaac Lab to Newton requires reordering: ``newton_quat = (isaac_quat[1], isaac_quat[2], isaac_quat[3], isaac_quat[0])``"
+      }
+    ]
+  },
+  {
+    "family": "base_lin_vel_world_frame",
+    "defect": true,
+    "category": "obs_action_ordering",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "MuJoCo's free-joint velocity stores the linear part in the world frame and the angular part in the body frame. A candidate observation builder that reads the root linear velocity the MuJoCo way skips the rotation into the base frame, so base_lin_vel is fed in world coordinates. Magnitudes and the vertical component stay plausible; only the heading-dependent mixing of forward and lateral velocity is wrong, which is invisible while the robot faces +x.",
+    "sources": [
+      {
+        "url": "https://github.com/google-deepmind/mujoco/issues/691",
+        "quote": "The linear DoFs of free joints are in the global frame, as are the linear velocities."
+      },
+      {
+        "url": "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+        "quote": "MuJoCo employs a *mixed-frame* format for free bodies:"
+      },
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/3751",
+        "quote": "obs.extend(data.qvel[:3])  # Root angular velocity"
+      }
+    ]
+  },
+  {
+    "family": "action_one_step_transport_delay",
+    "defect": true,
+    "category": "timestep_decimation",
+    "params": {
+      "go2": {
+        "delay_steps": 1
+      },
+      "g1": {
+        "delay_steps": 1
+      },
+      "h1": {
+        "delay_steps": 1
+      },
+      "anymal_d": {
+        "delay_steps": 1
+      },
+      "cassie": {
+        "delay_steps": 1
+      }
+    },
+    "mechanism": "The candidate's control loop is double buffered: the policy writes the next command while the simulator consumes the previously written one, so each action is applied one control period (20 ms at 50 Hz) late. dt, decimation and the episode length are unchanged; only the action-to-physics alignment shifts by one step. Policies trained without latency degrade gradually rather than failing outright.",
+    "sources": [
+      {
+        "url": "https://github.com/earosenfeld/humanoid-locomotion-sim2sim",
+        "quote": "Trained without delay, the policy falls in 20 % of runs at one policy step (20 ms) of action transport delay and in all runs at two."
+      }
+    ]
+  },
+  {
+    "family": "joint_vel_finite_diff_physics_dt",
+    "defect": true,
+    "category": "timestep_decimation",
+    "params": {
+      "go2": {
+        "dt": 0.005
+      },
+      "g1": {
+        "dt": 0.005
+      },
+      "h1": {
+        "dt": 0.005
+      },
+      "anymal_d": {
+        "dt": 0.005
+      },
+      "cassie": {
+        "dt": 0.005
+      }
+    },
+    "mechanism": "The candidate's observation path did not hand joint velocities to the policy wrapper, so the port rebuilds them by differencing successive joint-position observations. It divides by the physics step (0.005 s) instead of the control period (0.02 s), inflating joint_vel by the decimation factor 4 and amplifying position noise; at episode starts the velocity is zero.",
+    "sources": [
+      {
+        "url": "https://github.com/strands-labs/robots/pull/3895",
+        "quote": "`get_observation` on the Newton backend emitted joint positions only; the MuJoCo backend pairs each position with a `<joint>.vel` reading."
+      },
+      {
+        "url": "https://github.com/tinkerfuroc/tksim_isaac/pull/16",
+        "quote": "a one-physics-step velocity feedforward sized with `self.dt = 1/control_hz`"
+      }
+    ]
+  },
+  {
+    "family": "reset_root_twist_angular_linear_order",
+    "defect": true,
+    "category": "reset_randomization",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "Newton's public spatial vectors are (linear, angular) but Warp's native spatial_vector is (angular, linear). The candidate reset code packs the requested root twist in the Warp order before the write, so the requested linear velocity is realized as an angular rate and the requested angular rate as a linear velocity. The write succeeds and the magnitudes look like normal reset randomization.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/newton-physics/newton/main/docs/concepts/conventions.rst",
+        "quote": "Newton's public ``spatial_vector`` arrays use ``(linear, angular)`` ordering, unlike Warp's native ``(angular, linear)`` convention."
+      }
+    ]
+  },
+  {
+    "family": "spawn_height_from_asset_keyframe",
+    "defect": true,
+    "category": "reset_randomization",
+    "params": {
+      "go2": {
+        "dz": 0.08
+      },
+      "g1": {
+        "dz": 0.12
+      },
+      "h1": {
+        "dz": 0.12
+      },
+      "anymal_d": {
+        "dz": 0.1
+      },
+      "cassie": {
+        "dz": 0.1
+      }
+    },
+    "mechanism": "The candidate asset was converted with the vendor 'home' keyframe, and the port took the root spawn height from that keyframe rather than from the task init_state used in training. Every reset starts the base several centimetres above the trained standing height, so each episode begins with a short drop and landing transient. The joint pose and all other reset terms are untouched.",
+    "sources": [
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html",
+        "quote": "The reference AGILE task overrides these in init_state with a shallower crouch at 1.015 m; carry your values into Stage 2 deliberately rather than assuming they apply."
+      }
+    ]
+  },
+  {
+    "family": "actuator_model_substitution",
+    "defect": true,
+    "category": "actuator_solver_config",
+    "params": {
+      "go2": {
+        "groups": {
+          "base_legs": {
+            "to": "implicit"
+          }
+        }
+      },
+      "g1": {
+        "groups": {
+          "legs": {
+            "to": "ideal_pd"
+          }
+        }
+      },
+      "h1": {
+        "groups": {
+          "legs": {
+            "to": "ideal_pd"
+          }
+        }
+      },
+      "anymal_d": {
+        "groups": {
+          "legs": {
+            "to": "dc_motor",
+            "stiffness": 40.0,
+            "damping": 5.0,
+            "saturation_effort": 120.0,
+            "effort_limit": 80.0,
+            "velocity_limit": 7.5
+          }
+        }
+      },
+      "cassie": {
+        "groups": {
+          "legs": {
+            "to": "ideal_pd"
+          }
+        }
+      }
+    },
+    "mechanism": "The port could not reproduce the training actuator on the new backend and substituted the closest available model with the same nominal gains: the Go2 DC-motor model loses its torque-speed saturation by becoming a solver-side implicit PD drive, the ANYmal-D LSTM actuator network is replaced by an analytic DC motor, and the humanoid implicit leg drives become explicit PD torques evaluated at the physics rate. Gains and limits look identical in the config, but the torque produced for the same command differs.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab_assets/isaaclab_assets/robots/anymal.py",
+        "quote": "Since we don't have a publicly available actuator network for ANYmal-D, we use the same network as ANYmal-C."
+      },
+      {
+        "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/docs/source/concepts/actuators.rst",
+        "quote": "Native paths process commands differently: Newton processes them in the solver, while PhysX and OVPhysX use a shared host adapter during ``write_data_to_sim()``."
+      }
+    ]
+  },
+  {
+    "family": "mjwarp_preset_overrides_lost",
+    "defect": true,
+    "category": "ineffective_stale_config",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "A config refactor rebuilds the MJWarp solver config from the class and copies only the buffer sizes (njmax, nconmax) and the contact-pipeline switch. The per-robot tuning in the preset is silently lost: Go2, G1, H1 and Cassie fall back from the implicitfast integrator to the default Euler integrator, and ANYmal-D falls back from an elliptic cone with impratio 100 to a pyramidal cone with impratio 1. The config still names the newton_mjwarp preset and nothing errors.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst",
+        "quote": "The ``implicitfast`` integrator has similar computational cost to ``Euler``, yet provides increased stability, and is therefore a strict improvement."
+      }
+    ]
+  },
+  {
+    "family": "friction_randomization_noop",
+    "defect": true,
+    "category": "ineffective_stale_config",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "The training config sets robot shape friction through a startup material event (static 0.8 / dynamic 0.6). Material handling differs per backend, and on the candidate the event never reaches the robot shapes, so they keep the importer default friction (Newton's builder default mu is 1.0) instead of the configured value. The event is still listed in the config and no warning is raised. Emulated by removing the event from the candidate config.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab/develop/source/isaaclab/isaaclab/envs/mdp/events.py",
+        "quote": "Newton uses a single friction coefficient (mu), so ``dynamic_friction_range`` and ``num_buckets`` are ignored."
+      }
+    ]
+  },
+  {
+    "family": "legged_gym_obs_scales_applied",
+    "defect": true,
+    "category": "checkpoint_schema",
+    "params": {
+      "go2": {
+        "lin_vel": 2.0,
+        "ang_vel": 0.25,
+        "commands": [
+          2.0,
+          2.0,
+          0.25
+        ],
+        "dof_pos": 1.0,
+        "dof_vel": 0.05
+      },
+      "g1": {
+        "lin_vel": 2.0,
+        "ang_vel": 0.25,
+        "commands": [
+          2.0,
+          2.0,
+          0.25
+        ],
+        "dof_pos": 1.0,
+        "dof_vel": 0.05
+      },
+      "h1": {
+        "lin_vel": 2.0,
+        "ang_vel": 0.25,
+        "commands": [
+          2.0,
+          2.0,
+          0.25
+        ],
+        "dof_pos": 1.0,
+        "dof_vel": 0.05
+      },
+      "anymal_d": {
+        "lin_vel": 2.0,
+        "ang_vel": 0.25,
+        "commands": [
+          2.0,
+          2.0,
+          0.25
+        ],
+        "dof_pos": 1.0,
+        "dof_vel": 0.05
+      },
+      "cassie": {
+        "lin_vel": 2.0,
+        "ang_vel": 0.25,
+        "commands": [
+          2.0,
+          2.0,
+          0.25
+        ],
+        "dof_pos": 1.0,
+        "dof_vel": 0.05
+      }
+    },
+    "mechanism": "Isaac Lab velocity policies are trained on unscaled observations. The candidate's deploy wrapper was reused from a legged_gym lineage and applies legged_gym obs_scales (lin_vel x2, ang_vel x0.25, commands x(2, 2, 0.25), dof_vel x0.05) before the policy sees the vector. The observation layout and size are unchanged, so nothing fails; the policy just receives inputs outside its training distribution.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py",
+        "quote": "class obs_scales: lin_vel = 2.0 ang_vel = 0.25 dof_pos = 1.0 dof_vel = 0.05"
+      }
+    ]
+  },
+  {
+    "family": "stale_default_pose_action_offset",
+    "defect": true,
+    "category": "checkpoint_schema",
+    "params": {
+      "go2": {
+        "action_scale": 0.25,
+        "offsets": [
+          [
+            ".*_thigh_joint",
+            0.1
+          ],
+          [
+            ".*_calf_joint",
+            -0.1
+          ]
+        ]
+      },
+      "g1": {
+        "action_scale": 0.5,
+        "offsets": [
+          [
+            ".*_hip_pitch_joint",
+            -0.1
+          ],
+          [
+            ".*_knee_joint",
+            0.2
+          ],
+          [
+            ".*_ankle_pitch_joint",
+            -0.1
+          ]
+        ]
+      },
+      "h1": {
+        "action_scale": 0.5,
+        "offsets": [
+          [
+            ".*_hip_pitch",
+            -0.1
+          ],
+          [
+            ".*_knee",
+            0.2
+          ],
+          [
+            ".*_ankle",
+            -0.1
+          ]
+        ]
+      },
+      "anymal_d": {
+        "action_scale": 0.5,
+        "offsets": [
+          [
+            ".*F_HFE",
+            0.1
+          ],
+          [
+            ".*H_HFE",
+            -0.1
+          ],
+          [
+            ".*F_KFE",
+            -0.1
+          ],
+          [
+            ".*H_KFE",
+            0.1
+          ]
+        ]
+      },
+      "cassie": {
+        "action_scale": 0.5,
+        "offsets": [
+          [
+            "hip_flexion_.*",
+            0.1
+          ],
+          [
+            "thigh_joint_.*",
+            -0.1
+          ]
+        ]
+      }
+    },
+    "mechanism": "The deploy side adds its own default joint angles to scale * action. Those angles were copied from an older asset keyframe that differs from the training init pose on a few leg joints (a slightly deeper crouch), so every commanded joint target is offset by a constant 0.1 to 0.2 rad on those joints. The policy compensates partially, so the robot still walks with a biased posture.",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/3751",
+        "quote": "data.ctrl[:] = action"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/6.1.0/robot_setup_tutorials/tutorial_humanoid_workflow_prepare_usd.html",
+        "quote": "Treat this pose as the validated starting point you carry into Stage 2, and expect to reconcile the two rather than assuming the USD values reach training."
+      }
+    ]
+  },
+  {
+    "family": "contact_threshold_impulse_units",
+    "defect": true,
+    "category": "termination_metric",
+    "params": {
+      "go2": {
+        "dt": 0.005
+      },
+      "g1": {
+        "dt": 0.005
+      },
+      "h1": {
+        "dt": 0.005
+      },
+      "anymal_d": {
+        "dt": 0.005
+      },
+      "cassie": {
+        "dt": 0.005
+      }
+    },
+    "mechanism": "PhysX-style contact reports carry impulses per physics step, and the port assumed the candidate contact reading was also a per-substep impulse. It converted the 1 N illegal-contact force threshold by dividing by the physics dt, while the sensor actually reports force, so the base-contact termination threshold becomes 200 N. Light base impacts no longer end the episode and the closed-loop fall count drops, making the candidate look more robust.",
+    "sources": [
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics_contact.html",
+        "quote": "Returns a list of raw contact records (one per contact event in the current physics step). Each record contains time, dt, body0, body1, position, normal, and impulse."
+      }
+    ]
+  },
+  {
+    "family": "timeout_counted_as_termination",
+    "defect": true,
+    "category": "termination_metric",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "The candidate termination config loses the time_out flag on the episode time limit, so reaching the time limit is reported as terminated instead of truncated. Physics and behaviour are identical, but every survivor that reaches the episode length is counted as a failure, and any metric that treats terminations as falls is inflated.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+        "quote": "termination we don't bootstrap, when it ends due to truncation, we bootstrap."
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/tutorials/gymnasium_basics/handling_time_limits.py",
+        "quote": "Truncation refers to the episode ending after an externally defined condition (that is outside the scope of the Markov Decision Process). This could be a time-limit, a robot going out of bounds etc."
+      }
+    ]
+  },
+  {
+    "family": "mjwarp_solver_iteration_headroom",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {
+        "factor": 2.0
+      },
+      "g1": {
+        "factor": 2.0
+      },
+      "h1": {
+        "factor": 2.0
+      },
+      "anymal_d": {
+        "factor": 2.0
+      },
+      "cassie": {
+        "factor": 2.0
+      }
+    },
+    "mechanism": "Benign: the team doubles the MJWarp constraint-solver and line-search iteration caps as headroom. The solver stops once it meets its tolerance, which it normally does well before the old cap, so the dynamics are unchanged within solver tolerance.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/XMLreference.rst",
+        "quote": "if the warmstarted solution already satisfies the tolerance, the CG and Newton solvers terminate with zero iterations."
+      }
+    ]
+  },
+  {
+    "family": "env_spacing_widened",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {
+        "env_spacing": 4.0
+      },
+      "g1": {
+        "env_spacing": 4.0
+      },
+      "h1": {
+        "env_spacing": 4.0
+      },
+      "anymal_d": {
+        "env_spacing": 4.0
+      },
+      "cassie": {
+        "env_spacing": 4.0
+      }
+    },
+    "mechanism": "Benign: environments are spaced 4 m apart instead of 2.5 m on the flat plane. Envs do not interact, so only the per-env world origin changes; env-relative states and dynamics are identical.",
+    "sources": []
+  },
+  {
+    "family": "action_clip_wide",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {
+        "clip": 100.0
+      },
+      "g1": {
+        "clip": 100.0
+      },
+      "h1": {
+        "clip": 100.0
+      },
+      "anymal_d": {
+        "clip": 100.0
+      },
+      "cassie": {
+        "clip": 100.0
+      }
+    },
+    "mechanism": "Benign: the deploy wrapper adds the rsl_rl / legged_gym default action clip at +/-100. Locomotion policy outputs stay within a few units, so the clip never binds.",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/leggedrobotics/legged_gym/master/legged_gym/envs/base/legged_robot_config.py",
+        "quote": "clip_observations = 100. clip_actions = 100."
+      }
+    ]
+  },
+  {
+    "family": "debug_visualization_off",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {}
+    },
+    "mechanism": "Benign: the velocity-command debug markers are disabled for the headless candidate run. They are visual only and do not touch physics, observations or rewards.",
+    "sources": []
+  }
+]
