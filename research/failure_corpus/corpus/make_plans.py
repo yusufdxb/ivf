@@ -22,13 +22,14 @@ TRAINED_ACTION_SCALE = {"go2": 0.25, "g1": 0.5, "h1": 0.5, "anymal_d": 0.5}
 BASE_MASS_BODY = {"go2": "base", "g1": "torso_link", "h1": "torso_link", "anymal_d": "base"}
 
 CATEGORY = {
-    "joint_order_obs_action": "joint_body_ordering",
+    "joint_order_interface": "joint_body_ordering",
+    "capture_not_canonicalized": "joint_body_ordering",
     "obs_term_swap": "obs_action_ordering",
     "timestep_dt_decimation": "timestep_decimation",
     "randomization_asymmetry": "reset_randomization",
     "reset_velocity_dropped": "reset_randomization",
     "reset_joint_offsets_ignored": "reset_randomization",
-    "armature_dropped": "actuator_solver_config",
+    "armature_mismatch": "actuator_solver_config",
     "contact_capacity": "actuator_solver_config",
     "actuator_gain_scale": "actuator_solver_config",
     "preset_not_applied": "ineffective_stale_config",
@@ -36,7 +37,9 @@ CATEGORY = {
     "termination_body_mismatch": "termination_metric",
 }
 SOURCES = {
-    "joint_order_obs_action": ["isaaclab-doc-sim2sim-joint-order", "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+    "capture_not_canonicalized": ["isaaclab-doc-sim2sim-joint-order", "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+                                  "native joint-order difference verified in this checkout (deviation D3)"],
+    "joint_order_interface": ["isaaclab-doc-sim2sim-joint-order", "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
                                "isaaclab-issue6485-checkpoint-has-no-ordering-record", "unitree-rl-lab-145-g1-permutation-and-history-layout"],
     "obs_term_swap": ["unitree-rl-gym-32-go2-obs-order"],
     "timestep_dt_decimation": ["deploy-tienkung-8-decimation-mismatch", "hover-38-mujoco-obs-update-frequency"],
@@ -44,7 +47,7 @@ SOURCES = {
                                 "isaaclab-pr7992-featherstone-inertia-dr-no-effect"],
     "reset_velocity_dropped": ["isaaclab-issue7236-instep-reset-stale-fk-newton", "ivf-internal-upstream-reset-defect"],
     "reset_joint_offsets_ignored": ["isaaclab-issue7236-instep-reset-stale-fk-newton", "ivf-internal-upstream-reset-defect"],
-    "armature_dropped": ["isaaclab-pr7612-armature-split", "isaaclab-pr7607-backend-conditioned-task-config",
+    "armature_mismatch": ["isaaclab-pr7612-armature-split", "isaaclab-pr7607-backend-conditioned-task-config",
                          "unitree-rl-lab-31-g1-arm-armature-mujoco", "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"],
     "contact_capacity": ["isaaclab-pr6850-newton-contact-buffer-overflow", "isaacsim-doc-mjwarp-nconmax-drops-contacts",
                          "mjwarp-doc-overflow-undefined-behavior"],
@@ -53,13 +56,18 @@ SOURCES = {
     "action_scale": ["unilab-579-cross-backend-config-drift"],
     "termination_body_mismatch": ["isaaclab-doc-body-ordering-silent", "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"],
 }
-CROSS_ONLY = {"armature_dropped", "contact_capacity", "preset_not_applied"}
+CROSS_ONLY = {"armature_mismatch", "contact_capacity", "preset_not_applied", "capture_not_canonicalized"}
+TRAINING_ARMATURE_IS_ZERO = {"go2": True, "g1": False, "h1": False, "anymal_d": True}
 
 
-def fault_params(family: str, platform: str, variant: str) -> dict:
+def fault_params(family: str, platform: str, variant: str, condition: str = "cross") -> dict:
     dev = variant == "dev"
-    if family == "joint_order_obs_action":
-        return {"perm": "per_limb" if dev else "lr_swap"}
+    if family == "joint_order_interface":
+        if not dev:
+            return {"interface": "lr_swap"}
+        return {"interface": "native" if condition == "cross" else "newton_order"}
+    if family == "armature_mismatch":
+        return {"armature": 0.02 if TRAINING_ARMATURE_IS_ZERO[platform] else 0.0}
     if family == "obs_term_swap":
         return {"a": "base_ang_vel", "b": "projected_gravity"} if dev else {"a": "base_lin_vel", "b": "velocity_commands"}
     if family == "timestep_dt_decimation":
@@ -114,11 +122,12 @@ def jobs_for(split: str, platform: str, seed: int, variant: str, *, clean_only: 
         return jobs, labels
     add(f"{base}__benign_newton_capacity", "newton", {"family": "benign_capacity", "params": {"factor": 2}}, "cross", False)
     for fam in families_for(variant):
-        params = fault_params(fam, platform, variant)
         mode = "newton_via_pre7103_test_path" if fam == "preset_not_applied" else "newton"
-        add(f"{base}__cross__{fam}", mode, {"family": fam, "params": params}, "cross", True)
+        add(f"{base}__cross__{fam}", mode, {"family": fam, "params": fault_params(fam, platform, variant, "cross")},
+            "cross", True)
         if fam not in CROSS_ONLY:
-            add(f"{base}__same__{fam}", "physx", {"family": fam, "params": params}, "same", True)
+            add(f"{base}__same__{fam}", "physx", {"family": fam, "params": fault_params(fam, platform, variant, "same")},
+                "same", True)
     return jobs, labels
 
 
@@ -127,7 +136,8 @@ def main() -> None:
         "calibration": [(p, s, "dev", True) for p in PLATFORMS for s in (0, 1, 2)],
         "dev": [(p, 3, "dev", False) for p in ("go2", "g1", "h1")],
         "holdout": [("anymal_d", 3, "dev", False), ("anymal_d", 4, "dev", False)]
-                   + [(p, 4, "holdout", False) for p in ("go2", "g1", "h1")],
+                   + [(p, 4, "holdout", False) for p in ("go2", "g1", "h1")]
+                   + [(p, s, "holdout", True) for p in PLATFORMS for s in (5, 6)],
     }
     plans_dir = ROOT / "plans"
     plans_dir.mkdir(exist_ok=True)

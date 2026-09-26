@@ -51,29 +51,41 @@
    "is_reference": false
   },
   {
-   "capture_id": "h_cb171881a85c",
+   "capture_id": "h_33f14fed8e89",
    "platform": "go2",
    "seed": 4,
    "backend_mode": "newton",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "lr_swap"
+     "interface": "lr_swap"
     }
    },
    "replay_ref": "go2:4",
    "is_reference": false
   },
   {
-   "capture_id": "h_ec79d448fb44",
+   "capture_id": "h_833d2fda2fea",
    "platform": "go2",
    "seed": 4,
    "backend_mode": "physx",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "lr_swap"
+     "interface": "lr_swap"
     }
+   },
+   "replay_ref": "go2:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_2da289ea91b4",
+   "platform": "go2",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "capture_not_canonicalized",
+    "params": {}
    },
    "replay_ref": "go2:4",
    "is_reference": false
@@ -199,13 +211,15 @@
    "is_reference": false
   },
   {
-   "capture_id": "h_b46f7de7949d",
+   "capture_id": "h_313f10aa4327",
    "platform": "go2",
    "seed": 4,
    "backend_mode": "newton",
    "fault": {
-    "family": "armature_dropped",
-    "params": {}
+    "family": "armature_mismatch",
+    "params": {
+     "armature": 0.02
+    }
    },
    "replay_ref": "go2:4",
    "is_reference": false
@@ -321,6 +335,72 @@
     }
    },
    "replay_ref": "go2:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_880beae1cff8",
+   "platform": "go2",
+   "seed": 5,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:5",
+   "is_reference": true
+  },
+  {
+   "capture_id": "h_32f018153520",
+   "platform": "go2",
+   "seed": 5,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:5",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_5cfb3b2c106c",
+   "platform": "go2",
+   "seed": 5,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:5",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_a5a32336a94b",
+   "platform": "go2",
+   "seed": 6,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:6",
+   "is_reference": true
+  },
+  {
+   "capture_id": "h_c2bea5e32387",
+   "platform": "go2",
+   "seed": 6,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:6",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_8ee394d1da54",
+   "platform": "go2",
+   "seed": 6,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "go2:6",
    "is_reference": false
   }
  ]

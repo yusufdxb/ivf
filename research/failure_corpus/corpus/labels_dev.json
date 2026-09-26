@@ -52,11 +52,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__go2__s3__cross__joint_order_obs_action",
+  "capture_id": "dev__go2__s3__cross__joint_order_interface",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "go2",
   "seed": 3,
@@ -70,11 +70,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__go2__s3__same__joint_order_obs_action",
+  "capture_id": "dev__go2__s3__same__joint_order_interface",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "go2",
   "seed": 3,
@@ -83,6 +83,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "dev",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "dev__go2__s3__cross__capture_not_canonicalized",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "dev",
   "variant": "dev"
@@ -216,11 +233,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__go2__s3__cross__armature_dropped",
+  "capture_id": "dev__go2__s3__cross__armature_mismatch",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "go2",
   "seed": 3,
@@ -412,11 +429,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__g1__s3__cross__joint_order_obs_action",
+  "capture_id": "dev__g1__s3__cross__joint_order_interface",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "g1",
   "seed": 3,
@@ -430,11 +447,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__g1__s3__same__joint_order_obs_action",
+  "capture_id": "dev__g1__s3__same__joint_order_interface",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "g1",
   "seed": 3,
@@ -443,6 +460,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "dev",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "dev__g1__s3__cross__capture_not_canonicalized",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "dev",
   "variant": "dev"
@@ -576,11 +610,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__g1__s3__cross__armature_dropped",
+  "capture_id": "dev__g1__s3__cross__armature_mismatch",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "g1",
   "seed": 3,
@@ -772,11 +806,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__h1__s3__cross__joint_order_obs_action",
+  "capture_id": "dev__h1__s3__cross__joint_order_interface",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "h1",
   "seed": 3,
@@ -790,11 +824,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__h1__s3__same__joint_order_obs_action",
+  "capture_id": "dev__h1__s3__same__joint_order_interface",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "h1",
   "seed": 3,
@@ -803,6 +837,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "dev",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "dev__h1__s3__cross__capture_not_canonicalized",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "dev",
   "variant": "dev"
@@ -936,11 +987,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "dev__h1__s3__cross__armature_dropped",
+  "capture_id": "dev__h1__s3__cross__armature_mismatch",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "h1",
   "seed": 3,

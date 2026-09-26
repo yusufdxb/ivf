@@ -1,0 +1,8 @@
+{
+ "task": "Isaac-Velocity-Flat-AnymalD",
+ "checkpoint": "anymal_d_flat/2026-09-26_02-25-37/model_299.pt",
+ "checkpoint_sha256": "defa41586f8359f3f94618fdd1113689ba5a106b4ca8512841998d2d7a4d8e51",
+ "policy_pt_sha256": "9ead92a86d0bdbf27e5083860cc0b6e90a1323e3443f8f25e2c948c253ad3119",
+ "trained_backend": "physx (default preset)",
+ "seed": 42
+}

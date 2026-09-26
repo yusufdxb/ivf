@@ -7,10 +7,16 @@ Research tooling, not part of IVF. Like ``adapters/parity_capture`` it writes th
 ``trajectory_bundle/v1`` file format directly and never imports IVF, so IVF is judged
 through the same file boundary it was designed around.
 
-Producer rule (pre-registered): every contract field is read from the live environment
-at runtime, never from the case label. The case label (fault family, category, whether a
-defect is present) is written ONLY to ``case_label.json`` beside the bundle, outside the
-bundle directory, so neither IVF nor any baseline can read it.
+Producer rules (pre-registered, amended by deviations D1-D4 before any fault case ran):
+
+* Every contract field is read from the live environment at runtime, never from the case
+  label. Labels live outside the bundle, so neither IVF nor any baseline can read them.
+* Joint order. PhysX and Newton/MJWarp enumerate joints differently in this Isaac Lab
+  checkout (breadth-first vs per-limb depth-first) and the checkout has no ordering remap.
+  The policy was trained on PhysX, so its *canonical* order is the PhysX order. A correct
+  experiment remaps canonical <-> native at the policy interface and records every joint
+  array in canonical order, declaring that order in ``task.joint_names``. Joint-order
+  fault families break exactly one of those two steps.
 
 One Kit process runs a *plan*: an ordered list of capture jobs for one platform. Each job
 builds the env, runs an open-loop replay capture (the IVF protocol) and a closed-loop
@@ -24,13 +30,14 @@ Usage (inside the Isaac Lab interpreter):
 from __future__ import annotations
 
 import argparse
+import datetime as _dt
 import hashlib
 import json
-import math
 import platform as _platform
 import sys
 import time
 import traceback
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -42,15 +49,19 @@ TASKS = {
     "h1": "Isaac-Velocity-Flat-H1",
     "anymal_d": "Isaac-Velocity-Flat-AnymalD",
 }
-# Base body used for the fall/termination signal, matching each task's base_contact term.
+# Body watched by each task's base_contact termination term.
 BASE_BODY = {"go2": "base", "g1": "torso_link", "h1": "torso_link", "anymal_d": "base"}
-# Height below which the base is considered fallen (about 45-55% of nominal standing height).
-FALL_HEIGHT = {"go2": 0.15, "g1": 0.40, "h1": 0.50, "anymal_d": 0.30}
+# Actuator armature the policies were trained with (PhysX resolved value). Only GO2 has a
+# backend-conditioned armature preset in this checkout (0.0 PhysX / 0.02 Newton); the
+# controlled protocol pins it to the training value on both backends.
+PINNED_ARMATURE = {"go2": 0.0}
 
 OPEN_LOOP_ENVS = 16
 OPEN_LOOP_STEPS = 250          # control steps (5 s at 50 Hz)
 CLOSED_LOOP_ENVS = 64
 CLOSED_LOOP_STEPS = 1000       # control steps (20 s at 50 Hz, one default episode)
+JOINT_OBS_TERMS = ("joint_pos", "joint_vel", "actions")
+PRODUCER = {"name": "ivf-failure-corpus-capture", "version": "0.2.0"}
 
 
 # ----------------------------------------------------------------------------------------
@@ -94,7 +105,7 @@ def command_schedule(num_envs: int) -> np.ndarray:
 
 
 def requested_initial_state(num_joints: int, num_envs: int, seed: int) -> dict[str, np.ndarray]:
-    """Requested reset state: small seeded joint offsets and a forward base velocity."""
+    """Requested reset state in canonical joint order: seeded joint offsets, forward velocity."""
     rng = np.random.default_rng(10_000 + seed)
     return {
         "joint_offset": rng.uniform(-0.05, 0.05, size=(num_envs, num_joints)).astype(np.float32),
@@ -103,20 +114,32 @@ def requested_initial_state(num_joints: int, num_envs: int, seed: int) -> dict[s
     }
 
 
+def lr_swapped(names: list[str]) -> list[str]:
+    """``names`` with every left/right (FL/FR, RL/RR, LF/RF, LH/RH) pair exchanged."""
+    swap = {"left": "right", "right": "left", "FL": "FR", "FR": "FL", "RL": "RR", "RR": "RL",
+            "LF": "RF", "RF": "LF", "LH": "RH", "RH": "LH"}
+    out = []
+    for name in names:
+        other = name
+        for a, b in swap.items():
+            if name.startswith(a):
+                other = b + name[len(a):]
+                break
+        out.append(other if other in names else name)
+    return out
+
+
 # ----------------------------------------------------------------------------------------
-# config construction and fault injection (cfg-level)
+# config construction and cfg-level fault injection
 # ----------------------------------------------------------------------------------------
 
 def build_cfg(platform: str, backend_mode: str, num_envs: int, seed: int):
     """Return a resolved env cfg for the requested backend path.
 
-    ``backend_mode``:
-      * ``physx``: stock default preset.
-      * ``newton``: raw registry cfg resolved with ``newton_mjwarp`` selected (the path the
-        upstream smoke test uses after PR #7103).
-      * ``newton_via_pre7103_test_path``: the pre-#7103 smoke-test path, verbatim: parse the
-        cfg (which resolves presets to default) and then apply ``newton_mjwarp`` as a global
-        override afterwards.
+    ``physx``: stock default preset. ``newton``: raw registry cfg resolved with
+    ``newton_mjwarp`` selected (the upstream smoke-test path after PR #7103).
+    ``newton_via_pre7103_test_path``: the pre-#7103 smoke-test path verbatim (parse, which
+    resolves presets to default, then apply ``newton_mjwarp`` as a global override).
     """
     from isaaclab_tasks.utils.hydra import apply_overrides, collect_presets, resolve_presets
     from isaaclab_tasks.utils.parse_cfg import load_cfg_from_registry, parse_env_cfg
@@ -140,18 +163,22 @@ def build_cfg(platform: str, backend_mode: str, num_envs: int, seed: int):
     return cfg
 
 
-def controlled_cfg(cfg, *, mode: str) -> None:
-    """Apply the controlled evaluation protocol shared by every job (clean and faulty).
+def controlled_cfg(cfg, platform: str, *, mode: str) -> None:
+    """Controlled evaluation protocol shared by every job, clean and faulty.
 
-    PLAY-style: observation noise off, pushes off, random startup mass/COM off, fixed
-    command schedule. Open-loop additionally removes auto-reset terminations so trajectories
-    stay aligned (the termination condition is still evaluated and recorded).
+    PLAY-style: observation noise off, pushes off, random startup mass/COM off, armature
+    pinned to the training value, fixed command schedule. Open-loop additionally removes
+    auto-reset terminations so trajectories stay aligned (the termination condition is still
+    evaluated and recorded).
     """
     cfg.observations.policy.enable_corruption = False
     ev = cfg.events
     for name in ("push_robot", "base_external_force_torque", "add_base_mass", "base_com"):
         if hasattr(ev, name):
             setattr(ev, name, None)
+    if platform in PINNED_ARMATURE:
+        for a in cfg.scene.robot.actuators.values():
+            a.armature = PINNED_ARMATURE[platform]
     cmd = cfg.commands.base_velocity
     cmd.resampling_time_range = (1.0e9, 1.0e9)
     cmd.heading_command = False
@@ -164,47 +191,40 @@ def controlled_cfg(cfg, *, mode: str) -> None:
         cfg.terminations.base_contact = None
 
 
-def _actuators(cfg):
-    return cfg.scene.robot.actuators
+def _scale(value, factor):
+    if isinstance(value, dict):
+        return {k: v * factor for k, v in value.items()}
+    return None if value is None else value * factor
 
 
-def apply_cfg_fault(cfg, fault: dict[str, Any], *, mode: str) -> None:
+RUNTIME_FAMILIES = {"none", "termination_body_mismatch", "joint_order_interface", "capture_not_canonicalized",
+                    "obs_term_swap", "reset_velocity_dropped", "reset_joint_offsets_ignored", "preset_not_applied"}
+
+
+def apply_cfg_fault(cfg, platform: str, fault: dict[str, Any]) -> None:
     """Mutate the env cfg for cfg-level fault families. Runtime families are no-ops here."""
     fam, p = fault.get("family", "none"), fault.get("params", {})
-    if fam == "timestep_substeps":
-        # Newton-only knob: physics substeps per sim.dt. sim.dt and decimation unchanged.
-        cfg.sim.physics.num_substeps = int(p["num_substeps"])
-    elif fam == "timestep_dt_decimation":
+    if fam == "timestep_dt_decimation":
         cfg.sim.dt = float(p["dt"])
         cfg.decimation = int(p["decimation"])
         cfg.sim.render_interval = cfg.decimation
     elif fam == "actuator_gain_scale":
-        for a in _actuators(cfg).values():
-            if isinstance(a.stiffness, dict):
-                a.stiffness = {k: v * p["stiffness_scale"] for k, v in a.stiffness.items()}
-            elif a.stiffness is not None:
-                a.stiffness = a.stiffness * p["stiffness_scale"]
-            if isinstance(a.damping, dict):
-                a.damping = {k: v * p["damping_scale"] for k, v in a.damping.items()}
-            elif a.damping is not None:
-                a.damping = a.damping * p["damping_scale"]
-    elif fam == "armature_dropped":
-        for a in _actuators(cfg).values():
-            a.armature = 0.0
+        for a in cfg.scene.robot.actuators.values():
+            a.stiffness = _scale(a.stiffness, p["stiffness_scale"])
+            a.damping = _scale(a.damping, p["damping_scale"])
+    elif fam == "armature_mismatch":
+        for a in cfg.scene.robot.actuators.values():
+            a.armature = float(p["armature"])
     elif fam == "contact_capacity":
         cfg.sim.physics.solver_cfg.nconmax = int(p["nconmax"])
         cfg.sim.physics.solver_cfg.njmax = int(p["njmax"])
-    elif fam == "action_scale":
-        cfg.actions.joint_pos.scale = float(p["scale"])
-    elif fam == "obs_term_scale":
-        term = getattr(cfg.observations.policy, p["term"])
-        term.scale = float(p["scale"])
     elif fam == "benign_capacity":
         sc = cfg.sim.physics.solver_cfg
         sc.nconmax = int(sc.nconmax * p["factor"])
         sc.njmax = int(sc.njmax * p["factor"])
+    elif fam == "action_scale":
+        cfg.actions.joint_pos.scale = float(p["scale"])
     elif fam == "randomization_asymmetry":
-        # re-enable a startup randomization that the controlled protocol removes
         import isaaclab_tasks.core.velocity.mdp as mdp
         from isaaclab.managers import EventTermCfg as EventTerm
         from isaaclab.managers import SceneEntityCfg
@@ -213,20 +233,8 @@ def apply_cfg_fault(cfg, fault: dict[str, Any], *, mode: str) -> None:
             params={"asset_cfg": SceneEntityCfg("robot", body_names=p["body"]),
                     "mass_distribution_params": tuple(p["mass_range"]), "operation": "scale",
                     "distribution": "log_uniform"})
-    elif fam in ("none", "termination_body_mismatch", "joint_order_action", "joint_order_obs_action", "obs_term_swap",
-                 "reset_velocity_dropped", "reset_joint_offsets_ignored", "preset_not_applied",
-                 "physx_only_setting"):
-        pass
-    else:
+    elif fam not in RUNTIME_FAMILIES:
         raise ValueError(f"unknown fault family {fam!r}")
-
-
-def apply_physx_only_setting(cfg, fault) -> None:
-    """Set a PhysX articulation-solver field that the Newton backend does not consume."""
-    p = fault.get("params", {})
-    props = cfg.scene.robot.spawn.articulation_props
-    props.solver_position_iteration_count = int(p["pos_iters"])
-    props.solver_velocity_iteration_count = int(p["vel_iters"])
 
 
 # ----------------------------------------------------------------------------------------
@@ -238,37 +246,53 @@ def t(x):
     return x.torch if hasattr(x, "torch") else x
 
 
-def joint_permutation(joint_names: list[str], kind: str) -> list[int]:
-    """Index permutation modelling a documented ordering mismatch.
+class JointMap:
+    """Canonical <-> native joint indexing for one live env and one fault.
 
-    ``per_limb``: the policy's action vector (Isaac breadth-first order) is interpreted
-    in a depth-first, per-limb order (the MJCF/URDF convention used by MuJoCo deployments).
-    ``lr_swap``: left/right (or FL/FR, RL/RR) swapped.
-    Returns ``perm`` such that the candidate applies ``a[perm]`` where it should apply ``a``.
+    ``iface``: native index the policy interface uses for canonical slot i (correct = the
+    joint with the same name; faults substitute another order). ``rec``: native index
+    recorded in canonical slot i (correct = same name; ``capture_not_canonicalized``
+    records native order and declares native names instead).
     """
-    n = len(joint_names)
-    if kind == "per_limb":
-        def limb_key(name: str):
-            for tag_i, tag in enumerate(("FL", "FR", "RL", "RR", "LF", "RF", "LH", "RH")):
-                if name.startswith(tag + "_") or name.startswith(tag):
-                    return (tag_i, name)
-            side = 0 if name.startswith("left") else 1 if name.startswith("right") else 2
-            return (10 + side, name)
-        depth_first = sorted(range(n), key=lambda i: limb_key(joint_names[i]))
-        return depth_first
-    if kind == "lr_swap":
-        swap = {"left": "right", "right": "left", "FL": "FR", "FR": "FL", "RL": "RR", "RR": "RL",
-                "LF": "RF", "RF": "LF", "LH": "RH", "RH": "LH"}
-        perm = []
-        for name in joint_names:
-            other = name
-            for a, b in swap.items():
-                if name.startswith(a):
-                    other = b + name[len(a):]
-                    break
-            perm.append(joint_names.index(other) if other in joint_names else joint_names.index(name))
-        return perm
-    raise ValueError(kind)
+
+    def __init__(self, native: list[str], orders: dict[str, list[str]], fault: dict[str, Any]):
+        canon = orders["physx"]
+        fam, p = fault.get("family", "none"), fault.get("params", {})
+        iface_names = canon
+        if fam == "joint_order_interface":
+            kind = p["interface"]
+            if kind == "native":            # no remap: canonical slot i drives native joint i
+                iface_names = list(native)
+            elif kind == "newton_order":    # deployment assumes the Newton enumeration
+                iface_names = orders["newton"]
+            elif kind == "lr_swap":         # remap table with left/right exchanged
+                iface_names = lr_swapped(canon)
+            else:
+                raise ValueError(kind)
+        self.iface = [native.index(n) for n in iface_names]
+        self.correct = [native.index(n) for n in canon]
+        if fam == "capture_not_canonicalized":
+            self.rec = list(range(len(native)))
+            self.recorded_names = list(native)
+        else:
+            self.rec = self.correct
+            self.recorded_names = list(canon)
+
+    def action_to_native(self, a_canon):
+        out = a_canon.clone()
+        out[:, self.iface] = a_canon
+        return out
+
+    def obs_to_policy(self, obs, slices):
+        o = obs.clone()
+        for term in JOINT_OBS_TERMS:
+            if term in slices:
+                s = slices[term]
+                o[:, s] = obs[:, s][:, self.iface]
+        return o
+
+    def record(self, x):
+        return x[..., self.rec]
 
 
 def pin_commands(env, schedule_np: np.ndarray) -> None:
@@ -285,64 +309,46 @@ def pin_commands(env, schedule_np: np.ndarray) -> None:
 
 def obs_term_slices(env) -> dict[str, slice]:
     mgr = env.observation_manager
-    names = mgr.active_terms["policy"]
-    dims = mgr.group_obs_term_dim["policy"]
     out, start = {}, 0
-    for n, d in zip(names, dims):
+    for n, d in zip(mgr.active_terms["policy"], mgr.group_obs_term_dim["policy"]):
         width = int(np.prod(d))
         out[n] = slice(start, start + width)
         start += width
     return out
 
 
-def transform_obs(obs, fault, slices, perm_idx):
-    """Runtime observation faults: what the *policy* is fed in the candidate."""
-    fam, p = fault.get("family", "none"), fault.get("params", {})
-    if fam == "joint_order_obs_action":
-        o = obs.clone()
-        for term in ("joint_pos", "joint_vel", "actions"):
-            if term in slices:
-                s = slices[term]
-                o[:, s] = obs[:, s][:, perm_idx]
-        return o
-    if fam == "obs_term_swap":
+def policy_obs(obs, fault, slices, jmap: JointMap):
+    """What the policy is fed: joint remap (possibly faulty), then observation-term faults."""
+    o = jmap.obs_to_policy(obs, slices)
+    if fault.get("family") == "obs_term_swap":
+        p = fault["params"]
         a, b = slices[p["a"]], slices[p["b"]]
-        o = obs.clone()
-        o[:, a], o[:, b] = obs[:, b], obs[:, a]
-        return o
-    return obs
-
-
-def transform_action(action, fault, perm_idx):
-    fam = fault.get("family", "none")
-    if fam in ("joint_order_action", "joint_order_obs_action"):
-        return action[:, perm_idx]
-    return action
+        oa, ob = o[:, a].clone(), o[:, b].clone()
+        o[:, a], o[:, b] = ob, oa
+    return o
 
 
 def physics_identity(env) -> dict[str, Any]:
-    sim = env.sim
-    physics_cfg = sim.cfg.physics
+    physics_cfg = env.sim.cfg.physics
     try:
         settings = json.loads(json.dumps(physics_cfg.to_dict(), default=str, sort_keys=True))
     except Exception as exc:  # pragma: no cover
         settings = {"unavailable": str(exc)}
-    manager = str(sim.physics_manager)
+    manager = str(env.sim.physics_manager)
     backend = "newton" if "newton" in manager.lower() else "physx" if "physx" in manager.lower() else manager
     return {"backend": backend, "manager": manager, "cfg_class": type(physics_cfg).__name__,
             "solver_settings": {"manager": manager, "cfg_class": type(physics_cfg).__name__, **settings}}
 
 
 def full_cfg_digest(env) -> str:
-    """Digest of the resolved env cfg with the physics subtree and sensor classes removed.
+    """Digest of the resolved env cfg with the physics subtree and sensor class removed.
 
     Used only by the pre-registered 'rich identity' producer ablation.
     """
     d = env.cfg.to_dict()
     d.get("sim", {}).pop("physics", None)
     d.pop("seed", None)
-    scene = d.get("scene", {})
-    cs = scene.get("contact_forces")
+    cs = d.get("scene", {}).get("contact_forces")
     if isinstance(cs, dict):
         cs.pop("class_type", None)
     return sha256_json(d)
@@ -357,7 +363,7 @@ def software_versions() -> dict[str, Any]:
             out[pkg] = md.version(pkg)
         except Exception:
             continue
-    out["source_commits"] = {"corpus_capture": {"status": "see research/failure_corpus provenance"}}
+    out["source_commits"] = {"isaaclab": {"status": "recorded in research/failure_corpus/provenance"}}
     return out
 
 
@@ -370,34 +376,35 @@ def hardware() -> dict[str, Any]:
             "driver": drv[0] if drv else "unavailable", "platform": "Linux"}
 
 
-# ----------------------------------------------------------------------------------------
-# one job
-# ----------------------------------------------------------------------------------------
-
 def make_env(job: dict[str, Any], mode: str):
     import gymnasium as gym
     import isaaclab.sim as sim_utils
 
     platform, fault = job["platform"], job.get("fault", {"family": "none"})
-    backend_mode = job["backend_mode"]
     n = OPEN_LOOP_ENVS if mode == "open_loop" else CLOSED_LOOP_ENVS
     sim_utils.create_new_stage()
-    cfg = build_cfg(platform, backend_mode, n, job["seed"])
-    controlled_cfg(cfg, mode=mode)
-    apply_cfg_fault(cfg, fault, mode=mode)
-    if fault.get("family") == "physx_only_setting":
-        apply_physx_only_setting(cfg, fault)
+    cfg = build_cfg(platform, job["backend_mode"], n, job["seed"])
+    controlled_cfg(cfg, platform, mode=mode)
+    apply_cfg_fault(cfg, platform, fault)
     env = gym.make(TASKS[platform], cfg=cfg)
     env.unwrapped.sim._app_control_on_stop_handle = None
     return env
 
 
+def close_env(env):
+    from isaaclab.sim import SimulationContext
+    try:
+        if env is not None:
+            env.close()
+    finally:
+        SimulationContext.clear_instance()
+
+
 def wrong_termination_body(u, fault) -> str | None:
-    """Contact-sensor body name at the configured wrong index (index-based body mismatch)."""
+    """Contact-sensor body at the configured wrong index (index-based body mismatch)."""
     if fault.get("family") != "termination_body_mismatch":
         return None
-    names = list(u.scene["contact_forces"].body_names)
-    return names[int(fault["params"]["body_index"])]
+    return list(u.scene["contact_forces"].body_names)[int(fault["params"]["body_index"])]
 
 
 def retarget_termination(u, fault) -> None:
@@ -414,25 +421,32 @@ def retarget_termination(u, fault) -> None:
     u.termination_manager.set_term_cfg("base_contact", tc)
 
 
-def close_env(env):
-    from isaaclab.sim import SimulationContext
-    try:
-        if env is not None:
-            env.close()
-    finally:
-        SimulationContext.clear_instance()
+def illegal_contact(u, platform: str, fault: dict[str, Any]):
+    """Evaluate the task's base-contact termination condition as configured for this run."""
+    import re as _re
+    import torch
+    sensor = u.scene["contact_forces"]
+    wrong = wrong_termination_body(u, fault)
+    body_regex = _re.escape(wrong) if wrong is not None else BASE_BODY[platform]
+    ids, _ = sensor.find_bodies(body_regex)
+    hist = t(sensor.data.net_forces_w_history)
+    if len(ids) == 0:
+        force = torch.zeros(hist.shape[0], device=hist.device)
+    else:
+        force = torch.max(torch.norm(hist[:, :, ids], dim=-1), dim=1)[0].max(dim=1)[0]
+    return force, (force > 1.0).float()
 
 
-def write_reset(u, req: dict[str, np.ndarray], fault: dict[str, Any]) -> dict[str, Any]:
+def write_reset(u, req: dict[str, np.ndarray], fault: dict[str, Any], jmap: JointMap) -> dict[str, Any]:
     """Write the requested initial state; reset-family faults change what is *applied*."""
     import torch
     robot = u.scene["robot"]
     dev = u.device
     fam = fault.get("family", "none")
     jpos = t(robot.data.default_joint_pos).clone()
-    jvel = torch.zeros_like(jpos)
-    req_off = torch.as_tensor(req["joint_offset"], device=dev)
-    req_jpos = jpos + req_off
+    off_native = torch.zeros_like(jpos)
+    off_native[:, jmap.correct] = torch.as_tensor(req["joint_offset"], device=dev)
+    req_jpos = jpos + off_native
     applied_jpos = jpos.clone() if fam == "reset_joint_offsets_ignored" else req_jpos
     root = t(robot.data.default_root_state).clone()
     root[:, :3] += u.scene.env_origins
@@ -441,36 +455,29 @@ def write_reset(u, req: dict[str, np.ndarray], fault: dict[str, Any]) -> dict[st
     applied_vel = torch.zeros_like(req_vel) if fam == "reset_velocity_dropped" else req_vel
     robot.write_root_pose_to_sim(root[:, :7])
     robot.write_root_velocity_to_sim(applied_vel)
-    robot.write_joint_state_to_sim(applied_jpos, jvel)
+    robot.write_joint_state_to_sim(applied_jpos, torch.zeros_like(jpos))
     u.scene.write_data_to_sim()
     return {
-        "requested_joint_pos_offset_digest": sha256_json(req["joint_offset"].round(7).tolist()),
-        "applied_joint_pos_digest": sha256_json(applied_jpos.cpu().numpy().round(7).tolist()),
-        "requested_root_vel": req_vel[0].cpu().tolist(),
-        "applied_root_vel": applied_vel[0].cpu().tolist(),
+        "requested_joint_offset_digest": sha256_json(req["joint_offset"].round(7).tolist()),
+        "requested_root_vel_env0": req_vel[0].cpu().tolist(),
     }
 
 
-def illegal_contact(u, platform: str, fault: dict[str, Any]) -> tuple[Any, Any]:
-    """Evaluate the task's base-contact termination as configured for this candidate."""
-    import torch
-    sensor = u.scene["contact_forces"]
-    body_regex = BASE_BODY[platform]
-    threshold = 1.0
-    wrong = wrong_termination_body(u, fault)
-    if wrong is not None:
-        import re as _re
-        body_regex = _re.escape(wrong)
-    ids, _ = sensor.find_bodies(body_regex)
-    hist = t(sensor.data.net_forces_w_history)
-    if len(ids) == 0:
-        force = torch.zeros(hist.shape[0], device=hist.device)
-    else:
-        force = torch.max(torch.norm(hist[:, :, ids], dim=-1), dim=1)[0].max(dim=1)[0]
-    return force, (force > threshold).float()
+# ----------------------------------------------------------------------------------------
+# the two protocols
+# ----------------------------------------------------------------------------------------
+
+UNITS = {"joint_pos": "rad", "joint_vel": "rad/s", "joint_pos_target": "rad", "root_link_pos_w": "m",
+         "root_link_quat_w": "dimensionless", "root_lin_vel_b": "m/s", "root_ang_vel_b": "rad/s",
+         "base_height": "m", "upright": "dimensionless", "policy_obs": "dimensionless",
+         "base_contact_force": "N", "illegal_contact": "dimensionless"}
+FRAMES = {"joint_pos": "joint", "joint_vel": "joint", "joint_pos_target": "joint", "root_link_pos_w": "world",
+          "root_link_quat_w": "world", "root_lin_vel_b": "base", "root_ang_vel_b": "base",
+          "base_height": "world", "upright": "base", "policy_obs": "policy",
+          "base_contact_force": "world", "illegal_contact": "event"}
 
 
-def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy) -> dict[str, Any]:
+def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy, orders) -> dict[str, Any]:
     import torch
     platform, fault = job["platform"], job.get("fault", {"family": "none"})
     env = make_env(job, "open_loop")
@@ -478,44 +485,40 @@ def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy)
         u = env.unwrapped
         robot = u.scene["robot"]
         ident = physics_identity(u)
-        joint_names = list(robot.joint_names)
-        nj = len(joint_names)
-        n = OPEN_LOOP_ENVS
+        jmap = JointMap(list(robot.joint_names), orders, fault)
+        nj, n, S = len(robot.joint_names), OPEN_LOOP_ENVS, OPEN_LOOP_STEPS
         pin_commands(u, command_schedule(n))
-        obs, _ = env.reset()
+        retarget_termination(u, fault)
+        env.reset()
         req = requested_initial_state(nj, n, job["seed"])
-        reset_info = write_reset(u, req, fault)
+        reset_info = write_reset(u, req, fault, jmap)
         obs = u.observation_manager.compute()
         slices = obs_term_slices(u)
-        perm_kind = fault.get("params", {}).get("perm", "per_limb")
-        perm_idx = joint_permutation(joint_names, perm_kind)
-        base_ids, _ = robot.find_bodies(BASE_BODY[platform])
+        base_ids, _ = robot.find_bodies(BASE_BODY[platform] if platform in ("go2", "anymal_d") else "pelvis")
 
-        S = OPEN_LOOP_STEPS
-        rec = {k: [] for k in ("joint_pos", "joint_vel", "joint_pos_target", "root_link_pos_w",
-                               "root_link_quat_w", "root_lin_vel_b", "root_ang_vel_b", "base_height",
-                               "policy_obs", "base_contact_force", "illegal_contact")}
+        rec: dict[str, list] = {k: [] for k in UNITS}
         actions_out = np.zeros((S, n, nj), dtype=np.float32)
         finite = True
         for step in range(S):
             if replay_actions is not None:
                 a = torch.as_tensor(replay_actions[step], device=u.device)
-            else:  # reference job: generate the stream from the policy on clean observations
+            else:  # reference job: generate the stream from the policy
                 with torch.inference_mode():
-                    a = policy(obs["policy"])
+                    a = policy(policy_obs(obs["policy"], fault, slices, jmap))
             actions_out[step] = a.detach().cpu().numpy()
-            obs, rew, term, trunc, _ = env.step(transform_action(a, fault, perm_idx))
+            obs, rew, term, trunc, _ = env.step(jmap.action_to_native(a))
             finite = finite and bool(torch.isfinite(obs["policy"]).all() and torch.isfinite(rew).all())
-            rec["joint_pos"].append(t(robot.data.joint_pos).cpu().numpy())
-            rec["joint_vel"].append(t(robot.data.joint_vel).cpu().numpy())
-            rec["joint_pos_target"].append(t(robot.data.joint_pos_target).cpu().numpy())
+            rec["joint_pos"].append(jmap.record(t(robot.data.joint_pos)).cpu().numpy())
+            rec["joint_vel"].append(jmap.record(t(robot.data.joint_vel)).cpu().numpy())
+            rec["joint_pos_target"].append(jmap.record(t(robot.data.joint_pos_target)).cpu().numpy())
             rec["root_link_pos_w"].append(t(robot.data.root_link_pos_w).cpu().numpy())
             rec["root_link_quat_w"].append(t(robot.data.root_link_quat_w).cpu().numpy())
             rec["root_lin_vel_b"].append(t(robot.data.root_lin_vel_b).cpu().numpy())
             rec["root_ang_vel_b"].append(t(robot.data.root_ang_vel_b).cpu().numpy())
             z = t(robot.data.body_link_pos_w)[:, base_ids[0], 2] - u.scene.env_origins[:, 2]
             rec["base_height"].append(z.cpu().numpy()[:, None])
-            rec["policy_obs"].append(transform_obs(obs["policy"], fault, slices, perm_idx).cpu().numpy())
+            rec["upright"].append((-t(robot.data.projected_gravity_b)[:, 2]).cpu().numpy()[:, None])
+            rec["policy_obs"].append(policy_obs(obs["policy"], fault, slices, jmap).cpu().numpy())
             force, flag = illegal_contact(u, platform, fault)
             rec["base_contact_force"].append(force.cpu().numpy()[:, None])
             rec["illegal_contact"].append(flag.cpu().numpy()[:, None])
@@ -523,7 +526,7 @@ def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy)
         timing = {"physics_dt": float(u.physics_dt), "control_dt": float(u.step_dt),
                   "decimation": int(u.cfg.decimation)}
         full_digest = full_cfg_digest(u)
-        preset_path_note = job["backend_mode"]
+        recorded_names = jmap.recorded_names
     finally:
         close_env(env)
 
@@ -531,19 +534,14 @@ def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy)
                 "seed": job["seed"], "command_schedule": command_schedule(n).tolist(),
                 "requested_initial_state": {k: v.round(7).tolist() for k, v in req.items()},
                 "action_stream": job.get("replay_ref", "self")}
-    units = {"joint_pos": "rad", "joint_vel": "rad/s", "joint_pos_target": "rad",
-             "root_link_pos_w": "m", "root_link_quat_w": "dimensionless", "root_lin_vel_b": "m/s",
-             "root_ang_vel_b": "rad/s", "base_height": "m", "policy_obs": "dimensionless",
-             "base_contact_force": "N", "illegal_contact": "dimensionless"}
-    frames = {"joint_pos": "joint", "joint_vel": "joint", "joint_pos_target": "joint",
-              "root_link_pos_w": "world", "root_link_quat_w": "world", "root_lin_vel_b": "base",
-              "root_ang_vel_b": "base", "base_height": "world", "policy_obs": "policy",
-              "base_contact_force": "world", "illegal_contact": "event"}
     contract = {
         "schema": "trajectory_bundle/v1", "run_status": "completed",
         "declared_steps": S, "captured_steps": S,
+        "capture": {"capture_id": str(uuid.uuid4()),
+                    "created_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+                    "producer": PRODUCER},
         "task": {"id": f"{platform}_velocity_flat_open_loop", "variant": TASKS[platform],
-                 "config_digest_sha256": sha256_json(identity), "joint_names": joint_names,
+                 "config_digest_sha256": sha256_json(identity), "joint_names": recorded_names,
                  "full_cfg_digest_sha256": full_digest,
                  "asset": {"id": f"isaaclab_assets:{platform}", "source_uri": "isaaclab nucleus",
                            "binary_identity": "unverifiable"}},
@@ -564,12 +562,11 @@ def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy)
                   "initial_state_digest": sha256_json(identity["requested_initial_state"]),
                   "initial_state": reset_info, "applied_before_step": 0, "randomized_fields": []},
         "termination": {"declared": True, "signal": "illegal_contact",
-                        "condition": "illegal_contact > 0.5 (base contact force above threshold)",
+                        "condition": "illegal_contact > 0.5 (base contact force above 1 N)",
                         "on_termination": "no_auto_reset (the rollout continues so trajectories stay aligned)"},
-        "arrays": {k: {"shape": list(a.shape), "dtype": a.dtype.name, "unit": units[k], "frame": frames[k],
-                       "semantics": f"captured post_env_step; joint order {joint_names}"}
+        "arrays": {k: {"shape": list(a.shape), "dtype": a.dtype.name, "unit": UNITS[k], "frame": FRAMES[k],
+                       "semantics": f"captured post_env_step; joint order {recorded_names}"}
                    for k, a in arrays.items()},
-        "producer_notes": {"backend_mode": preset_path_note},
     }
     bundle = out_dir / "bundle"
     bundle.mkdir(parents=True, exist_ok=True)
@@ -583,7 +580,7 @@ def run_open_loop(job, out_dir: Path, replay_actions: np.ndarray | None, policy)
             "actions": actions_out, "physics": ident, "timing": timing}
 
 
-def run_closed_loop(job, policy) -> dict[str, Any]:
+def run_closed_loop(job, policy, orders) -> dict[str, Any]:
     """Conventional sim-to-sim evaluation: run the policy with the env's own resets."""
     import torch
     platform, fault = job["platform"], job.get("fault", {"family": "none"})
@@ -597,23 +594,26 @@ def run_closed_loop(job, policy) -> dict[str, Any]:
         retarget_termination(u, fault)
         obs, _ = env.reset()
         slices = obs_term_slices(u)
-        perm_idx = joint_permutation(list(robot.joint_names), fault.get("params", {}).get("perm", "per_limb"))
+        jmap = JointMap(list(robot.joint_names), orders, fault)
         ret = torch.zeros(n, device=u.device)
         falls = torch.zeros(n, device=u.device)
+        tilted = torch.zeros(n, device=u.device)
         track_err, finite = [], True
         cmd = torch.as_tensor(sched, device=u.device)
         for _ in range(CLOSED_LOOP_STEPS):
             with torch.inference_mode():
-                a = policy(transform_obs(obs["policy"], fault, slices, perm_idx))
-            obs, rew, term, trunc, _ = env.step(transform_action(a, fault, perm_idx))
+                a = policy(policy_obs(obs["policy"], fault, slices, jmap))
+            obs, rew, term, trunc, _ = env.step(jmap.action_to_native(a))
             finite = finite and bool(torch.isfinite(obs["policy"]).all() and torch.isfinite(rew).all())
             ret += rew
-            falls += (term & ~trunc).float() if term.dtype == torch.bool else term.float()
+            falls += (term & ~trunc).float()
+            tilted += (-t(robot.data.projected_gravity_b)[:, 2] < 0.5).float()
             v = t(robot.data.root_lin_vel_b)[:, :2]
             track_err.append(torch.linalg.norm(v - cmd[:, :2], dim=-1).mean().item())
         result = {
             "mean_return_per_env": float(ret.mean().item()),
             "fall_terminations_per_env": float(falls.mean().item()),
+            "tilted_fraction": float((tilted / CLOSED_LOOP_STEPS).mean().item()),
             "mean_tracking_error": float(np.mean(track_err)),
             "finite": finite,
             "physics": physics_identity(u),
@@ -643,13 +643,13 @@ def main() -> int:
     plan = json.loads(Path(args.plan).read_text())
     out_root = Path(args.out)
     policy = load_policy(plan["policy"])
+    orders = json.loads((Path(plan["policy"]).parent / "joint_orders.json").read_text())
     replay_cache: dict[str, np.ndarray] = {}
     for job in plan["jobs"]:
         jdir = out_root / job["capture_id"]
         if (jdir / "bundle" / "COMPLETE").exists() and (jdir / "result.json").exists():
-            prev = json.loads((jdir / "result.json").read_text())
-            if prev.get("replay_ref_key"):
-                replay_cache[prev["replay_ref_key"]] = np.load(jdir / "reference_actions.npy")
+            if job.get("is_reference"):
+                replay_cache[job["replay_ref"]] = np.load(jdir / "reference_actions.npy")
             print(f"[corpus] skip existing {job['capture_id']}", flush=True)
             continue
         jdir.mkdir(parents=True, exist_ok=True)
@@ -657,15 +657,14 @@ def main() -> int:
         result: dict[str, Any] = {"capture_id": job["capture_id"], "native": {}}
         try:
             ref_key = job.get("replay_ref")
-            replay = replay_cache.get(ref_key) if ref_key else None
-            if ref_key and replay is None and not job.get("is_reference"):
+            replay = None if job.get("is_reference") else replay_cache.get(ref_key)
+            if not job.get("is_reference") and replay is None:
                 raise RuntimeError(f"reference stream {ref_key} not available")
-            ol = run_open_loop(job, jdir, None if job.get("is_reference") else replay, policy)
+            ol = run_open_loop(job, jdir, replay, policy, orders)
             if job.get("is_reference"):
                 np.save(jdir / "reference_actions.npy", ol["actions"])
-                replay_cache[job["replay_ref"]] = ol["actions"]
-                result["replay_ref_key"] = job["replay_ref"]
-            cl = run_closed_loop(job, policy)
+                replay_cache[ref_key] = ol["actions"]
+            cl = run_closed_loop(job, policy, orders)
             result.update({
                 "bundle": ol["bundle"], "bundle_sha256": ol["bundle_sha256"],
                 "open_loop_physics": ol["physics"], "timing": ol["timing"],

@@ -52,11 +52,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "h_026e2a9aa98d",
+  "capture_id": "h_7fe1899d5980",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "anymal_d",
   "seed": 3,
@@ -70,11 +70,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "h_d7156d520270",
+  "capture_id": "h_f13d12e46f09",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "anymal_d",
   "seed": 3,
@@ -83,6 +83,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_ae3a25556d3c",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 3,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "holdout",
   "variant": "dev"
@@ -216,11 +233,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "h_f9264a64c6dc",
+  "capture_id": "h_770b19122f47",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "anymal_d",
   "seed": 3,
@@ -412,11 +429,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "h_47b342dcbd0e",
+  "capture_id": "h_479044e982d9",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "anymal_d",
   "seed": 4,
@@ -430,11 +447,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "h_62fec0c3730c",
+  "capture_id": "h_cbc8c3f7b43a",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "anymal_d",
   "seed": 4,
@@ -443,6 +460,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "dev"
+ },
+ {
+  "capture_id": "h_4710113e08ba",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "holdout",
   "variant": "dev"
@@ -576,11 +610,11 @@
   "variant": "dev"
  },
  {
-  "capture_id": "h_3dc84abf787f",
+  "capture_id": "h_49979fd4353a",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "anymal_d",
   "seed": 4,
@@ -772,11 +806,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_cb171881a85c",
+  "capture_id": "h_33f14fed8e89",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "go2",
   "seed": 4,
@@ -790,11 +824,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_ec79d448fb44",
+  "capture_id": "h_833d2fda2fea",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "go2",
   "seed": 4,
@@ -803,6 +837,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_2da289ea91b4",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "holdout",
   "variant": "holdout"
@@ -936,11 +987,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_b46f7de7949d",
+  "capture_id": "h_313f10aa4327",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "go2",
   "seed": 4,
@@ -1132,11 +1183,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_bf3e350f3557",
+  "capture_id": "h_a0c763a19235",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "g1",
   "seed": 4,
@@ -1150,11 +1201,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_680e5d27a329",
+  "capture_id": "h_e4b2ab631e9e",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "g1",
   "seed": 4,
@@ -1163,6 +1214,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a8e79f4d5590",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "holdout",
   "variant": "holdout"
@@ -1296,11 +1364,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_7e0ba8656dc5",
+  "capture_id": "h_8a6ca85ede48",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "g1",
   "seed": 4,
@@ -1492,11 +1560,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_483a7e0f3f3f",
+  "capture_id": "h_7e07db532426",
   "category": "joint_body_ordering",
   "condition": "cross",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "h1",
   "seed": 4,
@@ -1510,11 +1578,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_4dfdb65cd89a",
+  "capture_id": "h_5fb7430fb405",
   "category": "joint_body_ordering",
   "condition": "same",
   "defect": true,
-  "family": "joint_order_obs_action",
+  "family": "joint_order_interface",
   "is_reference": false,
   "platform": "h1",
   "seed": 4,
@@ -1523,6 +1591,23 @@
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
    "isaaclab-issue6485-checkpoint-has-no-ordering-record",
    "unitree-rl-lab-145-g1-permutation-and-history-layout"
+  ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_eb217dc46b37",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "capture_not_canonicalized",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 4,
+  "sources": [
+   "isaaclab-doc-sim2sim-joint-order",
+   "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+   "native joint-order difference verified in this checkout (deviation D3)"
   ],
   "split": "holdout",
   "variant": "holdout"
@@ -1656,11 +1741,11 @@
   "variant": "holdout"
  },
  {
-  "capture_id": "h_c4bc5400b4c1",
+  "capture_id": "h_9afbcc447092",
   "category": "actuator_solver_config",
   "condition": "cross",
   "defect": true,
-  "family": "armature_dropped",
+  "family": "armature_mismatch",
   "is_reference": false,
   "platform": "h1",
   "seed": 4,
@@ -1796,6 +1881,318 @@
    "isaaclab-doc-body-ordering-silent",
    "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"
   ],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_880beae1cff8",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_32f018153520",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_5cfb3b2c106c",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a5a32336a94b",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_c2bea5e32387",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_8ee394d1da54",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_0ed62f18dfaf",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_b8e96cb9c2bf",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_5fc55cd4ef63",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_ac3a7415711f",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_8395cafdf1cb",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_7ae7b27f22a1",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3f1bd58e6d52",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_f1308a1de770",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_1850d502d4b0",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_1619cb283040",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_21f976f0bcfd",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_38a245cb62bd",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_f12d578e946f",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_9ffaf6e1be71",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_7840136a4d71",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 5,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3278d5184d41",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_a6793d29a0f7",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 6,
+  "sources": [],
+  "split": "holdout",
+  "variant": "holdout"
+ },
+ {
+  "capture_id": "h_3774e34a050e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 6,
+  "sources": [],
   "split": "holdout",
   "variant": "holdout"
  }

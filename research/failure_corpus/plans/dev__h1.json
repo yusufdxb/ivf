@@ -51,29 +51,41 @@
    "is_reference": false
   },
   {
-   "capture_id": "dev__h1__s3__cross__joint_order_obs_action",
+   "capture_id": "dev__h1__s3__cross__joint_order_interface",
    "platform": "h1",
    "seed": 3,
    "backend_mode": "newton",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "per_limb"
+     "interface": "native"
     }
    },
    "replay_ref": "h1:3",
    "is_reference": false
   },
   {
-   "capture_id": "dev__h1__s3__same__joint_order_obs_action",
+   "capture_id": "dev__h1__s3__same__joint_order_interface",
    "platform": "h1",
    "seed": 3,
    "backend_mode": "physx",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "per_limb"
+     "interface": "newton_order"
     }
+   },
+   "replay_ref": "h1:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "dev__h1__s3__cross__capture_not_canonicalized",
+   "platform": "h1",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "capture_not_canonicalized",
+    "params": {}
    },
    "replay_ref": "h1:3",
    "is_reference": false
@@ -199,13 +211,15 @@
    "is_reference": false
   },
   {
-   "capture_id": "dev__h1__s3__cross__armature_dropped",
+   "capture_id": "dev__h1__s3__cross__armature_mismatch",
    "platform": "h1",
    "seed": 3,
    "backend_mode": "newton",
    "fault": {
-    "family": "armature_dropped",
-    "params": {}
+    "family": "armature_mismatch",
+    "params": {
+     "armature": 0.0
+    }
    },
    "replay_ref": "h1:3",
    "is_reference": false

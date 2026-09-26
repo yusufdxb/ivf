@@ -51,29 +51,41 @@
    "is_reference": false
   },
   {
-   "capture_id": "h_026e2a9aa98d",
+   "capture_id": "h_7fe1899d5980",
    "platform": "anymal_d",
    "seed": 3,
    "backend_mode": "newton",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "per_limb"
+     "interface": "native"
     }
    },
    "replay_ref": "anymal_d:3",
    "is_reference": false
   },
   {
-   "capture_id": "h_d7156d520270",
+   "capture_id": "h_f13d12e46f09",
    "platform": "anymal_d",
    "seed": 3,
    "backend_mode": "physx",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "per_limb"
+     "interface": "newton_order"
     }
+   },
+   "replay_ref": "anymal_d:3",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_ae3a25556d3c",
+   "platform": "anymal_d",
+   "seed": 3,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "capture_not_canonicalized",
+    "params": {}
    },
    "replay_ref": "anymal_d:3",
    "is_reference": false
@@ -199,13 +211,15 @@
    "is_reference": false
   },
   {
-   "capture_id": "h_f9264a64c6dc",
+   "capture_id": "h_770b19122f47",
    "platform": "anymal_d",
    "seed": 3,
    "backend_mode": "newton",
    "fault": {
-    "family": "armature_dropped",
-    "params": {}
+    "family": "armature_mismatch",
+    "params": {
+     "armature": 0.02
+    }
    },
    "replay_ref": "anymal_d:3",
    "is_reference": false
@@ -371,29 +385,41 @@
    "is_reference": false
   },
   {
-   "capture_id": "h_47b342dcbd0e",
+   "capture_id": "h_479044e982d9",
    "platform": "anymal_d",
    "seed": 4,
    "backend_mode": "newton",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "per_limb"
+     "interface": "native"
     }
    },
    "replay_ref": "anymal_d:4",
    "is_reference": false
   },
   {
-   "capture_id": "h_62fec0c3730c",
+   "capture_id": "h_cbc8c3f7b43a",
    "platform": "anymal_d",
    "seed": 4,
    "backend_mode": "physx",
    "fault": {
-    "family": "joint_order_obs_action",
+    "family": "joint_order_interface",
     "params": {
-     "perm": "per_limb"
+     "interface": "newton_order"
     }
+   },
+   "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_4710113e08ba",
+   "platform": "anymal_d",
+   "seed": 4,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "capture_not_canonicalized",
+    "params": {}
    },
    "replay_ref": "anymal_d:4",
    "is_reference": false
@@ -519,13 +545,15 @@
    "is_reference": false
   },
   {
-   "capture_id": "h_3dc84abf787f",
+   "capture_id": "h_49979fd4353a",
    "platform": "anymal_d",
    "seed": 4,
    "backend_mode": "newton",
    "fault": {
-    "family": "armature_dropped",
-    "params": {}
+    "family": "armature_mismatch",
+    "params": {
+     "armature": 0.02
+    }
    },
    "replay_ref": "anymal_d:4",
    "is_reference": false
@@ -641,6 +669,72 @@
     }
    },
    "replay_ref": "anymal_d:4",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_f12d578e946f",
+   "platform": "anymal_d",
+   "seed": 5,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:5",
+   "is_reference": true
+  },
+  {
+   "capture_id": "h_9ffaf6e1be71",
+   "platform": "anymal_d",
+   "seed": 5,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:5",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_7840136a4d71",
+   "platform": "anymal_d",
+   "seed": 5,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:5",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_3278d5184d41",
+   "platform": "anymal_d",
+   "seed": 6,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:6",
+   "is_reference": true
+  },
+  {
+   "capture_id": "h_a6793d29a0f7",
+   "platform": "anymal_d",
+   "seed": 6,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:6",
+   "is_reference": false
+  },
+  {
+   "capture_id": "h_3774e34a050e",
+   "platform": "anymal_d",
+   "seed": 6,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none"
+   },
+   "replay_ref": "anymal_d:6",
    "is_reference": false
   }
  ]

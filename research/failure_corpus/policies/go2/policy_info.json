@@ -1,0 +1,8 @@
+{
+ "task": "Isaac-Velocity-Flat-UnitreeGo2",
+ "checkpoint": "unitree_go2_flat/2026-09-26_02-22-46/model_299.pt",
+ "checkpoint_sha256": "19fe07d26659d8b664c99a99dbb9ec4d456e936cb982bbf776ddf15a1afc66fb",
+ "policy_pt_sha256": "cc979e94af61c10f64bdca9034ebe5473f568b0635b1c61d2b1864c2c56726db",
+ "trained_backend": "physx (default preset)",
+ "seed": 42
+}
