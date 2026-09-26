@@ -1,0 +1,153 @@
+{
+ "attribution": {
+  "causes": [
+   "identical_content"
+  ],
+  "primary": "identical_content"
+ },
+ "checks": [
+  {
+   "check_id": "V-10",
+   "detail": "the manifest declares solver parameters may differ; any resulting divergence is reported as a solver-parameter difference rather than a defect",
+   "fields": null,
+   "name": "solver settings differ (declared allowed)",
+   "reason_code": null,
+   "status": "not_applicable"
+  },
+  {
+   "check_id": "V-11",
+   "detail": "250 steps captured",
+   "fields": null,
+   "name": "baseline run is complete",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-11",
+   "detail": "250 steps captured",
+   "fields": null,
+   "name": "candidate run is complete",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-12",
+   "detail": "0 steps discarded",
+   "fields": null,
+   "name": "warm-up is declared",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-13",
+   "detail": "both 0.002",
+   "fields": null,
+   "name": "physics timestep matches",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-20",
+   "detail": "12 joints, same order",
+   "fields": null,
+   "name": "joint order matches",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-21",
+   "detail": "fields ['action_joint_order', 'action_scale', 'obs_joint_order', 'obs_layout'] identical",
+   "fields": null,
+   "name": "policy interface matches",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-22",
+   "detail": "8 parameter arrays within relative 0.0001",
+   "fields": null,
+   "name": "effective model parameters match",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-23",
+   "detail": "2 term(s) identical",
+   "fields": null,
+   "name": "termination semantics match",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-27",
+   "detail": "2 term(s) identical",
+   "fields": null,
+   "name": "randomization terms match",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-24",
+   "detail": "['joint_pos', 'joint_vel', 'root_vel'] within 0.0001",
+   "fields": null,
+   "name": "baseline initial state realized",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-25",
+   "detail": "both 'physx'",
+   "fields": null,
+   "name": "baseline runs the declared backend",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-24",
+   "detail": "['joint_pos', 'joint_vel', 'root_vel'] within 0.0001",
+   "fields": null,
+   "name": "candidate initial state realized",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-25",
+   "detail": "both 'physx'",
+   "fields": null,
+   "name": "candidate runs the declared backend",
+   "reason_code": null,
+   "status": "pass"
+  },
+  {
+   "check_id": "V-28",
+   "detail": "the baseline declares no expect_solver",
+   "fields": null,
+   "name": "baseline solver settings as declared",
+   "reason_code": null,
+   "status": "unverifiable"
+  },
+  {
+   "check_id": "V-28",
+   "detail": "the candidate declares no expect_solver",
+   "fields": null,
+   "name": "candidate solver settings as declared",
+   "reason_code": null,
+   "status": "unverifiable"
+  },
+  {
+   "check_id": "V-19",
+   "detail": "both subjects resolve to identical finalized content (41ce53d475078798\u2026). Every oracle would compare a capture against itself, so the result would describe the validator rather than the subject. Declare experiment_mode: identity_check to run this deliberately.",
+   "fields": null,
+   "name": "subjects are distinct content",
+   "reason_code": "IVF-EXPERIMENT-SELF-COMPARISON",
+   "status": "fail"
+  }
+ ],
+ "config_failed": [],
+ "config_flag": false,
+ "error": null,
+ "reason_codes": [
+  "IVF-EXPERIMENT-SELF-COMPARISON"
+ ],
+ "verdict": "INVALID_EXPERIMENT"
+}

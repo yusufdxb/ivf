@@ -32,6 +32,7 @@ TASKS = {
     "anymal_d": "Isaac-Velocity-Flat-AnymalD",
     "cassie": "Isaac-Velocity-Flat-Cassie",
     "spot": "Isaac-Velocity-Flat-Spot",
+    "go2_rough": "Isaac-Velocity-Rough-UnitreeGo2",
 }
 root, out = Path(sys.argv[1]), Path(sys.argv[2])
 for platform in sys.argv[3:]:

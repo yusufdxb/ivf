@@ -1,0 +1,1 @@
+becf39d2b1c1264d1b6330ca66b79390640985c9  src/ivf tree (unchanged since v3 freeze becf39d); v4 IVF arm = config/state checks only (see v4/eval/v4.py), frozen 2026-09-26 before the v4 fault author started

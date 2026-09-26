@@ -1,0 +1,110 @@
+[
+ {
+  "capture_id": "calibration_rough__go2_rough__s0__ref_physx",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2_rough",
+  "seed": 0,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s0__clean_physx_rerun",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 0,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s0__clean_newton",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 0,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s1__ref_physx",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2_rough",
+  "seed": 1,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s1__clean_physx_rerun",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 1,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s1__clean_newton",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 1,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s2__ref_physx",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2_rough",
+  "seed": 2,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s2__clean_physx_rerun",
+  "category": "none",
+  "condition": "same",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 2,
+  "sources": [],
+  "split": "calibration_rough"
+ },
+ {
+  "capture_id": "calibration_rough__go2_rough__s2__clean_newton",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 2,
+  "sources": [],
+  "split": "calibration_rough"
+ }
+]
