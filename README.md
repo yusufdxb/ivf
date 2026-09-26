@@ -6,6 +6,14 @@ tamper-evident PASS or FAIL bundle you can re-verify a year later.** It is for r
 and simulation engineers who change a physics backend, an engine version, or a reset
 path and need something stronger than a green test suite.
 
+## Research evaluation
+
+IVF's cross-backend validity claim was stress-tested through four preregistered evaluation
+rounds. The final confirmatory result did not support the broad claim; IVF remains useful as
+a conservative experiment-auditing tool. Full evaluation and negative result:
+[`research-archive/failure-corpus-v4-final`](https://github.com/yusufdxb/ivf/tree/research-archive/failure-corpus-v4-final/research/failure_corpus)
+([final report](https://github.com/yusufdxb/ivf/blob/research-archive/failure-corpus-v4-final/research/failure_corpus/v4/REPORT_V4.md)).
+
 ## What problem this solves
 
 You upgrade Isaac Lab, or swap PhysX for Newton/MJWarp, or touch the reset path. Your
