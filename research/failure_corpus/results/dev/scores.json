@@ -329,6 +329,35 @@
     ]
    }
   },
+  "ivf_cal__minus_event_decision": {
+   "false_acceptance": {
+    "k": 16,
+    "n": 36,
+    "rate": 0.4444,
+    "wilson95": [
+     0.2954,
+     0.6042
+    ]
+   },
+   "fpr": {
+    "k": 0,
+    "n": 6,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.3903
+    ]
+   },
+   "recall": {
+    "k": 20,
+    "n": 36,
+    "rate": 0.5556,
+    "wilson95": [
+     0.3958,
+     0.7046
+    ]
+   }
+  },
   "ivf_cal__minus_joint_pos_target": {
    "false_acceptance": {
     "k": 5,
@@ -611,6 +640,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -625,6 +655,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 3,
     "ivf_strict__full": 3,
     "n": 3
@@ -639,6 +670,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 2,
     "ivf_loc_correct": 2,
     "ivf_strict__full": 3,
     "n": 3
@@ -653,6 +685,7 @@
     "consequential": 0,
     "defect": false,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -667,6 +700,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -681,6 +715,7 @@
     "consequential": 1,
     "defect": true,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -695,6 +730,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -709,6 +745,7 @@
     "consequential": 0,
     "defect": false,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -723,6 +760,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -737,6 +775,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -751,6 +790,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -765,6 +805,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -779,6 +820,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 2,
+    "ivf_cal__minus_event_decision": 0,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -793,6 +835,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 3,
     "ivf_strict__full": 3,
     "n": 3
@@ -811,6 +854,10 @@
     "ivf_cal__full": {
      "fpr": "2/2",
      "recall": "12/12"
+    },
+    "ivf_cal__minus_event_decision": {
+     "fpr": "0/2",
+     "recall": "7/12"
     },
     "ivf_cal_sens": {
      "fpr": "2/2",
@@ -831,6 +878,10 @@
      "recall": "7/12"
     },
     "ivf_cal__full": {
+     "fpr": "0/2",
+     "recall": "7/12"
+    },
+    "ivf_cal__minus_event_decision": {
      "fpr": "0/2",
      "recall": "7/12"
     },
@@ -855,6 +906,10 @@
     "ivf_cal__full": {
      "fpr": "2/2",
      "recall": "12/12"
+    },
+    "ivf_cal__minus_event_decision": {
+     "fpr": "0/2",
+     "recall": "6/12"
     },
     "ivf_cal_sens": {
      "fpr": "2/2",
@@ -1207,6 +1262,35 @@
     ]
    }
   },
+  "ivf_cal__minus_event_decision": {
+   "false_acceptance": {
+    "k": 0,
+    "n": 24,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.138
+    ]
+   },
+   "fpr": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "wilson95": [
+     0.4385,
+     1.0
+    ]
+   },
+   "recall": {
+    "k": 24,
+    "n": 24,
+    "rate": 1.0,
+    "wilson95": [
+     0.862,
+     1.0
+    ]
+   }
+  },
   "ivf_cal__minus_joint_pos_target": {
    "false_acceptance": {
     "k": 0,
@@ -1489,6 +1573,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -1503,6 +1588,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -1517,6 +1603,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -1531,6 +1618,7 @@
     "consequential": 0,
     "defect": false,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -1545,6 +1633,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 0,
     "n": 3
@@ -1559,6 +1648,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 3,
     "ivf_strict__full": 3,
     "n": 3
@@ -1573,6 +1663,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 3,
     "ivf_strict__full": 3,
     "n": 3
@@ -1587,6 +1678,7 @@
     "consequential": 0,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 0,
     "ivf_strict__full": 3,
     "n": 3
@@ -1601,6 +1693,7 @@
     "consequential": 3,
     "defect": true,
     "ivf_cal__full": 3,
+    "ivf_cal__minus_event_decision": 3,
     "ivf_loc_correct": 3,
     "ivf_strict__full": 3,
     "n": 3
@@ -1617,6 +1710,10 @@
      "recall": "7/8"
     },
     "ivf_cal__full": {
+     "fpr": "1/1",
+     "recall": "8/8"
+    },
+    "ivf_cal__minus_event_decision": {
      "fpr": "1/1",
      "recall": "8/8"
     },
@@ -1642,6 +1739,10 @@
      "fpr": "1/1",
      "recall": "8/8"
     },
+    "ivf_cal__minus_event_decision": {
+     "fpr": "1/1",
+     "recall": "8/8"
+    },
     "ivf_cal_sens": {
      "fpr": "0/1",
      "recall": "7/8"
@@ -1661,6 +1762,10 @@
      "recall": "7/8"
     },
     "ivf_cal__full": {
+     "fpr": "1/1",
+     "recall": "8/8"
+    },
+    "ivf_cal__minus_event_decision": {
      "fpr": "1/1",
      "recall": "8/8"
     },

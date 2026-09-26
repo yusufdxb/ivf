@@ -87,3 +87,11 @@ signals, same 1.25 x calibration rule) and `composite_all` (B1 or B2 or B3all). 
 labelled exploratory. The primary comparator stays the registered composite. Also added,
 as a labelled sensitivity analysis, IVF-cal with the V-19 self-comparison refusal counted
 as not flagged (see D2 correction). Added before any fault case was evaluated.
+
+## D8. Post-hoc exploratory ablation `minus_event_decision` (after holdout scoring)
+
+Added after the holdout was scored, because every IVF-cal false positive on a clean case
+came from `IVF-ORACLE-EVENT-COUNT-MISMATCH`. It removes the fall/contact event oracles and
+the survival decision. It is post hoc and exploratory, and it does not change any
+registered result. Also added after scoring: the dose-matched sham computation and the
+per-platform breakdown, both reporting-only.

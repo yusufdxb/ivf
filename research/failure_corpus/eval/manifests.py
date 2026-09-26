@@ -43,6 +43,8 @@ ABLATIONS = {
     "invariants_only": {"oracles": ORACLE_GROUPS["invariant"], "controls": True},
     "minus_policy_obs": {"oracles": [o for o in ALL_ORACLES if o != "traj_policy_obs"], "controls": True},
     "minus_joint_pos_target": {"oracles": [o for o in ALL_ORACLES if o != "traj_joint_pos_target"], "controls": True},
+    # D8 (post hoc, exploratory): drop the oracles that produced every clean false positive
+    "minus_event_decision": {"oracles": [o for o in ALL_ORACLES if o not in ORACLE_GROUPS["event"]], "controls": True},
     "joint_signals_only": {"oracles": ["traj_joint_pos", "traj_joint_vel"], "controls": True},
 }
 

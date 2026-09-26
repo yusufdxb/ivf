@@ -1,0 +1,222 @@
+{
+ "error": null,
+ "evidence": null,
+ "localization": {
+  "basis": "no failing validity check or oracle",
+  "category": "none",
+  "signal": null
+ },
+ "oracles": [
+  {
+   "divergence": null,
+   "metrics": {
+    "alpha": 0.05,
+    "bootstrap_seed": 0,
+    "ci_high": -0.033157791358605054,
+    "ci_level": 0.95,
+    "ci_low": -0.09579759207870814,
+    "cohens_dz": -0.9692705836426411,
+    "equivalence_margin": 0.16440553360967897,
+    "mean_difference": -0.06365196762979033,
+    "minimum_meaningful_effect": 0.016440553360967898,
+    "n_pairs": 16,
+    "observed_absolute_effect": 0.06365196762979033,
+    "sd_difference": 0.06566996740020543,
+    "summary": "mean"
+   },
+   "name": "mean_base_height",
+   "reason_codes": [],
+   "status": "pass",
+   "type": "statistical_equivalence"
+  }
+ ],
+ "reason_codes": [],
+ "validity": {
+  "checks": [
+   {
+    "check_id": "V-UNVERIFIABLE",
+    "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+    "name": "asset binary identity is explicitly partitioned",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-UNVERIFIABLE",
+    "detail": "the manifest records this control as unsupported or unverifiable; it is not treated as matched and cannot support the verdict",
+    "name": "backend internal state is explicitly partitioned",
+    "reason_code": null,
+    "status": "unverifiable"
+   },
+   {
+    "check_id": "V-01",
+    "detail": "both '5881b055c3fc75884d21740f91603043044ec67b7e3d966f92cdd182659d223b'",
+    "name": "asset identity matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-03",
+    "detail": "both 'c52309b5f6ab2228550b13084007dfdb0394d6a21f887a84ab46c54414dfd35a'",
+    "name": "initial-state distribution matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-05",
+    "detail": "both 50.0",
+    "name": "control frequency matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-06",
+    "detail": "both 3",
+    "name": "seed matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-09",
+    "detail": "both 'anymal_d_velocity_flat_open_loop'",
+    "name": "task variant matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-14",
+    "detail": "both 'world_z_up_right_handed'",
+    "name": "frame convention matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-15",
+    "detail": "both {'layout': 'xyzw', 'scalar_first': False, 'hemisphere': 'unconstrained'}",
+    "name": "quaternion convention matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-16",
+    "detail": "both 'writes_pose_and_velocity'",
+    "name": "reset semantics matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-17",
+    "detail": "both {'env_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 'env_order': 'InteractiveScene clone index, ascending'}",
+    "name": "environment ordering matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-18",
+    "detail": "both {'action_applied': 'before_physics_step, held for decimation substeps', 'capture_hook': 'post_env_step', 'control_dt': 0.02, 'decimation': 4}",
+    "name": "action timing matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-02",
+    "detail": "digest 9a5b6d5dffb9f114\u2026",
+    "name": "action sequence matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-04",
+    "detail": "12 signal(s)",
+    "name": "observation definition matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-07",
+    "detail": "baseline 16 vs candidate 16",
+    "name": "environment count matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-08",
+    "detail": "baseline 250 vs candidate 250",
+    "name": "captured horizon matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-10",
+    "detail": "the manifest declares solver parameters may differ; any resulting divergence is reported as a solver-parameter difference rather than a defect",
+    "name": "solver settings differ (declared allowed)",
+    "reason_code": null,
+    "status": "not_applicable"
+   },
+   {
+    "check_id": "V-11",
+    "detail": "250 steps captured",
+    "name": "baseline run is complete",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-11",
+    "detail": "250 steps captured",
+    "name": "candidate run is complete",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-12",
+    "detail": "0 steps discarded",
+    "name": "warm-up is declared",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-13",
+    "detail": "both 0.005",
+    "name": "physics timestep matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-UNIT",
+    "detail": "both 'm'",
+    "name": "base_height: declared unit matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-FRAME",
+    "detail": "both 'world'",
+    "name": "base_height: declared frame matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-SIGNAL-DTYPE",
+    "detail": "both 'float32'",
+    "name": "base_height: declared dtype matches",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-TOLERANCE-UNIT",
+    "detail": "both 'm'",
+    "name": "mean_base_height: tolerance unit suits base_height",
+    "reason_code": null,
+    "status": "pass"
+   },
+   {
+    "check_id": "V-19",
+    "detail": "content roots differ (c9e93de7becb1a21\u2026 vs 43cfe1429819df4a\u2026)",
+    "name": "subjects are distinct content",
+    "reason_code": null,
+    "status": "pass"
+   }
+  ],
+  "valid": true
+ },
+ "verdict": "PASS"
+}

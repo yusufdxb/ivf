@@ -200,7 +200,7 @@ def score(rows: list[dict[str, Any]]) -> dict[str, Any]:
             fam_tab[fam] = {"n": len(fr), "defect": fr[0]["defect"],
                             **{arm: int(sum(bool(r.get(arm)) for r in fr)) for arm in
                                ("B1_native", "B2_perf", "B3_traj", "B3all_traj", "B4_config", "composite",
-                                "ivf_cal__full", "ivf_strict__full")},
+                                "ivf_cal__full", "ivf_strict__full", "ivf_cal__minus_event_decision")},
                             "consequential": int(sum(bool(r.get("consequential")) for r in fr)),
                             "ivf_loc_correct": int(sum(1 for r in fr if r.get("ivf_cal__full")
                                                        and r.get("ivf_loc_category") == r["category"]))}
@@ -210,7 +210,8 @@ def score(rows: list[dict[str, Any]]) -> dict[str, Any]:
             pr = [r for r in rs if r["platform"] == plat]
             plat_tab[plat] = {arm: {"recall": f"{sum(bool(r.get(arm)) for r in pr if r['defect'])}/{sum(r['defect'] for r in pr)}",
                                     "fpr": f"{sum(bool(r.get(arm)) for r in pr if not r['defect'])}/{sum(not r['defect'] for r in pr)}"}
-                              for arm in ("composite", "composite_all", "ivf_cal__full", "ivf_cal_sens", "ivf_strict__full")}
+                              for arm in ("composite", "composite_all", "ivf_cal__full", "ivf_cal_sens", "ivf_strict__full",
+                                          "ivf_cal__minus_event_decision")}
         block["per_platform_exploratory"] = plat_tab
         out[cond] = block
     return out
