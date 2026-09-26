@@ -19,10 +19,13 @@ beyond 60 degrees). `base_height` stays as a trajectory signal only.
 Observed: PhysX A/A reruns are bit-identical, so bundles without a capture id were
 byte-identical and IVF refused them as self-comparison (`IVF-EXPERIMENT-SELF-COMPARISON`).
 The v1 contract carries `capture.capture_id` and `capture.created_utc`, which a faithful
-producer fills. Change: the producer writes a UUID and UTC timestamp. The same-backend
-clean case is therefore compared as two distinct captures with identical physics. Whether
-IVF *should* refuse a bit-identical independent rerun is IVF's documented design (declare
-`experiment_mode: identity_check`); the corpus does not test that behavior.
+producer fills. Change: the producer writes a UUID and UTC timestamp.
+**Correction (found while testing the harness, still before any fault case):** this does
+not change IVF's behavior. IVF's self-comparison guard (`V-19`) hashes the signal arrays,
+not the bundle, so a bit-identical independent PhysX rerun is still refused as
+`IVF-EXPERIMENT-SELF-COMPARISON`. Under the registered template every same-backend clean
+case on deterministic PhysX is therefore flagged by IVF. This is reported as measured,
+with a sensitivity analysis that counts the self-comparison refusal as "not flagged".
 
 ## D3. Native joint-order mismatch; "clean" redefined
 
@@ -62,5 +65,25 @@ Registered holdout had 10 clean cross cases and 5 clean same cases. Added clean-
 seeds 5 and 6 on all four platforms (Newton clean and PhysX rerun per seed), so the holdout
 FPR estimate rests on 18 clean cross and 13 clean same cases.
 
+## D6. Quaternion geodesic tolerance declared `dimensionless`
+
+Found while testing the harness on clean calibration pairs. IVF's unit contract compares
+the tolerance unit with the signal's declared unit. The root quaternion is (correctly)
+declared `dimensionless`, while the geodesic metric reports radians, so a tolerance in
+`rad` is refused with `IVF-CONTROL-TOLERANCE-UNIT-MISMATCH` and the whole case becomes
+`INVALID_EXPERIMENT`. There is no way to state "geodesic radians over a dimensionless
+quaternion" in the contract. The template declares the geodesic tolerance as
+`dimensionless` with the scope text naming radians. Recorded as an IVF usability finding.
+
 Label hashes after D1 to D5 are in `corpus/LABEL_HASHES.txt` and were committed before any
 dev or holdout capture.
+
+## D7. Added comparator: simple RMSE over IVF's own signal set (exploratory)
+
+Registered B3 compares only `joint_pos` and `root_link_pos_w`. IVF's template also watches
+`joint_pos_target`, `policy_obs` and others, so an IVF advantage over B3 could come from
+the signal set rather than from IVF. Added `B3all` (RMSE on all seven IVF trajectory
+signals, same 1.25 x calibration rule) and `composite_all` (B1 or B2 or B3all). Both are
+labelled exploratory. The primary comparator stays the registered composite. Also added,
+as a labelled sensitivity analysis, IVF-cal with the V-19 self-comparison refusal counted
+as not flagged (see D2 correction). Added before any fault case was evaluated.
