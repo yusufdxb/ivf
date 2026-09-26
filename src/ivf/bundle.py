@@ -152,6 +152,11 @@ class CaptureContract:
     """Optional capture-identity block: ``capture_id``, ``created_utc``, ``producer``,
     ``execution``. Added additively, so every bundle written before it stays loadable and
     simply reports no capture identity rather than a fabricated one."""
+    experiment_inputs: dict[str, Any] = field(default_factory=dict)
+    """Optional block declaring the experiment's inputs as realized at runtime: runtime
+    backend, policy interface, effective model parameters, termination semantics, reset
+    realization, and solver resource health. Additive: absent means every control that
+    needs it is reported ``unverifiable``, never assumed to hold."""
 
     @property
     def is_partial(self) -> bool:
@@ -176,6 +181,7 @@ class CaptureContract:
             "quaternion": self.quaternion, "reset": self.reset,
             "termination": self.termination,
             "capture": self.capture,
+            "experiment_inputs": self.experiment_inputs,
             "arrays": {n: a.to_jsonable() for n, a in sorted(self.arrays.items())},
         }
 
@@ -356,6 +362,7 @@ def _parse_contract(raw: Any, where: str) -> CaptureContract:
         seed=dict(seed), timing=dict(timing), frames=dict(frames), quaternion=dict(quat),
         reset=dict(reset), termination=dict(termination), arrays=arrays,
         capture=dict(raw.get("capture", {}) or {}),
+        experiment_inputs=dict(raw.get("experiment_inputs", {}) or {}),
     )
 
 

@@ -23,9 +23,9 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import common  # noqa: E402
-import manifests  # noqa: E402
-from localize import localize  # noqa: E402
+import common
+import manifests
+from localize import localize
 
 
 def summarize(result, oracle_order: list[str]) -> dict[str, Any]:
@@ -34,39 +34,71 @@ def summarize(result, oracle_order: list[str]) -> dict[str, Any]:
     slim_oracles = []
     for o in oracles:
         div = o.get("divergence") or {}
-        slim_oracles.append({
-            "name": o["name"], "type": o["type"], "status": o["status"],
-            "reason_codes": o.get("reason_codes", []),
-            "metrics": {k: v for k, v in (o.get("metrics") or {}).items()
-                        if not isinstance(v, list) or len(v) <= 32},
-            "divergence": {k: div.get(k) for k in (
-                "signal", "classification", "confidence", "first_numerical_difference_step",
-                "first_tolerance_violation_step", "first_event_disagreement_step",
-                "affected_components", "affected_env_ids")} if div else None,
-        })
+        slim_oracles.append(
+            {
+                "name": o["name"],
+                "type": o["type"],
+                "status": o["status"],
+                "reason_codes": o.get("reason_codes", []),
+                "metrics": {
+                    k: v
+                    for k, v in (o.get("metrics") or {}).items()
+                    if not isinstance(v, list) or len(v) <= 32
+                },
+                "divergence": {
+                    k: div.get(k)
+                    for k in (
+                        "signal",
+                        "classification",
+                        "confidence",
+                        "first_numerical_difference_step",
+                        "first_tolerance_violation_step",
+                        "first_event_disagreement_step",
+                        "affected_components",
+                        "affected_env_ids",
+                    )
+                }
+                if div
+                else None,
+            }
+        )
     return {
         "verdict": result.verdict.value if hasattr(result.verdict, "value") else str(result.verdict),
         "reason_codes": list(result.reason_codes),
         "error": result.error,
-        "validity": {"valid": validity.get("valid"),
-                     "checks": [{k: c.get(k) for k in ("check_id", "name", "status", "reason_code", "detail")}
-                                for c in validity.get("checks", [])]},
+        "validity": {
+            "valid": validity.get("valid"),
+            "checks": [
+                {k: c.get(k) for k in ("check_id", "name", "status", "reason_code", "detail")}
+                for c in validity.get("checks", [])
+            ],
+        },
         "oracles": slim_oracles,
         "localization": localize(validity, oracles, oracle_order),
         "evidence": str(result.bundle_path),
     }
 
 
-def run_one(split: str, case: dict[str, Any], arm: str, ablation: str, tol: dict[str, Any],
-            evidence_root: str, keep: bool) -> tuple[str, dict[str, Any]]:
+def run_one(
+    split: str,
+    case: dict[str, Any],
+    arm: str,
+    ablation: str,
+    tol: dict[str, Any],
+    evidence_root: str,
+    keep: bool,
+) -> tuple[str, dict[str, Any]]:
     from ivf.manifest import parse_manifest
     from ivf.runner import validate
 
     base = common.bundle_dir(split, case["reference_id"])
     cand = common.bundle_dir(split, case["capture_id"])
     if not (cand / "COMPLETE").exists():
-        return case["capture_id"], {"verdict": "NO_CAPTURE", "localization": {"category": "none"},
-                                    "note": "candidate capture raised; see result.json"}
+        return case["capture_id"], {
+            "verdict": "NO_CAPTURE",
+            "localization": {"category": "none"},
+            "note": "candidate capture raised; see result.json",
+        }
     text = manifests.build_manifest(case, base, cand, tol, arm=arm, ablation=ablation)
     mpath = Path(evidence_root) / "manifests" / f"{case['capture_id']}.yaml"
     manifests.write_manifest(text, mpath)
@@ -79,7 +111,9 @@ def run_one(split: str, case: dict[str, Any], arm: str, ablation: str, tol: dict
     return case["capture_id"], summary
 
 
-def tolerances_for(thresholds: dict[str, Any], arm: str, platform: str, condition: str) -> dict[str, Any]:
+def tolerances_for(
+    thresholds: dict[str, Any], arm: str, platform: str, condition: str
+) -> dict[str, Any]:
     if arm == "permissive":
         return manifests.permissive_tolerances()
     return thresholds[arm][platform][condition]
@@ -112,7 +146,9 @@ def main() -> None:
                 # a case's condition decides which calibration applies; "same" also covers A/A reruns
                 cond = "same" if c["condition"] == "same" else "cross"
                 tol = tolerances_for(thresholds, args.arm, c["platform"], cond)
-                futs[pool.submit(run_one, args.split, c, args.arm, ablation, tol, evidence_root, keep)] = c
+                futs[
+                    pool.submit(run_one, args.split, c, args.arm, ablation, tol, evidence_root, keep)
+                ] = c
             for fut in as_completed(futs):
                 cid, summary = fut.result()
                 common.write_json(out_dir / f"{cid}.json", summary)

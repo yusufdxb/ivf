@@ -39,13 +39,18 @@ CLASSIFICATION_MAP = {
 EVENT_SIGNAL_MAP = {"illegal_contact": "termination_metric", "base_contact_force": "termination_metric"}
 
 
-def localize(validity: dict[str, Any], oracles: list[dict[str, Any]], oracle_order: list[str]) -> dict[str, Any]:
+def localize(
+    validity: dict[str, Any], oracles: list[dict[str, Any]], oracle_order: list[str]
+) -> dict[str, Any]:
     """Return ``{"category", "basis", "signal"}`` from sealed ``validity.json`` and ``oracles.json``."""
     for check in validity.get("checks", []):
         if check.get("status") == "fail":
             code = check.get("reason_code") or ""
-            return {"category": REASON_CODE_MAP.get(code, "unspecific"),
-                    "basis": f"validity {check.get('check_id')} {code}", "signal": None}
+            return {
+                "category": REASON_CODE_MAP.get(code, "unspecific"),
+                "basis": f"validity {check.get('check_id')} {code}",
+                "signal": None,
+            }
 
     failing = [o for o in oracles if o.get("status") == "fail"]
     if not failing:
@@ -67,10 +72,17 @@ def localize(validity: dict[str, Any], oracles: list[dict[str, Any]], oracle_ord
     signal = div.get("signal") or (first.get("metrics") or {}).get("signal")
     cls = div.get("classification")
     if cls in CLASSIFICATION_MAP:
-        return {"category": CLASSIFICATION_MAP[cls],
-                "basis": f"{first.get('name')} classification={cls}", "signal": signal}
+        return {
+            "category": CLASSIFICATION_MAP[cls],
+            "basis": f"{first.get('name')} classification={cls}",
+            "signal": signal,
+        }
     sig = signal or first.get("name", "")
     for token, cat in EVENT_SIGNAL_MAP.items():
         if token in str(sig) or token in str(first.get("name")):
             return {"category": cat, "basis": f"{first.get('name')} event on {token}", "signal": sig}
-    return {"category": "unspecific", "basis": f"{first.get('name')} classification={cls}", "signal": sig}
+    return {
+        "category": "unspecific",
+        "basis": f"{first.get('name')} classification={cls}",
+        "signal": sig,
+    }

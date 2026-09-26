@@ -49,6 +49,8 @@ class ValidityCheck:
             "reason_code": self.reason_code,
             "baseline_value": _safe(self.baseline_value),
             "candidate_value": _safe(self.candidate_value),
+            # differing input fields, only for experiment-input checks (see ivf.attribution)
+            **({"fields": list(self.fields)} if getattr(self, "fields", None) else {}),
         }
 
 
@@ -326,6 +328,11 @@ def check_experiment(
     from .signal_contract import check_signal_contracts
 
     report.checks.extend(check_signal_contracts(manifest, baseline, candidate))
+
+    # --- experiment inputs: declared vs realized (opt-in via require_same) ---------------
+    from .experiment_inputs import check_experiment_inputs
+
+    report.checks.extend(check_experiment_inputs(manifest, baseline, candidate))
 
     # --- self-comparison ---------------------------------------------------------------
     report.checks.append(_check_self_comparison(manifest, baseline, candidate))

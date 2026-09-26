@@ -445,6 +445,8 @@ def load_trajectory_bundle_v1(path: str | Path, *, role: str = "baseline") -> Si
         "capture_producer": contract.capture.get("producer", {}) or {},
         "checksums": bundle.checksums,
         "bundle_sha256": bundle.bundle_sha256,
+        "joint_names": list(contract.task.get("joint_names", []) or []),
+        "experiment_inputs": contract.experiment_inputs,
     }
     return SignalSet(
         role=role, signals=signals, metadata=metadata, actions=bundle.actions,

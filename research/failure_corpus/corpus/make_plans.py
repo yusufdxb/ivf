@@ -37,24 +37,56 @@ CATEGORY = {
     "termination_body_mismatch": "termination_metric",
 }
 SOURCES = {
-    "capture_not_canonicalized": ["isaaclab-doc-sim2sim-joint-order", "isaaclab-issue6485-checkpoint-has-no-ordering-record",
-                                  "native joint-order difference verified in this checkout (deviation D3)"],
-    "joint_order_interface": ["isaaclab-doc-sim2sim-joint-order", "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
-                               "isaaclab-issue6485-checkpoint-has-no-ordering-record", "unitree-rl-lab-145-g1-permutation-and-history-layout"],
+    "capture_not_canonicalized": [
+        "isaaclab-doc-sim2sim-joint-order",
+        "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+        "native joint-order difference verified in this checkout (deviation D3)",
+    ],
+    "joint_order_interface": [
+        "isaaclab-doc-sim2sim-joint-order",
+        "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+        "isaaclab-issue6485-checkpoint-has-no-ordering-record",
+        "unitree-rl-lab-145-g1-permutation-and-history-layout",
+    ],
     "obs_term_swap": ["unitree-rl-gym-32-go2-obs-order"],
-    "timestep_dt_decimation": ["deploy-tienkung-8-decimation-mismatch", "hover-38-mujoco-obs-update-frequency"],
-    "randomization_asymmetry": ["isaaclab-issue7786-base-com-dr-disabled-on-newton", "isaaclab-issue7097-com-randomization-unusable-newton",
-                                "isaaclab-pr7992-featherstone-inertia-dr-no-effect"],
-    "reset_velocity_dropped": ["isaaclab-issue7236-instep-reset-stale-fk-newton", "ivf-internal-upstream-reset-defect"],
-    "reset_joint_offsets_ignored": ["isaaclab-issue7236-instep-reset-stale-fk-newton", "ivf-internal-upstream-reset-defect"],
-    "armature_mismatch": ["isaaclab-pr7612-armature-split", "isaaclab-pr7607-backend-conditioned-task-config",
-                         "unitree-rl-lab-31-g1-arm-armature-mujoco", "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"],
-    "contact_capacity": ["isaaclab-pr6850-newton-contact-buffer-overflow", "isaacsim-doc-mjwarp-nconmax-drops-contacts",
-                         "mjwarp-doc-overflow-undefined-behavior"],
-    "actuator_gain_scale": ["newton-issue3698-mjcf-dampratio-ignored", "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature"],
+    "timestep_dt_decimation": [
+        "deploy-tienkung-8-decimation-mismatch",
+        "hover-38-mujoco-obs-update-frequency",
+    ],
+    "randomization_asymmetry": [
+        "isaaclab-issue7786-base-com-dr-disabled-on-newton",
+        "isaaclab-issue7097-com-randomization-unusable-newton",
+        "isaaclab-pr7992-featherstone-inertia-dr-no-effect",
+    ],
+    "reset_velocity_dropped": [
+        "isaaclab-issue7236-instep-reset-stale-fk-newton",
+        "ivf-internal-upstream-reset-defect",
+    ],
+    "reset_joint_offsets_ignored": [
+        "isaaclab-issue7236-instep-reset-stale-fk-newton",
+        "ivf-internal-upstream-reset-defect",
+    ],
+    "armature_mismatch": [
+        "isaaclab-pr7612-armature-split",
+        "isaaclab-pr7607-backend-conditioned-task-config",
+        "unitree-rl-lab-31-g1-arm-armature-mujoco",
+        "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature",
+    ],
+    "contact_capacity": [
+        "isaaclab-pr6850-newton-contact-buffer-overflow",
+        "isaacsim-doc-mjwarp-nconmax-drops-contacts",
+        "mjwarp-doc-overflow-undefined-behavior",
+    ],
+    "actuator_gain_scale": [
+        "newton-issue3698-mjcf-dampratio-ignored",
+        "unitree-rl-gym-47-g1-mjcf-missing-joint-damping-armature",
+    ],
     "preset_not_applied": ["isaaclab-pr7103-smoke-test-preset-path (verified locally, this study)"],
     "action_scale": ["unilab-579-cross-backend-config-drift"],
-    "termination_body_mismatch": ["isaaclab-doc-body-ordering-silent", "isaaclab-pr6913-g1-anymald-missing-ordering-overrides"],
+    "termination_body_mismatch": [
+        "isaaclab-doc-body-ordering-silent",
+        "isaaclab-pr6913-g1-anymald-missing-ordering-overrides",
+    ],
 }
 CROSS_ONLY = {"armature_mismatch", "contact_capacity", "preset_not_applied", "capture_not_canonicalized"}
 TRAINING_ARMATURE_IS_ZERO = {"go2": True, "g1": False, "h1": False, "anymal_d": True}
@@ -69,7 +101,11 @@ def fault_params(family: str, platform: str, variant: str, condition: str = "cro
     if family == "armature_mismatch":
         return {"armature": 0.02 if TRAINING_ARMATURE_IS_ZERO[platform] else 0.0}
     if family == "obs_term_swap":
-        return {"a": "base_ang_vel", "b": "projected_gravity"} if dev else {"a": "base_lin_vel", "b": "velocity_commands"}
+        return (
+            {"a": "base_ang_vel", "b": "projected_gravity"}
+            if dev
+            else {"a": "base_lin_vel", "b": "velocity_commands"}
+        )
     if family == "timestep_dt_decimation":
         return {"dt": 0.005, "decimation": 2} if dev else {"dt": 0.01, "decimation": 2}
     if family == "randomization_asymmetry":
@@ -77,7 +113,11 @@ def fault_params(family: str, platform: str, variant: str, condition: str = "cro
     if family == "contact_capacity":
         return {"nconmax": 2, "njmax": 8} if dev else {"nconmax": 3, "njmax": 12}
     if family == "actuator_gain_scale":
-        return {"stiffness_scale": 1.0, "damping_scale": 0.0} if dev else {"stiffness_scale": 0.7, "damping_scale": 0.7}
+        return (
+            {"stiffness_scale": 1.0, "damping_scale": 0.0}
+            if dev
+            else {"stiffness_scale": 0.7, "damping_scale": 0.7}
+        )
     if family == "action_scale":
         return {"scale": TRAINED_ACTION_SCALE[platform] * (2.0 if dev else 0.5)}
     if family == "termination_body_mismatch":
@@ -106,13 +146,33 @@ def jobs_for(split: str, platform: str, seed: int, variant: str, *, clean_only: 
 
     def add(key, backend_mode, fault, condition, defect, *, is_reference=False):
         cid = case_id(split, key)
-        jobs.append({"capture_id": cid, "platform": platform, "seed": seed, "backend_mode": backend_mode,
-                     "fault": fault, "replay_ref": ref, "is_reference": is_reference})
+        jobs.append(
+            {
+                "capture_id": cid,
+                "platform": platform,
+                "seed": seed,
+                "backend_mode": backend_mode,
+                "fault": fault,
+                "replay_ref": ref,
+                "is_reference": is_reference,
+            }
+        )
         fam = fault["family"]
-        labels.append({"capture_id": cid, "split": split, "platform": platform, "seed": seed,
-                       "condition": condition, "family": fam, "variant": variant,
-                       "defect": defect, "category": CATEGORY.get(fam, "none"),
-                       "sources": SOURCES.get(fam, []), "is_reference": is_reference})
+        labels.append(
+            {
+                "capture_id": cid,
+                "split": split,
+                "platform": platform,
+                "seed": seed,
+                "condition": condition,
+                "family": fam,
+                "variant": variant,
+                "defect": defect,
+                "category": CATEGORY.get(fam, "none"),
+                "sources": SOURCES.get(fam, []),
+                "is_reference": is_reference,
+            }
+        )
 
     base = f"{split}__{platform}__s{seed}"
     add(f"{base}__ref_physx", "physx", {"family": "none"}, "reference", False, is_reference=True)
@@ -120,14 +180,30 @@ def jobs_for(split: str, platform: str, seed: int, variant: str, *, clean_only: 
     add(f"{base}__clean_newton", "newton", {"family": "none"}, "cross", False)
     if clean_only:
         return jobs, labels
-    add(f"{base}__benign_newton_capacity", "newton", {"family": "benign_capacity", "params": {"factor": 2}}, "cross", False)
+    add(
+        f"{base}__benign_newton_capacity",
+        "newton",
+        {"family": "benign_capacity", "params": {"factor": 2}},
+        "cross",
+        False,
+    )
     for fam in families_for(variant):
         mode = "newton_via_pre7103_test_path" if fam == "preset_not_applied" else "newton"
-        add(f"{base}__cross__{fam}", mode, {"family": fam, "params": fault_params(fam, platform, variant, "cross")},
-            "cross", True)
+        add(
+            f"{base}__cross__{fam}",
+            mode,
+            {"family": fam, "params": fault_params(fam, platform, variant, "cross")},
+            "cross",
+            True,
+        )
         if fam not in CROSS_ONLY:
-            add(f"{base}__same__{fam}", "physx", {"family": fam, "params": fault_params(fam, platform, variant, "same")},
-                "same", True)
+            add(
+                f"{base}__same__{fam}",
+                "physx",
+                {"family": fam, "params": fault_params(fam, platform, variant, "same")},
+                "same",
+                True,
+            )
     return jobs, labels
 
 
@@ -136,8 +212,8 @@ def main() -> None:
         "calibration": [(p, s, "dev", True) for p in PLATFORMS for s in (0, 1, 2)],
         "dev": [(p, 3, "dev", False) for p in ("go2", "g1", "h1")],
         "holdout": [("anymal_d", 3, "dev", False), ("anymal_d", 4, "dev", False)]
-                   + [(p, 4, "holdout", False) for p in ("go2", "g1", "h1")]
-                   + [(p, s, "holdout", True) for p in PLATFORMS for s in (5, 6)],
+        + [(p, 4, "holdout", False) for p in ("go2", "g1", "h1")]
+        + [(p, s, "holdout", True) for p in PLATFORMS for s in (5, 6)],
     }
     plans_dir = ROOT / "plans"
     plans_dir.mkdir(exist_ok=True)
@@ -150,8 +226,12 @@ def main() -> None:
             per_platform.setdefault(platform, []).extend(jobs)
             all_labels.extend(labels)
         for platform, jobs in per_platform.items():
-            plan = {"split": split, "platform": platform,
-                    "policy": f"research/failure_corpus/policies/{platform}/policy.pt", "jobs": jobs}
+            plan = {
+                "split": split,
+                "platform": platform,
+                "policy": f"research/failure_corpus/policies/{platform}/policy.pt",
+                "jobs": jobs,
+            }
             (plans_dir / f"{split}__{platform}.json").write_text(json.dumps(plan, indent=1) + "\n")
         path = ROOT / "corpus" / f"labels_{split}.json"
         path.write_text(json.dumps(all_labels, indent=1, sort_keys=True) + "\n")

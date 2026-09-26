@@ -89,7 +89,16 @@ def event_equivalence(ctx: OracleContext) -> OracleOutcome:
         "max_allowed_delta_steps": tol.value,
     }
 
-    if count_mismatch.size:
+    # Optional, declared allowance for environments whose event occurs in only one subject.
+    # Default 0 keeps the original contract: any occurrence mismatch fails. A nonzero value
+    # exists for chaotic cross-backend workloads where clean pairs legitimately disagree on
+    # whether a late event happens; it must be declared, so it appears in the evidence.
+    allowed_fraction = float(ctx.spec.params.get("max_occurrence_mismatch_fraction", 0.0))
+    if not 0.0 <= allowed_fraction <= 1.0:
+        raise ValueError(f"oracle {ctx.spec.name!r}: max_occurrence_mismatch_fraction must be in [0, 1]")
+    metrics["occurrence_mismatch_fraction"] = float(count_mismatch.size / n_envs) if n_envs else 0.0
+    metrics["max_occurrence_mismatch_fraction"] = allowed_fraction
+    if count_mismatch.size and count_mismatch.size / n_envs > allowed_fraction:
         env = int(count_mismatch[0])
         record = DivergenceRecord(
             signal=signal, oracle=ctx.spec.name,

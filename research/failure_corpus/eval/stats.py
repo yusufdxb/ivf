@@ -13,9 +13,16 @@ from typing import Any
 
 import numpy as np
 
-B3_SIGNALS = ["joint_pos", "root_link_pos_w"]                      # registered B3
-B3ALL_SIGNALS = ["joint_pos", "joint_vel", "joint_pos_target", "root_link_pos_w", "root_link_quat_w",
-                 "base_height", "policy_obs"]                        # D7: IVF's signal set
+B3_SIGNALS = ["joint_pos", "root_link_pos_w"]  # registered B3
+B3ALL_SIGNALS = [
+    "joint_pos",
+    "joint_vel",
+    "joint_pos_target",
+    "root_link_pos_w",
+    "root_link_quat_w",
+    "base_height",
+    "policy_obs",
+]  # D7: IVF's signal set
 PERF_KEYS = ["return_rel", "falls", "tilted", "tracking"]
 
 
@@ -44,7 +51,8 @@ def trajectory_stats(base: dict[str, np.ndarray], cand: dict[str, np.ndarray]) -
 def perf_stats(ref: dict[str, Any], cand: dict[str, Any]) -> dict[str, float]:
     r, c = ref["closed_loop"], cand["closed_loop"]
     return {
-        "return_rel": abs(c["mean_return_per_env"] - r["mean_return_per_env"]) / max(abs(r["mean_return_per_env"]), 1e-6),
+        "return_rel": abs(c["mean_return_per_env"] - r["mean_return_per_env"])
+        / max(abs(r["mean_return_per_env"]), 1e-6),
         "falls": abs(c["fall_terminations_per_env"] - r["fall_terminations_per_env"]),
         "tilted": abs(c["tilted_fraction"] - r["tilted_fraction"]),
         "tracking": abs(c["mean_tracking_error"] - r["mean_tracking_error"]),

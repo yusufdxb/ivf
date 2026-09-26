@@ -22,13 +22,21 @@ FROZEN_COMMIT = "d64f74049a7e2b64bba5289f5627f136d71bbe4f"
 
 def assert_ivf_frozen() -> None:
     """Refuse to evaluate if IVF source differs from the frozen tree (committed or not)."""
-    head_tree = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD:src/ivf"],
-                               capture_output=True, text=True, check=True).stdout.strip()
-    dirty = subprocess.run(["git", "-C", str(REPO), "status", "--porcelain", "--", "src/ivf", "uv.lock"],
-                           capture_output=True, text=True, check=True).stdout.strip()
+    head_tree = subprocess.run(
+        ["git", "-C", str(REPO), "rev-parse", "HEAD:src/ivf"], capture_output=True, text=True, check=True
+    ).stdout.strip()
+    dirty = subprocess.run(
+        ["git", "-C", str(REPO), "status", "--porcelain", "--", "src/ivf", "uv.lock"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
     if head_tree != FROZEN_SRC_TREE or dirty:
-        raise SystemExit(f"IVF source is not the frozen tree ({head_tree} dirty={bool(dirty)}); refusing")
+        raise SystemExit(
+            f"IVF source is not the frozen tree ({head_tree} dirty={bool(dirty)}); refusing"
+        )
     import ivf
+
     if not str(Path(ivf.__file__).resolve()).startswith(str(REPO / "src" / "ivf")):
         raise SystemExit(f"ivf imported from {ivf.__file__}, not this repository")
 
@@ -49,8 +57,12 @@ def bundle_dir(split: str, capture_id: str) -> Path:
 def reference_for(labels: list[dict[str, Any]], case: dict[str, Any]) -> dict[str, Any]:
     """The PhysX clean reference capture of the same split, platform and seed."""
     for lab in labels:
-        if (lab["is_reference"] and lab["platform"] == case["platform"] and lab["seed"] == case["seed"]
-                and lab["split"] == case["split"]):
+        if (
+            lab["is_reference"]
+            and lab["platform"] == case["platform"]
+            and lab["seed"] == case["seed"]
+            and lab["split"] == case["split"]
+        ):
             return lab
     raise KeyError(f"no reference for {case['capture_id']}")
 

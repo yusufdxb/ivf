@@ -73,6 +73,12 @@ KNOWN_CONTROLS = frozenset({
     "asset_binary_identity",
     "initial_state_realization",
     "backend_internal_state",
+    "joint_ordering",
+    "policy_interface",
+    "effective_model_parameters",
+    "termination_semantics",
+    "backend_identity",
+    "resource_health",
 })
 """Properties the validity layer knows how to check. Unknown names are rejected at
 load: silently ignoring a control the user asked for is the worst possible failure."""
@@ -83,9 +89,12 @@ EXPERIMENT_MODES = frozenset({"comparison", "identity_check"})
 
 UNVERIFIABLE_ONLY_CONTROLS = frozenset({
     "asset_binary_identity",
-    "initial_state_realization",
     "backend_internal_state",
 })
+
+#: Controls that compare a numeric realization and therefore need a declared tolerance
+#: under ``controls.tolerances``. A naked comparison of floats is refused at load.
+TOLERANCED_CONTROLS = frozenset({"effective_model_parameters", "initial_state_realization"})
 """Controls the current bundle contract can name but cannot compare."""
 
 
@@ -287,6 +296,7 @@ class Controls:
     require_same: tuple[str, ...] = ()
     allow_different: tuple[str, ...] = ()
     unsupported_or_unverifiable: tuple[str, ...] = ()
+    tolerances: dict[str, Tolerance] = field(default_factory=dict)
 
     @classmethod
     def parse(cls, raw: Any) -> Controls:
@@ -295,7 +305,7 @@ class Controls:
             return cls()
         if not isinstance(raw, dict):
             raise ManifestError("controls: expected a mapping")
-        known_keys = {"require_same", "allow_different", "unsupported_or_unverifiable"}
+        known_keys = {"require_same", "allow_different", "unsupported_or_unverifiable", "tolerances"}
         unknown_keys = set(raw) - known_keys
         if unknown_keys:
             raise ManifestError(f"controls: unknown key(s) {sorted(unknown_keys)}")
@@ -319,10 +329,26 @@ class Controls:
                 f"{sorted(misplaced)} can only appear in unsupported_or_unverifiable; "
                 "trajectory_bundle/v1 does not expose enough information to compare them"
             )
+        tol_raw = raw.get("tolerances") or {}
+        if not isinstance(tol_raw, dict):
+            raise ManifestError("controls.tolerances: expected a mapping of control name to tolerance")
+        tolerances = {}
+        for name, spec in tol_raw.items():
+            if name not in TOLERANCED_CONTROLS:
+                raise ManifestError(
+                    f"controls.tolerances: {name!r} takes no tolerance; toleranced controls are "
+                    f"{sorted(TOLERANCED_CONTROLS)}")
+            tolerances[str(name)] = Tolerance.parse(spec, f"controls.tolerances.{name}")
+        for name in TOLERANCED_CONTROLS & set(same):
+            if name not in tolerances:
+                raise ManifestError(
+                    f"controls: {name!r} is required but controls.tolerances.{name} is missing; "
+                    "a realized-value comparison needs a declared tolerance")
         return cls(
             require_same=same,
             allow_different=diff,
             unsupported_or_unverifiable=unsupported,
+            tolerances=tolerances,
         )
 
     def to_jsonable(self) -> dict[str, Any]:
@@ -331,6 +357,9 @@ class Controls:
             "require_same": list(self.require_same),
             "allow_different": list(self.allow_different),
             "unsupported_or_unverifiable": list(self.unsupported_or_unverifiable),
+            # emitted only when declared, so manifests without it keep their digest
+            **({"tolerances": {k: v.to_jsonable() for k, v in sorted(self.tolerances.items())}}
+               if self.tolerances else {}),
         }
 
 

@@ -19,9 +19,9 @@ from typing import Any
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import common  # noqa: E402
-import manifests  # noqa: E402
-import stats  # noqa: E402
+import common
+import manifests
+import stats
 
 IVF_ARMS = ["cal__full", "strict__full"] + [f"cal__{a}" for a in manifests.ABLATIONS if a != "full"]
 
@@ -49,12 +49,13 @@ def mcnemar_exact(a: list[bool], b: list[bool]) -> dict[str, Any]:
     if n == 0:
         return {"a_only": 0, "b_only": 0, "p": 1.0}
     k = min(b10, b01)
-    p = min(1.0, 2 * sum(math.comb(n, i) for i in range(k + 1)) / 2 ** n)
+    p = min(1.0, 2 * sum(math.comb(n, i) for i in range(k + 1)) / 2**n)
     return {"a_only": b10, "b_only": b01, "p": round(p, 6)}
 
 
-def stratified_bootstrap_diff(a: list[bool], b: list[bool], strata: list[str], reps: int = 10000,
-                              seed: int = 0) -> list[float]:
+def stratified_bootstrap_diff(
+    a: list[bool], b: list[bool], strata: list[str], reps: int = 10000, seed: int = 0
+) -> list[float]:
     rng = np.random.default_rng(seed)
     a_, b_ = np.array(a, float), np.array(b, float)
     groups = {}
@@ -86,12 +87,25 @@ def first_violation_step(s: dict[str, Any]) -> int | None:
     return min(steps) if steps else None
 
 
-def evaluate_case(split: str, case: dict[str, Any], th: dict[str, Any], labels_by_block) -> dict[str, Any]:
+def evaluate_case(
+    split: str, case: dict[str, Any], th: dict[str, Any], labels_by_block
+) -> dict[str, Any]:
     p, cond = case["platform"], ("same" if case["condition"] == "same" else "cross")
     ref = common.load_result(split, case["reference_id"])
     res = common.load_result(split, case["capture_id"])
-    row: dict[str, Any] = {k: case[k] for k in ("capture_id", "platform", "seed", "condition", "family",
-                                                "variant", "defect", "category")}
+    row: dict[str, Any] = {
+        k: case[k]
+        for k in (
+            "capture_id",
+            "platform",
+            "seed",
+            "condition",
+            "family",
+            "variant",
+            "defect",
+            "category",
+        )
+    }
     crashed = res is None or res["native"].get("exception") is not None
     row["loud_crash"] = crashed
     row["B1_native"] = crashed or not res["native"].get("native_pass", False)
@@ -110,8 +124,10 @@ def evaluate_case(split: str, case: dict[str, Any], th: dict[str, Any], labels_b
         row["B3_traj"] = any(tr[s] > th["B3"][p][cond][s] for s in stats.B3_SIGNALS)
         row["B3all_traj"] = any(tr[s] > th["B3all"][p][cond][s] for s in stats.B3ALL_SIGNALS)
         meta = lambda cid: json.loads((common.bundle_dir(split, cid) / "metadata.json").read_text())  # noqa: E731
-        row["B4_config"] = (meta(case["reference_id"])["capture_contract"]["task"]["full_cfg_digest_sha256"]
-                            != meta(case["capture_id"])["capture_contract"]["task"]["full_cfg_digest_sha256"])
+        row["B4_config"] = (
+            meta(case["reference_id"])["capture_contract"]["task"]["full_cfg_digest_sha256"]
+            != meta(case["capture_id"])["capture_contract"]["task"]["full_cfg_digest_sha256"]
+        )
         # consequential: closed-loop outcome differs from the clean counterpart beyond the B2 threshold
         clean_key = "clean_newton" if cond == "cross" else "clean_physx_rerun"
         clean = labels_by_block.get((case["platform"], case["seed"], clean_key))
@@ -142,9 +158,18 @@ def evaluate_case(split: str, case: dict[str, Any], th: dict[str, Any], labels_b
     return row
 
 
-ARMS_REPORTED = ["B1_native", "B2_perf", "B3_traj", "B3all_traj", "B4_config", "composite", "composite_all",
-                 "ivf_cal__full", "ivf_cal_sens", "ivf_strict__full"] + [f"ivf_cal__{a}" for a in manifests.ABLATIONS
-                                                                          if a != "full"]
+ARMS_REPORTED = [
+    "B1_native",
+    "B2_perf",
+    "B3_traj",
+    "B3all_traj",
+    "B4_config",
+    "composite",
+    "composite_all",
+    "ivf_cal__full",
+    "ivf_cal_sens",
+    "ivf_strict__full",
+] + [f"ivf_cal__{a}" for a in manifests.ABLATIONS if a != "full"]
 
 
 def score(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -157,9 +182,11 @@ def score(rows: list[dict[str, Any]]) -> dict[str, Any]:
         for arm in ARMS_REPORTED:
             if any(r.get(arm) is None for r in rs):
                 continue
-            block[arm] = {"recall": rate([bool(r[arm]) for r in dfx]),
-                          "fpr": rate([bool(r[arm]) for r in cln]),
-                          "false_acceptance": rate([not r[arm] for r in dfx])}
+            block[arm] = {
+                "recall": rate([bool(r[arm]) for r in dfx]),
+                "fpr": rate([bool(r[arm]) for r in cln]),
+                "false_acceptance": rate([not r[arm] for r in dfx]),
+            }
         if dfx and all(r.get("ivf_cal__full") is not None for r in dfx):
             a = [bool(r["ivf_cal__full"]) for r in dfx]
             b = [bool(r["composite"]) for r in dfx]
@@ -167,19 +194,25 @@ def score(rows: list[dict[str, Any]]) -> dict[str, Any]:
             block["primary_recall_diff_ivfcal_minus_composite"] = {
                 "diff": round(float(np.mean(a) - np.mean(b)), 4),
                 "ci95_stratified_bootstrap": stratified_bootstrap_diff(a, b, fam),
-                "mcnemar": mcnemar_exact(a, b)}
+                "mcnemar": mcnemar_exact(a, b),
+            }
             acc = [r for r in dfx if not r["composite"]]
             block["ivf_flags_among_composite_accepted"] = rate([bool(r["ivf_cal__full"]) for r in acc])
             acc_all = [r for r in dfx if not r["composite_all"]]
-            block["ivf_flags_among_composite_all_accepted"] = rate([bool(r["ivf_cal__full"]) for r in acc_all])
+            block["ivf_flags_among_composite_all_accepted"] = rate(
+                [bool(r["ivf_cal__full"]) for r in acc_all]
+            )
             comp_only = [r for r in dfx if r["composite"] and not r["ivf_cal__full"]]
-            block["composite_flags_ivf_misses"] = sorted(f"{r['platform']}/{r['family']}" for r in comp_only)
+            block["composite_flags_ivf_misses"] = sorted(
+                f"{r['platform']}/{r['family']}" for r in comp_only
+            )
         if cln and all(r.get("ivf_cal__full") is not None for r in cln):
             a = [bool(r["ivf_cal__full"]) for r in cln]
             b = [bool(r["composite"]) for r in cln]
             block["fpr_diff_ivfcal_minus_composite"] = {
                 "diff": round(float(np.mean(a) - np.mean(b)), 4),
-                "ci95_bootstrap": stratified_bootstrap_diff(a, b, [r["platform"] for r in cln])}
+                "ci95_bootstrap": stratified_bootstrap_diff(a, b, [r["platform"] for r in cln]),
+            }
         det = [r for r in dfx if r.get("ivf_cal__full")]
         if det:
             correct = [r["ivf_loc_category"] == r["category"] for r in det]
@@ -188,30 +221,69 @@ def score(rows: list[dict[str, Any]]) -> dict[str, Any]:
             block["localization"] = {
                 "top1": rate(correct),
                 "majority_category": majority,
-                "majority_guess_accuracy_on_flagged": round(float(np.mean([r["category"] == majority for r in det])), 4),
-                "predicted_categories": {c: sum(1 for r in det if r["ivf_loc_category"] == c)
-                                         for c in sorted({r["ivf_loc_category"] for r in det})},
+                "majority_guess_accuracy_on_flagged": round(
+                    float(np.mean([r["category"] == majority for r in det])), 4
+                ),
+                "predicted_categories": {
+                    c: sum(1 for r in det if r["ivf_loc_category"] == c)
+                    for c in sorted({r["ivf_loc_category"] for r in det})
+                },
             }
-            onset = [r["ivf_first_violation_step"] for r in det if r.get("ivf_first_violation_step") is not None]
-            block["onset_frac_first_violation_le_1"] = round(float(np.mean([s <= 1 for s in onset])), 4) if onset else None
+            onset = [
+                r["ivf_first_violation_step"]
+                for r in det
+                if r.get("ivf_first_violation_step") is not None
+            ]
+            block["onset_frac_first_violation_le_1"] = (
+                round(float(np.mean([s <= 1 for s in onset])), 4) if onset else None
+            )
         fam_tab = {}
         for fam in sorted({r["family"] for r in rs}):
             fr = [r for r in rs if r["family"] == fam]
-            fam_tab[fam] = {"n": len(fr), "defect": fr[0]["defect"],
-                            **{arm: int(sum(bool(r.get(arm)) for r in fr)) for arm in
-                               ("B1_native", "B2_perf", "B3_traj", "B3all_traj", "B4_config", "composite",
-                                "ivf_cal__full", "ivf_strict__full", "ivf_cal__minus_event_decision")},
-                            "consequential": int(sum(bool(r.get("consequential")) for r in fr)),
-                            "ivf_loc_correct": int(sum(1 for r in fr if r.get("ivf_cal__full")
-                                                       and r.get("ivf_loc_category") == r["category"]))}
+            fam_tab[fam] = {
+                "n": len(fr),
+                "defect": fr[0]["defect"],
+                **{
+                    arm: int(sum(bool(r.get(arm)) for r in fr))
+                    for arm in (
+                        "B1_native",
+                        "B2_perf",
+                        "B3_traj",
+                        "B3all_traj",
+                        "B4_config",
+                        "composite",
+                        "ivf_cal__full",
+                        "ivf_strict__full",
+                        "ivf_cal__minus_event_decision",
+                    )
+                },
+                "consequential": int(sum(bool(r.get("consequential")) for r in fr)),
+                "ivf_loc_correct": int(
+                    sum(
+                        1
+                        for r in fr
+                        if r.get("ivf_cal__full") and r.get("ivf_loc_category") == r["category"]
+                    )
+                ),
+            }
         block["per_family"] = fam_tab
         plat_tab = {}
         for plat in sorted({r["platform"] for r in rs}):
             pr = [r for r in rs if r["platform"] == plat]
-            plat_tab[plat] = {arm: {"recall": f"{sum(bool(r.get(arm)) for r in pr if r['defect'])}/{sum(r['defect'] for r in pr)}",
-                                    "fpr": f"{sum(bool(r.get(arm)) for r in pr if not r['defect'])}/{sum(not r['defect'] for r in pr)}"}
-                              for arm in ("composite", "composite_all", "ivf_cal__full", "ivf_cal_sens", "ivf_strict__full",
-                                          "ivf_cal__minus_event_decision")}
+            plat_tab[plat] = {
+                arm: {
+                    "recall": f"{sum(bool(r.get(arm)) for r in pr if r['defect'])}/{sum(r['defect'] for r in pr)}",
+                    "fpr": f"{sum(bool(r.get(arm)) for r in pr if not r['defect'])}/{sum(not r['defect'] for r in pr)}",
+                }
+                for arm in (
+                    "composite",
+                    "composite_all",
+                    "ivf_cal__full",
+                    "ivf_cal_sens",
+                    "ivf_strict__full",
+                    "ivf_cal__minus_event_decision",
+                )
+            }
         block["per_platform_exploratory"] = plat_tab
         out[cond] = block
     return out
@@ -247,9 +319,16 @@ def main() -> None:
         for arm in ARMS_REPORTED:
             if arm in blk:
                 b = blk[arm]
-                print(f"  {arm:28s} recall {b['recall']['k']}/{b['recall']['n']}  fpr {b['fpr']['k']}/{b['fpr']['n']}")
-        for k in ("primary_recall_diff_ivfcal_minus_composite", "ivf_flags_among_composite_accepted",
-                  "fpr_diff_ivfcal_minus_composite", "localization", "onset_frac_first_violation_le_1"):
+                print(
+                    f"  {arm:28s} recall {b['recall']['k']}/{b['recall']['n']}  fpr {b['fpr']['k']}/{b['fpr']['n']}"
+                )
+        for k in (
+            "primary_recall_diff_ivfcal_minus_composite",
+            "ivf_flags_among_composite_accepted",
+            "fpr_diff_ivfcal_minus_composite",
+            "localization",
+            "onset_frac_first_violation_le_1",
+        ):
             if k in blk:
                 print(f"  {k}: {json.dumps(blk[k])}")
 

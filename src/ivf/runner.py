@@ -54,6 +54,7 @@ class RunResult:
     outcomes: list[OracleOutcome] = field(default_factory=list)
     validity: ValidityReport | None = None
     error: str | None = None
+    attribution: dict | None = None
 
     @property
     def exit_code(self) -> int:
@@ -381,6 +382,10 @@ def validate(
         bundle.write_json("verdict.json", verdict_payload)
         bundle.write_json("validity.json", validity.to_jsonable() if validity else {"valid": None})
         bundle.write_json("oracles.json", [o.to_jsonable() for o in outcomes])
+        from .attribution import attribute
+
+        attribution = attribute(validity, outcomes)
+        bundle.write_json("attribution.json", attribution)
         bundle.write_jsonl(
             "divergence.jsonl",
             [o.divergence.to_jsonable() for o in outcomes if o.divergence is not None],
@@ -416,7 +421,7 @@ def validate(
 
     return RunResult(
         verdict=verdict, reason_codes=codes, run_id=run_id, bundle_path=bundle.root,
-        outcomes=outcomes, validity=validity, error=error,
+        outcomes=outcomes, validity=validity, error=error, attribution=attribution,
     )
 
 

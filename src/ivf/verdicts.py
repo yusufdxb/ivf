@@ -100,6 +100,21 @@ REASON_CODES: dict[str, str] = {
     "IVF-CONTROL-ACTION-TIMING-MISMATCH": "Subjects apply or capture actions at different times.",
     "IVF-CONTROL-WARMUP-UNDECLARED":
         "The manifest declares no warm-up, so early-transient results are uninterpretable.",
+    "IVF-CONTROL-JOINT-ORDER-MISMATCH":
+        "Subjects record joint arrays in different joint orders, so element-wise comparison is undefined.",
+    "IVF-CONTROL-POLICY-INTERFACE-MISMATCH":
+        "Subjects fed the policy a different observation layout, joint order, or action scale.",
+    "IVF-CONTROL-EFFECTIVE-MODEL-MISMATCH":
+        "Model parameters realized in the simulator (masses, gains, armature) differ beyond tolerance.",
+    "IVF-CONTROL-TERMINATION-SEMANTICS-MISMATCH":
+        "Subjects evaluate termination conditions on different bodies, thresholds, or terms.",
+    "IVF-PROTOCOL-INITIAL-STATE-NOT-REALIZED":
+        "A subject's simulator state after reset differs from the state it requested.",
+    "IVF-PROTOCOL-BACKEND-NOT-AS-DECLARED":
+        "The physics backend observed at runtime is not the backend the manifest declares.",
+    "IVF-PROTOCOL-SOLVER-CAPACITY-SATURATED":
+        "A solver resource buffer reached capacity during the run, so contacts or constraints "
+        "may have been dropped.",
     "IVF-CONTROL-HORIZON-MISMATCH": "Subjects captured different numbers of steps.",
     # -- per-signal dimensional compatibility (checked automatically, never opt-in) -----
     "IVF-CONTROL-SIGNAL-UNIT-MISMATCH":
