@@ -1,0 +1,544 @@
+{
+ "split": "v4holdout",
+ "platform": "go2_rough",
+ "policy": "research/failure_corpus/policies/go2_rough/policy.pt",
+ "jobs": [
+  {
+   "capture_id": "v4h_bc75f5214018",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v4h_13c7b811f48b",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_3122d8e207d4",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mirrored_actuator_gear_sign",
+    "params": {
+     "joint_regex": "(FL|RL)_hip_joint"
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_e3e38261d729",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "root_velocity_link_point",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_67646e2328b2",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "command_rotated_by_heading",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_f1aa7d627d1e",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "joint_vel_prelaunch_snapshot",
+    "params": {
+     "lag_steps": 1
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_fac518b3f5cc",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_offset_scale_conflation",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_840f0a3525ce",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_world_index_shift",
+    "params": {
+     "shift": 1
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_a9d16d058ecf",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "torque_limit_unclamped",
+    "params": {
+     "limit": 1000000000.0
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_d363918a235f",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "ctrlrange_target_clamp",
+    "params": {
+     "margin": 0.0
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_c6bbc87841da",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "training_noise_stale_cfg",
+    "params": {
+     "lin": 0.1,
+     "ang": 0.2,
+     "grav": 0.05,
+     "jp": 0.01,
+     "jv": 1.5,
+     "seed": 7106,
+     "height_scan": 0.1
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_e0e7a79eff68",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "bf16_io_policy_export",
+    "params": {
+     "dtype": "bfloat16"
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_24a0bf7743d4",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_termination_inert",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_91c941b39605",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "success_threshold_relaxed",
+    "params": {
+     "vel_xy_success_threshold": 0.75,
+     "vel_yaw_success_threshold": 0.8
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_e12347d09761",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "command_arrows_hidden",
+    "params": {
+     "debug_vis": false
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_54e1a854e2de",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "viewer_follow_camera",
+    "params": {
+     "eye": [
+      2.5,
+      2.5,
+      1.2
+     ],
+     "lookat": [
+      0.0,
+      0.0,
+      0.3
+     ],
+     "resolution": [
+      1920,
+      1080
+     ]
+    }
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_d4315b412120",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "diagnostic_obs_group",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_44b47b226130",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "origin_marker_debug_draw",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_ddbebc6f206d",
+   "platform": "go2_rough",
+   "seed": 15,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "sensor_period_restated",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:15",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_32ab142ef543",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "physx",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": true
+  },
+  {
+   "capture_id": "v4h_96f695432df8",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "none",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_fc383469ec3f",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "mirrored_actuator_gear_sign",
+    "params": {
+     "joint_regex": "(FL|RL)_hip_joint"
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_103d5efaddcd",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "root_velocity_link_point",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_c803d9fb1ed2",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "command_rotated_by_heading",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_dc18eecaf8ad",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "joint_vel_prelaunch_snapshot",
+    "params": {
+     "lag_steps": 1
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_fd23e8ad5ed5",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_offset_scale_conflation",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_e386f2e23ae8",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "reset_world_index_shift",
+    "params": {
+     "shift": 1
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_59fee1fb3495",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "torque_limit_unclamped",
+    "params": {
+     "limit": 1000000000.0
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_3300f16bd0b8",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "ctrlrange_target_clamp",
+    "params": {
+     "margin": 0.0
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_3d79a12509d4",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "training_noise_stale_cfg",
+    "params": {
+     "lin": 0.1,
+     "ang": 0.2,
+     "grav": 0.05,
+     "jp": 0.01,
+     "jv": 1.5,
+     "seed": 7106,
+     "height_scan": 0.1
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_476caee3f6e9",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "bf16_io_policy_export",
+    "params": {
+     "dtype": "bfloat16"
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_0df0f96a3f59",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "contact_termination_inert",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_5a714e77e407",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "success_threshold_relaxed",
+    "params": {
+     "vel_xy_success_threshold": 0.75,
+     "vel_yaw_success_threshold": 0.8
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_393de5487e01",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "command_arrows_hidden",
+    "params": {
+     "debug_vis": false
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_e53685a02dc3",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "viewer_follow_camera",
+    "params": {
+     "eye": [
+      2.5,
+      2.5,
+      1.2
+     ],
+     "lookat": [
+      0.0,
+      0.0,
+      0.3
+     ],
+     "resolution": [
+      1920,
+      1080
+     ]
+    }
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_358320e6b632",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "diagnostic_obs_group",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_739c74634fbd",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "origin_marker_debug_draw",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  },
+  {
+   "capture_id": "v4h_fe39475080be",
+   "platform": "go2_rough",
+   "seed": 16,
+   "backend_mode": "newton",
+   "fault": {
+    "family": "sensor_period_restated",
+    "params": {}
+   },
+   "replay_ref": "go2_rough:16",
+   "is_reference": false
+  }
+ ],
+ "fault_module": "research/failure_corpus/v4/holdout/faults.py"
+}

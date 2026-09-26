@@ -1,0 +1,922 @@
+[
+  {
+    "family": "mirrored_actuator_gear_sign",
+    "defect": true,
+    "category": "joint_body_ordering",
+    "params": {
+      "go2": {
+        "joint_regex": "(FL|RL)_hip_joint"
+      },
+      "g1": {
+        "joint_regex": "left_hip_roll_joint"
+      },
+      "h1": {
+        "joint_regex": "left_hip_roll"
+      },
+      "anymal_d": {
+        "joint_regex": "L[FH]_HAA"
+      },
+      "cassie": {
+        "joint_regex": "hip_abduction_left"
+      },
+      "spot": {
+        "joint_regex": "[fh]l_hx"
+      },
+      "go2_rough": {
+        "joint_regex": "(FL|RL)_hip_joint"
+      }
+    },
+    "mechanism": "When the articulation is re-emitted as MJCF/MuJoCo actuators, the left-side hip abduction/roll joints are driven through a transmission with gear -1 (the converter mirrors the axis convention of one side instead of the joint axis itself). A MuJoCo position servo with gear g tracks ctrl/g, so those joints now track the negated PD target while joint sensing stays correct. The policy therefore sees consistent, plausible joint readings but its abduction commands on one side act as their mirror image; the robot usually stays up with an asymmetric, drifting gait. Implemented in transform_action (native order, per-platform regex) by solving offset + s*a' = -(offset + s*a) using the action term's own scale and default offset.",
+    "sources": [
+      {
+        "url": "https://github.com/google-deepmind/mujoco/discussions/754",
+        "quote": "defines the target in actuator length space, which is different from the joint position by a factor of gear"
+      }
+    ]
+  },
+  {
+    "family": "root_velocity_link_point",
+    "defect": true,
+    "category": "joint_body_ordering",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "The policy was trained on base_lin_vel = root centre-of-mass linear velocity in the base frame (Isaac Lab root_lin_vel_b is a shorthand for root_com_lin_vel_b). The migrated observation adapter reads the velocity of the root link origin (actor frame) instead, so the observation differs by omega x r_com. The error scales with angular rate and with the base COM offset of each asset, is zero when the base does not rotate, and never raises an error. Implemented in transform_obs as obs[:, 0:3] - root_com_lin_vel_b + root_link_lin_vel_b (sensor noise, if any, is preserved).",
+    "sources": [
+      {
+        "url": "https://github.com/amazon-far/holosoma/pull/202",
+        "quote": "Body linear velocities were differenced from link-frame origins, but a motion file stores centre-of-mass velocities"
+      },
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/942",
+        "quote": "Currently the root_state_w of an asset provides linear velocities of the COM of the root body. Many users assume data is coming in at root frame rather than COM"
+      }
+    ]
+  },
+  {
+    "family": "command_rotated_by_heading",
+    "defect": true,
+    "category": "obs_action_ordering",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "The candidate's command adapter treats the commanded planar velocity as a world-frame quantity and rotates it by the measured base yaw before writing the velocity_commands slot, while the policy was trained on base-frame commands. At zero heading the observation is identical, so short checks pass; as the robot yaws the commanded direction rotates with it and the robot tracks the wrong direction. Implemented in transform_obs on the fixed command columns 9:11 using robot.data.heading_w.",
+    "sources": [
+      {
+        "url": "https://github.com/RaaSaaR-org/robot-management-system/pull/289",
+        "quote": "the commanded velocity rotated by measured yaw"
+      }
+    ]
+  },
+  {
+    "family": "joint_vel_prelaunch_snapshot",
+    "defect": true,
+    "category": "timestep_decimation",
+    "params": {
+      "go2": {
+        "lag_steps": 1
+      },
+      "g1": {
+        "lag_steps": 1
+      },
+      "h1": {
+        "lag_steps": 1
+      },
+      "anymal_d": {
+        "lag_steps": 1
+      },
+      "cassie": {
+        "lag_steps": 1
+      },
+      "spot": {
+        "lag_steps": 1
+      },
+      "go2_rough": {
+        "lag_steps": 1
+      }
+    },
+    "mechanism": "On Newton the whole decimation loop is folded into one captured CUDA-graph launch (NewtonManager.handles_decimation). The migrated observation path copies joint velocities from the state buffer snapshotted before the launch (the ping-pong buffer that is only written back at the end of the replay), so the joint_vel term is one control period (decimation physics substeps) older than every other term. Positions, base velocities and actions are current. Implemented in transform_obs as a per-env one-step delay on the joint_vel slice only.",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/pull/8058",
+        "quote": "Keep native actuator state addresses stable across graph replays by copying the final output back for odd decimation counts."
+      },
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/pull/7777",
+        "quote": "The asset writers updated that model array but did not notify an already-constructed solver, so solver-owned root transforms could remain stale."
+      }
+    ]
+  },
+  {
+    "family": "reset_offset_scale_conflation",
+    "defect": true,
+    "category": "reset_randomization",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "The Newton reset path conflates reset_joints_by_offset and reset_joints_by_scale. Open loop: the requested additive joint offset is applied as a fraction of the default pose, q = q0 * (1 + offset), then clamped to the soft limits, so joints with q0 = 0 (hip abduction) receive no randomization and knees receive offsets scaled by |q0|. Closed loop: the task's reset_joints_by_scale range (lo, hi) is rewritten as reset_joints_by_offset (lo-1, hi-1), which is only equivalent when q0 = 1 rad; for bipeds with range (1, 1) the rewrite is behaviourally identical, for quadrupeds it becomes uniform +-0.5 rad offsets. Spot uses reset_joints_around_default, so only the open-loop part applies.",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/980",
+        "quote": "The `mdp.reset_joints_by_offset` and `mdp.reset_joints_by_scale` functions cannot target specific joints and cannot be combined."
+      },
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html",
+        "quote": "Reset the robot joints by scaling the default position and velocity by the given ranges."
+      }
+    ]
+  },
+  {
+    "family": "reset_world_index_shift",
+    "defect": true,
+    "category": "reset_randomization",
+    "params": {
+      "go2": {
+        "shift": 1
+      },
+      "g1": {
+        "shift": 1
+      },
+      "h1": {
+        "shift": 1
+      },
+      "anymal_d": {
+        "shift": 1
+      },
+      "cassie": {
+        "shift": 1
+      },
+      "spot": {
+        "shift": 1
+      },
+      "go2_rough": {
+        "shift": 1
+      }
+    },
+    "mechanism": "Isaac Lab env ids and Newton world indices are packed by different code paths; an off-by-one in the per-world scatter writes the reset sample drawn for env i-1 into world i (with wrap-around). The set of applied initial states is exactly the requested set, so every aggregate statistic matches, but per-env requested and applied states disagree and the per-env trajectories are paired with the wrong initial conditions. Implemented in transform_reset by rolling joint_pos, joint_vel and root_vel by one env.",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/pull/7672",
+        "quote": "packed every environment's matched site index into a single one-element outer list instead of one sublist per environment."
+      },
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/3824",
+        "quote": "replaying environment `i` in environment `j` yields different trajectories."
+      }
+    ]
+  },
+  {
+    "family": "torque_limit_unclamped",
+    "defect": true,
+    "category": "actuator_solver_config",
+    "params": {
+      "go2": {
+        "limit": 1000000000.0
+      },
+      "g1": {
+        "limit": 1000000000.0
+      },
+      "h1": {
+        "limit": 1000000000.0
+      },
+      "anymal_d": {
+        "limit": 1000000000.0
+      },
+      "cassie": {
+        "limit": 1000000000.0
+      },
+      "spot": {
+        "limit": 1000000000.0
+      },
+      "go2_rough": {
+        "limit": 1000000000.0
+      }
+    },
+    "mechanism": "The converted actuators are emitted with force clamping disabled (MJCF forcelimited=false semantics). For implicit PD actuators (g1, h1, cassie) the solver-side effort limit (Newton writes it as the MuJoCo actuator forcerange) becomes 1e9; for explicit models (go2 DC motor, anymal_d actuator net, spot delayed PD hip) the model-side effort_limit and saturation_effort are also lifted, so the torque-speed saturation disappears. Spot's remotized knee keeps its angle-dependent table limit (its effort_limit is None by design), so on spot only the hips lose their clamp. Nothing fails; peak torques silently exceed the hardware limits during stance transients and falls.",
+    "sources": [
+      {
+        "url": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+        "quote": "If true, the force output of this actuator is automatically clamped to forcerange at runtime. If false, force clamping is disabled."
+      }
+    ]
+  },
+  {
+    "family": "ctrlrange_target_clamp",
+    "defect": true,
+    "category": "actuator_solver_config",
+    "params": {
+      "go2": {
+        "margin": 0.0
+      },
+      "g1": {
+        "margin": 0.0
+      },
+      "h1": {
+        "margin": 0.0
+      },
+      "anymal_d": {
+        "margin": 0.0
+      },
+      "cassie": {
+        "margin": 0.0
+      },
+      "spot": {
+        "margin": 0.0
+      },
+      "go2_rough": {
+        "margin": 0.0
+      }
+    },
+    "mechanism": "The converter emits each position actuator with ctrlrange set to the joint range and ctrllimited on, as the MuJoCo modelling guide recommends for position servos. The PhysX-trained policy relies on PD targets beyond the joint range (for example deep knee targets to saturate stance torque); on the candidate those targets are clamped to the range before the servo sees them, reducing the torque available near the limits. Implemented in transform_action: target = offset + s*a is clamped to robot.data.joint_pos_limits and mapped back to action space.",
+    "sources": [
+      {
+        "url": "https://mujoco.readthedocs.io/en/latest/modeling.html",
+        "quote": "Note that position actuators usually also require control range clamping to avoid hitting joint limits."
+      },
+      {
+        "url": "https://mujoco.readthedocs.io/en/stable/XMLreference.html",
+        "quote": "If true, the control input to this actuator is automatically clamped to ctrlrange at runtime."
+      }
+    ]
+  },
+  {
+    "family": "training_noise_stale_cfg",
+    "defect": true,
+    "category": "ineffective_stale_config",
+    "params": {
+      "go2": {
+        "lin": 0.1,
+        "ang": 0.2,
+        "grav": 0.05,
+        "jp": 0.01,
+        "jv": 1.5,
+        "seed": 7100
+      },
+      "g1": {
+        "lin": 0.1,
+        "ang": 0.2,
+        "grav": 0.05,
+        "jp": 0.01,
+        "jv": 1.5,
+        "seed": 7101
+      },
+      "h1": {
+        "lin": 0.1,
+        "ang": 0.2,
+        "grav": 0.05,
+        "jp": 0.01,
+        "jv": 1.5,
+        "seed": 7102
+      },
+      "anymal_d": {
+        "lin": 0.1,
+        "ang": 0.2,
+        "grav": 0.05,
+        "jp": 0.01,
+        "jv": 1.5,
+        "seed": 7103
+      },
+      "cassie": {
+        "lin": 0.1,
+        "ang": 0.2,
+        "grav": 0.05,
+        "jp": 0.01,
+        "jv": 1.5,
+        "seed": 7104
+      },
+      "spot": {
+        "lin": 0.1,
+        "ang": 0.1,
+        "grav": 0.05,
+        "jp": 0.05,
+        "jv": 0.5,
+        "seed": 7105
+      },
+      "go2_rough": {
+        "lin": 0.1,
+        "ang": 0.2,
+        "grav": 0.05,
+        "jp": 0.01,
+        "jv": 1.5,
+        "seed": 7106,
+        "height_scan": 0.1
+      }
+    },
+    "mechanism": "The evaluation override that sets observations.policy.enable_corruption = False is applied to a stale copy of the env cfg that is not the one passed to the candidate env, so the candidate policy sees the training-time uniform observation noise (per-term magnitudes of the task's own cfg; spot's policy cfg uses its own smaller magnitudes; go2_rough also corrupts the height scan and re-clips it to [-1, 1]). The baseline is unaffected. Implemented in transform_obs with a torch.Generator seeded from params so the noise is deterministic.",
+    "sources": [
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html",
+        "quote": "Whether to enable corruption for the observation group. Defaults to False. If true, the observation terms in the group are corrupted by adding noise (if specified)."
+      }
+    ]
+  },
+  {
+    "family": "bf16_io_policy_export",
+    "defect": true,
+    "category": "checkpoint_schema",
+    "params": {
+      "go2": {
+        "dtype": "bfloat16"
+      },
+      "g1": {
+        "dtype": "bfloat16"
+      },
+      "h1": {
+        "dtype": "bfloat16"
+      },
+      "anymal_d": {
+        "dtype": "bfloat16"
+      },
+      "cassie": {
+        "dtype": "bfloat16"
+      },
+      "spot": {
+        "dtype": "bfloat16"
+      },
+      "go2_rough": {
+        "dtype": "bfloat16"
+      }
+    },
+    "mechanism": "For the new runtime the checkpoint is re-exported as a reduced-precision engine with keep_io_types off, so the input and output bindings are bfloat16. Observations are rounded to 8 mantissa bits on entry (joint velocities of 10-20 rad/s lose 0.06-0.125 rad/s of resolution) and actions on exit. The candidate therefore does not run the PhysX-trained checkpoint bit-for-bit, and nothing reports it. Implemented as a bf16 round trip in transform_obs and transform_action (internal-layer precision loss is not emulated, so this is a lower bound on the real effect).",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2601.14243",
+        "quote": "these failures stem from the off-policy nature of the approach, which introduces substantial numerical mismatch between training and inference."
+      },
+      {
+        "url": "https://github.com/NVIDIA/TensorRT/issues/2922",
+        "quote": "when I try to convert the model to fp16 the model's accuracy drops and it produces nothing useful."
+      }
+    ]
+  },
+  {
+    "family": "contact_termination_inert",
+    "defect": true,
+    "category": "termination_metric",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "The illegal-contact termination (base_contact; body_contact on spot) reads a contact-force buffer that the candidate backend never fills, so the term never fires. The env cfg and its termination spec are unchanged; only the runtime TerminationManager entry is swapped (post_build) for one that returns False. Falls no longer end episodes, fallen robots keep being counted as running, and termination-rate metrics look better on the candidate. In open-loop capture the producer already removes non-timeout terminations, so this family acts in closed-loop evaluation only.",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/issues/1390",
+        "quote": "All the values we get are zero, even if the feet sensors are clearly making contact with the ground."
+      }
+    ]
+  },
+  {
+    "family": "success_threshold_relaxed",
+    "defect": true,
+    "category": "termination_metric",
+    "params": {
+      "go2": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 0.8
+      },
+      "g1": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 1.2
+      },
+      "h1": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 1.2
+      },
+      "anymal_d": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 0.8
+      },
+      "cassie": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 1.2
+      },
+      "spot": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 0.8
+      },
+      "go2_rough": {
+        "vel_xy_success_threshold": 0.75,
+        "vel_yaw_success_threshold": 0.8
+      }
+    },
+    "mechanism": "The candidate branch carries a 'backend tolerance' edit to the episode success criterion used for Metrics/success_rate: the biped yaw relaxation (0.8 rad/s) leaks to the quadrupeds, bipeds are loosened further to 1.2 rad/s, and the XY threshold goes from 0.5 to 0.75 m/s. Dynamics, observations and terminations are untouched; only the success metric's goalposts move, so the candidate reports a higher success rate for the same behaviour.",
+    "sources": [
+      {
+        "url": "https://github.com/isaac-sim/IsaacLab/pull/5415",
+        "quote": "``vel_yaw_success_threshold = 0.4`` rad/s (quadruped baseline). Bipeds (h1, cassie, g1) override to ``0.8`` rad/s"
+      }
+    ]
+  },
+  {
+    "family": "command_arrows_hidden",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {
+        "debug_vis": false
+      },
+      "g1": {
+        "debug_vis": false
+      },
+      "h1": {
+        "debug_vis": false
+      },
+      "anymal_d": {
+        "debug_vis": false
+      },
+      "cassie": {
+        "debug_vis": false
+      },
+      "spot": {
+        "debug_vis": false
+      },
+      "go2_rough": {
+        "debug_vis": false
+      }
+    },
+    "mechanism": "Headless batch runs turn off the velocity-command debug arrows. The flag only creates/hides VisualizationMarkers under /Visuals and toggles the marker update callback.",
+    "contract_preservation": "commands.base_velocity.debug_vis gates only UniformVelocityCommand._set_debug_vis_impl / _debug_vis_callback (marker prims and their visibility). Command sampling, heading control, metrics, observations, physics and resets do not read it. No runtime hooks.",
+    "sources": [
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html",
+        "quote": "Sets whether to visualize the command data."
+      }
+    ],
+    "static_cfg_diff": {
+      "go2": [
+        "commands.base_velocity.debug_vis"
+      ],
+      "g1": [
+        "commands.base_velocity.debug_vis"
+      ],
+      "h1": [
+        "commands.base_velocity.debug_vis"
+      ],
+      "anymal_d": [
+        "commands.base_velocity.debug_vis"
+      ],
+      "cassie": [
+        "commands.base_velocity.debug_vis"
+      ],
+      "spot": [
+        "commands.base_velocity.debug_vis"
+      ],
+      "go2_rough": [
+        "commands.base_velocity.debug_vis"
+      ]
+    }
+  },
+  {
+    "family": "viewer_follow_camera",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {
+        "eye": [
+          2.5,
+          2.5,
+          1.2
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.3
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      },
+      "g1": {
+        "eye": [
+          3.5,
+          3.5,
+          1.8
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.8
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      },
+      "h1": {
+        "eye": [
+          3.5,
+          3.5,
+          1.8
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.8
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      },
+      "anymal_d": {
+        "eye": [
+          2.5,
+          2.5,
+          1.2
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.3
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      },
+      "cassie": {
+        "eye": [
+          3.5,
+          3.5,
+          1.8
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.8
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      },
+      "spot": {
+        "eye": [
+          3.0,
+          3.0,
+          1.4
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.4
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      },
+      "go2_rough": {
+        "eye": [
+          2.5,
+          2.5,
+          1.2
+        ],
+        "lookat": [
+          0.0,
+          0.0,
+          0.3
+        ],
+        "resolution": [
+          1920,
+          1080
+        ]
+      }
+    },
+    "mechanism": "The viewport camera is re-framed to follow env 0's robot (origin_type asset_root) with a new eye/look-at and a 1920x1080 resolution for review videos.",
+    "contract_preservation": "ViewerCfg is consumed only by the viewport camera controller (camera pose/resolution of the GUI or recording camera). It does not change env origins, spacing, physics, sensors, observations or rewards. No runtime hooks. Spot's cfg already sets viewer.asset_name='robot', so that path does not differ on spot.",
+    "sources": [
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html",
+        "quote": "Configuration of the scene viewport camera."
+      }
+    ],
+    "static_cfg_diff": {
+      "go2": [
+        "viewer.asset_name",
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ],
+      "g1": [
+        "viewer.asset_name",
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ],
+      "h1": [
+        "viewer.asset_name",
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ],
+      "anymal_d": [
+        "viewer.asset_name",
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ],
+      "cassie": [
+        "viewer.asset_name",
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ],
+      "spot": [
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ],
+      "go2_rough": [
+        "viewer.asset_name",
+        "viewer.eye",
+        "viewer.lookat",
+        "viewer.origin_type",
+        "viewer.resolution"
+      ]
+    }
+  },
+  {
+    "family": "diagnostic_obs_group",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "A second observation group 'diagnostics' (base height and applied joint effort, concatenated) is added for offline logging. It has no noise model, corruption is off, and no policy or critic reads it.",
+    "contract_preservation": "The policy group, its term order, dims, noise and clipping are untouched; ObservationManager computes the extra group after the policy group using read-only accessors (base_pos_z, joint_effort) and draws no random numbers, so the policy group's noise stream and the simulator state are unchanged. All differing cfg paths are under observations.diagnostics. No runtime hooks.",
+    "sources": [
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html",
+        "quote": "Observations are organized into groups based on their intended usage. This allows having different observation groups for different types of learning such as asymmetric actor-critic and student-teacher training."
+      }
+    ],
+    "static_cfg_diff": {
+      "go2": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ],
+      "g1": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ],
+      "h1": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ],
+      "anymal_d": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ],
+      "cassie": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ],
+      "spot": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ],
+      "go2_rough": [
+        "observations.diagnostics.applied_effort.clip",
+        "observations.diagnostics.applied_effort.flatten_history_dim",
+        "observations.diagnostics.applied_effort.func",
+        "observations.diagnostics.applied_effort.history_length",
+        "observations.diagnostics.applied_effort.modifiers",
+        "observations.diagnostics.applied_effort.noise",
+        "observations.diagnostics.applied_effort.scale",
+        "observations.diagnostics.base_height.clip",
+        "observations.diagnostics.base_height.flatten_history_dim",
+        "observations.diagnostics.base_height.func",
+        "observations.diagnostics.base_height.history_length",
+        "observations.diagnostics.base_height.modifiers",
+        "observations.diagnostics.base_height.noise",
+        "observations.diagnostics.base_height.scale",
+        "observations.diagnostics.concatenate_dim",
+        "observations.diagnostics.concatenate_terms",
+        "observations.diagnostics.enable_corruption",
+        "observations.diagnostics.flatten_history_dim",
+        "observations.diagnostics.history_length"
+      ]
+    }
+  },
+  {
+    "family": "origin_marker_debug_draw",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "Debug drawing is turned on: terrain/env-origin frame markers and the contact sensor's debug visualisation flag.",
+    "contract_preservation": "TerrainImporter.set_debug_vis only creates a VisualizationMarkers prim at /Visuals/TerrainOrigin and sets its visibility, after env origins are already configured; it does not move origins. The Newton contact sensor has no debug-vis implementation (set_debug_vis returns False), so its flag is inert. Physics, sensing, observations and resets are unchanged. No runtime hooks. Spot's terrain cfg already has debug_vis=True, so on spot only the (inert) contact-sensor flag differs.",
+    "sources": [
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html",
+        "quote": "Whether to visualize the terrain origins."
+      }
+    ],
+    "static_cfg_diff": {
+      "go2": [
+        "scene.contact_forces.debug_vis",
+        "scene.terrain.debug_vis"
+      ],
+      "g1": [
+        "scene.contact_forces.debug_vis",
+        "scene.terrain.debug_vis"
+      ],
+      "h1": [
+        "scene.contact_forces.debug_vis",
+        "scene.terrain.debug_vis"
+      ],
+      "anymal_d": [
+        "scene.contact_forces.debug_vis",
+        "scene.terrain.debug_vis"
+      ],
+      "cassie": [
+        "scene.contact_forces.debug_vis",
+        "scene.terrain.debug_vis"
+      ],
+      "spot": [
+        "scene.contact_forces.debug_vis"
+      ],
+      "go2_rough": [
+        "scene.contact_forces.debug_vis",
+        "scene.terrain.debug_vis"
+      ]
+    }
+  },
+  {
+    "family": "sensor_period_restated",
+    "defect": false,
+    "category": "none",
+    "params": {
+      "go2": {},
+      "g1": {},
+      "h1": {},
+      "anymal_d": {},
+      "cassie": {},
+      "spot": {},
+      "go2_rough": {}
+    },
+    "mechanism": "Equivalent refactor: the contact-sensor update period is re-derived as the physics dt and the height-scanner period as decimation * dt, written only when the re-derived value equals the configured value.",
+    "contract_preservation": "The hook assigns a value only when it is numerically identical to the value already configured, so the resolved cfg (and its to_dict) is identical to the clean cfg on every platform; the static diff is empty by construction. No runtime hooks.",
+    "sources": [
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html",
+        "quote": "Update period of the sensor buffers (in seconds). Defaults to 0.0 (update every step)."
+      }
+    ],
+    "static_cfg_diff": {
+      "go2": [],
+      "g1": [],
+      "h1": [],
+      "anymal_d": [],
+      "cassie": [],
+      "spot": [],
+      "go2_rough": []
+    }
+  }
+]

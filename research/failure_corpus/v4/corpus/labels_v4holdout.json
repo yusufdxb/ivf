@@ -1,0 +1,3754 @@
+[
+ {
+  "capture_id": "v4h_7f5ccd312e7f",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6a7bdce6c048",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3897d1b9952c",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_446e73fb7bae",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4dc3968a1289",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_2a3decfaeb78",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c7ee301f75a0",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_367816518b7f",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ea828da80ecf",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_98ec4cb48891",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e4256cc00605",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_82d9dd74adee",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_061f3bdb3717",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_569dcc8dbab4",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_41151dd6ffc7",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1aab5902f810",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b3c539d49858",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_778bd05c17fc",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c10862c67f1d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1fb08b4e41af",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a3319fe56107",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5503230fe501",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_783cf1d6de70",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_7b494ef7007f",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a50071e30b8a",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_47b6450ee33a",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5863c9bd39ff",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a6280d6a4c6e",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1dfbcce26f86",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3b92fc2e7247",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_7e4f57d046c5",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_33fbf430311a",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a30073c95501",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ebcbaa4234a6",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_43049b4364f3",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5d72453809e8",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a32226d4a2f8",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_087102ef618e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "go2",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_724eab895353",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3df08cd70fdb",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_668bce76e879",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e507eb880c61",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6739e22a9e46",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_82bdac835fa9",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a5b1c91198d7",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3c6119f38562",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_2c9b8d175a31",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_991c5d2ae703",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6a8c450423ad",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4fc5325248c5",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1b0d884a9a63",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_cd021b347592",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_befeee81d806",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f1ed2d2a593c",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_56912ed7b8c4",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_eca6d4801bfd",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1957e5ccabb4",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3f26d10b270c",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_216527881234",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c4ee16a585cc",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4eb9ef18b962",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_80f9e03d1324",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_87e5255dfaf0",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4de6df9ecb84",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_401091a50869",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a673a084e84f",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6a225ced7d59",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_45a23724b3e1",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3d178531792f",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_306f29cfaa92",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_38362903a54f",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e1b923868ec4",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9cfc7c148f4e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dbec3ca65a3d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9d1b70eea5d8",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bf72502918dd",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "g1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9e68760638dc",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ad2d2b964bde",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f70542ba8f97",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_2562ed49fd6a",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bc89555d46b5",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e127446ace9b",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dbf678dc59d8",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_623885156932",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_825b18a0a801",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_868aa685cc25",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5746d509dd7b",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_948a2030902f",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fe8e7215596b",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_aee2ede7ce67",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b9efaf233fb2",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4fb6c6e71ee8",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_7ba52530d87a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bd7c8413bb74",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_06b92352bb77",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1b648e4392dc",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6257148397f4",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9e9ce78e0ba5",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_763d283edcdd",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_8ebe296c9f2b",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_2c5e84d2de72",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9ea4496cdd17",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_442f5c0ebf51",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_46d8a746cabd",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fcf15cfe99f8",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1189f939a58c",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_2427e588f910",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_61d49dcc4159",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1f391afe5583",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bba489630e61",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b6fd10e18e89",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_cd17fd29dfdf",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_85175aca583b",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_11ce88b99014",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "h1",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4dc59c551d8e",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a22f86f9e90a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_88df7501cb8c",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_547ee4e5c498",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6c0d688ac65a",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1fe5f3bf63f0",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_296e79717feb",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_d62d02b110f9",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a5b247771107",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_d3bd959f2bf5",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dbad79121b7c",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_def3098ff3bb",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f2ef2c51f3fe",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_51392d4abbea",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b15da7169eeb",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e56f2b7cfd49",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fdd3137c6870",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_491378c7e19d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_8a5ae125fbd5",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f99bba1e3e5b",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dfe8447efc9a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f40ee5150f2d",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_40ecac7c5973",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_7b272257c40b",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b3663aaf9a61",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_cd9977f8c8d8",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c208208a895b",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a446a7d3d803",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5213472b03e1",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_585688fd956b",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dd503094ea0b",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_afee348fac3e",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_97a40f837ef3",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f8ce19c8e9a1",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_eb0c8a9f0d23",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dd1e5744b071",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9f055fb2ca7a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_142110cc701a",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "anymal_d",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_10b9a3d6c41c",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a9a10b9af96f",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f5ca62fe949a",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_d0953d6634a5",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c9e59084dc8f",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_1ddfc7cd5ede",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fa47c41d2c49",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_43564f6b0a79",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bc0d68735f7d",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_833422437d9a",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b123046bd7e0",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_01a17ffee655",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_0153f212032a",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9551dee79f37",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b4f0371e5ebe",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_80cde1cf6270",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ce69b74d2165",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dff64e3d9afd",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3d97fe258412",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_df530090f31c",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_de85f9fa6e40",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_18e621e501a3",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_25bf905e1fff",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_0ed53b73688e",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_55a87e7e893a",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3e679c7f2c9b",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9e145898b685",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_26f2b2022d63",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_63c571eb62e6",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9c354c024e5c",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bfff448b5c42",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_cb4426e7f3d4",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c792d6abd401",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_24157b15a1f8",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e20fe28f1195",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_755a43230f53",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_49dfdd7d3303",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_7e2ebb13870f",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "cassie",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_db0caa78e710",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f8350ef05a1e",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_52305b82e470",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_d40823a40694",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_33fd83d7b63d",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_960f6d6eac80",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_155eb503e1ea",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_8fc830983eec",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ba22070db495",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3215b7a9d2c1",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4fef5be94ddf",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_64fdd9b24a78",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_93707d99720d",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_2f316b523600",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_0d3fca928a9f",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_28ca6ca9fe95",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_8074fb522314",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_7a8d9aca4df2",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f11a9c7371db",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b007897f11f2",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_cde63ed7f969",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ff98200caee4",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_b58b483f0dc1",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a187dc28e16a",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_9350cf3e3a75",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fca66e405d17",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a458de096b28",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5ab17aa65887",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_757f3c980ce4",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bedf3baca0d7",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f63359bdb8ab",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_6ad3e888fdee",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c26f6ca2ee59",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_66df9f37da4c",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_72f1cf8270c1",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_df9858bb6074",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_4daeb16fc125",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_8551f42a05dd",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "spot",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_bc75f5214018",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_13c7b811f48b",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3122d8e207d4",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e3e38261d729",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_67646e2328b2",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_f1aa7d627d1e",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fac518b3f5cc",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_840f0a3525ce",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_a9d16d058ecf",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_d363918a235f",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c6bbc87841da",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e0e7a79eff68",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_24a0bf7743d4",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_91c941b39605",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e12347d09761",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_54e1a854e2de",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_d4315b412120",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_44b47b226130",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_ddbebc6f206d",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 15,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_32ab142ef543",
+  "category": "none",
+  "condition": "reference",
+  "defect": false,
+  "family": "none",
+  "is_reference": true,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_96f695432df8",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "none",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fc383469ec3f",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "mirrored_actuator_gear_sign",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/google-deepmind/mujoco/discussions/754"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_103d5efaddcd",
+  "category": "joint_body_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "root_velocity_link_point",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/amazon-far/holosoma/pull/202",
+   "https://github.com/isaac-sim/IsaacLab/issues/942"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_c803d9fb1ed2",
+  "category": "obs_action_ordering",
+  "condition": "cross",
+  "defect": true,
+  "family": "command_rotated_by_heading",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/RaaSaaR-org/robot-management-system/pull/289"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_dc18eecaf8ad",
+  "category": "timestep_decimation",
+  "condition": "cross",
+  "defect": true,
+  "family": "joint_vel_prelaunch_snapshot",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/8058",
+   "https://github.com/isaac-sim/IsaacLab/pull/7777"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fd23e8ad5ed5",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_offset_scale_conflation",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/980",
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.mdp.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e386f2e23ae8",
+  "category": "reset_randomization",
+  "condition": "cross",
+  "defect": true,
+  "family": "reset_world_index_shift",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/7672",
+   "https://github.com/isaac-sim/IsaacLab/issues/3824"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_59fee1fb3495",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "torque_limit_unclamped",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3300f16bd0b8",
+  "category": "actuator_solver_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "ctrlrange_target_clamp",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://mujoco.readthedocs.io/en/latest/modeling.html",
+   "https://mujoco.readthedocs.io/en/stable/XMLreference.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_3d79a12509d4",
+  "category": "ineffective_stale_config",
+  "condition": "cross",
+  "defect": true,
+  "family": "training_noise_stale_cfg",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_476caee3f6e9",
+  "category": "checkpoint_schema",
+  "condition": "cross",
+  "defect": true,
+  "family": "bf16_io_policy_export",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://arxiv.org/abs/2601.14243",
+   "https://github.com/NVIDIA/TensorRT/issues/2922"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_0df0f96a3f59",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "contact_termination_inert",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/issues/1390"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_5a714e77e407",
+  "category": "termination_metric",
+  "condition": "cross",
+  "defect": true,
+  "family": "success_threshold_relaxed",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://github.com/isaac-sim/IsaacLab/pull/5415"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_393de5487e01",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "command_arrows_hidden",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_e53685a02dc3",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "viewer_follow_camera",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.envs.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_358320e6b632",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "diagnostic_obs_group",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.managers.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_739c74634fbd",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "origin_marker_debug_draw",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.terrains.html"
+  ],
+  "split": "v4holdout"
+ },
+ {
+  "capture_id": "v4h_fe39475080be",
+  "category": "none",
+  "condition": "cross",
+  "defect": false,
+  "family": "sensor_period_restated",
+  "is_reference": false,
+  "platform": "go2_rough",
+  "seed": 16,
+  "sources": [
+   "https://isaac-sim.github.io/IsaacLab/main/source/api/lab/isaaclab.sensors.html"
+  ],
+  "split": "v4holdout"
+ }
+]
