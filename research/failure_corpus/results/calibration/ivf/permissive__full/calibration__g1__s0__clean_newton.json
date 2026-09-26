@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/calibration/permissive__full/corpus-calibration-g1-s0-clean_newton-permissive-full-20260926T070758Z-b22fb4cc",
+ "evidence": "$IVF_CORPUS_DATA/evidence/calibration/permissive__full/corpus-calibration-g1-s0-clean_newton-permissive-full-20260926T070758Z-b22fb4cc",
  "localization": {
   "basis": "fall_timing classification=task_level_regression",
   "category": "unspecific",

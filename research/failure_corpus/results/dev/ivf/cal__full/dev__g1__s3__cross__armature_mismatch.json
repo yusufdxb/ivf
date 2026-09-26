@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-g1-s3-cross-armature_mismatch-cal-full-20260926T071500Z-7d2e231d",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-g1-s3-cross-armature_mismatch-cal-full-20260926T071500Z-7d2e231d",
  "localization": {
   "basis": "traj_joint_pos classification=solver_parameter_difference",
   "category": "actuator_solver_config",

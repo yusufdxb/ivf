@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/cal__full/corpus-h_9b3c0b1fc2ba-cal-full-20260926T074451Z-4acb6dcd",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/cal__full/corpus-h_9b3c0b1fc2ba-cal-full-20260926T074451Z-4acb6dcd",
  "localization": {
   "basis": "traj_joint_pos classification=reset_mismatch",
   "category": "reset_randomization",

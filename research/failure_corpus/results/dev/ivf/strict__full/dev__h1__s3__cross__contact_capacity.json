@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-h1-s3-cross-contact_capacity-strict-full-20260926T071512Z-e16a6d90",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-h1-s3-cross-contact_capacity-strict-full-20260926T071512Z-e16a6d90",
  "localization": {
   "basis": "traj_joint_vel classification=solver_parameter_difference",
   "category": "actuator_solver_config",

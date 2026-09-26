@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/calibration/permissive__full/corpus-calibration-go2-s0-clean_newton-permissive-full-20260926T065120Z-c3080605",
+ "evidence": "$IVF_CORPUS_DATA/evidence/calibration/permissive__full/corpus-calibration-go2-s0-clean_newton-permissive-full-20260926T065120Z-c3080605",
  "localization": {
   "basis": "no failing validity check or oracle",
   "category": "none",

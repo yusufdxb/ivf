@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-go2-s3-cross-actuator_gain_scale-cal-full-20260926T071457Z-e10414c1",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-go2-s3-cross-actuator_gain_scale-cal-full-20260926T071457Z-e10414c1",
  "localization": {
   "basis": "traj_joint_vel classification=solver_parameter_difference",
   "category": "actuator_solver_config",

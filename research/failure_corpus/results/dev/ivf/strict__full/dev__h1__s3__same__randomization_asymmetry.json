@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-h1-s3-same-randomization_asymmet-strict-full-20260926T071511Z-78798f45",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-h1-s3-same-randomization_asymmet-strict-full-20260926T071511Z-78798f45",
  "localization": {
   "basis": "traj_base_height classification=numerical_drift",
   "category": "unspecific",

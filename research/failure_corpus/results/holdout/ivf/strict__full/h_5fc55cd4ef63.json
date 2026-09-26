@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/strict__full/corpus-h_5fc55cd4ef63-strict-full-20260926T074513Z-3496bb91",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/strict__full/corpus-h_5fc55cd4ef63-strict-full-20260926T074513Z-3496bb91",
  "localization": {
   "basis": "traj_root_link_quat_w classification=solver_parameter_difference",
   "category": "actuator_solver_config",

@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/cal__full/corpus-h_aa73771aa40a-cal-full-20260926T074449Z-536dc1e2",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/cal__full/corpus-h_aa73771aa40a-cal-full-20260926T074449Z-536dc1e2",
  "localization": {
   "basis": "validity V-19 IVF-EXPERIMENT-SELF-COMPARISON",
   "category": "unspecific",

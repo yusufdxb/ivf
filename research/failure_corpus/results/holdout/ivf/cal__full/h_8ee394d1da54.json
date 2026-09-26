@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/cal__full/corpus-h_8ee394d1da54-cal-full-20260926T074500Z-ec59ca54",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/cal__full/corpus-h_8ee394d1da54-cal-full-20260926T074500Z-ec59ca54",
  "localization": {
   "basis": "no failing validity check or oracle",
   "category": "none",

@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/strict__full/corpus-h_e1f930ac139a-strict-full-20260926T074506Z-de2d4b8c",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/strict__full/corpus-h_e1f930ac139a-strict-full-20260926T074506Z-de2d4b8c",
  "localization": {
   "basis": "validity V-18 IVF-CONTROL-ACTION-TIMING-MISMATCH",
   "category": "timestep_decimation",

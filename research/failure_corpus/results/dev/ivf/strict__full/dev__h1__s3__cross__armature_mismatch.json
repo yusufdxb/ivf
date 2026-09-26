@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-h1-s3-cross-armature_mismatch-strict-full-20260926T071511Z-c4d9b050",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-h1-s3-cross-armature_mismatch-strict-full-20260926T071511Z-c4d9b050",
  "localization": {
   "basis": "traj_root_link_quat_w classification=solver_parameter_difference",
   "category": "actuator_solver_config",

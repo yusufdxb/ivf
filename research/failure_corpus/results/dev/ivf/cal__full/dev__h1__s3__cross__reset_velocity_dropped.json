@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-h1-s3-cross-reset_velocity_dropp-cal-full-20260926T071503Z-d9f75e24",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-h1-s3-cross-reset_velocity_dropp-cal-full-20260926T071503Z-d9f75e24",
  "localization": {
   "basis": "fall_timing classification=task_level_regression",
   "category": "unspecific",

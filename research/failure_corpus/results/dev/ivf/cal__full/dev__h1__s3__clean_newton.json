@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-h1-s3-clean_newton-cal-full-20260926T071502Z-e235b505",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-h1-s3-clean_newton-cal-full-20260926T071502Z-e235b505",
  "localization": {
   "basis": "fall_timing classification=task_level_regression",
   "category": "unspecific",

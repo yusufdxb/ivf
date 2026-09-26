@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-h1-s3-cross-randomization_asymme-strict-full-20260926T071511Z-e113d556",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-h1-s3-cross-randomization_asymme-strict-full-20260926T071511Z-e113d556",
  "localization": {
   "basis": "traj_joint_vel classification=solver_parameter_difference",
   "category": "actuator_solver_config",

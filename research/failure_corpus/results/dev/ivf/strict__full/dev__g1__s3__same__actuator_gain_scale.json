@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-g1-s3-same-actuator_gain_scale-strict-full-20260926T071509Z-13d82b98",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-g1-s3-same-actuator_gain_scale-strict-full-20260926T071509Z-13d82b98",
  "localization": {
   "basis": "traj_joint_pos classification=reset_mismatch",
   "category": "reset_randomization",

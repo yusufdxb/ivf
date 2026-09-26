@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/cal__full/corpus-h_b59adfe9dcc3-cal-full-20260926T074451Z-27d6f0f1",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/cal__full/corpus-h_b59adfe9dcc3-cal-full-20260926T074451Z-27d6f0f1",
  "localization": {
   "basis": "contact_timing event on illegal_contact",
   "category": "termination_metric",

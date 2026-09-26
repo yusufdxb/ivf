@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-h1-s3-same-reset_velocity_droppe-cal-full-20260926T071503Z-0ba6c45c",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-h1-s3-same-reset_velocity_droppe-cal-full-20260926T071503Z-0ba6c45c",
  "localization": {
   "basis": "traj_joint_pos classification=reset_mismatch",
   "category": "reset_randomization",

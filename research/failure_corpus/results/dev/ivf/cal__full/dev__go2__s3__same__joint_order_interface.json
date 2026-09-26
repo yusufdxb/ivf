@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-go2-s3-same-joint_order_interfac-cal-full-20260926T071457Z-cd04d5b1",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-go2-s3-same-joint_order_interfac-cal-full-20260926T071457Z-cd04d5b1",
  "localization": {
   "basis": "traj_joint_pos classification=reset_mismatch",
   "category": "reset_randomization",

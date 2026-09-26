@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-g1-s3-same-obs_term_swap-strict-full-20260926T071508Z-8e0e260a",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-g1-s3-same-obs_term_swap-strict-full-20260926T071508Z-8e0e260a",
  "localization": {
   "basis": "no failing validity check or oracle",
   "category": "none",

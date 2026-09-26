@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/strict__full/corpus-h_dd4743b515f6-strict-full-20260926T074504Z-3178c4e7",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/strict__full/corpus-h_dd4743b515f6-strict-full-20260926T074504Z-3178c4e7",
  "localization": {
   "basis": "validity V-05 IVF-CONTROL-CONTROL-FREQUENCY-MISMATCH",
   "category": "timestep_decimation",

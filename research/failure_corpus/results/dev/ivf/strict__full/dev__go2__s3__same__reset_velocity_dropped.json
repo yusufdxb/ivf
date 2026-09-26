@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-go2-s3-same-reset_velocity_dropp-strict-full-20260926T071506Z-c6c11aca",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-go2-s3-same-reset_velocity_dropp-strict-full-20260926T071506Z-c6c11aca",
  "localization": {
   "basis": "traj_root_link_pos_w classification=unknown",
   "category": "unspecific",

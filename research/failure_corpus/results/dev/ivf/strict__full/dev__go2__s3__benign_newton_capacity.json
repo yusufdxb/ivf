@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-go2-s3-benign_newton_capacity-strict-full-20260926T071505Z-8371fa16",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-go2-s3-benign_newton_capacity-strict-full-20260926T071505Z-8371fa16",
  "localization": {
   "basis": "traj_joint_vel classification=solver_parameter_difference",
   "category": "actuator_solver_config",

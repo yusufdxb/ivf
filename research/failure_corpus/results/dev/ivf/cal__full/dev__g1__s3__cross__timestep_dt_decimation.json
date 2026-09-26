@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-g1-s3-cross-timestep_dt_decimati-cal-full-20260926T071459Z-170bf1ce",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-g1-s3-cross-timestep_dt_decimati-cal-full-20260926T071459Z-170bf1ce",
  "localization": {
   "basis": "validity V-05 IVF-CONTROL-CONTROL-FREQUENCY-MISMATCH",
   "category": "timestep_decimation",

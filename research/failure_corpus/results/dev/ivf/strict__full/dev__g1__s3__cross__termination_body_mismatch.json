@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-g1-s3-cross-termination_body_mis-strict-full-20260926T071510Z-e9ec2381",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-g1-s3-cross-termination_body_mis-strict-full-20260926T071510Z-e9ec2381",
  "localization": {
   "basis": "traj_root_link_quat_w classification=solver_parameter_difference",
   "category": "actuator_solver_config",

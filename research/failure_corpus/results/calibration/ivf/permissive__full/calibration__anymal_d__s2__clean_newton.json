@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/calibration/permissive__full/corpus-calibration-anymal_d-s2-clean_newton-permissive-full-20260926T070800Z-057c44f2",
+ "evidence": "$IVF_CORPUS_DATA/evidence/calibration/permissive__full/corpus-calibration-anymal_d-s2-clean_newton-permissive-full-20260926T070800Z-057c44f2",
  "localization": {
   "basis": "contact_timing event on illegal_contact",
   "category": "termination_metric",

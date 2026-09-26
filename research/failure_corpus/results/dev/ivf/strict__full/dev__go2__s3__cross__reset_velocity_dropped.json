@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/strict__full/corpus-dev-go2-s3-cross-reset_velocity_drop-strict-full-20260926T071506Z-4de76ad0",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/strict__full/corpus-dev-go2-s3-cross-reset_velocity_drop-strict-full-20260926T071506Z-4de76ad0",
  "localization": {
   "basis": "traj_root_link_pos_w classification=solver_parameter_difference",
   "category": "actuator_solver_config",

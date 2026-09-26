@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-go2-s3-cross-reset_velocity_drop-cal-full-20260926T071457Z-362beeed",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-go2-s3-cross-reset_velocity_drop-cal-full-20260926T071457Z-362beeed",
  "localization": {
   "basis": "no failing validity check or oracle",
   "category": "none",

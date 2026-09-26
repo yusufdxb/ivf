@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-h1-s3-same-obs_term_swap-cal-full-20260926T071503Z-633cde82",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-h1-s3-same-obs_term_swap-cal-full-20260926T071503Z-633cde82",
  "localization": {
   "basis": "traj_policy_obs classification=reset_mismatch",
   "category": "reset_randomization",

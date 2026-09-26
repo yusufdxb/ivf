@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/holdout/cal__full/corpus-h_5fc55cd4ef63-cal-full-20260926T074500Z-d70e63e8",
+ "evidence": "$IVF_CORPUS_DATA/evidence/holdout/cal__full/corpus-h_5fc55cd4ef63-cal-full-20260926T074500Z-d70e63e8",
  "localization": {
   "basis": "fall_timing classification=task_level_regression",
   "category": "unspecific",

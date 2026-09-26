@@ -1,6 +1,6 @@
 {
  "error": null,
- "evidence": "/home/yusuf/Projects/ivf-corpus-data/evidence/dev/cal__full/corpus-dev-h1-s3-benign_newton_capacity-cal-full-20260926T071502Z-1c15b806",
+ "evidence": "$IVF_CORPUS_DATA/evidence/dev/cal__full/corpus-dev-h1-s3-benign_newton_capacity-cal-full-20260926T071502Z-1c15b806",
  "localization": {
   "basis": "fall_timing classification=task_level_regression",
   "category": "unspecific",
